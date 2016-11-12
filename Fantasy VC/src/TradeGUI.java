@@ -22,12 +22,14 @@ public class TradeGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public TradeGUI() {
+		super("Fantasy VC");
 		initializeComponents();
 		createGUI();
 		addActionListeners();
 	}
 	
 	private void initializeComponents() {
+		setSize(1280, 720);
 		this.setLayout(new BorderLayout());
 		tradePanel = new JPanel();
 		chatPanel = new JPanel();
@@ -42,6 +44,7 @@ public class TradeGUI extends JFrame {
 		send = new JLabel("send");
 		receive = new JLabel("receive");
 		
+		timer = new JLabel("00:10");
 	}
 	
 	private void createGUI() {
@@ -65,6 +68,12 @@ public class TradeGUI extends JFrame {
 		chatPanel.add(chat);
 		
 		//Create notificationsAndReadyPanel
+		notificationsAndReadyPanel.setLayout(new BorderLayout());
+		notificationsAndReadyPanel.add(timer, BorderLayout.NORTH);
+		notificationsAndReadyPanel.add(ready, BorderLayout.CENTER);
+		
+		//ADD SOMETHING HERE.
+		
 		
 		add(chatPanel, BorderLayout.SOUTH);
 		add(tradePanel, BorderLayout.CENTER);
