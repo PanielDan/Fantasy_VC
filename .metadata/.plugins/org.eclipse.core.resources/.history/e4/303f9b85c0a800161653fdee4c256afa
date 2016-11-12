@@ -1,0 +1,22 @@
+
+public class TradeGUI {
+	
+	public TradeGUI() {
+		initializeComponents();
+		createGUI();
+		addActionListeners();
+	}
+	
+	private void initializeComponents() {
+		
+		
+	}
+	
+	private void createGUI() {
+		
+	}
+	
+	private void addActionListeners() {
+		
+	}
+}
