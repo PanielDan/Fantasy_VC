@@ -1,4 +1,7 @@
+import javax.swing.JFrame;
 
-public class QuarterlyGUI {
-
+public class QuarterlyGUI extends JFrame{
+	public QuarterlyGUI() {
+		
+	}
 }
