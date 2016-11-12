@@ -1,0 +1,76 @@
+GUI Weekend Assignments:
+
+Danny
+	Auction Company List
+	Auction Bid Screen
+
+Jeffrey
+	Intro
+	Lobby
+	AWS Research
+
+Alan
+	Time Lapse (Animation?)
+	Chat Box
+	Top Banner (Check mine or Jeffrey's mocks)
+
+Aaron
+	Host Game
+	Login
+	User Info
+
+Tim
+	Quarterly
+	Trade
+
+Here's some notes:
+
+THIS IS DUE SUNDAY NIGHT. WE'RE TRYING TO START WORKING ON BACKEND AND SERVER MONDAY.
+
+Make all the GUI's just shell with COMMENTS, WE NEED COMMENTS. Just allocate the action
+listeners and we'll do the functonalities when we write the backend.
+
+We're making all the GUI's as JPanels so we don't have to have unnecessary windows pop up.
+It'll most likely be a border layout with the banner at the North and the ChatBox at the south
+and we'll be swapping panels for the center.
+
+Except the Host Game and User Info should be JFrames (Aaron)
+
+Look at the mocks for guidance, but make sure to cater it towards Jeffrey and my theme/style
+I'll include the color RGB values at the bottom of the file.
+
+1280x720 is the screen size, title banner 72 height, chat 144 height
+
+We're using the appearanceConstants and appearanceSettings from the jeopardy solution code
+A lot of it's really useful and it allows for me to make design changes quickly when
+I get a more conrete design. For now we can use Sans Serif Font. Don't add anything into
+The Appearance Settings(If you have a function, you can keep it in your GUI and we can
+do a merge by hand once everyone submits their GUIs). I'll push the files up tonight.
+
+Lets not push any eclipse projects into the repo yet. I'm thinking we do a by the hand
+merge of all the GUIs into one eclipse project on Monday. Then we can all pull that
+and have branches for each person. so for now, just push your .java GUI files when you're done.
+
+ALWAYS PULL BEFORE YOU PUSH.
+
+Jeffrey's looking into setting AWS or doing some research on it this weekend so we can set up
+to work on backend stuff during next week.
+
+Here's the color values:
+
+Use Serif/Default Font for now, I'll figure out how to install and update all the fonts.
+
+offWhite:
+	R: 221
+	G: 221
+	B: 221
+
+LighterBlue:
+	R: 49
+	G: 71
+	B: 112
+
+DarkerBlue:
+	R: 49
+	G: 59
+	B: 71
