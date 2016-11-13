@@ -11,6 +11,12 @@ import game_objects.User;
 import messages.ClientExitMessage;
 import messages.Message;
 
+/**
+ * The {@code Client} class is a {@code Thread} that represents a 
+ * player in a game.
+ * @author alancoon
+ *
+ */
 public class Client extends Thread {
 	private User user;
 	private String firmName;
@@ -42,11 +48,14 @@ public class Client extends Thread {
 	
 	public void run() {
 		
-		
 	}
 	
 	public String getFirmName() { 
-		return this.firmName;
+		return firmName;
+	}
+	
+	public User getUser() {
+		return user;
 	}
 
 	public void sendMessage(Message message) {
@@ -58,4 +67,6 @@ public class Client extends Thread {
 			ioe.printStackTrace();
 		}
 	}
+
+
 }
