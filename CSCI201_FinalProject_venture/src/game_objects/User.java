@@ -14,9 +14,9 @@ public class User {
 	private String username;
 	private int gamesPlayed;
 	private int gamesWon;
-	private int totalProfit;
+	private long totalProfit;
 	
-	public User(int id, String username, String password, int gamesPlayed, int gamesWon, int totalProfit) {
+	public User(int id, String username, String password, int gamesPlayed, int gamesWon, long totalProfit) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -28,7 +28,7 @@ public class User {
 	/**
 	 * @return The user's ID from the MySQL data table.
 	 */
-	public synchronized int getId() {
+	public synchronized int getID() {
 		return id;
 	}
 
@@ -46,5 +46,26 @@ public class User {
 	 */
 	public synchronized String getUsername() {
 		return username;
+	}
+	
+	/**
+	 * @return The lifetime number of games the user has finished.
+	 */
+	public synchronized int getGamesPlayed() { 
+		return gamesPlayed;
+	}
+	
+	/**
+	 * @return The lifetime number of games the user has won.
+	 */
+	public synchronized int getGamesWon() {
+		return gamesWon;
+	}
+	
+	/**
+	 * @return The lifetime profit the user has earned (or lost).
+	 */
+	public synchronized long getTotalProfit() { 
+		return totalProfit;
 	}
 }

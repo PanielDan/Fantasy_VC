@@ -1,4 +1,6 @@
-# Use this script to initialize the database.
+-- Use this script to initialize the database. --
+-- Author: Alan Coon --
+
 drop database Venture;
 create database Venture;
 use Venture;
@@ -9,7 +11,7 @@ create table Users (
     passcode 	varchar(30) not null,
     gamesPlayed int(11) 	not null default 0,
     gamesWon 	int(11) 	not null default 0,
-    totalProfit int(11) 	not null default 0
+    totalProfit bigint	 	not null default 0
 );
 
 select * from Venture.Users;

@@ -234,7 +234,7 @@ public class LoginGUI extends JFrame{
 					if (rs.getString(3).equals(password.getText())) {
 						/* Valid login! */
 						User currentUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3), 
-													rs.getInt(4), rs.getInt(5),	   rs.getInt(6));
+													rs.getInt(4), rs.getInt(5),	   rs.getLong(6));
 						new IntroGUI(currentUser).setVisible(true);
 						dispose();
 					} else {
@@ -283,7 +283,7 @@ public class LoginGUI extends JFrame{
 					ps2.setString(1, username.getText().trim());
 					rs = ps2.executeQuery();
 					if (rs.next()) { // Prevents SQLException about being before the result set or something like that.
-						User newUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3), 0, 0, 0);
+						User newUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3), 0, 0, 0L);
 						new IntroGUI(newUser).setVisible(true);
 						dispose();
 					}
@@ -299,7 +299,7 @@ public class LoginGUI extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			/* Guest users will have an ID of -1. */
-			new IntroGUI(new User(-1, "Guest User", "Guest Password", 0, 0, 0)).setVisible(true);
+			new IntroGUI(new User(-1, "Guest User", "Guest Password", 0, 0, 0L)).setVisible(true);
 			dispose();
 		}
 	}
