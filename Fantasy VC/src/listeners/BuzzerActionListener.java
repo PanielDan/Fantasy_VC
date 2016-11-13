@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import frames.MainGUI;
-import game_logic.QuestionState;
+import game_objects.QuestionState;
 import messages.BuzzMessage;
 
 // Action Listener for the buzzer button

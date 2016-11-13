@@ -29,6 +29,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import game_objects.User;
+import listeners.TextFieldFocusListener;
 import util.AppearanceConstants;
 import util.AppearanceSettings;
 
@@ -41,12 +43,14 @@ public class LoginGUI extends JFrame{
 
 	private JButton loginButton;
 	private JButton createAccount;
+	private JButton guestButton;
 	private JTextField username;
 	private JTextField password;
 	private JLabel alertLabel;
 
+	private final static String queryStatement = "SELECT * FROM JeopardyUsers.Users WHERE username = ?";
+	private final static String insertStatement = "INSERT INTO JeopardyUsers.Users (username, passcode) VALUES (?, ?);";
 
-	// New stuff:
 	private Connection conn = null;
 	private ResultSet rs = null;
 
@@ -74,8 +78,9 @@ public class LoginGUI extends JFrame{
 
 		loginButton = new JButton("Login");
 		createAccount = new JButton("Create Account");
-		username = new JTextField("username");
-		password = new JTextField("password");
+		guestButton = new JButton("Continue as Guest");
+		username = new JTextField("Username");
+		password = new JTextField("Password");
 		alertLabel = new JLabel();
 		alertLabel.setForeground(Color.red);
 	}
@@ -86,7 +91,7 @@ public class LoginGUI extends JFrame{
 		JPanel textFieldOnePanel = new JPanel();
 		JPanel textFieldTwoPanel = new JPanel();
 		JLabel welcome = new JLabel("Login or create an account to play.", JLabel.CENTER);
-		JLabel jeopardyLabel = new JLabel("Jeopardy!", JLabel.CENTER);
+		JLabel jeopardyLabel = new JLabel("Venture Capital", JLabel.CENTER);
 		JPanel alertPanel = new JPanel();
 		JPanel textFieldsPanel = new JPanel();
 		JPanel buttonsPanel = new JPanel();
@@ -142,27 +147,39 @@ public class LoginGUI extends JFrame{
 		setSize(600, 600);
 	}
 
-	//returns whether the buttons should be enabled
-	private boolean canPressButtons(){
-		return (!username.getText().isEmpty() && !username.getText().equals("username") && 
-				!password.getText().equals("password") && !password.getText().isEmpty());
+	/**
+	 * Returns whether the buttons should be enabled.
+	 * @return Whether the buttons should be enabled or not.
+	 */
+	private boolean canPressButtons() {
+		return (!username.getText().isEmpty() && !username.getText().equalsIgnoreCase("Username") && 
+				!password.getText().equalsIgnoreCase("Password") && !password.getText().isEmpty());
 	}
 
-	private void addListeners(){
+	/**
+	 * Adds action listeners to the GUI components.
+	 */
+	private void addListeners() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//focus listeners
+		// Focus listeners
 		username.addFocusListener(new TextFieldFocusListener("Username", username));
 		password.addFocusListener(new TextFieldFocusListener("Password", password));
-		//document listeners
-		username.getDocument().addDocumentListener(new MyDocumentListener());
-		password.getDocument().addDocumentListener(new MyDocumentListener());
-		//action listeners
+		// Document listeners
+		username.getDocument().addDocumentListener(new LoginDocumentListener());
+		password.getDocument().addDocumentListener(new LoginDocumentListener());
+		// Action listeners
 		loginButton.addActionListener(new LoginActionListener());
 		createAccount.addActionListener(new CreateActionListener());
 	}
 
-	//sets the buttons enabled or disabled
-	private class MyDocumentListener implements DocumentListener{
+	/**
+	 * The {@code LoginDocumentListener} implements the {@code DocumentListener} 
+	 * to listen for input in the text fields to set the buttons on the GUI either
+	 * enabled or disabled.
+	 * @author alancoon
+	 * @see javax.swing.event.DocumentListener
+	 */
+	private class LoginDocumentListener implements DocumentListener {
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
@@ -183,6 +200,11 @@ public class LoginGUI extends JFrame{
 		}
 	}
 
+	/**
+	 * 
+	 * @author alancoon
+	 *
+	 */
 	private class LoginActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -195,8 +217,8 @@ public class LoginGUI extends JFrame{
 					/* User name exists, now check password. */
 					if (rs.getString(3).equals(password.getText())) {
 						/* Valid login! */
-						User currentUser = new User(rs.getString(2), rs.getString(3));
-						new StartWindowGUI(currentUser).setVisible(true);
+						User currentUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
+						new IntroGUI(currentUser).setVisible(true);
 						dispose();
 					} else {
 						/* Invalid password! */
@@ -218,8 +240,7 @@ public class LoginGUI extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				String queryCheck = "SELECT * FROM JeopardyUsers.Users WHERE username = ?";
-				PreparedStatement ps = conn.prepareStatement(queryCheck);
+				PreparedStatement ps = conn.prepareStatement(queryStatement);
 				ps.setString(1, username.getText().trim());
 				rs = ps.executeQuery();
 				if (rs.next()) {
@@ -228,11 +249,11 @@ public class LoginGUI extends JFrame{
 					rs = null;
 				} else {
 					/* User name does not exist. */
-					String insert = "INSERT INTO JeopardyUsers.Users (username, passcode) VALUES (?, ?);";
-					PreparedStatement is = conn.prepareStatement(insert);
+					PreparedStatement is = conn.prepareStatement(insertStatement);
 					is.setString(1, username.getText().trim());
 					is.setString(2, password.getText());
 					is.execute();
+					
 					
 					User newUser = new User(username.getText().trim(), password.getText());
 					new StartWindowGUI(newUser).setVisible(true);

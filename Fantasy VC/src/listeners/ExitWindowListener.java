@@ -6,18 +6,20 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import game_logic.JeopardyClient;
-import messages.ClientQuitGameMessage;
-import other_gui.AppearanceConstants;
+import client.Client;
+import messages.ClientExitMessage;
+import util.AppearanceConstants;
+
+
 //pop-up for when user clicks the red X on a frame
 public class ExitWindowListener extends WindowAdapter{
 
 	private JFrame frame;
-	private JeopardyClient jeopardyClient;
+	private Client client;
 	private final boolean isMultiplayer;
-	public ExitWindowListener(JFrame frame, JeopardyClient jeopardyClient) {
+	public ExitWindowListener(JFrame frame, Client client) {
 		this.frame = frame;
-		this.jeopardyClient = jeopardyClient;
+		this.client = client;
 		this.isMultiplayer = true;
 	}
 	
@@ -30,9 +32,9 @@ public class ExitWindowListener extends WindowAdapter{
 		 int answer = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, AppearanceConstants.exitIcon);
 	     
 		 if (isMultiplayer) {
-			 String name = jeopardyClient.getTeamName();
-			 ClientQuitGameMessage message = new ClientQuitGameMessage(name + " quit.", name);
-			 jeopardyClient.sendMessage(message);
+			 String name = client.getFirmName();
+			 ClientExitMessage message = new ClientExitMessage();
+			 client.sendMessage(message);
 		 }
 		 
 		 if (answer == JOptionPane.YES_OPTION){
