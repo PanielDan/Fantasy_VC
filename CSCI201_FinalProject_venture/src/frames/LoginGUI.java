@@ -70,7 +70,7 @@ public class LoginGUI extends JFrame{
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/Venture?user=root&password=Fuck you MySQL.&useSSL=false");
 		} catch (SQLException sqle) {
-			System.out.println("SQLException: " + sqle.getMessage());
+			System.out.println("SQLException in initializeConnection(): " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println("ClassNotFoundException: " + cnfe.getMessage());
 		}
@@ -233,7 +233,8 @@ public class LoginGUI extends JFrame{
 					/* User name exists, now check password. */
 					if (rs.getString(3).equals(password.getText())) {
 						/* Valid login! */
-						User currentUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
+						User currentUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3), 
+													rs.getInt(4), rs.getInt(5),	   rs.getInt(6));
 						new IntroGUI(currentUser).setVisible(true);
 						dispose();
 					} else {
@@ -247,7 +248,7 @@ public class LoginGUI extends JFrame{
 					rs = null;
 				}
 			} catch (SQLException sqle) {
-				System.out.println("SQLException: " + sqle.getMessage());
+				System.out.println("SQLException in LoginActionListener: " + sqle.getMessage());
 				sqle.printStackTrace();
 			} 
 		}
@@ -277,20 +278,19 @@ public class LoginGUI extends JFrame{
 					is.setString(2, password.getText());
 					is.execute();
 					
-					
 					/* Now we must fetch the information we just inserted to get the ID. */
 					PreparedStatement ps2 = conn.prepareStatement(queryStatement);
 					ps2.setString(1, username.getText().trim());
 					rs = ps2.executeQuery();
-					if (rs.next()) { 
-						
+					if (rs.next()) { // Prevents SQLException about being before the result set or something like that.
+						User newUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3), 0, 0, 0);
+						new IntroGUI(newUser).setVisible(true);
+						dispose();
 					}
-					User newUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
-					new IntroGUI(newUser).setVisible(true);
-					dispose();
 				}
 			} catch (SQLException sqle) {
-				System.out.println("SQLException: " + sqle.getMessage());
+				System.out.println("SQLException in CreateActionListener: " + sqle.getMessage());
+				sqle.printStackTrace();
 			} 
 		}
 	}
@@ -299,7 +299,7 @@ public class LoginGUI extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			/* Guest users will have an ID of -1. */
-			new IntroGUI(new User(-1, "Guest User", "Guest Password")).setVisible(true);
+			new IntroGUI(new User(-1, "Guest User", "Guest Password", 0, 0, 0)).setVisible(true);
 			dispose();
 		}
 	}
