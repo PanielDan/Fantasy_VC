@@ -1,5 +1,7 @@
 package game_objects;
 
+import java.util.Comparator;
+
 /**
  * The {@code User} class stores information about the logged
  * in user, using data queried from the MySQL database.
@@ -68,4 +70,27 @@ public class User {
 	public synchronized long getTotalProfit() { 
 		return totalProfit;
 	}
+	
+	
+	/**
+	 * Comparator class for sorting users
+	 * @author arschroc
+	 *
+	 */
+	//comparator for sorting users
+	//it is passed into the sort method from the Java Collections class as a custom comparator
+	//this will sort the users in order of their total profit
+	private static class MoneyComparator implements Comparator<User>{
+
+		@Override
+		public int compare(User teamOne, User teamTwo) {
+			return Long.compare(teamOne.getTotalProfit(), teamTwo.getTotalProfit());
+		}
+		
+	}
+	
+	public static MoneyComparator getComparator(){
+		return new MoneyComparator();
+	}
+	
 }

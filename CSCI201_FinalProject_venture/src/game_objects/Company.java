@@ -92,6 +92,6 @@ public class Company {
 	
 	//METHODS
 	public void performRandomEvent() {
-		//TODO
+		//TODO how do we want to implement this?
 	}	
 }
