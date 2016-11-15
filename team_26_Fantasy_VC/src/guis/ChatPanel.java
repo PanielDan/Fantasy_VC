@@ -152,15 +152,18 @@ public class ChatPanel extends JPanel {
 	 * Add listeners to the components.
 	 */
 	private void addEvents() {
+		
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
 				System.out.println(message.getUsername() + " says: " + message.getMessage());
 				input.setText("");
+				submit.setEnabled(false);
 				client.sendMessage(message);
 			} 
 		});
+		
 		//Wrote custom one because it's a bit different than Emma's
 		input.addFocusListener(new FocusListener(){
 
@@ -192,9 +195,12 @@ public class ChatPanel extends JPanel {
 					ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
 					input.setText("");
 					client.sendMessage(message);
+					submit.setEnabled(false);
 				}
 			}
 		});
+		
+		//Document listener for input
 		input.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {

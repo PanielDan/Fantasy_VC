@@ -13,7 +13,8 @@ public class Message implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static enum MessageType {addUser, startGame, beginAuction, endGame, clientExit,
-		beginQuarterly, beginTimelapse, chatMessage, userInfo};
+		beginQuarterly, beginTimelapse, chatMessage, userInfo, beginBid, AuctionDetailsUpdateUser,
+		AuctionDetailsUpdateCompany};
 	
 	private MessageType type;
 	

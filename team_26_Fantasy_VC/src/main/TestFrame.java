@@ -3,7 +3,9 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -26,10 +28,9 @@ public class TestFrame extends JFrame{
 		User user = new User(1, "test", "test",1,1,1000);
 		networked = true;
 		
-		
 		JPanel header = new TopPanel(null, user);
 		JPanel chatbox = new ChatPanel(null, user);
-		AuctionTeamList main = new AuctionTeamList();
+		AuctionTeamList main = new AuctionTeamList(null);
 		//AuctionBidScreen main = new AuctionBidScreen();
 		
 		header.setPreferredSize(new Dimension(1280,72));
