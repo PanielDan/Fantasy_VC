@@ -1,0 +1,1 @@
+Critter is a very small start up founded by a handful of students at the University of California, Irvine.  They are currently working on a way to revolutionize the on-demand job industry, but have no functional or deployed projects at the moment.  Critter is looking for seed money to sustain their operations full-time.
