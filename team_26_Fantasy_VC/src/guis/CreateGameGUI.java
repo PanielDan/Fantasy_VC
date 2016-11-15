@@ -34,6 +34,10 @@ public class CreateGameGUI extends JFrame{
 		this.setVisible(true);
 	}
 	
+	public static void main(String[] args) {
+		new CreateGameGUI().setVisible(true);
+	}
+	
 	private void initializeComponents() {
 		createLabel = new JLabel("Create Game");
 		lobbyLabel = new JLabel("Lobby Name");
@@ -128,9 +132,5 @@ public class CreateGameGUI extends JFrame{
 			b.setFont(new Font("Arial", Font.BOLD, 32));
 			b.setBorder(new EmptyBorder(8, 0, 8, 0));
 		}
-	}
-	
-	public static void main(String [] args) {
-		new CreateGameGUI();
 	}
 }
