@@ -2,17 +2,18 @@ package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.Vector;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
+import javax.swing.JScrollPane;
 
 import client.Client;
-import guis.ChatPanel;
-import guis.TopPanel;
+import utility.AppearanceConstants;
+import utility.AppearanceSettings;
 import utility.Constants;
 
 public class TimelapsePanel extends JPanel {
@@ -23,13 +24,10 @@ public class TimelapsePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Client client;
-	private JTextPane notifications;
-	
+	private JList<String> notifications;
+	private Vector<String> notificationList;
 	private ImageIcon animation;
 	private JLabel animationLabel;
-	
-	private TopPanel topPanel;
-	private ChatPanel chatPanel;
 	
 	/**
 	 * Create the panel.
@@ -39,62 +37,36 @@ public class TimelapsePanel extends JPanel {
 		
 		initializeComponents();
 		createGUI();
-		colorizeComponents();
 	}
 
 	private void initializeComponents() {
 //		notifications = new JTextArea(40, 40);
-		notifications = new JTextPane();
-	    animation = new ImageIcon(this.getClass().getResource(Constants.images + "animation" + Constants.gif));
+		notifications = new JList<String>();
+		notificationList = new Vector<String>();
+	    animation = new ImageIcon(Constants.images + "animation" + Constants.gif);
 	    animationLabel = new JLabel(animation);
-	    topPanel = new TopPanel(client.getUser());
-	    chatPanel = new ChatPanel(client);
 	}
-
-	private void colorizeComponents() {
-		// TODO change once we get the AppearanceSettings/Constants up and running
-		Color lighterBlue = new Color(49, 71, 112);
-		Color darkBlue = new Color(49, 59, 71);
-		Color offWhite = new Color(221, 221, 221);
-		
-		notifications.setBackground(lighterBlue);
-	}
+	
 	private void createGUI() {
 
-		setSize(1280, 720);
-		setLayout(new BorderLayout());
-		add(topPanel);
-		add(chatPanel);
+		setSize(1280, 504);
+		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+		setBackground(AppearanceConstants.lightBlue);
+		notifications.setBackground(AppearanceConstants.darkBlue);
+		notifications.setForeground(AppearanceConstants.offWhite);
+		
+		JScrollPane notificationPanel = new JScrollPane(notifications);
 		
 		JPanel centerPane = new JPanel();
-		centerPane.setBackground(new Color(128, 128, 128));
+		//centerPane.setBackground(new Color(128, 128, 128));
 		add(centerPane, BorderLayout.CENTER);
+				
+		AppearanceSettings.setSize(600, 450, notificationPanel);
+		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, notificationPanel, notifications);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, notificationPanel, notifications);
+
 		
-		notifications.setText("notifications n' shit");
-		
-		GroupLayout gl_centerPane = new GroupLayout(centerPane);
-		gl_centerPane.setHorizontalGroup(
-			gl_centerPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_centerPane.createSequentialGroup()
-					.addGap(32)
-					.addComponent(notifications, GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
-					.addGap(27)
-					.addComponent(animationLabel, GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
-					.addGap(29))
-		);
-		gl_centerPane.setVerticalGroup(
-			gl_centerPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_centerPane.createSequentialGroup()
-					.addGap(67)
-					.addGroup(gl_centerPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(animationLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(notifications, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE))
-					.addGap(149))
-		);
-		centerPane.setLayout(gl_centerPane);
-		
-		// Modify the news box:
-		notifications.setEnabled(false);
+		add(notificationPanel);
 		
 	}
 	
