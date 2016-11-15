@@ -64,6 +64,10 @@ public class LoginGUI extends JFrame{
 		createGUI();
 		addListeners();
 	}
+	
+	public static void main(String[] args) {
+		new LoginGUI().setVisible(true);
+	}
 
 	private void initializeConnection() {
 		try {
@@ -235,7 +239,7 @@ public class LoginGUI extends JFrame{
 						/* Valid login! */
 						User currentUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3), 
 													rs.getInt(4), rs.getInt(5),	   rs.getLong(6));
-						new IntroGUI(currentUser).setVisible(true);
+						new IntroPanel().setVisible(true);
 						dispose();
 					} else {
 						/* Invalid password! */
@@ -284,7 +288,7 @@ public class LoginGUI extends JFrame{
 					rs = ps2.executeQuery();
 					if (rs.next()) { // Prevents SQLException about being before the result set or something like that.
 						User newUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3), 0, 0, 0L);
-						new IntroGUI(newUser).setVisible(true);
+						new IntroPanel().setVisible(true);
 						dispose();
 					}
 				}
@@ -299,7 +303,7 @@ public class LoginGUI extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			/* Guest users will have an ID of -1. */
-			new IntroGUI(new User(-1, "Guest User", "Guest Password", 0, 0, 0L)).setVisible(true);
+			new IntroPanel().setVisible(true);
 			dispose();
 		}
 	}
