@@ -16,6 +16,7 @@ public class ClientExitMessage extends Message {
 	private String username;
 	
 	public ClientExitMessage(String username) {
+		super(MessageType.clientExit);
 		this.username = username;
 	}
 	
