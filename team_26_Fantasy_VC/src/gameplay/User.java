@@ -1,6 +1,7 @@
 package gameplay;
 
 import java.util.Comparator;
+import java.util.Vector;
 
 /**
  * The {@code User} class stores information about the logged
@@ -17,6 +18,7 @@ public class User {
 	private int gamesPlayed;
 	private int gamesWon;
 	private long totalProfit;
+	private Vector<Company> companies;
 	
 	public User(int id, String username, String password, int gamesPlayed, int gamesWon, long totalProfit) {
 		this.id = id;
@@ -25,6 +27,7 @@ public class User {
 		this.gamesPlayed = gamesPlayed;
 		this.gamesWon = gamesWon;
 		this.totalProfit = totalProfit;
+		companies = new Vector<Company>();
 	}
 
 	/**
