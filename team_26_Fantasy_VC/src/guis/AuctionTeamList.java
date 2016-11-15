@@ -30,6 +30,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import client.Client;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -49,8 +50,11 @@ public class AuctionTeamList extends JPanel {
 	private JButton bidButton;
 	private JPanel companyDetailsPanel;
 	
+	private Client client;
 	
-	public AuctionTeamList() {
+	
+	public AuctionTeamList(Client client) {
+		this.client = client;
 		intializeVariables();
 		createGUI();
 		addActionListeners();
@@ -104,8 +108,11 @@ public class AuctionTeamList extends JPanel {
 		//Initialized here to purchased firms for testing purposes.
 		detailsFirmPurchasedList = new JList<String>(purchasedFirms);
 		
-		//Picture Test Code
-		//All for trying to scale down a picture
+		intializePictures();
+	}
+	
+	//All of this just has to be updated with user images from company and user objects.
+	private void intializePictures(){
 		ImageIcon jeffrey = new ImageIcon("images/Jeffrey.png");
 		Image firmIcon = jeffrey.getImage();
 		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
@@ -358,10 +365,21 @@ public class AuctionTeamList extends JPanel {
 	}
 	
 	private void addActionListeners(){
+		//List selection listener for draft order list
 		firmList.addListSelectionListener(new ListSelectionListener(){
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+	            //TODO Add some sort of function to update detail panel
+	            /*
+	            if (networked){
+	            	//Get the company name;
+	            	client.sendMessage(new AuctionDetailsUpdateUserMessage(firmList.getSelectedRow()));
+	            } else{
+	            	
+	            }
+	            */
+				
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Firm");
 				
@@ -374,6 +392,16 @@ public class AuctionTeamList extends JPanel {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+	            //TODO Add some sort of function to update detail panel
+	            /*
+	            if (networked){
+	            	//Get the company name;
+	            	client.sendMessage(new AuctionDetailsUpdateCompanyMessage(purchasedCompanysList.getSelectedRow()));
+	            } else{
+	            	
+	            }
+	            */
+				
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Company");				
 			}
@@ -383,11 +411,19 @@ public class AuctionTeamList extends JPanel {
 		//Maybe we use a mouse listener? We'll see in the future
 		firmData.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	            // do some actions here, for example
-	            // print first column value from selected row
-	            int selectedRow = firmData.getSelectedRow();
+
+	            //TODO Add some sort of function to update detail panel
+	            /*
+	            if (networked){
+	            	//Get the company name;
+	            	client.sendMessage(new AuctionDetailsUpdateCompanyMessage(firmData.getSelectedRow()));
+	            } else{
+	            	
+	            }
+	            */
+	            
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
-				cardLayout.show(companyDetailsPanel, "Company");	
+				cardLayout.show(companyDetailsPanel, "Company");
 	        }
 		});
 				
@@ -399,8 +435,14 @@ public class AuctionTeamList extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				// TODO: Set up bidding screen and transition to bidding screen.
+				/*
+				if(networked){
+					client.sendMessage(new BeginAuctionBidMessage(firmData.getSelectedRow()));
+				} else {
+					//swap to bid auction frame.
+				}
+				*/
 			}
 			
 		});
@@ -411,8 +453,9 @@ public class AuctionTeamList extends JPanel {
 	
 	//List selection model so purchased firms in details can't be clicked
 	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
+		private static final long serialVersionUID = 1L;
 
-	    @Override
+		@Override
 	    public void setSelectionInterval(int index0, int index1) {
 	        super.setSelectionInterval(-1, -1);
 	    }

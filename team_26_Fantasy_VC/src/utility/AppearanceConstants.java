@@ -23,6 +23,10 @@ public class AppearanceConstants {
 	public static final Font fontSmallest = new Font("Avenir", Font.BOLD,14);
 	public static final Font fontMedium = new Font("Avenir", Font.BOLD, 22);
 	public static final Font fontLarge = new Font("Avenir", Font.BOLD, 30);
+	public static final Font fontHeader = new Font("Avenir Bold", Font.ITALIC, 40);
+	public static final Font fontHeaderUser = new Font("Avenir Bold", Font.ITALIC, 28);
+	public static final Font fontButtonSmall = new Font("Avenir Bold", Font.PLAIN, 14);
+	public static final Font fontButtonBig = new Font("Avenir Bold", Font.PLAIN, 24);
 	
 	//added a blue border variable used in StartWindowGUI
 	public static final Border blueLineBorder = BorderFactory.createLineBorder(darkBlue);
