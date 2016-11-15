@@ -27,7 +27,7 @@ public class ExitWindowListener extends WindowAdapter{
 	/**
 	 * We have overloaded constructors so if you pass in a {@code Client},
 	 * the logic will know that we are currently in a multiplayer game.
-	 * Otherwise we will assume that it is singleplayer guest mode.
+	 * Otherwise we will assume that it is single player guest mode.
 	 * @param frame The {@code JFrame} that you want to add the 
 	 * {@code ExitWindowListener} to.
 	 * @param client The {@code Client} that the {@code JFrame} belongs to.
