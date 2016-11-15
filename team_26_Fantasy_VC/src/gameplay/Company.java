@@ -19,7 +19,6 @@ public class Company {
 	private int startingPrice, askingPrice, currentWorth, tierLevel, delta;
 	
 	public Company(String image, String name, String description, int startingPrice, int delta, int tierLevel) {
-		
 		this.image = image;
 		this.name = name;
 		this.description = description;
@@ -30,7 +29,8 @@ public class Company {
 		this.tierLevel = tierLevel;
 	}
 	
-	//GETTER functions
+
+	/* Getters. */
 	public String getName() {
 		return name;
 	}
@@ -59,7 +59,6 @@ public class Company {
 		return tierLevel;
 	}
 	
-	//SETTER functions
 	
 	/**
 	 * 
@@ -108,6 +107,8 @@ public class Company {
 		this.askingPrice = askingPrice;
 	}
 	
+	
+	/* Setters. */
 	public void setName(String name) {
 		this.name = name;
 	}
