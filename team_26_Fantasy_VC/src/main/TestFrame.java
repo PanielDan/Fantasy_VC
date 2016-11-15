@@ -3,15 +3,13 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Image;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import gameplay.User;
-import guis.AuctionTeamList;
 import guis.ChatPanel;
+import guis.TimelapsePanel;
 import guis.TopPanel;
 
 public class TestFrame extends JFrame{
@@ -30,8 +28,9 @@ public class TestFrame extends JFrame{
 		
 		JPanel header = new TopPanel(null, user);
 		JPanel chatbox = new ChatPanel(null, user);
-		AuctionTeamList main = new AuctionTeamList(null);
+		//AuctionTeamList main = new AuctionTeamList(null);
 		//AuctionBidScreen main = new AuctionBidScreen();
+		TimelapsePanel main = new TimelapsePanel(null);
 		
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));

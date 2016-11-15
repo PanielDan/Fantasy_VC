@@ -38,7 +38,7 @@ public class TopPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	
-	private JLabel title;
+	private JLabel title, fantasyVCLogo;
 	private JLabel username;
 	private BufferedImage avatar;
 	private JButton userIcon;
@@ -69,6 +69,14 @@ public class TopPanel extends JPanel {
 			ioe.printStackTrace();
 		}
 		*/		
+		//Logo here
+		fantasyVCLogo = new JLabel();
+		fantasyVCLogo.setBorder(new EmptyBorder(0,5,0,0));
+		ImageIcon logo = new ImageIcon("resources/img/FantasyVC.png");
+		Image logoIcon = logo.getImage();
+		fantasyVCLogo.setIcon(new ImageIcon(logoIcon.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
+		
+		
 		//userIcon here
 		userIcon = new JButton();
 		userIcon.setOpaque(true);
@@ -106,14 +114,19 @@ public class TopPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		//Sub pane just need flow layout
-		JPanel subPane = new JPanel();
-		subPane.setBackground(AppearanceConstants.darkBlue);
-		subPane.add(username);
-		subPane.add(userIcon);
+		JPanel rightPane = new JPanel();
+		rightPane.setBackground(AppearanceConstants.darkBlue);
+		rightPane.add(username);
+		rightPane.add(userIcon);
+		
+		JPanel leftPane = new JPanel();
+		leftPane.setBackground(AppearanceConstants.darkBlue);
+		leftPane.add(fantasyVCLogo);
+		leftPane.add(title);
 
 		//Adding everything at once
-		add(title, BorderLayout.WEST);
-		add(subPane, BorderLayout.EAST);
+		add(leftPane, BorderLayout.WEST);
+		add(rightPane, BorderLayout.EAST);
 	}
 	
 	private void addActionListeners(){
