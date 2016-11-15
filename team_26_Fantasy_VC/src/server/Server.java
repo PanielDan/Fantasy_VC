@@ -9,6 +9,8 @@ import java.util.Random;
 import java.util.Vector;
 
 import exceptions.PortBoundException;
+import gameplay.User;
+import messages.ClientExitMessage;
 import messages.Message;
 
 /**
@@ -20,16 +22,20 @@ import messages.Message;
  *
  */
 public class Server extends Thread {
+	
 	private Vector<ServerClientCommunicator> serverClientCommunicators;
+	private Vector<User> users;
 	private ServerSocket ss;
+	
+	
 	private int numberOfPlayers;
 
 	
-	public Server(int port) throws PortBoundException {
+	public Server(int port, int numberOfPlayers) throws PortBoundException {
 		this.ss = null;
-		this.numberOfPlayers = hostGUI.getSlider().getValue();
-		this.serverThreads = new Vector<ServerClientCommunicator>();
-		this.teamNames = new Vector<String>();
+		this.numberOfPlayers = numberOfPlayers;
+		this.serverClientCommunicators = new Vector<ServerClientCommunicator>();
+		this.users = new Vector<User>();
 		
 		try {
 			ss = new ServerSocket(port);
@@ -57,17 +63,16 @@ public class Server extends Thread {
 			// ATTN:  TAKE CARE OF STATE PROGRESSION WITHIN METHODS
 			
 			/* Wait until all of the teams have connected. */
-			while (!this.allConnected) {
+			boolean allConnected = false;
+			while (!allConnected) {
 				try {
 					System.out.println("Waiting for connection...");
 					Thread.yield();
 					Socket s = ss.accept();
 					System.out.println("Connection from " + s.getInetAddress());
 					ServerClientCommunicator scc = new ServerClientCommunicator(s, this, hostGUI.getUser());
-					serverThreads.add(st);
-					hostGUI.incrementPlayers();
-					allClientsUpdateLobbyStatus(hostGUI.getPlayers() + "/" + numberOfPlayers + " players joined...");
-					System.out.println(hostGUI.getPlayers() + "/" + numberOfPlayers + " players joined...");
+					serverClientCommunicators.add(scc);
+					// Change things on the Client side
 					if (hostGUI.getPlayersYetToJoin() == 0) { allConnected = true; } 
 				} catch (SocketException se) {
 					System.out.println("SOCKET EXCEPTION");
@@ -83,11 +88,12 @@ public class Server extends Thread {
 			}
 			
 			/* Yield until all of the team name have been received! */
-			while (!this.allNamesReceived) {
+			boolean allUsersReceived = false;
+			while (!allUsersReceived) {
 				try {
 					Thread.sleep(10);
-					if (teamNames.size() == numberOfPlayers) { 
-						this.allNamesReceived = true;
+					if (users.size() == numberOfPlayers) { 
+						allUsersReceived = true;
 					}
 				} catch (InterruptedException ie) {
 					System.out.println("InterruptedException in Server::run(): " + ie.getMessage());
@@ -110,10 +116,9 @@ public class Server extends Thread {
 	}
 
 	public void removePlayerFromLobby(String teamName, ServerClientCommunicator thread) { 
-		teamNames.remove(teamName);
-		serverThreads.remove(thread);
-		hostGUI.decrementPlayers();
-		allClientsUpdateLobbyStatus(hostGUI.getPlayers() + "/" + numberOfPlayers + " players joined...");
+		users.remove(teamName);
+		serverClientCommunicators.remove(thread);
+		// Remove from GUIs
 	}
 	
 	public void allClientsUpdateLobbyStatus(String message) {
@@ -124,32 +129,28 @@ public class Server extends Thread {
 
 	public void allClientsToMainGUI() {
 		
-		while (teamNames.contains(null)) {
+		while (users.contains(null)) {
 			System.out.println("Yielding...");
 			Thread.yield();
 		}
 		
-		System.out.println("TEAM NAMES:" );
-		for (String name : teamNames) {
-			System.out.println(name);
-		}
-		
-		int numberOfQuestions = hostGUI.getQuickPlay() ? 5 : 25;
 		Random rand = new Random();
+		
+		/* Decide the first player to pick a team. */
 		int firstTurn = Math.abs(rand.nextInt()) % numberOfPlayers;
-		for (ServerClientCommunicator st : serverThreads) {
+		
+		for (ServerClientCommunicator scc : serverClientCommunicator) {
 			StartMainGUIMessage message = new StartMainGUIMessage();
 			message.setTeamNames(teamNames);
 			message.setNumberOfQuestions(numberOfQuestions);
-			message.setGameFile(gameFile);
-			message.setFirstTurn(firstTurn);
+ 			message.setFirstTurn(firstTurn);
 			st.sendMessage(message);
 		}
 	}
 
-	public void sendExitMessage(ClientQuitGameMessage message) {
-		String name = message.getTeamName();
-		for (ServerClientCommunicator st : serverThreads) {
+	public void sendExitMessage(ClientExitMessage message) {
+		String name = message.getUsername();
+		for (ServerClientCommunicator st : serverClientCommunicators) {
 			String threadTeamName = st.getTeamName();
 			if (!threadTeamName.equals(name)) {
 				st.sendMessage(message);

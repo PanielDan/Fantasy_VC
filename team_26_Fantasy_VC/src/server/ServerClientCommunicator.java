@@ -16,12 +16,14 @@ public class ServerClientCommunicator extends Thread {
 	private ObjectOutputStream oos;
 	private Server server;
 	private String firmName;
+	private String username;
 	private User user;
 
 	public ServerClientCommunicator(Socket s, Server server, User user) {
 		try {
 			this.server = server;
 			this.user = user;
+			this.username = user.getUsername();
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 			this.start();
