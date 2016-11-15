@@ -22,8 +22,32 @@ public class Game {
 		currentQuarter = 0;
 		users = new Vector<User>();
 		companies = new Vector<Company>();
-		
+	}
+	
+	/**
+	 * To be done ONLY IN SERVER
+	 * initializes all of the companies from the server
+	 */
+	public void initializeCompanies() {
 		//TODO create all of the companies and add them to companies list
+		//Pull stuff from SQL database
+	}
+	
+	/**
+	 * To be done ONLY IN SERVER
+	 * updates all of the companies and sends a message to 
+	 * the clients with the new companies
+	 */
+	public void updateCompanies() {
+		for(Company company : companies) {
+			String updateText = company.updateCurrentWorth();
+			if(updateText != null) {
+				//TODO create and send a message to all clients 
+				//telling them to display the updateText on the TimeLapseGUI
+			}
+		}
+		
+		//TODO send message to all clients containing the new game and User updates
 	}
 	
 	public void addUser(User user) {

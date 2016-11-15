@@ -1,6 +1,6 @@
 package gameplay;
 
-import java.util.List;
+import java.util.Random;
 
 /**
  * The {@code Company} class stores information about a company.
@@ -14,18 +14,17 @@ import java.util.List;
 public class Company {
 	
 	private String image, name, description;
-	private int startingPrice, askingPrice, currentWorth, tierLevel;
-	private List<Integer> trends; //list of the company's trends for each quarter
+	private int startingPrice, askingPrice, currentWorth, tierLevel, delta;
 	
-	public Company(String image, String name, String description, int startingPrice, List<Integer> trends, int tierLevel) {
+	public Company(String image, String name, String description, int startingPrice, int delta, int tierLevel) {
 		
 		this.image = image;
 		this.name = name;
 		this.description = description;
 		this.startingPrice = startingPrice;
 		askingPrice = startingPrice; //asking price = startingPrice at beginning of auction
-		this.trends = trends;
-		currentWorth = trends.get(0); //currentWorth starts at the initial trend
+		currentWorth = startingPrice; //the current worth starts at startingPrice
+		this.delta = delta;
 		this.tierLevel = tierLevel;
 	}
 	
@@ -59,11 +58,36 @@ public class Company {
 	}
 	
 	//SETTER functions
-	public void updateCurrentWorth(int quarterNum) {
-		//if acceptable quarter number then update currentWorth
-		if(quarterNum < 20 && quarterNum >= 0) {
-			currentWorth = trends.get(quarterNum);
+	public synchronized String updateCurrentWorth() {
+		Random rand = new Random();
+		int change = Math.abs(rand.nextInt(delta));
+		boolean positive = rand.nextBoolean();
+		boolean specialEvent = rand.nextBoolean();
+		
+		if(positive) {
+			if(specialEvent) {
+				change*=3;
+				currentWorth += change;
+				int index = rand.nextInt(Constants.positiveEvents.length - 1);
+				return Constants.positiveEvents[index];
+			}
+			
+			currentWorth += change;
+			return null;
 		}
+		else {
+			if(specialEvent) {
+				change *= 3;
+				currentWorth -= change;
+				int index = rand.nextInt(Constants.negativeEvents.length - 1);
+				return Constants.negativeEvents[index];
+			}
+			
+			currentWorth -= change;
+			return null;
+		}
+		
+
 	}
 	
 	public void updateAskingPrice(int askingPrice) {
@@ -89,9 +113,4 @@ public class Company {
 	public void setTier(int tierLevel) {
 		this.tierLevel = tierLevel;
 	}
-	
-	//METHODS
-	public void performRandomEvent() {
-		//TODO how do we want to implement this?
-	}	
 }
