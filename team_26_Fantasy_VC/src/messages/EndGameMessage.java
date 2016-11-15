@@ -7,6 +7,8 @@ public class EndGameMessage extends Message {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public EndGameMessage() { }
+	public EndGameMessage() {
+		super(MessageType.endGame);
+	};
 	
 }
