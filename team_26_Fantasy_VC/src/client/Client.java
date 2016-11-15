@@ -27,10 +27,12 @@ public class Client extends Thread {
 	private Socket s;
 	
 	private boolean host;
-	private boolean gameOver;
+	//Running boolean used to determine when to break the run while loop.
+	private boolean running;
 	
 	public Client(String hostname, int port, User user, boolean host) { 
 		synchronized (this) {
+			running = true;
 			this.s = null;
 			this.user = user;
 			this.host = host;
@@ -46,7 +48,34 @@ public class Client extends Thread {
 	}
 	
 	public void run() {
-		
+		Message m = null;
+		try{
+			while(running){
+				m = (Message)ois.readObject();
+
+				//Add all message if statements here
+				
+			}
+
+		} catch (IOException ioe){
+			ioe.printStackTrace();
+		} catch (ClassNotFoundException cnfe){
+			cnfe.printStackTrace();
+		} finally{
+			try {
+				if (oos != null){
+					oos.close();
+				}
+				if (ois != null){
+					ois.close();
+				}
+				if (s != null){
+					s.close();
+				}
+			} catch(IOException ioe) {
+				ioe.printStackTrace();
+			}
+		}
 	}
 	
 	public String getFirmName() { 
