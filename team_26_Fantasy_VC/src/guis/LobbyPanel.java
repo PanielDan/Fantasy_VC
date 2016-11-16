@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -19,6 +21,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import gameplay.User;
+import messages.leaveLobbyMessage;
+import messages.lobbyPlayerReadyMessage;
 import utility.AppearanceConstants;
 
 public class LobbyPanel extends JPanel{
@@ -117,9 +121,17 @@ public class LobbyPanel extends JPanel{
 		
 	}
 	private void addEvents() {
-		readyButton.addActionListener(a
+		readyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				lobbyPlayerReadyMessage lprm = new lobbyPlayerReadyMessage();
+			}
+		});
 				
-		leaveButton.addActionListener(
+		leaveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				leaveLobbyMessage llm = new leaveLobbyMessage();
+			}
+		});
 				
 	}
 	

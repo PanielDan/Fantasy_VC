@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,6 +18,8 @@ import javax.swing.JSeparator;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import messages.hostGameMessage;
+import messages.joinGameMessage;
 import utility.AppearanceConstants;
 
 public class IntroPanel extends JPanel {
@@ -97,8 +101,16 @@ public class IntroPanel extends JPanel {
 	}
 	
 	private void addEvents() {
-		hostButton.addActionListener(
-		joinButton.addActionListener(
+		hostButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				hostGameMessage hgm = new hostGameMessage();
+			}
+		});
+		joinButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				joinGameMessage jgm = new joinGameMessage();
+			}
+		});
 	}
 	
 	public void makeButton(JButton... button) {
