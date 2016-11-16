@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 import client.Client;
 import messages.ClientExitMessage;
-import util.AppearanceConstants;
+import utility.AppearanceConstants;
 
 
 //pop-up for when user clicks the red X on a frame
@@ -29,11 +29,11 @@ public class ExitWindowListener extends WindowAdapter{
 	}
 	
 	 public void windowClosing(WindowEvent e) {
-		 int answer = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, AppearanceConstants.exitIcon);
+		 int answer = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
 	     
 		 if (isMultiplayer) {
 			 String name = client.getFirmName();
-			 ClientExitMessage message = new ClientExitMessage();
+			 ClientExitMessage message = new ClientExitMessage("tempusername");
 			 client.sendMessage(message);
 		 }
 		 
