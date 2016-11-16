@@ -71,7 +71,7 @@ public class ChatPanel extends JPanel {
 		submit = new JButton("Send");
 		submit.setFont(AppearanceConstants.fontButtonSmall);
 		
-		chat = new JTextArea(10, 40);
+		chat = new JTextArea();
 		chat.setWrapStyleWord(true);
 		chat.setLineWrap(true);
 		chat.setEditable(false);

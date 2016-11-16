@@ -169,7 +169,7 @@ public class AuctionTeamList extends JPanel {
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, draftOrderPanel, listPanel, timePanel, firmList);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, timer, firmList);
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, firmList);
-		timer.setFont(new Font("Avenir", Font.BOLD, 60));
+		timer.setFont(AppearanceConstants.fontTimerLarge);
 		
 		//Set List to center text alignment
 		DefaultListCellRenderer renderer = (DefaultListCellRenderer)firmList.getCellRenderer();  
@@ -314,11 +314,11 @@ public class AuctionTeamList extends JPanel {
 				purchasedCompanysList, detailsPurchasedLabel, bidButton);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmallest, detailsFirmCurrentMoney, detailsFirmName,
 				detailsCompanyName, detailsFirmPurchasedList, purchasedCompanysList, detailsPurchasedLabel);
-		detailsCompanyBio.setFont(new Font("Avenir", Font.BOLD,12));
+		detailsCompanyBio.setFont(AppearanceConstants.fontSmallBidButton);
 		detailsCompanyBio.setBorder(new EmptyBorder(5,5,5,5));
 		//Bid Button Appearance Settings
 		bidButton.setOpaque(true);
-		bidButton.setFont(new Font("Avenir Bold", Font.BOLD,24));
+		bidButton.setFont(AppearanceConstants.fontLargeBidButton);
 		bidButton.setBackground(new Color(51,102,0));
 		bidButton.setBorderPainted(false);
 		//Function to Align all Labels to the center of the BoxLayout.
