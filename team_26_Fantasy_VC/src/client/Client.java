@@ -8,7 +8,11 @@ import java.util.Vector;
 
 import gameplay.Company;
 import gameplay.User;
+import messages.AuctionBidUpdateMessage;
+import messages.ChatMessage;
 import messages.Message;
+import messages.Message.MessageType;
+import messages.UserInfoPopupMessage;
 
 /**
  * The {@code Client} class is a {@code Thread} that represents a 
@@ -52,9 +56,19 @@ public class Client extends Thread {
 		try{
 			while(running){
 				m = (Message)ois.readObject();
-
 				//Add all message if statements here
 				
+				//Chat Message
+				if(m.getType() == MessageType.chatMessage){
+					ChatMessage cm = (ChatMessage)m;
+				}
+				//User info popup
+				else if (m.getType() == MessageType.userInfo){
+					UserInfoPopupMessage uipm = (UserInfoPopupMessage)m;
+				}
+				else if (m.getType() == MessageType.AuctionBidUpdate){
+					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage)m;
+				}
 			}
 
 		} catch (IOException ioe){
