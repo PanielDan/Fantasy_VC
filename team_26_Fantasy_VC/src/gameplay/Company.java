@@ -2,6 +2,8 @@ package gameplay;
 
 import java.util.Random;
 
+import utility.Constants;
+
 /**
  * The {@code Company} class stores information about a company.
  * Each company is matched with one of the trends form the MySQL database
