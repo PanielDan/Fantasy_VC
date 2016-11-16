@@ -1,3 +1,4 @@
+
 package gameplay;
 
 import java.util.Random;
@@ -18,6 +19,7 @@ public class Company {
 	private String image, name, description;
 	private int startingPrice, askingPrice, currentWorth, tierLevel, delta;
 	
+	private long longStartingPrice;
 	public Company(String image, String name, String description, int startingPrice, int delta, int tierLevel) {
 		this.image = image;
 		this.name = name;
@@ -29,6 +31,35 @@ public class Company {
 		this.tierLevel = tierLevel;
 	}
 	
+
+
+	public Company(String imagePath, String companyName, String description, long startingPrice, int tierLevel) {
+		this.image = imagePath;
+		this.name = companyName;
+		this.description = description;
+		this.longStartingPrice = startingPrice;
+		this.tierLevel = tierLevel;
+		
+		switch (tierLevel) { 
+			case 0:
+				this.delta = 100;
+				break;
+			case 1:
+				this.delta = 200;
+				break;
+			case 2:
+				this.delta = 350;
+				break;
+			case 3:
+				this.delta = 500;
+				break;
+			case 4:
+				this.delta = 750;
+				break;
+		}
+	}
+
+
 
 	/* Getters. */
 	public String getName() {

@@ -1,19 +1,35 @@
+
 package gameplay;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import utility.CompanyPopulator;
+
 /**
  * Maintains all of the current players inside of the instance of the game
- * Has a list of all the companies that are still available
- * Also keeps track of the game state
+ * Has a list of all the companies that are still available.
+ * Also keeps track of the game state.
+ * 
+ * We decided to use the {@code Serializable} interface so we can 
+ * transmit the {@code Game} over object streams from the server to 
+ * the player clients.  This way we can do computations that affect 
+ * the {@code Game} state and then package and ship it to every 
+ * player so a uniform state is available for all of the players.
  *
  * @author arschroc
- * 
+ * @author alancoon
  */
-public class Game {
+public class Game implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	private List<User> users;
 	private List<Company> companies;
 	int currentQuarter;
@@ -25,12 +41,13 @@ public class Game {
 	}
 	
 	/**
-	 * To be done ONLY IN SERVER
-	 * initializes all of the companies from the server
+	 * To be done only on the server side at the beginning
+	 * of the game, initializes all of the companies from the server
 	 */
 	public void initializeCompanies() {
-		//TODO create all of the companies and add them to companies list
-		//Pull stuff from SQL database
+		CompanyPopulator compPop = new CompanyPopulator();
+		companies = compPop.populate();
+		System.out.println("Companies populated!");
 	}
 	
 	/**
