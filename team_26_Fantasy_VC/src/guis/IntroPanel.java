@@ -97,7 +97,8 @@ public class IntroPanel extends JPanel {
 	}
 	
 	private void addEvents() {
-		
+		hostButton.addActionListener(
+		joinButton.addActionListener(
 	}
 	
 	public void makeButton(JButton... button) {

@@ -123,6 +123,7 @@ public class CreateGameGUI extends JFrame{
 	
 	private void addEvents() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		createButton.addActionListener(
 	}
 	
 	public void makeButton(JButton... button) {

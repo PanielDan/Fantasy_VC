@@ -117,7 +117,10 @@ public class LobbyPanel extends JPanel{
 		
 	}
 	private void addEvents() {
-		
+		readyButton.addActionListener(a
+				
+		leaveButton.addActionListener(
+				
 	}
 	
 	public void makeButton(JButton... button) {
