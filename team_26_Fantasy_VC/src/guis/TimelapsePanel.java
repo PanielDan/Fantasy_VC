@@ -1,18 +1,24 @@
 package guis;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Dimension;
+import java.util.Vector;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.border.EmptyBorder;
 
 import client.Client;
-import guis.ChatPanel;
-import guis.TopPanel;
+import listeners.DisabledItemSelectionModel;
+import utility.AppearanceConstants;
+import utility.AppearanceSettings;
 import utility.Constants;
 
 public class TimelapsePanel extends JPanel {
@@ -23,13 +29,10 @@ public class TimelapsePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Client client;
-	private JTextPane notifications;
-	
+	private JList<String> notifications;
+	private Vector<String> notificationList;
 	private ImageIcon animation;
-	private JLabel animationLabel;
-	
-	private TopPanel topPanel;
-	private ChatPanel chatPanel;
+	private JLabel animationLabel, notificationLabel;
 	
 	/**
 	 * Create the panel.
@@ -39,65 +42,67 @@ public class TimelapsePanel extends JPanel {
 		
 		initializeComponents();
 		createGUI();
-		colorizeComponents();
+		addActionListeners();
 	}
 
 	private void initializeComponents() {
-//		notifications = new JTextArea(40, 40);
-		notifications = new JTextPane();
-	    animation = new ImageIcon(this.getClass().getResource(Constants.images + "animation" + Constants.gif));
+		notificationList = new Vector<String>();
+		for ( int i = 0; i < 30; i++){
+			notificationList.add("Notification " + Integer.toString(i));
+		}
+		notifications = new JList<String>(notificationList);
+		notificationLabel = new JLabel("Notifications");
+		
+	    animation = new ImageIcon(Constants.images + "animation" + Constants.gif);
 	    animationLabel = new JLabel(animation);
-	    topPanel = new TopPanel(client.getUser());
-	    chatPanel = new ChatPanel(client);
-	}
-
-	private void colorizeComponents() {
-		// TODO change once we get the AppearanceSettings/Constants up and running
-		Color lighterBlue = new Color(49, 71, 112);
-		Color darkBlue = new Color(49, 59, 71);
-		Color offWhite = new Color(221, 221, 221);
-		
-		notifications.setBackground(lighterBlue);
-	}
-	private void createGUI() {
-
-		setSize(1280, 720);
-		setLayout(new BorderLayout());
-		add(topPanel);
-		add(chatPanel);
-		
-		JPanel centerPane = new JPanel();
-		centerPane.setBackground(new Color(128, 128, 128));
-		add(centerPane, BorderLayout.CENTER);
-		
-		notifications.setText("notifications n' shit");
-		
-		GroupLayout gl_centerPane = new GroupLayout(centerPane);
-		gl_centerPane.setHorizontalGroup(
-			gl_centerPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_centerPane.createSequentialGroup()
-					.addGap(32)
-					.addComponent(notifications, GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
-					.addGap(27)
-					.addComponent(animationLabel, GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
-					.addGap(29))
-		);
-		gl_centerPane.setVerticalGroup(
-			gl_centerPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_centerPane.createSequentialGroup()
-					.addGap(67)
-					.addGroup(gl_centerPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(animationLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(notifications, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE))
-					.addGap(149))
-		);
-		centerPane.setLayout(gl_centerPane);
-		
-		// Modify the news box:
-		notifications.setEnabled(false);
-		
 	}
 	
+	private void createGUI() {
+
+		setSize(1280, 504);
+		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+		setBackground(AppearanceConstants.lightBlue);
+				
+		JScrollPane listPane = new JScrollPane(notifications);
+		JPanel leftPanel = new JPanel();
+		JPanel notificationPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+		notificationPanel.setLayout(new BorderLayout());
+		
+		//Set borders
+		listPane.setBorder(null);
+		notifications.setBorder(new EmptyBorder(5,5,5,5));
+		notificationLabel.setBorder(new EmptyBorder(10,0,0,0));
+				
+		AppearanceSettings.setSize(500, 400, notificationPanel);
+		notificationPanel.setMaximumSize(new Dimension(500,400));
+		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, notificationPanel, notifications,
+				leftPanel, listPane);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, listPane, notifications,
+				notificationLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontLarge, notificationLabel);
+		AppearanceSettings.setCenterAlignment(notificationLabel);
+		notifications.setFont(AppearanceConstants.fontSmall);
+
+		//LeftPanel Adding
+		leftPanel.add(notificationLabel);
+		leftPanel.add(new JSeparator(JSeparator.HORIZONTAL));
+
+		notificationPanel.add(leftPanel, BorderLayout.NORTH);
+		notificationPanel.add(listPane, BorderLayout.CENTER);
+
+		//Adding to normal panel
+		add(Box.createHorizontalStrut(50));
+		add(notificationPanel);
+		add(Box.createGlue());
+		add(animationLabel);
+		add(Box.createHorizontalStrut(50));
+	}
+	
+	public void addActionListeners(){
+		notifications.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		notifications.setSelectionModel(new DisabledItemSelectionModel());
+	}
 	
 	public void appendNotification(String message) {
 		

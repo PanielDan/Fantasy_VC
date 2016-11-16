@@ -23,10 +23,14 @@ public class IntroPanel extends JPanel {
 	JButton hostButton, joinButton, singleButton;
 	JPanel eastPanel, centerPanel;
 	
-	IntroPanel() {
+	public IntroPanel() {
 		initializeComponents();
 		createGUI();
 		addEvents();
+	}
+	
+	public static void main(String[] args) {
+		new IntroPanel().setVisible(true);
 	}
 	
 	private void initializeComponents() {

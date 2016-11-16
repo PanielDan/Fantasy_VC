@@ -16,6 +16,7 @@ public class ChatMessage extends Message {
 	private String message;
 
 	public ChatMessage(String username, String message) {
+		super(MessageType.chatMessage);
 		this.username = username;
 		this.message = message;
 	}

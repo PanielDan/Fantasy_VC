@@ -43,6 +43,10 @@ public class QuarterlyGUI extends JFrame{
 		addActionListeners();
 	}
 	
+	public static void main(String[] args) {
+		new QuarterlyGUI().setVisible(true);
+	}
+	
 	private void initializeComponents() {
 		setSize(1280, 720);
 		this.setLayout(new BorderLayout());

@@ -6,7 +6,7 @@ package messages;
  * @author alancoon
  *
  */
-public class ClientExitMessage extends Message {
+public class AuctionDetailsUpdateUserMessage extends Message {
 
 	/**
 	 * 
@@ -15,8 +15,8 @@ public class ClientExitMessage extends Message {
 	
 	private String username;
 	
-	public ClientExitMessage(String username) {
-		super(MessageType.clientExit);
+	public AuctionDetailsUpdateUserMessage(String username) {
+		super(MessageType.AuctionDetailsUpdateUser);
 		this.username = username;
 	}
 	

@@ -1,27 +1,30 @@
 package guis;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import client.Client;
 import gameplay.User;
-import listeners.TextFieldFocusListener;
 import messages.ChatMessage;
+import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
 /**
@@ -45,9 +48,10 @@ public class ChatPanel extends JPanel {
 	private JTextField input;
 	private JButton submit;
 	
-	public ChatPanel(Client client) { 
+	public ChatPanel(Client client, User user) { 
 		this.client = client;
-		this.user = client.getUser();
+		//Changed this b/c we can get a user from the client on a non-networked game.
+		this.user = user;
 		initializeComponents();
 		createGUI();
 		addEvents();
@@ -60,8 +64,21 @@ public class ChatPanel extends JPanel {
 	 */
 	private void initializeComponents() {
 		input = new JTextField(30);
+		input.setBorder(null);
+		input.setFont(AppearanceConstants.fontSmallest);
+		input.setText("Chat...");
+
 		submit = new JButton("Send");
-		chat = new JTextArea(10, 40);
+		submit.setFont(AppearanceConstants.fontButtonSmall);
+		
+		chat = new JTextArea();
+		chat.setWrapStyleWord(true);
+		chat.setLineWrap(true);
+		chat.setEditable(false);
+		chat.setFont(AppearanceConstants.fontSmallest);
+		//Testing purposes
+		chat.append("hello there everyone");
+
 
 	}
 	
@@ -70,16 +87,18 @@ public class ChatPanel extends JPanel {
 	 */
 	private void colorizeComponents() {
 		// TODO change once we get the AppearanceSettings/Constants up and running
-		Color lighterBlue = new Color(49, 71, 112);
-		Color darkBlue = new Color(49, 59, 71);
-		Color offWhite = new Color(221, 221, 221);
 		
-		submit.setBackground(lighterBlue);
-		submit.setForeground(offWhite);
-		input.setBackground(offWhite);
-		chat.setBackground(offWhite);
+		// Pimp my button
+		AppearanceSettings.unSetBorderOnButtons(submit);
+		AppearanceSettings.setOpaque(submit);
+		submit.setBackground(AppearanceConstants.lightBlue);
 		
-		this.setBackground(darkBlue);
+		input.setBackground(AppearanceConstants.darkBlue);
+		
+		chat.setBackground(AppearanceConstants.darkBlue);
+		
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, submit, chat, input);
+		input.setCaretColor(AppearanceConstants.offWhite);
 	}
 	
 	/**
@@ -88,69 +107,81 @@ public class ChatPanel extends JPanel {
 	private void createGUI() {
 		
 		// Look here
-		setPreferredSize(new Dimension(720, 144));
+		setPreferredSize(new Dimension(1280, 144));
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		setBackground(AppearanceConstants.darkBlue);
+
 		
-		
-		JScrollPane scroll = new JScrollPane();
-		scroll.setMinimumSize(new Dimension(100, 40));
+		JScrollPane scroll = new JScrollPane(chat);
+		scroll.setMaximumSize(new Dimension(1280, 100));
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(input, GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(submit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addContainerGap())))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(scroll, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(input, GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(12)
-							.addComponent(submit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-					.addGap(13))
-		);
-		scroll.setViewportView(chat);
+		scroll.setFocusable(false);
+		scroll.setBorder(new EmptyBorder(5,5,5,5));
+		AppearanceSettings.setSize(1280, 100, scroll);
 		
+		JPanel textFieldPanel = new JPanel();
+		JPanel buttonPanel = new JPanel();
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
+		textFieldPanel.setLayout(new BorderLayout());
+		buttonPanel.setLayout(new BorderLayout());
 		
-		// Wrap the chat box
-		chat.setWrapStyleWord(true);
-		chat.setLineWrap(true);
-		chat.setEditable(false);
-		setLayout(groupLayout);
+		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, scroll, textFieldPanel, buttonPanel,
+				bottomPanel);
+		AppearanceSettings.setSize(1000, 40, textFieldPanel);
+		textFieldPanel.setMaximumSize(new Dimension(1000, 40));
+		AppearanceSettings.setSize(100, 40, buttonPanel);
+		buttonPanel.setMaximumSize(new Dimension(1000, 40));
 		
-		// Pimp my button
-		AppearanceSettings.unSetBorderOnButtons(submit);
-		AppearanceSettings.setOpaque(submit);
+		//Do borders
+		buttonPanel.setBorder(new EmptyBorder(5,5,5,5));
+		input.setBorder(new EmptyBorder(0,5,0,5));
+
+		buttonPanel.add(submit);
+		textFieldPanel.add(input);
+		bottomPanel.add(textFieldPanel);
+		bottomPanel.add(buttonPanel);
 		
+		add(scroll);
+		add( new JSeparator(JSeparator.HORIZONTAL));
+		add(bottomPanel);
+				
 	}
 
 	/**
 	 * Add listeners to the components.
 	 */
 	private void addEvents() {
+		
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
 				System.out.println(message.getUsername() + " says: " + message.getMessage());
 				input.setText("");
+				submit.setEnabled(false);
 				client.sendMessage(message);
 			} 
 		});
-		input.addFocusListener(new TextFieldFocusListener("Chat...", input));
+		
+		//Wrote custom one because it's a bit different than Emma's
+		input.addFocusListener(new FocusListener(){
+
+			@Override
+			public void focusGained(FocusEvent e) {
+		    	if (input.getText().equals("Chat...")) {
+		    		input.setText("");
+		    	}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+		    	if (input.getText().equals("")) {
+		    		input.setText("Chat...");
+		    	}
+			}
+			
+		});
 		input.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) { }
@@ -164,9 +195,12 @@ public class ChatPanel extends JPanel {
 					ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
 					input.setText("");
 					client.sendMessage(message);
+					submit.setEnabled(false);
 				}
 			}
 		});
+		
+		//Document listener for input
 		input.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
@@ -188,7 +222,7 @@ public class ChatPanel extends JPanel {
 			 * which means that it isn't empty.
 			 */
 			private void changed() {
-				submit.setEnabled(input.getForeground().equals(Color.black));
+				submit.setEnabled(!input.getText().equals(""));
 			}
 		});
 	}

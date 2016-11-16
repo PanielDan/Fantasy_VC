@@ -25,10 +25,16 @@ create table Companies (
     description 	varchar(300) not null,
     --  Each company has a starting price. --
     startingPrice 	bigint 		not null,
+<<<<<<< HEAD
+=======
+    --  Each company has an asking price. --
+	askingPrice 	bigint		not null,
+>>>>>>> danny_branch
 	--  Each company has a tier level. ---
     tierLevel  		int(11)		not null
 );
 
+<<<<<<< HEAD
 insert into Companies (imagePath, companyName, description, startingPrice, tierLevel)
 	values ('image', 
 			'Active Recovery', 
@@ -43,3 +49,7 @@ select * from Venture.Companies;
 
 
 
+=======
+select * from Venture.Users;
+select * from Venture.Companies;
+>>>>>>> danny_branch

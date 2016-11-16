@@ -1,26 +1,21 @@
 package messages;
 
+import java.io.Serializable;
+
 /**
  * Send the {@code ClientExitMessage} to all {@code Client} classes 
  * connected to a game when one of the players in the game disconnects.
  * @author alancoon
  *
  */
-public class ClientExitMessage extends Message {
+public class UserInfoPopupMessage extends Message implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String username;
-	
-	public ClientExitMessage(String username) {
-		super(MessageType.clientExit);
-		this.username = username;
-	}
-	
-	public String getUsername() {
-		return username;
+	public UserInfoPopupMessage() {
+		super(MessageType.userInfo);
 	}
 }
