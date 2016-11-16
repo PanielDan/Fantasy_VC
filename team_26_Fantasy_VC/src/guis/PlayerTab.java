@@ -2,7 +2,6 @@ package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -14,7 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
+
+import messages.initiateTradeMessage;
 
 public class PlayerTab extends JComponent{
 	public JTextArea portfolio;
@@ -70,7 +70,7 @@ public class PlayerTab extends JComponent{
 	private void addActionListeners() {
 		trade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				
+				initiateTradeMessage itm = new initiateTradeMessage();
 			}
 		});
 	}

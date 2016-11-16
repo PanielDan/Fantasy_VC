@@ -24,6 +24,8 @@ import javax.swing.event.DocumentListener;
 
 import gameplay.User;
 import listeners.TextFieldFocusListener;
+import messages.LoginMessage;
+import messages.createAccountMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -230,6 +232,9 @@ public class LoginGUI extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
+				LoginMessage lm = new LoginMessage(); //TODO
+				
+				
 				PreparedStatement ps = conn.prepareStatement(queryStatement);
 				ps.setString(1, username.getText().trim());
 				rs = ps.executeQuery();
@@ -267,6 +272,9 @@ public class LoginGUI extends JFrame{
 	private class CreateActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			createAccountMessage cam = new createAccountMessage(); //TODO
+			
+			
 			try {
 				PreparedStatement ps = conn.prepareStatement(queryStatement);
 				ps.setString(1, username.getText().trim());

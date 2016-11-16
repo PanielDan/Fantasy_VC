@@ -17,6 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import messages.QuarterlyReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
  
@@ -124,7 +125,7 @@ public class QuarterlyGUI extends JFrame{
 	private void addActionListeners() {
 		ready.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				
+				QuarterlyReadyMessage qrm = new QuarterlyReadyMessage();
 			}
 		});
 	}

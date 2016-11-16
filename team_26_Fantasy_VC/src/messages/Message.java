@@ -14,7 +14,7 @@ public class Message implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static enum MessageType {addUser, startGame, beginAuction, endGame, clientExit,
 		beginQuarterly, beginTimelapse, chatMessage, quarterlyReady, initiateTrade, login, createGame, userInfo, beginBid, AuctionDetailsUpdateUser,
-		AuctionDetailsUpdateCompany, acceptTrade, declineTrade, lobbyPlayerReady, leaveLobby, hostGame, joinGame}; 
+		AuctionDetailsUpdateCompany, acceptTrade, declineTrade, lobbyPlayerReady, leaveLobby, hostGame, joinGame, createAccount}; 
 	
 	private MessageType type;
 	
