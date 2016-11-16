@@ -27,6 +27,7 @@ public class Constants {
 		  "'s office building burned down!! Oh no!",
 		  " condemned by U.S. Government.", 
 		  " caught evading taxes!",
-		  "'s C.E.O. gambled away company money!"
+		  "'s C.E.O. gambled away company money!",
+		  "'s accountant team can't find important documents!"
 		  };
 }
