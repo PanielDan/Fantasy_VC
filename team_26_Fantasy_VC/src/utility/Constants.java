@@ -4,6 +4,7 @@ public class Constants {
 	public static final String images = "resources/img/";
 	public static final String png = ".png";
 	public static final String gif = ".gif";
+	public static final String currentCapital = "Current Capital: ";
 	public static final Integer COMPANIES_IN_DATABASE = 40;
 	
 	public static final String positiveEvents[] = 
