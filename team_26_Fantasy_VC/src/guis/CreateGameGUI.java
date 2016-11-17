@@ -37,10 +37,6 @@ public class CreateGameGUI extends JFrame{
 		this.setVisible(true);
 	}
 	
-	public static void main(String[] args) {
-		new CreateGameGUI().setVisible(true);
-	}
-	
 	private void initializeComponents() {
 		createLabel = new JLabel("Create Game");
 		lobbyLabel = new JLabel("Lobby Name");
@@ -128,7 +124,14 @@ public class CreateGameGUI extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				CreateGameMessage cgm = new CreateGameMessage();
+				CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()));
+				//TODO send this message
+				dispose();
+			}
+		});
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				dispose();
 			}
 		});
 	}
