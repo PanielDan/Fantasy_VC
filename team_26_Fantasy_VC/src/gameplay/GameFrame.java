@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import client.Client;
 import guis.AuctionTeamList;
 import guis.ChatPanel;
+import guis.IntroPanel;
 import guis.TopPanel;
 import listeners.ExitWindowListener;
 
@@ -52,7 +53,7 @@ public class GameFrame extends JFrame {
 	}
 	
 	public GameFrame(Client client) {
-		super("Venture Capital");
+		super("Venture Capital Online");
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new ExitWindowListener(this, client));
@@ -67,7 +68,7 @@ public class GameFrame extends JFrame {
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		
-		AuctionTeamList main = new AuctionTeamList(null);
+		IntroPanel main = new IntroPanel();
 		
 		chatbox.setBackground(Color.GRAY);
 		
