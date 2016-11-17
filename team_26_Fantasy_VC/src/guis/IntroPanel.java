@@ -12,12 +12,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import gameplay.GameFrame;
 import messages.HostGameMessage;
 import messages.JoinGameMessage;
 import utility.AppearanceConstants;
@@ -26,15 +28,13 @@ public class IntroPanel extends JPanel {
 	JLabel lobbyLabel, hostLabel, sizeLabel, playerLabel;
 	JButton hostButton, joinButton;
 	JPanel eastPanel, centerPanel;
+	public GameFrame gameFrame;
 	
-	public IntroPanel() {
+	public IntroPanel(GameFrame gameFrame) {
+		this.gameFrame = gameFrame;
 		initializeComponents();
 		createGUI();
 		addEvents();
-	}
-	
-	public static void main(String[] args) {
-		new IntroPanel().setVisible(true);
 	}
 	
 	private void initializeComponents() {
@@ -102,11 +102,14 @@ public class IntroPanel extends JPanel {
 		hostButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				HostGameMessage hgm = new HostGameMessage();
+				new CreateGameGUI().setVisible(true);
+				
 			}
 		});
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				JoinGameMessage jgm = new JoinGameMessage();
+				//gameFrame.changePanel(new LobbyPanel(gameFrame));
 			}
 		});
 	}
