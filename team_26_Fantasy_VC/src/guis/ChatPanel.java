@@ -178,13 +178,13 @@ public class ChatPanel extends JPanel {
 					if (!input.getText().isEmpty() && !input.getText().equals("Chat...")) {
 						ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
 						System.out.println(message.getUsername() + " says: " + message.getMessage());
-						input.setText("");
+						input.setText("Chat...");
 						submit.setEnabled(false);
 						client.sendMessage(message);
 					}
 				} else {
 					addChat(user.getUsername(), input.getText());
-					input.setText("");
+					input.setText("Chat...");
 					submit.setEnabled(false);
 				}
 			} 
@@ -195,15 +195,16 @@ public class ChatPanel extends JPanel {
 
 			@Override
 			public void focusGained(FocusEvent e) {
-		    	if (input.getText().equals("Chat...")) {
+//		    	if (input.getText().equals("Chat...")) {
 		    		input.setText("");
-		    	}
+//		    	}
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
 		    	if (input.getText().equals("")) {
 		    		input.setText("Chat...");
+		    		submit.setEnabled(false);
 		    	}
 			}
 			
@@ -218,7 +219,7 @@ public class ChatPanel extends JPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if (!input.getText().trim().equals("")) {
+					if (!input.getText().trim().equals("") && !input.getText().trim().equals("Chat...")) {
 						if (networked) {
 							ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
 							input.setText("");
