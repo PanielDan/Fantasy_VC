@@ -9,6 +9,10 @@ import java.util.Vector;
 import gameplay.Company;
 import gameplay.User;
 import messages.AuctionBidUpdateMessage;
+import messages.AuctionDetailsUpdateCompanyMessage;
+import messages.AuctionDetailsUpdateUserMessage;
+import messages.BeginAuctionBidMessage;
+import messages.BeginAuctionMessage;
 import messages.ChatMessage;
 import messages.Message;
 import messages.Message.MessageType;
@@ -62,12 +66,29 @@ public class Client extends Thread {
 				if(m.getType() == MessageType.chatMessage){
 					ChatMessage cm = (ChatMessage)m;
 				}
-				//User info popup
+				//User info pop up
 				else if (m.getType() == MessageType.userInfo){
 					UserInfoPopupMessage uipm = (UserInfoPopupMessage)m;
 				}
+				//Update Auction Bid
 				else if (m.getType() == MessageType.AuctionBidUpdate){
 					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage)m;
+				}
+				//Update Auction Details to display Company Information
+				else if (m.getType() == MessageType.AuctionDetailsUpdateCompany){
+					AuctionDetailsUpdateCompanyMessage aducm = (AuctionDetailsUpdateCompanyMessage)m;
+				}				
+				//Update Auction Details to display User Information
+				else if (m.getType() == MessageType.AuctionDetailsUpdateUser){
+					AuctionDetailsUpdateUserMessage abuum = (AuctionDetailsUpdateUserMessage)m;
+				}
+				//Transition to Auction List screen
+				else if (m.getType() == MessageType.beginAuction){
+					BeginAuctionMessage bam = (BeginAuctionMessage)m;
+				}
+				//Transition to Auction Bid screen
+				else if (m.getType() == MessageType.beginBid){
+					BeginAuctionBidMessage babm = (BeginAuctionBidMessage)m;
 				}
 			}
 
