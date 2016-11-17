@@ -1,11 +1,17 @@
 # CS 201 Student Repository
 
-- **Name**: Tommy Trojan
-- **USC ID**: 1234567890
-- **Email**: ttrojan@usc.edu
-- Danny Pan
-- Tim Lew
-- Jeffrey Chen
-- Aaron Shrock
-- Alan Coon
- 
+- **Danny Pan**
+- **USC ID**: 
+- **Email**:
+- **Tim Lew**
+- **USC ID**: 
+- **Email**:
+- **Jeffrey Chen**
+- **USC ID**: 
+- **Email**:
+- **Aaron Shrock**
+- **USC ID**: 
+- **Email**:
+- **Alan Coon**
+- **USC ID**: 7561574891
+- **Email**: alancoon@usc.edu
