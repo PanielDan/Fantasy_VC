@@ -58,8 +58,8 @@ public class ExitWindowListener extends WindowAdapter{
 				 String name = client.getUser().getUsername();
 				 ClientExitMessage message = new ClientExitMessage(name);
 				 client.sendMessage(message);
-				 System.exit(0);
 			 }
+			 System.exit(0);
 		 }
 	 }
 }
