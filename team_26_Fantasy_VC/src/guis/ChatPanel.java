@@ -158,7 +158,7 @@ public class ChatPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
 				System.out.println(message.getUsername() + " says: " + message.getMessage());
-				input.setText("");
+				input.setText("Chat...");
 				submit.setEnabled(false);
 				client.sendMessage(message);
 			} 
@@ -193,7 +193,7 @@ public class ChatPanel extends JPanel {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
-					input.setText("");
+					input.setText("Chat...");
 					client.sendMessage(message);
 					submit.setEnabled(false);
 				}
