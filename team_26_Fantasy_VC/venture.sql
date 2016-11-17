@@ -19,26 +19,16 @@ create table Companies (
 	-- 	Companies are uniquely identified by an ID. --
     companyID		int(11)		primary key not null auto_increment,
     --  Each company has a filepath/URL to their logo. --
-    imagePath		varchar(60) not null,
+    imagePath		varchar(100) not null,
 	--  Each company has a name. --
     companyName		varchar(45) not null,
     --  Each company has a text description. --
-    description 	varchar(300) not null,
+    description 	longtext not null,
     --  Each company has a starting price. --
     startingPrice 	bigint 		not null,
 	--  Each company has a tier level. ---
     tierLevel  		int(11)		not null
 );
 
-insert into Companies (imagePath, companyName, description, startingPrice, tierLevel)
-	values ('image', 
-			'Active Recovery', 
-            'Active Recovery Inc. is a medium sized biomedical engineering company, specializing in rehabilitative technology for athletes and soldiers.  They are looking to sell equity to fuel new development. ',
-            25000,
-            3);
-
-
-select * from Venture.Users;
-select * from Venture.Companies;
 
 
