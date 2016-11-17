@@ -83,7 +83,8 @@ public class AuctionTeamList extends JPanel {
 		//Variables for middle panel
 		middleFirmPicture = new JLabel();
 		middleFirmPicture.setPreferredSize(new Dimension(100,100));
-		firmCurrentMoney = new JLabel(Constants.currentCapital + Double.toString(gameFrame.user.getCurrentCapital()));
+		firmCurrentMoney = new JLabel(Constants.currentCapital + Double.toString(gameFrame.user.getCurrentCapital()) +
+				 Constants.million);
 		middleFirmName = new JLabel("JMoney Capital");
 		purchasedFirmsLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		purchasedFirms = new Vector<String>();
@@ -133,10 +134,10 @@ public class AuctionTeamList extends JPanel {
 	
 	//All of this just has to be updated with user images from company and user objects.
 	private void intializePictures(){
-		ImageIcon jeffrey = new ImageIcon("images/profile.png");
+		ImageIcon jeffrey = new ImageIcon("resources/img/profile.png");
 		Image firmIcon = jeffrey.getImage();
 		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
-		ImageIcon alliance = new ImageIcon("images/lobbies.png");
+		ImageIcon alliance = new ImageIcon("resources/img/lobbies.png");
 		Image companyIcon = alliance.getImage();
 		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
 		
@@ -457,8 +458,15 @@ public class AuctionTeamList extends JPanel {
 					client.sendMessage(new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()).getName()));
 				} else {
 					int selectedRow = firmData.getSelectedRow();
+					firmData.setRowSelectionInterval(0, 0);
+					DefaultTableModel dtm = (DefaultTableModel) firmData.getModel();
+					dtm.removeRow(selectedRow);
+
 					purchasedFirms.add(companyVect.get(selectedRow).getName());
 					purchasedCompanysList.setListData(purchasedFirms);
+					double newMoney = gameFrame.user.getCurrentCapital() - companyVect.get(selectedRow).getAskingPrice();
+					gameFrame.header.setCurrentCapital(newMoney);
+					firmCurrentMoney.setText(Constants.currentCapital + Double.toString(newMoney) + Constants.million);
 				}
 				
 				

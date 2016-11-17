@@ -45,6 +45,7 @@ public class TopPanel extends JPanel {
 	private BufferedImage avatar;
 	private JButton userIcon;
 	private Client client;
+	private User user;
 	
 	private final boolean networked;
 	
@@ -69,6 +70,7 @@ public class TopPanel extends JPanel {
 		initializeComponents(guest);
 		createGUI();
 		addActionListeners();
+		user = guest;
 	}
 
 	private void initializeComponents(User user) {
@@ -87,7 +89,7 @@ public class TopPanel extends JPanel {
 		}
 		*/		
 		//Logo here
-		currentCapital = new JLabel(Constants.currentCapital + "50,000,000");
+		currentCapital = new JLabel(Constants.currentCapital + user.getCurrentCapital() + Constants.million);
 		currentCapital.setForeground(AppearanceConstants.offWhite);
 		currentCapital.setFont(AppearanceConstants.fontHeaderMoney);
 		//AppearanceSettings.setCenterAlignment(currentCapital);
@@ -179,7 +181,7 @@ public class TopPanel extends JPanel {
 		});
 	}
 	
-	private void setCurrentCapital(double Amount){
-		currentCapital.setText(Constants.currentCapital + Double.toString(Amount));
+	public void setCurrentCapital(double Amount){
+		currentCapital.setText(Constants.currentCapital + Double.toString(Amount) + Constants.million);
 	}
 }

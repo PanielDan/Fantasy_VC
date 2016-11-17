@@ -24,12 +24,12 @@ public class TestFrame extends JFrame{
 		super("Test Frame");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1280,720);
-		User user = new User(1, "Tims", "test",1,1,1000);
+		User user = new User(1, "Tim Lewd", "test");
 		networked = true;
 		Client client = null;
 		
-		JPanel header = new TopPanel(client);
-		JPanel chatbox = new ChatPanel(client);
+		JPanel header = new TopPanel(user);
+		JPanel chatbox = new ChatPanel(user);
 
 		//AuctionTeamList main = new AuctionTeamList(null);
 		AuctionBidScreen main = new AuctionBidScreen();
