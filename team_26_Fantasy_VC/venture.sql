@@ -25,11 +25,19 @@ create table Companies (
     description 	varchar(300) not null,
     --  Each company has a starting price. --
     startingPrice 	bigint 		not null,
-    --  Each company has an asking price. --
-	askingPrice 	bigint		not null,
 	--  Each company has a tier level. ---
     tierLevel  		int(11)		not null
 );
 
+insert into Companies (imagePath, companyName, description, startingPrice, tierLevel)
+	values ('image', 
+			'Active Recovery', 
+            'Active Recovery Inc. is a medium sized biomedical engineering company, specializing in rehabilitative technology for athletes and soldiers.  They are looking to sell equity to fuel new development. ',
+            25000,
+            3);
+
+
 select * from Venture.Users;
 select * from Venture.Companies;
+
+

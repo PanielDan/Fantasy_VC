@@ -1,12 +1,12 @@
 package messages;
 
-public class initiateTradeMessage extends Message{
+public class InitiateTradeMessage extends Message{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public initiateTradeMessage() {
+	public InitiateTradeMessage() {
 		super(MessageType.initiateTrade);
 	}
 }

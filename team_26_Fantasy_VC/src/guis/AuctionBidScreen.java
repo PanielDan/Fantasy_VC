@@ -72,11 +72,11 @@ public class AuctionBidScreen extends JPanel {
 		maximumBidIcon = new JLabel();
 		
 		//Testing code
-		ImageIcon alliance = new ImageIcon("images/Alliance_Logo.jpg");
+		ImageIcon alliance = new ImageIcon("resources/img/lobbies.png");
 		Image companyIcon = alliance.getImage();
 		companyPicture.setIcon(new ImageIcon(companyIcon.getScaledInstance(150, 150,  java.awt.Image.SCALE_SMOOTH)));
 		
-		ImageIcon tim = new ImageIcon("images/Tim.png");
+		ImageIcon tim = new ImageIcon("resources/img/profile.png");
 		Image firmIcon = tim.getImage();
 		maximumBidIcon.setIcon(new ImageIcon(firmIcon.getScaledInstance(75, 75,  java.awt.Image.SCALE_SMOOTH)));
 
@@ -91,7 +91,7 @@ public class AuctionBidScreen extends JPanel {
 		firmBid = new JLabel[4];
 		
 		//INTIALIZED FOR TESTING PURPOSES
-		ImageIcon tim = new ImageIcon("images/Tim.png");
+		ImageIcon tim = new ImageIcon("resources/img/profile.png");
 		Image firmIcon = tim.getImage();
 
 		for(int i = 0; i < 4; i++){
@@ -102,8 +102,8 @@ public class AuctionBidScreen extends JPanel {
 			
 			AppearanceSettings.setBackground(AppearanceConstants.darkBlue, firmPicture[i],firmName[i],firmBid[i]);
 			AppearanceSettings.setForeground(AppearanceConstants.offWhite,firmName[i],firmBid[i]);
-			firmName[i].setFont(new Font("Avenir Bold", Font.PLAIN, 20));
-			firmBid[i].setFont(new Font("Avenir Bold", Font.PLAIN, 18));
+			firmName[i].setFont(AppearanceConstants.fontFirmName);
+			firmBid[i].setFont(AppearanceConstants.fontBidAmount);
 			AppearanceSettings.setCenterAlignment(firmPicture[i],firmName[i],firmBid[i]);
 			AppearanceSettings.setSize(100,100,firmPicture[i]);
 			firmPicture[i].setMaximumSize(new Dimension(100,100));
@@ -141,7 +141,7 @@ public class AuctionBidScreen extends JPanel {
 		timePanel.setMaximumSize(new Dimension(200,60));
 		
 		timer.setForeground(AppearanceConstants.offWhite);
-		timer.setFont(new Font("Avenir", Font.BOLD, 48));
+		timer.setFont(AppearanceConstants.fontTimerMedium);
 		AppearanceSettings.setCenterAlignment(timer);
 		
 		timePanel.add(timer);
@@ -258,7 +258,7 @@ public class AuctionBidScreen extends JPanel {
 				//buttonPanel.setLayout(new BorderLayout());
 				bidButton.setOpaque(true);
 				bidButton.setForeground(AppearanceConstants.offWhite);
-				bidButton.setFont(new Font("Avenir", Font.BOLD,12));
+				bidButton.setFont(AppearanceConstants.fontSmallBidButton);
 				bidButton.setBackground(new Color(51,102,0));
 				bidButton.setBorderPainted(false);
 				bidButton.setVerticalAlignment(SwingConstants.TOP);
