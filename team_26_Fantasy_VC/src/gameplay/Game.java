@@ -30,8 +30,8 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private List<User> users;
-	private List<Company> companies;
+	private Vector<User> users;
+	private Vector<Company> companies;
 	int currentQuarter;
 	
 	//Constructor for not networked game
@@ -138,6 +138,10 @@ public class Game implements Serializable {
 		}
 		
 		//TODO send message to all clients containing the new game and User updates
+	}
+	
+	public Vector<Company> getCompanies() {
+		return companies;
 	}
 	
 	/**

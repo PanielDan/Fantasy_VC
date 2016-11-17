@@ -88,5 +88,9 @@ public class GameFrame extends JFrame {
 		repaint();
 		
 	}
+	
+	public Game getGame() {
+		return game;
+	}
 
 }
