@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import gameplay.User;
+import guis.AuctionBidScreen;
 import guis.ChatPanel;
-import guis.TimelapsePanel;
 import guis.TopPanel;
 
 public class TestFrame extends JFrame{
@@ -23,14 +23,14 @@ public class TestFrame extends JFrame{
 		super("Test Frame");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1280,720);
-		User user = new User(1, "test", "test",1,1,1000);
+		User user = new User(1, "Tims", "test",1,1,1000);
 		networked = true;
 		
 		JPanel header = new TopPanel(null, user);
 		JPanel chatbox = new ChatPanel(null, user);
 		//AuctionTeamList main = new AuctionTeamList(null);
-		//AuctionBidScreen main = new AuctionBidScreen();
-		TimelapsePanel main = new TimelapsePanel(null);
+		AuctionBidScreen main = new AuctionBidScreen();
+		//TimelapsePanel main = new TimelapsePanel(null);
 		
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
