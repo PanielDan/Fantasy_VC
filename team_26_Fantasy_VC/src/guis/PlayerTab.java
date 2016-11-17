@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,7 +16,7 @@ import javax.swing.JTextArea;
 import gameplay.GameFrame;
 import messages.InitiateTradeMessage;
 
-public class PlayerTab extends JComponent{
+public class PlayerTab extends JPanel{
 	public JTextArea portfolio;
 	public JButton trade;
 	public String playerName;
@@ -76,7 +75,7 @@ public class PlayerTab extends JComponent{
 		trade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				qg.setVisible(false);
-				gameFrame.switchToTrade(qg);
+				gameFrame.changePanel(new TradeGUI(qg));
 				//System.out.println("TRADE");
 				InitiateTradeMessage itm = new InitiateTradeMessage();
 			}

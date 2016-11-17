@@ -28,8 +28,13 @@ public class TestFrame extends JFrame{
 		networked = true;
 		Client client = null;
 		
+<<<<<<< HEAD
 		JPanel header = new TopPanel(client);
 		JPanel chatbox = new ChatPanel(client);
+=======
+		JPanel header = new TopPanel(user);
+		JPanel chatbox = new ChatPanel(user);
+>>>>>>> dcb6c329f2dbc4ba1e1eb743fcb0daa718664f0b
 		//AuctionTeamList main = new AuctionTeamList(null);
 		AuctionBidScreen main = new AuctionBidScreen();
 		//TimelapsePanel main = new TimelapsePanel(null);
