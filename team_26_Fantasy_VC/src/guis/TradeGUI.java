@@ -20,7 +20,7 @@ import messages.AcceptTradeMessage;
 import messages.DeclineTradeMessage;
 import messages.QuarterlyReadyMessage;
 
-public class TradeGUI extends JFrame {
+public class TradeGUI extends JPanel {
 	public JPanel tradePanel;
 	public JPanel team1Portfolio, team2Portfolio, sending, receiving;
 	public JPanel notificationsAndReadyPanel;

@@ -23,6 +23,7 @@ public class GameFrame extends JFrame {
 	private static final long serialVersionUID = 1;
 	public static Boolean networked;
 	public Game game;
+	public JPanel currentPanel;
 
 	/**
 	 * Single player.
@@ -72,21 +73,25 @@ public class GameFrame extends JFrame {
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		
 		IntroPanel main = new IntroPanel();
+		currentPanel = main;
 		
 		chatbox.setBackground(Color.GRAY);
 		
 		add(header, BorderLayout.NORTH);
 		add(chatbox, BorderLayout.SOUTH);
-		add(main, BorderLayout.CENTER);
+		add(currentPanel, BorderLayout.CENTER);
 		
 		setVisible(true);
 	}
-
-	public void switchToTrade(QuarterlyGUI qg) {
-		TradeGUI main = new TradeGUI(qg);
-		add(main, BorderLayout.CENTER);
+	
+	
+	public void changePanel(JPanel panel) {
+		remove(currentPanel);
+		currentPanel = panel;
+		add(currentPanel, BorderLayout.CENTER);
+		// must repaint or the change won't show
 		repaint();
-		
+		revalidate();
 	}
 	
 	public Game getGame() {
