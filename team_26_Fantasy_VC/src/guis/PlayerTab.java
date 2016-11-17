@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import messages.initiateTradeMessage;
+import messages.InitiateTradeMessage;
 
 public class PlayerTab extends JComponent{
 	public JTextArea portfolio;
@@ -70,7 +70,7 @@ public class PlayerTab extends JComponent{
 	private void addActionListeners() {
 		trade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				initiateTradeMessage itm = new initiateTradeMessage();
+				InitiateTradeMessage itm = new InitiateTradeMessage();
 			}
 		});
 	}

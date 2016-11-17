@@ -12,14 +12,11 @@ public class BeginQuarterlyMessage extends Message {
 	private Game game;
 	
 	public BeginQuarterlyMessage(Game game) {
+		super(MessageType.beginQuarterly);
 		this.game = game;
 	}
 	
 	public Game getGame() { 
 		return game;
-	}
-		
-	public BeginQuarterlyMessage() {
-		super(MessageType.beginQuarterly);
 	}
 }

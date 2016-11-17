@@ -24,8 +24,8 @@ import javax.swing.event.DocumentListener;
 
 import gameplay.User;
 import listeners.TextFieldFocusListener;
+import messages.CreateAccountMessage;
 import messages.LoginMessage;
-import messages.createAccountMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -272,7 +272,7 @@ public class LoginGUI extends JFrame{
 	private class CreateActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			createAccountMessage cam = new createAccountMessage(); //TODO
+			CreateAccountMessage cam = new CreateAccountMessage(); //TODO
 			
 			
 			try {

@@ -18,7 +18,7 @@ import javax.swing.JSeparator;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import messages.hostGameMessage;
+import messages.HostGameMessage;
 import messages.joinGameMessage;
 import utility.AppearanceConstants;
 
@@ -103,7 +103,7 @@ public class IntroPanel extends JPanel {
 	private void addEvents() {
 		hostButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				hostGameMessage hgm = new hostGameMessage();
+				HostGameMessage hgm = new HostGameMessage();
 			}
 		});
 		joinButton.addActionListener(new ActionListener() {

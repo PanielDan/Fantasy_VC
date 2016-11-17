@@ -16,9 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import messages.DeclineTradeMessage;
 import messages.QuarterlyReadyMessage;
 import messages.acceptTradeMessage;
-import messages.declineTradeMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -154,7 +154,7 @@ public class TradeGUI extends JFrame {
 		
 		decline.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				declineTradeMessage dtm = new declineTradeMessage();
+				DeclineTradeMessage dtm = new DeclineTradeMessage();
 			}
 		});
 		

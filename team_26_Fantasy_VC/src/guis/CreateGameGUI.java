@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import messages.createGameMessage;
+import messages.CreateGameMessage;
 import utility.AppearanceConstants;
 
 public class CreateGameGUI extends JFrame{
@@ -128,7 +128,7 @@ public class CreateGameGUI extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				createGameMessage cgm = new createGameMessage();
+				CreateGameMessage cgm = new CreateGameMessage();
 			}
 		});
 	}
