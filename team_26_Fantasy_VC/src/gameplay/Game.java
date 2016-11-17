@@ -32,7 +32,7 @@ public class Game implements Serializable {
 
 	private Vector<User> users;
 	private Vector<Company> companies;
-	int currentQuarter;
+	public int currentQuarter;
 	
 	//Constructor for not networked game
 	public Game() {
