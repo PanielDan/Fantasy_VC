@@ -14,7 +14,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,9 +33,11 @@ import javax.swing.table.DefaultTableModel;
 import client.Client;
 import gameplay.Company;
 import gameplay.GameFrame;
+import listeners.DisabledItemSelectionModel;
 import messages.BeginAuctionBidMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
+import utility.Constants;
 
 /*
  * Author: Danny Pan
@@ -82,7 +83,7 @@ public class AuctionTeamList extends JPanel {
 		//Variables for middle panel
 		middleFirmPicture = new JLabel();
 		middleFirmPicture.setPreferredSize(new Dimension(100,100));
-		firmCurrentMoney = new JLabel("Current Capital: $50,000,000");
+		firmCurrentMoney = new JLabel(Constants.currentCapital + Double.toString(gameFrame.user.getCurrentCapital()));
 		middleFirmName = new JLabel("JMoney Capital");
 		purchasedFirmsLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		purchasedFirms = new Vector<String>();
@@ -93,7 +94,7 @@ public class AuctionTeamList extends JPanel {
 		companyVect = gameFrame.getGame().getCompanies();
 		for(int i = 0; i < companyVect.size(); i++){
 			dtm.addRow(new Object[]{companyVect.get(i).getName(), Integer.toString(companyVect.get(i).getTierLevel()),
-					Integer.toString(companyVect.get(i).getStartingPrice())});
+					Double.toString(companyVect.get(i).getStartingPrice())});
 		}
 		firmData = new JTable(dtm);
 		firmData.setBackground(AppearanceConstants.darkBlue);
@@ -437,7 +438,7 @@ public class AuctionTeamList extends JPanel {
 	        	String[] columnNames = {"",""};
 	        	DefaultTableModel dtm = new DefaultTableModel(companyData,columnNames);
 	   	       	detailsCompanyInfo.setModel(dtm);
-	        	
+	   	       		        	
 				CardLayout cardLayout = (CardLayout)companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Company");
 	        }
@@ -456,6 +457,8 @@ public class AuctionTeamList extends JPanel {
 					client.sendMessage(new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()).getName()));
 				} else {
 					int selectedRow = firmData.getSelectedRow();
+					purchasedFirms.add(companyVect.get(selectedRow).getName());
+					purchasedCompanysList.setListData(purchasedFirms);
 				}
 				
 				
@@ -466,16 +469,4 @@ public class AuctionTeamList extends JPanel {
 		//We might have to add empty action listeners to the tables to prevent
 		//editing of data
 	}
-	
-	//List selection model so purchased firms in details can't be clicked
-	private class DisabledItemSelectionModel extends DefaultListSelectionModel {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-	    public void setSelectionInterval(int index0, int index1) {
-	        super.setSelectionInterval(-1, -1);
-	    }
-	}
-	
-	//Add more functions for networked message updating.
 }

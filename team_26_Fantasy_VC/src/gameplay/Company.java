@@ -17,10 +17,10 @@ import utility.Constants;
 public class Company {
 	
 	private String image, name, description;
-	private int startingPrice, askingPrice, currentWorth, tierLevel, delta;
+	private double startingPrice, askingPrice, currentWorth;
+	private int delta, tierLevel;
 	
-	private long longStartingPrice;
-	public Company(String image, String name, String description, int startingPrice, int delta, int tierLevel) {
+	public Company(String image, String name, String description, double startingPrice, int delta, int tierLevel) {
 		this.image = image;
 		this.name = name;
 		this.description = description;
@@ -33,11 +33,11 @@ public class Company {
 	
 
 
-	public Company(String imagePath, String companyName, String description, int startingPrice, int tierLevel) {
+	public Company(String imagePath, String companyName, String description, double startingPrice, int tierLevel) {
 		this.image = imagePath;
 		this.name = companyName;
 		this.description = description;
-		this.longStartingPrice = startingPrice;
+		this.startingPrice = startingPrice;
 		this.tierLevel = tierLevel;
 		askingPrice = startingPrice; //asking price = startingPrice at beginning of auction
 		currentWorth = startingPrice; //the current worth starts at startingPrice
@@ -77,15 +77,15 @@ public class Company {
 		return description;
 	}
 	
-	public int getStartingPrice() {
+	public double getStartingPrice() {
 		return startingPrice;
 	}
 	
-	public int getAskingPrice() {
+	public double getAskingPrice() {
 		return askingPrice;
 	}
 	
-	public int getCurrentWorth() {
+	public double getCurrentWorth() {
 		return currentWorth;
 	}
 	

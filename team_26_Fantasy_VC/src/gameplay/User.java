@@ -20,15 +20,14 @@ public class User {
 	private int gamesWon;
 	private long totalProfit;
 	private Vector<Company> companies;
+	private double currentCapital;
 	
-	public User(int id, String username, String password, int gamesPlayed, int gamesWon, long totalProfit) {
+	public User(int id, String username, String password) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.gamesPlayed = gamesPlayed;
-		this.gamesWon = gamesWon;
-		this.totalProfit = totalProfit;
 		companies = new Vector<Company>();
+		currentCapital = 100.0;
 	}
 
 	/**
@@ -73,6 +72,20 @@ public class User {
 	 */
 	public synchronized long getTotalProfit() { 
 		return totalProfit;
+	}
+	
+	/**
+	 * @return The user's username.
+	 */
+	public synchronized double getCurrentCapital() {
+		return currentCapital;
+	}
+	
+	/**
+	 * @return The user's username.
+	 */
+	public synchronized void setUsername(double amount) {
+		currentCapital = amount;
 	}
 	
 	

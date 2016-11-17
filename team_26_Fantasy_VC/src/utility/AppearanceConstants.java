@@ -17,23 +17,23 @@ public class AppearanceConstants {
 	public static final Color mediumGray = new Color(100, 100, 100);
 	public static final Color darkGray = new Color(31,31,31);
 	
-	public static final Font fontSmall = new Font("Avenir", Font.BOLD,18);
-	public static final Font fontHeaderName = new Font("Avenir Bold", Font.ITALIC,20);
-	public static final Font fontHeaderMoney = new Font("Avenir", Font.ITALIC,16);
-	public static final Font fontSmallest = new Font("Avenir", Font.BOLD,14);
-	public static final Font fontMedium = new Font("Avenir", Font.BOLD, 22);
-	public static final Font fontLarge = new Font("Avenir", Font.BOLD, 30);
-	public static final Font fontHeader = new Font("Avenir Bold", Font.ITALIC, 40);
-	public static final Font fontHeaderUser = new Font("Avenir Bold", Font.ITALIC, 28);
-	public static final Font fontButtonSmall = new Font("Avenir Bold", Font.PLAIN, 14);
-	public static final Font fontButtonMedium = new Font("Avenir Bold", Font.BOLD, 18);
-	public static final Font fontButtonBig = new Font("Avenir Bold", Font.PLAIN, 24);
-	public static final Font fontSmallBidButton = new Font("Avenir", Font.BOLD,12);
-	public static final Font fontLargeBidButton = new Font("Avenir Bold", Font.BOLD,24);
-	public static final Font fontBidAmount = new Font("Avenir Bold", Font.PLAIN, 18);
-	public static final Font fontFirmName = new Font("Avenir Bold", Font.PLAIN, 20);
-	public static final Font fontTimerMedium = new Font("Avenir", Font.BOLD, 48);
-	public static final Font fontTimerLarge = new Font("Avenir", Font.BOLD, 60);
+	public static final Font fontSmall = new Font("Century Gothic", Font.PLAIN,18);
+	public static final Font fontHeaderName = new Font("Century Gothic", Font.ITALIC,20);
+	public static final Font fontHeaderMoney = new Font("Century Gothic", Font.ITALIC,16);
+	public static final Font fontSmallest = new Font("Century Gothic", Font.PLAIN,14);
+	public static final Font fontMedium = new Font("Century Gothic", Font.PLAIN, 22);
+	public static final Font fontLarge = new Font("Century Gothic", Font.PLAIN, 30);
+	public static final Font fontHeader = new Font("Century Gothic", Font.ITALIC, 40);
+	public static final Font fontHeaderUser = new Font("Century Gothic", Font.ITALIC, 28);
+	public static final Font fontButtonSmall = new Font("Century Gothic", Font.PLAIN, 14);
+	public static final Font fontButtonMedium = new Font("Century Gothic", Font.PLAIN, 18);
+	public static final Font fontButtonBig = new Font("Century Gothic", Font.PLAIN, 24);
+	public static final Font fontSmallBidButton = new Font("Century Gothic", Font.PLAIN,12);
+	public static final Font fontLargeBidButton = new Font("Century Gothic", Font.PLAIN,24);
+	public static final Font fontBidAmount = new Font("Century Gothic", Font.PLAIN, 18);
+	public static final Font fontFirmName = new Font("Century Gothic", Font.PLAIN, 20);
+	public static final Font fontTimerMedium = new Font("Century Gothic", Font.PLAIN, 48);
+	public static final Font fontTimerLarge = new Font("Century Gothic", Font.PLAIN, 60);
 
 	
 	//added a blue border variable used in StartWindowGUI

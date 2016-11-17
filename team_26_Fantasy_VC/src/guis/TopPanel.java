@@ -87,7 +87,7 @@ public class TopPanel extends JPanel {
 		}
 		*/		
 		//Logo here
-		currentCapital = new JLabel(Constants.currentCapital + "$50,000,000");
+		currentCapital = new JLabel(Constants.currentCapital + "50,000,000");
 		currentCapital.setForeground(AppearanceConstants.offWhite);
 		currentCapital.setFont(AppearanceConstants.fontHeaderMoney);
 		//AppearanceSettings.setCenterAlignment(currentCapital);
@@ -179,7 +179,7 @@ public class TopPanel extends JPanel {
 		});
 	}
 	
-	private void setCurrentCapital(int Amount){
-		currentCapital.setText(Constants.currentCapital + Integer.toString(Amount));
+	private void setCurrentCapital(double Amount){
+		currentCapital.setText(Constants.currentCapital + Double.toString(Amount));
 	}
 }
