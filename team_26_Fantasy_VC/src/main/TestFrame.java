@@ -19,7 +19,7 @@ public class TestFrame extends JFrame{
 	private static final long serialVersionUID = 1000;
 	public static Boolean networked;
 	
-	public TestFrame(){
+	public TestFrame() {
 		super("Test Frame");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1280,720);

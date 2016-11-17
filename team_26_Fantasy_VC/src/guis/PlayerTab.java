@@ -23,11 +23,13 @@ public class PlayerTab extends JComponent{
 	public ImageIcon playerIcon;
 	public JPanel playerInfo;
 	public Vector<String> assets;
+	public QuarterlyGUI qg;
 	
-	public PlayerTab(String playerName, ImageIcon playerIcon, Vector<String> assets) {
+	public PlayerTab(String playerName, ImageIcon playerIcon, Vector<String> assets, QuarterlyGUI qg) {
 		this.playerName = playerName;
 		this.playerIcon = playerIcon;
 		this.assets = assets;
+		this.qg = qg;
 		initializeComponents();
 		createGUI();
 		addActionListeners();
@@ -70,6 +72,10 @@ public class PlayerTab extends JComponent{
 	private void addActionListeners() {
 		trade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				qg.setVisible(false);
+				TradeGUI tg = new TradeGUI(qg);
+				tg.setVisible(true);
+				//System.out.println("TRADE");
 				InitiateTradeMessage itm = new InitiateTradeMessage();
 			}
 		});

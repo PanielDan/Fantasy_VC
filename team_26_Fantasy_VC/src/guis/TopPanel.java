@@ -46,16 +46,31 @@ public class TopPanel extends JPanel {
 	private JButton userIcon;
 	private Client client;
 	
+	private final boolean networked;
+	
 	/**
-	 * Create the panel.
+	 * Multiplayer.
+	 * @param client
 	 */
-	public TopPanel(Client client, User user) {
+	public TopPanel(Client client) {
 		this.client = client;
-		initializeComponents(user);
+		this.networked = true;
+		initializeComponents(client.getUser());
 		createGUI();
 		addActionListeners();
 	}
 	
+	/**
+	 * Single player.
+	 * @param guest
+	 */
+	public TopPanel(User guest) {
+		this.networked = false;
+		initializeComponents(guest);
+		createGUI();
+		addActionListeners();
+	}
+
 	private void initializeComponents(User user) {
 		
 		/*	TODO

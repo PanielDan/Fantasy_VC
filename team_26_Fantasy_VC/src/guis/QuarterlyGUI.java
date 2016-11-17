@@ -21,7 +21,7 @@ import messages.QuarterlyReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
  
-public class QuarterlyGUI extends JFrame{
+public class QuarterlyGUI extends JPanel{
 	public JPanel chatPanel;
 	public JPanel notificationsAndReadyPanel;
 	private JLabel timer;
@@ -38,7 +38,6 @@ public class QuarterlyGUI extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	public QuarterlyGUI() {
-		super("Fantasy VC");
 		initializeComponents();
 		createGUI();
 		addActionListeners();
@@ -49,35 +48,34 @@ public class QuarterlyGUI extends JFrame{
 	}
 	
 	private void initializeComponents() {
-		setSize(1280, 720);
+		setSize(1280, 504);
 		this.setLayout(new BorderLayout());
 		tabbedPane = new JTabbedPane();
 		updatesTextArea = new JTextArea();
-		chatPanel = new JPanel();
-		titlePanel = new JPanel();
 		notificationsAndReadyPanel = new JPanel();
 		ready = new JButton("Ready");
-		timer = new JLabel("00:10", SwingConstants.CENTER);
+		timer = new JLabel("Timer");
 	}
 	
 	private void createGUI() {
 		JScrollPane updatesScrollPane = new JScrollPane(updatesTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		updatesTextArea.setEditable(false);
 		
 		//TODO temporary icon
 		ImageIcon icon = new ImageIcon("src/14705784_10210522380393027_557234648620204411_n.jpg");
 		Vector<String> assets = new Vector();
 		assets.addElement("Portfolio Contents:");
-		panel1 = new PlayerTab("Tim", icon, assets);
+		panel1 = new PlayerTab("Tim", icon, assets, this);
 		tabbedPane.add("Player 1 Name", panel1);
 		
-		panel2 = new PlayerTab("Danny", icon, assets);
+		panel2 = new PlayerTab("Danny", icon, assets, this);
 		tabbedPane.add("Player 2 Name", panel2);
 		
-		panel3 = new PlayerTab("Jeff", icon, assets);
+		panel3 = new PlayerTab("Jeff", icon, assets, this);
 		tabbedPane.add("Player 3 Name", panel3);
 		
-		panel4 = new PlayerTab("Alan", icon, assets);
+		panel4 = new PlayerTab("Alan", icon, assets, this);
 		tabbedPane.add("Player 4 Name", panel4);
 	
 		freeAgents = new JPanel();
@@ -85,9 +83,6 @@ public class QuarterlyGUI extends JFrame{
 		
 	
 		
-		// Create chat Panel 
-		JLabel chat = new JLabel("CHAT PANEL");
-		chatPanel.add(chat);
 		
 		//Create notificationsAndReadyPanel
 		notificationsAndReadyPanel.setLayout(new BorderLayout());
@@ -96,29 +91,14 @@ public class QuarterlyGUI extends JFrame{
 		notificationsAndReadyPanel.add(updatesTextArea, BorderLayout.SOUTH);
 		sendUpdate("Notifications Tray");
 		
-		
-		
-		//ADD SOMETHING HERE.
-		
-		
-		
-		JLabel titleLabel = new JLabel("Fantasy VC");
-		titlePanel.add(titleLabel);
-		
-		titlePanel.setPreferredSize(new Dimension(1, 72));
-		chatPanel.setPreferredSize(new Dimension(1, 144));
 		notificationsAndReadyPanel.setPreferredSize(new Dimension(300, 1));
 		updatesTextArea.setPreferredSize(new Dimension(1, 400));
 		
-		add(titlePanel, BorderLayout.NORTH);
-		add(chatPanel, BorderLayout.SOUTH);
 		add(tabbedPane, BorderLayout.CENTER);
 		add(notificationsAndReadyPanel, BorderLayout.EAST);
-		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, chatPanel, titlePanel);
-		AppearanceSettings.setFont(AppearanceConstants.fontLarge, titleLabel);
+
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, timer);
-		chat.setForeground(Color.WHITE);
-		titleLabel.setForeground(Color.WHITE);
+		
 		ready.setBackground(Color.GREEN);	
 	}
 	
