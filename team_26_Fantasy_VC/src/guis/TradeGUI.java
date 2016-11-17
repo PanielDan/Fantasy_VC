@@ -117,9 +117,8 @@ public class TradeGUI extends JFrame {
 		accept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				// Swap players
-				
 				AcceptTradeMessage atm = new AcceptTradeMessage();
-				
+				//Switch players here
 			}
 		});
 		
