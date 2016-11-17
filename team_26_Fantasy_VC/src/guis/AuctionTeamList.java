@@ -90,8 +90,11 @@ public class AuctionTeamList extends JPanel {
 					Integer.toString(companyVect.get(i).getStartingPrice())});
 		}
 		firmData = new JTable(dtm);
+		firmData.setBackground(AppearanceConstants.darkBlue);
+		firmData.setForeground(AppearanceConstants.darkBlue);
+		firmData.setFont(AppearanceConstants.fontSmallest);
 
-				
+
 		
 		//Test Values for Purchased Firms
 		for (int i = 0; i < 5; i++){
