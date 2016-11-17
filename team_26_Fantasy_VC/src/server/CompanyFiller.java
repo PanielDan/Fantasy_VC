@@ -29,6 +29,8 @@ public class CompanyFiller {
 			
 			file.close();
 			scanner.close();
+			
+			driver.getCompanies();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
