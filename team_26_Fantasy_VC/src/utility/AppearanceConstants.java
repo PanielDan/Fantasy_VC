@@ -18,6 +18,8 @@ public class AppearanceConstants {
 	public static final Color darkGray = new Color(31,31,31);
 	
 	public static final Font fontSmall = new Font("Avenir", Font.BOLD,18);
+	public static final Font fontHeaderName = new Font("Avenir Bold", Font.ITALIC,20);
+	public static final Font fontHeaderMoney = new Font("Avenir", Font.ITALIC,16);
 	public static final Font fontSmallest = new Font("Avenir", Font.BOLD,14);
 	public static final Font fontMedium = new Font("Avenir", Font.BOLD, 22);
 	public static final Font fontLarge = new Font("Avenir", Font.BOLD, 30);

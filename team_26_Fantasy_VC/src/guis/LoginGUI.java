@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TextFieldFocusListener;
 import messages.CreateAccountMessage;
@@ -233,7 +234,7 @@ public class LoginGUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			try {
 				LoginMessage lm = new LoginMessage(); //TODO
-				
+				System.out.println("Attempting login.");
 				
 				PreparedStatement ps = conn.prepareStatement(queryStatement);
 				ps.setString(1, username.getText().trim());
@@ -311,7 +312,8 @@ public class LoginGUI extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			/* Guest users will have an ID of -1. */
-			new IntroPanel().setVisible(true);
+			User guest = new User(-1, "Guest User", "Guest Password", 0, 0, 0L);
+			new GameFrame(guest).setVisible(true);
 			dispose();
 		}
 	}

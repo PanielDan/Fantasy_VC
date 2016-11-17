@@ -21,8 +21,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import gameplay.User;
-import messages.leaveLobbyMessage;
-import messages.lobbyPlayerReadyMessage;
+import messages.LeaveLobbyMessage;
+import messages.LobbyPlayerReadyMessage;
 import utility.AppearanceConstants;
 
 public class LobbyPanel extends JPanel{
@@ -37,7 +37,7 @@ public class LobbyPanel extends JPanel{
 	JTextField firmField;
 	JButton readyButton, inviteButton, leaveButton;
 	
-	LobbyPanel() {
+	public LobbyPanel() {
 		initializeComponents();
 		createGUI();
 		addEvents();
@@ -123,13 +123,13 @@ public class LobbyPanel extends JPanel{
 	private void addEvents() {
 		readyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				lobbyPlayerReadyMessage lprm = new lobbyPlayerReadyMessage();
+				LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage();
 			}
 		});
 				
 		leaveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				leaveLobbyMessage llm = new leaveLobbyMessage();
+				LeaveLobbyMessage llm = new LeaveLobbyMessage();
 			}
 		});
 				

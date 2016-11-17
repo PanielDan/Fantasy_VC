@@ -1,6 +1,6 @@
 package main;
 
-import guis.LoginGUI;
+import guis.CreateGameGUI;
 
 /**
  * Run the {@code Main} class to play the game.
@@ -8,10 +8,10 @@ import guis.LoginGUI;
  *
  */ 
 public class Main {
-	/*
+	
 	public static void main(String[] args) {
-		new LoginGUI().setVisible(true);
+		new CreateGameGUI().setVisible(true);
 	}
-	*/
+	
 
 }

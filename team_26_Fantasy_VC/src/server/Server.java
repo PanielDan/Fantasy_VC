@@ -122,8 +122,8 @@ public class Server extends Thread {
 	}
 	
 	public void allClientsUpdateLobbyStatus(String message) {
-		for (ServerClientCommunicator thread : serverThreads) {
-			thread.sendMessage(new Message(0, message));
+		for (ServerClientCommunicator scc : serverClientCommunicators) {
+			scc.sendMessage(new Message(0, message));
 		}
 	}
 
@@ -139,7 +139,7 @@ public class Server extends Thread {
 		/* Decide the first player to pick a team. */
 		int firstTurn = Math.abs(rand.nextInt()) % numberOfPlayers;
 		
-		for (ServerClientCommunicator scc : serverClientCommunicator) {
+		for (ServerClientCommunicator scc : serverClientCommunicators) {
 			StartMainGUIMessage message = new StartMainGUIMessage();
 			message.setTeamNames(teamNames);
 			message.setNumberOfQuestions(numberOfQuestions);

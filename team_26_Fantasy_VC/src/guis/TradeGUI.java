@@ -16,42 +16,38 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import messages.AcceptTradeMessage;
 import messages.DeclineTradeMessage;
 import messages.QuarterlyReadyMessage;
-import messages.acceptTradeMessage;
-import utility.AppearanceConstants;
-import utility.AppearanceSettings;
 
 public class TradeGUI extends JFrame {
 	public JPanel tradePanel;
-	public JPanel chatPanel;
 	public JPanel team1Portfolio, team2Portfolio, sending, receiving;
 	public JPanel notificationsAndReadyPanel;
 	private JButton accept, decline, ready;
 	private JLabel timer;
 	private JLabel team1, team2, send, receive;
-	public JPanel titlePanel;
 	public JTextArea updatesTextArea;
+	public boolean networked;
+	public QuarterlyGUI qg;
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TradeGUI() {
-		super("Fantasy VC");
+	public TradeGUI(QuarterlyGUI qg) {
+		this.qg = qg;
 		initializeComponents();
 		createGUI();
 		addActionListeners();
 	}
 	
 	private void initializeComponents() {
-		setSize(1280, 720);
+		setSize(1280, 504);
 		this.setLayout(new BorderLayout());
 		tradePanel = new JPanel();
 		updatesTextArea = new JTextArea();
-		chatPanel = new JPanel();
-		titlePanel = new JPanel();
 		notificationsAndReadyPanel = new JPanel();
 		team1Portfolio = new JPanel();
 		team2Portfolio = new JPanel();
@@ -66,7 +62,6 @@ public class TradeGUI extends JFrame {
 		team2 = new JLabel("team 2");
 		send = new JLabel("send");
 		receive = new JLabel("receive");
-		
 		timer = new JLabel("00:10", SwingConstants.CENTER);
 	}
 	
@@ -99,12 +94,7 @@ public class TradeGUI extends JFrame {
 		buttonsPanel.add(accept);
 		buttonsPanel.add(decline);
 		tradePanel.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		
-		// Create chat Panel //TODO Temporary
-		JLabel chat = new JLabel("CHAT PANEL");
-		chatPanel.add(chat);
-		
+
 		//Create notificationsAndReadyPanel
 		notificationsAndReadyPanel.setLayout(new BorderLayout());
 		notificationsAndReadyPanel.add(timer, BorderLayout.NORTH);
@@ -112,49 +102,33 @@ public class TradeGUI extends JFrame {
 		notificationsAndReadyPanel.add(updatesTextArea, BorderLayout.SOUTH);
 		sendUpdate("Notifications Tray");
 		
-		
-		
-		//ADD SOMETHING HERE.
-		
-		
-		
-		JLabel titleLabel = new JLabel("Fantasy VC");
-		titlePanel.add(titleLabel);
-		
-		titlePanel.setPreferredSize(new Dimension(1, 72));
-		chatPanel.setPreferredSize(new Dimension(1, 144));
 		notificationsAndReadyPanel.setPreferredSize(new Dimension(300, 1));
 		updatesTextArea.setPreferredSize(new Dimension(1, 400));
-		
-		add(titlePanel, BorderLayout.NORTH);
-		add(chatPanel, BorderLayout.SOUTH);
 		add(tradePanel, BorderLayout.CENTER);
 		add(notificationsAndReadyPanel, BorderLayout.EAST);
-		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, chatPanel, titlePanel);
-		AppearanceSettings.setFont(AppearanceConstants.fontLarge, titleLabel);
-		AppearanceSettings.setFont(AppearanceConstants.fontMedium, timer);
-		chat.setForeground(Color.WHITE);
-		titleLabel.setForeground(Color.WHITE);
 		ready.setBackground(Color.GREEN);
 		accept.setBackground(Color.GREEN);
 		decline.setBackground(Color.RED);
 		accept.setPreferredSize(new Dimension(200, 30));
 		decline.setPreferredSize(new Dimension(200, 30));
-		
-		
-		
 	}
 	
 	private void addActionListeners() {
 		accept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				acceptTradeMessage atm = new acceptTradeMessage();
+				// Swap players
+				
+				AcceptTradeMessage atm = new AcceptTradeMessage();
+				
 			}
 		});
 		
 		decline.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				DeclineTradeMessage dtm = new DeclineTradeMessage();
+				//Do nothing 
+				setVisible(false);
+				qg.setVisible(true);
 			}
 		});
 		

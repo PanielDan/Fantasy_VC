@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,6 +20,7 @@ import gameplay.User;
 import messages.UserInfoPopupMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
+import utility.Constants;
 
 /**
  * The {@code TopPanel} is a {@code JPanel} that borders the top of the screen 
@@ -39,21 +41,36 @@ public class TopPanel extends JPanel {
 
 	
 	private JLabel title, fantasyVCLogo;
-	private JLabel username;
+	private JLabel username, currentCapital;
 	private BufferedImage avatar;
 	private JButton userIcon;
 	private Client client;
 	
+	private final boolean networked;
+	
 	/**
-	 * Create the panel.
+	 * Multiplayer.
+	 * @param client
 	 */
-	public TopPanel(Client client, User user) {
+	public TopPanel(Client client) {
 		this.client = client;
-		initializeComponents(user);
+		this.networked = true;
+		initializeComponents(client.getUser());
 		createGUI();
 		addActionListeners();
 	}
 	
+	/**
+	 * Single player.
+	 * @param guest
+	 */
+	public TopPanel(User guest) {
+		this.networked = false;
+		initializeComponents(guest);
+		createGUI();
+		addActionListeners();
+	}
+
 	private void initializeComponents(User user) {
 		
 		/*	TODO
@@ -70,6 +87,11 @@ public class TopPanel extends JPanel {
 		}
 		*/		
 		//Logo here
+		currentCapital = new JLabel(Constants.currentCapital + "$50,000,000");
+		currentCapital.setForeground(AppearanceConstants.offWhite);
+		currentCapital.setFont(AppearanceConstants.fontHeaderMoney);
+		//AppearanceSettings.setCenterAlignment(currentCapital);
+		
 		fantasyVCLogo = new JLabel();
 		fantasyVCLogo.setBorder(new EmptyBorder(0,5,0,0));
 		ImageIcon logo = new ImageIcon("resources/img/FantasyVC.png");
@@ -92,7 +114,7 @@ public class TopPanel extends JPanel {
 		//Username formatting
 		username = new JLabel(user.getUsername());
 		username.setBorder(new EmptyBorder(5,5,5,5));
-		username.setFont(AppearanceConstants.fontHeaderUser);
+		username.setFont(AppearanceConstants.fontHeaderName);
 		//username.setHorizontalAlignment(SwingConstants.CENTER);
 		username.setForeground(AppearanceConstants.offWhite);
 		
@@ -113,10 +135,22 @@ public class TopPanel extends JPanel {
 		setBackground(AppearanceConstants.darkBlue);
 		setLayout(new BorderLayout());
 		
+		JPanel name = new JPanel();
+		name.setBackground(AppearanceConstants.darkBlue);
+		name.setLayout(new BorderLayout());
+		name.add(username, BorderLayout.EAST);
+		
+		//Hold both Namae and Capital;
+		JPanel nameAndCapital = new JPanel();
+		nameAndCapital.setLayout(new BoxLayout(nameAndCapital, BoxLayout.PAGE_AXIS));
+		nameAndCapital.setBackground(AppearanceConstants.darkBlue);
+		nameAndCapital.add(name);
+		nameAndCapital.add(currentCapital);
+		
 		//Sub pane just need flow layout
 		JPanel rightPane = new JPanel();
 		rightPane.setBackground(AppearanceConstants.darkBlue);
-		rightPane.add(username);
+		rightPane.add(nameAndCapital);
 		rightPane.add(userIcon);
 		
 		JPanel leftPane = new JPanel();
