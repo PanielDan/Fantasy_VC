@@ -18,7 +18,7 @@ public class Message implements Serializable {
 		AuctionDetailsUpdateCompany, acceptTrade, declineTrade, lobbyPlayerReady, leaveLobby, hostGame, joinGame, createAccount}; 
 =======
 		beginQuarterly, beginTimelapse, chatMessage, quarterlyReady, initiateTrade, login, createGame,
-		userInfo, beginBid, AuctionDetailsUpdateUser, AuctionDetailsUpdateCompany};
+		userInfo, beginBid, AuctionDetailsUpdateUser, AuctionDetailsUpdateCompany, AuctionBidUpdate};
 
 >>>>>>> e185bcfed0f3653b6cc75ba7e0d8d9b0278f4dd5
 	

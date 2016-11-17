@@ -288,8 +288,14 @@ public class AuctionBidScreen extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				// TODO Need to send out the message to update the bid amount
+				/*
+				if(networked){
+					client.sendMessage(new AuctionBidUpdateMessage())
+				} else {
+					
+				}
+				*/
 			}
 			
 		});
