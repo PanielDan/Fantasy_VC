@@ -8,10 +8,7 @@ import javax.swing.JOptionPane;
 
 import client.Client;
 import messages.ClientExitMessage;
-<<<<<<< HEAD
 import utility.AppearanceConstants;
-=======
-<<<<<<< HEAD
 
 
 /**
@@ -22,19 +19,14 @@ import utility.AppearanceConstants;
  * @author alancoon
  *
  */
-=======
-import util.AppearanceConstants;
->>>>>>> e185bcfed0f3653b6cc75ba7e0d8d9b0278f4dd5
 
 
 //pop-up for when user clicks the red X on a frame
->>>>>>> danny_branch
 public class ExitWindowListener extends WindowAdapter{
 
 	private JFrame frame;
 	private Client client;
 	private final boolean isMultiplayer;
-<<<<<<< HEAD
 	
 	/**
 	 * We have overloaded constructors so if you pass in a {@code Client},
@@ -44,51 +36,30 @@ public class ExitWindowListener extends WindowAdapter{
 	 * {@code ExitWindowListener} to.
 	 * @param client The {@code Client} that the {@code JFrame} belongs to.
 	 */
-=======
->>>>>>> danny_branch
 	public ExitWindowListener(JFrame frame, Client client) {
 		this.frame = frame;
 		this.client = client;
 		this.isMultiplayer = true;
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * Single player guest mode.
 	 * @param frame The frame that you want to add the {@code ExitWindowListener} to.
 	 */
-=======
->>>>>>> danny_branch
 	public ExitWindowListener(JFrame frame) {
 		this.frame = frame;
 		this.isMultiplayer = false;
 	}
 	
 	 public void windowClosing(WindowEvent e) {
-<<<<<<< HEAD
-		 int answer = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
-=======
-<<<<<<< HEAD
 		 int answer = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
 		 if (answer == JOptionPane.YES_OPTION) {
 			 if (isMultiplayer) {
 				 String name = client.getUser().getUsername();
 				 ClientExitMessage message = new ClientExitMessage(name);
 				 client.sendMessage(message);
+				 System.exit(0);
 			 }
-=======
-		 int answer = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, AppearanceConstants.exitIcon);
->>>>>>> e185bcfed0f3653b6cc75ba7e0d8d9b0278f4dd5
-	     
-		 if (isMultiplayer) {
-			 String name = client.getFirmName();
-			 ClientExitMessage message = new ClientExitMessage("tempusername");
-			 client.sendMessage(message);
-		 }
-		 
-		 if (answer == JOptionPane.YES_OPTION){
->>>>>>> danny_branch
-			 System.exit(0);
 		 }
 	 }
 }
