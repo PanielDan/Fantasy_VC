@@ -178,4 +178,8 @@ public class TopPanel extends JPanel {
 			}
 		});
 	}
+	
+	private void setCurrentCapital(int Amount){
+		currentCapital.setText(Constants.currentCapital + Integer.toString(Amount));
+	}
 }

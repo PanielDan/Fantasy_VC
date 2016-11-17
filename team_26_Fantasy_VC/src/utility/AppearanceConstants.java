@@ -26,6 +26,7 @@ public class AppearanceConstants {
 	public static final Font fontHeader = new Font("Avenir Bold", Font.ITALIC, 40);
 	public static final Font fontHeaderUser = new Font("Avenir Bold", Font.ITALIC, 28);
 	public static final Font fontButtonSmall = new Font("Avenir Bold", Font.PLAIN, 14);
+	public static final Font fontButtonMedium = new Font("Avenir Bold", Font.BOLD, 18);
 	public static final Font fontButtonBig = new Font("Avenir Bold", Font.PLAIN, 24);
 	public static final Font fontSmallBidButton = new Font("Avenir", Font.BOLD,12);
 	public static final Font fontLargeBidButton = new Font("Avenir Bold", Font.BOLD,24);

@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,6 +34,7 @@ import javax.swing.table.DefaultTableModel;
 import client.Client;
 import gameplay.Company;
 import gameplay.GameFrame;
+import messages.BeginAuctionBidMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -69,9 +71,12 @@ public class AuctionTeamList extends JPanel {
 	private void intializeVariables(){
 		
 		//Variables for left panel
-		timer = new JLabel("0:45", SwingConstants.CENTER);
+		timer = new JLabel("GUEST", SwingConstants.CENTER);
 		firms = new Vector<String>();
-		testDraftOrder();
+		if(gameFrame.networked){
+			testDraftOrder();
+			timer.setText("0:45");
+		}
 		firmList = new JList<String>(firms);
 		
 		//Variables for middle panel
@@ -94,16 +99,9 @@ public class AuctionTeamList extends JPanel {
 		firmData.setBackground(AppearanceConstants.darkBlue);
 		firmData.setForeground(AppearanceConstants.darkBlue);
 		firmData.setFont(AppearanceConstants.fontSmallest);
-
-
-		
-		//Test Values for Purchased Firms
-		for (int i = 0; i < 5; i++){
-			purchasedFirms.add("Firm " + Integer.toString(i));
-		}
 		
 		//Placed down here for testing purposes
-		purchasedCompanysList = new JList<String>(purchasedFirms);
+		purchasedCompanysList = new JList<String>();
 
 		
 		//Variables for firm details
@@ -114,26 +112,30 @@ public class AuctionTeamList extends JPanel {
 		detailsPurchasedLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		detailsCompanyPicture = new JLabel();
 		detailsCompanyPicture.setPreferredSize(new Dimension(100,100));
-		detailsCompanyName = new JLabel("Alliance Pharmaceuticals",SwingConstants.CENTER);
-		detailsCompanyBio = new JTextArea("Alliance Pharmaceuticals an American large-cap business driven biomedical research corporation focused on the discovery of innovative medicine. Alliance is looking for a large investment to fund an expansion into european laboritories to further drug creation.");
+		detailsCompanyName = new JLabel();
+		detailsCompanyBio = new JTextArea();
 		detailsCompanyBio.setLineWrap(true);
 		detailsCompanyBio.setEditable(false);
 		detailsCompanyBio.setWrapStyleWord(true);
 		detailsCompanyInfo = new JTable();
+		detailsCompanyInfo.setForeground(AppearanceConstants.darkBlue);
+		detailsCompanyInfo.setFont(AppearanceConstants.fontSmallest);
+		
 		bidButton = new JButton("BID");
 		
 		//Initialized here to purchased firms for testing purposes.
 		detailsFirmPurchasedList = new JList<String>(purchasedFirms);
 		
 		intializePictures();
+
 	}
 	
 	//All of this just has to be updated with user images from company and user objects.
 	private void intializePictures(){
-		ImageIcon jeffrey = new ImageIcon("images/Jeffrey.png");
+		ImageIcon jeffrey = new ImageIcon("images/profile.png");
 		Image firmIcon = jeffrey.getImage();
 		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
-		ImageIcon alliance = new ImageIcon("images/Alliance_Logo.jpg");
+		ImageIcon alliance = new ImageIcon("images/lobbies.png");
 		Image companyIcon = alliance.getImage();
 		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
 		
@@ -388,16 +390,9 @@ public class AuctionTeamList extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 	            //TODO Add some sort of function to update detail panel
-	            /*
-	            if (networked){
-	            	//Get the company name;
-	            	client.sendMessage(new AuctionDetailsUpdateUserMessage(firmList.getSelectedRow()));
-	            } else{
-	            	
-	            }
-	            */
-				/*
-				detailsFirmPicture.setIcon(icon);
+				
+				/*needs list of users.
+				detailsFirmPicture.setIcon(gameFrame.getGame());
 				detailsFirmName.setText(text);
 				detailsFirmCurrentMoney.setText(text);
 				*/
@@ -414,16 +409,6 @@ public class AuctionTeamList extends JPanel {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-	            //TODO Add some sort of function to update detail panel
-	            /*
-	            if (networked){
-	            	//Get the company name;
-	            	client.sendMessage(new AuctionDetailsUpdateCompanyMessage(purchasedCompanysList.getSelectedRow()));
-	            } else{
-	            	
-	            }
-	            */
-				
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Company");				
 			}
@@ -433,16 +418,6 @@ public class AuctionTeamList extends JPanel {
 		//Maybe we use a mouse listener? We'll see in the future
 		firmData.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-
-	            //TODO Add some sort of function to update detail panel
-	            /*
-	            if (networked){
-	            	//Get the company name;
-	            	client.sendMessage(new AuctionDetailsUpdateCompanyMessage(firmData.getSelectedRow()));
-	            } else{
-	            	
-	            }
-	            */
 	        	
 	        	int selectedRow = firmData.getSelectedRow();
 	        	detailsCompanyName.setText(companyVect.get(selectedRow).getName());
@@ -451,9 +426,17 @@ public class AuctionTeamList extends JPanel {
 	        	Image icon = companyImage.getImage();
 	        	detailsCompanyPicture.setIcon(new ImageIcon(icon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
 	        	detailsCompanyBio.setText(companyVect.get(selectedRow).getDescription());
-	        	//How to use a JTable
-	        	//detailsCompanyInfo
 	        	
+	        	//detailsCompanyInfo
+	        	Object[][] companyData = {
+	        			{"Name", companyVect.get(selectedRow).getName()},
+	        			{"Tier", companyVect.get(selectedRow).getTierLevel()},
+	        			{"Asking Price", companyVect.get(selectedRow).getAskingPrice()},
+	        			{"Current Worth", companyVect.get(selectedRow).getCurrentWorth()},
+	        	};
+	        	String[] columnNames = {"",""};
+	        	DefaultTableModel dtm = new DefaultTableModel(companyData,columnNames);
+	   	       	detailsCompanyInfo.setModel(dtm);
 	        	
 				CardLayout cardLayout = (CardLayout)companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Company");
@@ -469,13 +452,12 @@ public class AuctionTeamList extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO: Set up bidding screen and transition to bidding screen.
-				/*
-				if(networked){
-					client.sendMessage(new BeginAuctionBidMessage(firmData.getSelectedRow()));
+				if(gameFrame.networked){
+					client.sendMessage(new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()).getName()));
 				} else {
-					//swap to bid auction frame.
+					int selectedRow = firmData.getSelectedRow();
 				}
-				*/
+				
 				
 			}
 			

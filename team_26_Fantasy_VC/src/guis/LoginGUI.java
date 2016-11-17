@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -100,11 +102,13 @@ public class LoginGUI extends JFrame{
 		JPanel textFieldOnePanel = new JPanel();
 		JPanel textFieldTwoPanel = new JPanel();
 		JLabel welcome = new JLabel("Login or create an account to play.", JLabel.CENTER);
-		JLabel ventureLabel = new JLabel("Venture Capital", JLabel.CENTER);
+		JLabel fantasyVCLogo = new JLabel();
+		JLabel ventureLabel = new JLabel("Fantasy VC", JLabel.CENTER);
 		JPanel alertPanel = new JPanel();
 		JPanel textFieldsPanel = new JPanel();
 		JPanel buttonsPanel = new JPanel(new BoxLayout(this, BoxLayout.LINE_AXIS));
-		JPanel welcomePanel = new JPanel(new GridLayout(2, 1));
+		JPanel welcomePanel = new JPanel();
+		welcomePanel.setLayout(new BoxLayout(welcomePanel, BoxLayout.PAGE_AXIS));
 
 		// Set mass component appearances
 		// TODO replace with generalized variables from AppearanceConstants
@@ -113,6 +117,7 @@ public class LoginGUI extends JFrame{
 		Color primaryBackground = AppearanceConstants.lightBlue;
 
 		AppearanceSettings.setForeground(buttonForeground, createAccount, loginButton, guestButton, password, username);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, alertLabel, welcome, ventureLabel);
 		AppearanceSettings.setSize(300, 60, password, username);
 
 		AppearanceSettings.setSize(200, 80, loginButton, createAccount);
@@ -123,14 +128,20 @@ public class LoginGUI extends JFrame{
 		AppearanceSettings.unSetBorderOnButtons(loginButton, createAccount, guestButton);
 
 		AppearanceSettings.setTextAlignment(welcome, alertLabel, ventureLabel);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount, guestButton);
+		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, password, alertLabel, username, loginButton, createAccount, guestButton);
 
 		AppearanceSettings.setBackground(primaryBackground, mainPanel, welcome, alertLabel, ventureLabel, alertPanel, textFieldsPanel, 
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
 
+		//add Logo image
+		ImageIcon logo = new ImageIcon("resources/img/FantasyVC.png");
+		Image logoIcon = logo.getImage();
+		fantasyVCLogo.setIcon(new ImageIcon(logoIcon.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
+
+		
 		// Other appearance settings
 		welcome.setFont(AppearanceConstants.fontMedium);
-		ventureLabel.setFont(AppearanceConstants.fontLarge);
+		ventureLabel.setFont(AppearanceConstants.fontHeader);
 
 		loginButton.setEnabled(false);
 		loginButton.setBackground(AppearanceConstants.mediumGray);
@@ -138,8 +149,9 @@ public class LoginGUI extends JFrame{
 		createAccount.setEnabled(false);
 
 		// Add components to containers
-		welcomePanel.add(welcome);
-		welcomePanel.add(ventureLabel);
+		AppearanceSettings.setCenterAlignment(fantasyVCLogo, ventureLabel, welcome);
+		//Removed the welcome
+		AppearanceSettings.addGlue(welcomePanel, BoxLayout.PAGE_AXIS, true, fantasyVCLogo, ventureLabel);
 
 		alertPanel.add(alertLabel);
 		textFieldOnePanel.add(username);
@@ -155,11 +167,12 @@ public class LoginGUI extends JFrame{
 		buttonsPanel.add(Box.createHorizontalStrut(10));
 		buttonsPanel.add(new JPanel().add(guestButton));
 		
-		AppearanceSettings.addGlue(mainPanel, BoxLayout.PAGE_AXIS, false, welcomePanel);
+		//AppearanceSettings.addGlue(mainPanel, BoxLayout.PAGE_AXIS, false, welcomePanel);
 		// Don't want glue in between the following two panels, so they are not passed in to addGlue
+		mainPanel.add(welcomePanel);
 		mainPanel.add(alertPanel);
-		mainPanel.add(textFieldOnePanel);
-		AppearanceSettings.addGlue(mainPanel, BoxLayout.PAGE_AXIS, false, textFieldTwoPanel);
+		//mainPanel.add(textFieldOnePanel);
+		AppearanceSettings.addGlue(mainPanel, BoxLayout.PAGE_AXIS, true, textFieldOnePanel, textFieldTwoPanel);
 		mainPanel.add(buttonsPanel);
 		
 
