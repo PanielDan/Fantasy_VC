@@ -49,13 +49,13 @@ public class SQLDriver {
 	}
 	
 	// Inserts companies into the DB. Only used by Company Filler.
-	public void insertCompany(String imagePath, String companyName, String description, int startingPrice, int tier) {
+	public void insertCompany(String imagePath, String companyName, String description, double startingPrice, int tier) {
 		try {
 			PreparedStatement ps = con.prepareStatement(addCompany);
 			ps.setString(1, imagePath);
 			ps.setString(2, companyName);
 			ps.setString(3, description);
-			ps.setInt(4, startingPrice);
+			ps.setDouble(4, startingPrice);
 			ps.setInt(5, tier);
 			ps.executeUpdate();
 		} catch(SQLException sqle) {
@@ -76,7 +76,7 @@ public class SQLDriver {
 				String imagePath = rs.getString("imagePath");
 				String companyName = rs.getString("companyName");
 				String description = rs.getString("description");
-				int starting = rs.getInt("startingPrice");
+				double starting = rs.getDouble("startingPrice");
 				int tier = rs.getInt("tierLevel");
 				Company tempComp = new Company(imagePath, companyName, description, starting, tier);
 				companies.add(tempComp);

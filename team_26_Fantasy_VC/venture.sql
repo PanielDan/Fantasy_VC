@@ -25,7 +25,7 @@ create table Companies (
     --  Each company has a text description. --
     description 	longtext not null,
     --  Each company has a starting price. --
-    startingPrice 	bigint 		not null,
+    startingPrice 	double 		not null,
 	--  Each company has a tier level. ---
     tierLevel  		int(11)		not null
 );
