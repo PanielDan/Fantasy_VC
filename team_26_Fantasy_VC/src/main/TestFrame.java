@@ -29,8 +29,13 @@ public class TestFrame extends JFrame{
 		Client client = null;
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 		JPanel header = new TopPanel(client);
 		JPanel chatbox = new ChatPanel(client);
+=======
+		JPanel header = new TopPanel(user);
+		JPanel chatbox = new ChatPanel(user);
+>>>>>>> dcb6c329f2dbc4ba1e1eb743fcb0daa718664f0b
 =======
 		JPanel header = new TopPanel(user);
 		JPanel chatbox = new ChatPanel(user);
