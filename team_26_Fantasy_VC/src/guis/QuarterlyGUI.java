@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
+import gameplay.Game;
 import gameplay.GameFrame;
 import messages.QuarterlyReadyMessage;
 import utility.AppearanceConstants;
@@ -31,6 +32,7 @@ public class QuarterlyGUI extends JPanel{
 	public PlayerTab panel1, panel2, panel3, panel4;
 	public JPanel freeAgents;
 	public GameFrame gameFrame;
+	public Game game;
 	
 	/** Used https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
 	 * 
@@ -99,6 +101,10 @@ public class QuarterlyGUI extends JPanel{
 	private void addActionListeners() {
 		ready.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				game.currentQuarter++;
+				if(game.currentQuarter == 20){
+					//display final for non networked, send message for networked; //TODO
+				}
 				QuarterlyReadyMessage qrm = new QuarterlyReadyMessage();
 			}
 		});
