@@ -262,6 +262,6 @@ public class ChatPanel extends JPanel {
 	}
 	
 	public void addChat(String username, String text) {
-		chat.append(username + ": " + text);
+		chat.append('\n' + username + ": " + text);
 	}
 }
