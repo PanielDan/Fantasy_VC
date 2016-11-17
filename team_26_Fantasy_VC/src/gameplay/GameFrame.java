@@ -22,7 +22,7 @@ public class GameFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1;
 	public static Boolean networked;
-	
+	public Game game;
 
 	/**
 	 * Single player.
@@ -36,6 +36,7 @@ public class GameFrame extends JFrame {
 		setSize(1280, 720);
 		
 		networked = false;
+		game = new Game();
 		
 		JPanel header = new TopPanel(guest);
 		JPanel chatbox = new ChatPanel(guest);

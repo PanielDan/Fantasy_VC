@@ -34,22 +34,81 @@ public class Game implements Serializable {
 	private List<Company> companies;
 	int currentQuarter;
 	
+	//Constructor for not networked game
 	public Game() {
 		currentQuarter = 0;
 		users = new Vector<User>();
 		companies = new Vector<Company>();
+		initializeCompanies();
+	}
+	
+	//constructor for networked game
+	public Game(Vector<User> users) {
+		currentQuarter = 0;
+		this.users = users;
+		companies = new Vector<Company>();
 	}
 	
 	/**
-	 * To be done only on the server side at the beginning
+	 * To be done only on the SERVER side at the beginning
 	 * of the game, initializes all of the companies from the server
 	 */
 	public void initializeCompanies() {
-		CompanyPopulator compPop = new CompanyPopulator();
-		companies = compPop.populate();
+		//TODO UNCOMMENT THESE WHEN NETWORKING IS READY
+		//CompanyPopulator compPop = new CompanyPopulator();
+		//companies = compPop.populate();
+		
+		//DUMMY COMPANIES
+		for(int i = 0; i < 10; i++) {
+			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 1000, 0);
+			companies.add(tmpCompany);
+		}
+		for(int i = 10; i < 20; i++) {
+			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 10000, 1);
+			companies.add(tmpCompany);
+		}
+		for(int i = 20; i < 30; i++) {
+			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 100000, 2);
+			companies.add(tmpCompany);
+		}
+		for(int i = 30; i < 40; i++) {
+			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 1000000, 3);
+			companies.add(tmpCompany);
+		}
+		for(int i = 40; i < 50; i++) {
+			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 10000000, 4);
+			companies.add(tmpCompany);
+		}
+		
+		
 		System.out.println("Companies populated!");
 		System.out.println("Ready to play.");
 		
+	}
+	
+	public Vector<String> updateNonNetworkedCompanies() {
+		Vector<String> output = new Vector<String>();
+		
+		for(Company company : companies) {
+			//update every company
+			String updateText = company.updateCurrentWorth();
+			
+			
+			//update a user's version of the company (if owned)
+			for(User user : users) {
+				for(Company userCompany : user.getCompanies()) {
+					if(userCompany.getName().equals(company.getName())) {
+						userCompany = company;
+					}
+				}
+			}
+			
+			if(updateText != null) {
+				output.add(updateText);
+			}
+		}
+		
+		return output;
 	}
 	
 	/**
@@ -59,7 +118,19 @@ public class Game implements Serializable {
 	 */
 	public void updateCompanies() {
 		for(Company company : companies) {
+			//update every company
 			String updateText = company.updateCurrentWorth();
+			
+			
+			//update a user's version of the company (if owned)
+			for(User user : users) {
+				for(Company userCompany : user.getCompanies()) {
+					if(userCompany.getName().equals(company.getName())) {
+						userCompany = company;
+					}
+				}
+			}
+			
 			if(updateText != null) {
 				//TODO create and send a message to all clients 
 				//telling them to display the updateText on the TimeLapseGUI
@@ -67,6 +138,17 @@ public class Game implements Serializable {
 		}
 		
 		//TODO send message to all clients containing the new game and User updates
+	}
+	
+	/**
+	 * 
+	 * To be done FOR ALL CLIENTS
+	 * updates all of the companies by making them
+	 * the same as the server's already updated companies
+	 */
+	public void updateCompanies(Vector<Company> companies, Vector<User> users) {
+		this.companies = companies;
+		this.users = users;
 	}
 	
 	public void addUser(User user) {
