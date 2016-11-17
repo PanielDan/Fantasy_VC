@@ -16,11 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import messages.AcceptTradeMessage;
 import messages.DeclineTradeMessage;
 import messages.QuarterlyReadyMessage;
-import messages.acceptTradeMessage;
-import utility.AppearanceConstants;
-import utility.AppearanceSettings;
 
 public class TradeGUI extends JFrame {
 	public JPanel tradePanel;
@@ -120,7 +118,7 @@ public class TradeGUI extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				// Swap players
 				
-				acceptTradeMessage atm = new acceptTradeMessage();
+				AcceptTradeMessage atm = new AcceptTradeMessage();
 				
 			}
 		});
