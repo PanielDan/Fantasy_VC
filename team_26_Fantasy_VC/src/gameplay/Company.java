@@ -33,12 +33,15 @@ public class Company {
 	
 
 
-	public Company(String imagePath, String companyName, String description, long startingPrice, int tierLevel) {
+	public Company(String imagePath, String companyName, String description, int startingPrice, int tierLevel) {
 		this.image = imagePath;
 		this.name = companyName;
 		this.description = description;
 		this.longStartingPrice = startingPrice;
 		this.tierLevel = tierLevel;
+		askingPrice = startingPrice; //asking price = startingPrice at beginning of auction
+		currentWorth = startingPrice; //the current worth starts at startingPrice
+
 		
 		switch (tierLevel) { 
 			case 0:
