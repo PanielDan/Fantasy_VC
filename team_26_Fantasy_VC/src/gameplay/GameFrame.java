@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import client.Client;
 import guis.AuctionTeamList;
 import guis.ChatPanel;
+import guis.FinalGUI;
 import guis.IntroPanel;
 import guis.TopPanel;
 import guis.UserInfoGUI;
@@ -42,6 +43,7 @@ public class GameFrame extends JFrame {
 		game = new Game();
 		user = guest;
 		game.addUser(guest);
+		game.addUser(new User(0,"Guest 1","Hello"));
 		
 		header = new TopPanel(this, guest);
 		chatbox = new ChatPanel(guest);
@@ -49,15 +51,14 @@ public class GameFrame extends JFrame {
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		
-		AuctionTeamList main = new AuctionTeamList(null, this);
+		//AuctionTeamList main = new AuctionTeamList(null, this);
+		FinalGUI main = new FinalGUI(this);
 		
 		add(header, BorderLayout.NORTH);
 		add(chatbox, BorderLayout.SOUTH);
 		add(main, BorderLayout.CENTER);
 		
 		setVisible(true);
-		
-		UserInfoGUI uig = new UserInfoGUI(this);
 	}
 	
 	public GameFrame(Client client) {
@@ -77,6 +78,7 @@ public class GameFrame extends JFrame {
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		
 		IntroPanel main = new IntroPanel();
+
 		currentPanel = main;
 		
 		chatbox.setBackground(Color.GRAY);

@@ -81,9 +81,9 @@ public class AppearanceSettings {
 		for (JLabel label : labels) label.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 	
-	public static void setCenterAlignment(JLabel ... labels ){
+	public static void setCenterAlignment(JComponent ... labels ){
 		
-		for (JLabel label : labels) label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		for (JComponent label : labels) label.setAlignmentX(Component.CENTER_ALIGNMENT);
 	}
 	
 	//sets components opaque

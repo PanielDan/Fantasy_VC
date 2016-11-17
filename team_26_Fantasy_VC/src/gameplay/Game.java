@@ -187,4 +187,12 @@ public class Game implements Serializable {
 	public Vector<User> getUsers(){
 		return users;
 	}
+	
+	public User returnUser(String companyName){
+		for(User user: users){
+			if (user.getCompanyName().equals(companyName))
+				return user;
+		}
+		return null;
+	}
 }

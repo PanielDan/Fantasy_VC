@@ -29,6 +29,7 @@ public class User {
 	private double currentCapital;
 	//For the user Text blurb
 	private String userBio;
+	private String companyName;
 	
 	public User(int id, String username, String password) {
 		this.id = id;
@@ -114,6 +115,14 @@ public class User {
 	
 	public void setUsername(String input){
 		username = input;
+	}
+	
+	public void setCompanyName(String input){
+		companyName = input;
+	}
+	
+	public String getCompanyName(){
+		return companyName;
 	}
 	
 	/**

@@ -14,7 +14,8 @@ public class FinalUserButton extends JButton {
 		setOpaque(true);
 		setBorderPainted(false);
 		setBackground(AppearanceConstants.darkBlue);
-		setFont(AppearanceConstants.fontButtonMedium);
+		setForeground(AppearanceConstants.offWhite);
+		setFont(AppearanceConstants.fontButtonBig);
 	}
 	
 	public User getUser(){
