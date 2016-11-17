@@ -126,8 +126,7 @@ public class TradeGUI extends JPanel {
 			public void actionPerformed(ActionEvent ae) {
 				DeclineTradeMessage dtm = new DeclineTradeMessage();
 				//Do nothing 
-				setVisible(false);
-				qg.setVisible(true);
+				qg.gameFrame.changePanel(qg);
 			}
 		});
 		
