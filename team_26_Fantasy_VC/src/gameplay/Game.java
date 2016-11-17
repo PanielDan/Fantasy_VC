@@ -47,6 +47,8 @@ public class Game implements Serializable {
 		CompanyPopulator compPop = new CompanyPopulator();
 		companies = compPop.populate();
 		System.out.println("Companies populated!");
+		System.out.println("Ready to play.");
+		
 	}
 	
 	/**
