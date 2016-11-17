@@ -28,7 +28,7 @@ public class TestFrame extends JFrame{
 		networked = true;
 		Client client = null;
 		
-		JPanel header = new TopPanel(user);
+		JPanel header = new TopPanel(null,user);
 		JPanel chatbox = new ChatPanel(user);
 
 		//AuctionTeamList main = new AuctionTeamList(null);

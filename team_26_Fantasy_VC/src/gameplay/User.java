@@ -1,8 +1,11 @@
 
 package gameplay;
 
+import java.awt.Image;
 import java.util.Comparator;
 import java.util.Vector;
+
+import javax.swing.ImageIcon;
 
 /**
  * The {@code User} class stores information about the logged
@@ -15,12 +18,17 @@ public class User {
 
 	private int id;
 	private String password;
+	//User icon saved as an image, all we need to to pass in the string
+	private Image userIcon;
+	private String userIconString;
 	private String username;
 	private int gamesPlayed;
 	private int gamesWon;
 	private long totalProfit;
 	private Vector<Company> companies;
 	private double currentCapital;
+	//For the user Text blurb
+	private String userBio;
 	
 	public User(int id, String username, String password) {
 		this.id = id;
@@ -75,19 +83,38 @@ public class User {
 	}
 	
 	/**
-	 * @return The user's username.
+	 * @return The user's currentCapital.
 	 */
 	public synchronized double getCurrentCapital() {
 		return currentCapital;
 	}
 	
+	public Image getUserIcon(){
+		 return userIcon;
+	}
+	
+	public void setUserIcon(String input){
+		ImageIcon icon = new ImageIcon(input);
+		userIcon = icon.getImage();
+	}
 	/**
-	 * @return The user's username.
+	 * @set The user's currentCapital.
 	 */
-	public synchronized void setUsername(double amount) {
+	public synchronized void setCurrentCapital(double amount) {
 		currentCapital = amount;
 	}
 	
+	public String getUserBio() {
+		return userBio;
+	}
+	
+	public void setUserBio(String input){
+		userBio = input;
+	}
+	
+	public void setUsername(String input){
+		username = input;
+	}
 	
 	/**
 	 * Company manipulation

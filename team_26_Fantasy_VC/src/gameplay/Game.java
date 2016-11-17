@@ -161,7 +161,7 @@ public class Game implements Serializable {
 	
 	//returns a list of winning teams
 	public Vector<User> getWinners() {
-		Vector<User> finalists = (Vector<User>) users;
+		Vector<User> finalists = users;
 		Vector<User> winners = new Vector<User>();
 		
 		//sorts the finalists in order of their total profit
@@ -183,5 +183,8 @@ public class Game implements Serializable {
 		}
 		
 		return winners;
+	}
+	public Vector<User> getUsers(){
+		return users;
 	}
 }

@@ -136,11 +136,10 @@ public class AuctionTeamList extends JPanel {
 	private void intializePictures(){
 		ImageIcon jeffrey = new ImageIcon("resources/img/profile.png");
 		Image firmIcon = jeffrey.getImage();
-		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
 		ImageIcon alliance = new ImageIcon("resources/img/lobbies.png");
 		Image companyIcon = alliance.getImage();
-		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
 		
+		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
 		detailsFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
 		detailsCompanyPicture.setIcon(new ImageIcon(companyIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
 	
@@ -465,11 +464,10 @@ public class AuctionTeamList extends JPanel {
 					purchasedFirms.add(companyVect.get(selectedRow).getName());
 					purchasedCompanysList.setListData(purchasedFirms);
 					double newMoney = gameFrame.user.getCurrentCapital() - companyVect.get(selectedRow).getAskingPrice();
-					gameFrame.header.setCurrentCapital(newMoney);
+					gameFrame.user.setCurrentCapital(newMoney);
 					firmCurrentMoney.setText(Constants.currentCapital + Double.toString(newMoney) + Constants.million);
+					gameFrame.header.updateCurrentCapital();
 				}
-				
-				
 			}
 			
 		});

@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import client.Client;
+import gameplay.GameFrame;
 import gameplay.User;
 import messages.UserInfoPopupMessage;
 import utility.AppearanceConstants;
@@ -46,16 +47,16 @@ public class TopPanel extends JPanel {
 	private JButton userIcon;
 	private Client client;
 	private User user;
-	
-	private final boolean networked;
-	
+	private GameFrame gameFrame;
+	private UserInfoGUI uig;
+		
 	/**
 	 * Multiplayer.
 	 * @param client
 	 */
-	public TopPanel(Client client) {
+	public TopPanel(GameFrame gameFrame, Client client) {
 		this.client = client;
-		this.networked = true;
+		this.gameFrame = gameFrame;
 		initializeComponents(client.getUser());
 		createGUI();
 		addActionListeners();
@@ -65,8 +66,8 @@ public class TopPanel extends JPanel {
 	 * Single player.
 	 * @param guest
 	 */
-	public TopPanel(User guest) {
-		this.networked = false;
+	public TopPanel(GameFrame gameFrame, User guest) {
+		this.gameFrame = gameFrame;
 		initializeComponents(guest);
 		createGUI();
 		addActionListeners();
@@ -169,19 +170,16 @@ public class TopPanel extends JPanel {
 		userIcon.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				if(networked){
-					client.sendMessage(new UserInfoPopupMessage());
-				} else {
-					
-				}
-				*/
-				//add User info pop up here
+				new UserInfoGUI(gameFrame);
 			}
 		});
 	}
 	
-	public void setCurrentCapital(double Amount){
-		currentCapital.setText(Constants.currentCapital + Double.toString(Amount) + Constants.million);
+	public void updateCurrentCapital(){
+		currentCapital.setText(Constants.currentCapital + Double.toString(user.getCurrentCapital()) + Constants.million);
+	}
+	public void updateIcon(){
+		userIcon.setIcon(new ImageIcon(user.getUserIcon().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
+		
 	}
 }

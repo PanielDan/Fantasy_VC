@@ -11,9 +11,8 @@ import client.Client;
 import guis.AuctionTeamList;
 import guis.ChatPanel;
 import guis.IntroPanel;
-import guis.QuarterlyGUI;
 import guis.TopPanel;
-import guis.TradeGUI;
+import guis.UserInfoGUI;
 import listeners.ExitWindowListener;
 
 public class GameFrame extends JFrame {
@@ -42,22 +41,23 @@ public class GameFrame extends JFrame {
 		networked = false;
 		game = new Game();
 		user = guest;
+		game.addUser(guest);
 		
-		header = new TopPanel(guest);
+		header = new TopPanel(this, guest);
 		chatbox = new ChatPanel(guest);
 		
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		
 		AuctionTeamList main = new AuctionTeamList(null, this);
-
-		chatbox.setBackground(Color.GRAY);
 		
 		add(header, BorderLayout.NORTH);
 		add(chatbox, BorderLayout.SOUTH);
 		add(main, BorderLayout.CENTER);
 		
 		setVisible(true);
+		
+		UserInfoGUI uig = new UserInfoGUI(this);
 	}
 	
 	public GameFrame(Client client) {
@@ -70,7 +70,7 @@ public class GameFrame extends JFrame {
 		User user = client.getUser();
 		networked = true;
 		
-		JPanel header = new TopPanel(client);
+		JPanel header = new TopPanel(this, client);
 		JPanel chatbox = new ChatPanel(client);
 
 		header.setPreferredSize(new Dimension(1280,72));
