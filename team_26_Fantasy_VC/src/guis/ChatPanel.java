@@ -90,6 +90,7 @@ public class ChatPanel extends JPanel {
 
 		submit = new JButton("Send");
 		submit.setFont(AppearanceConstants.fontButtonSmall);
+		submit.setEnabled(false);
 		
 		chat = new JTextArea();
 		chat.setWrapStyleWord(true);
