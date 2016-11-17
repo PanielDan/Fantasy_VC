@@ -1,12 +1,12 @@
 package messages;
 
-public class lobbyPlayerReadyMessage extends Message{
+public class LobbyPlayerReadyMessage extends Message{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public lobbyPlayerReadyMessage() {
+	public LobbyPlayerReadyMessage() {
 		super(MessageType.lobbyPlayerReady);
 		
 	}

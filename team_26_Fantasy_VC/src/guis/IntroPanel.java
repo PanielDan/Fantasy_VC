@@ -19,7 +19,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import messages.HostGameMessage;
-import messages.joinGameMessage;
+import messages.JoinGameMessage;
 import utility.AppearanceConstants;
 
 public class IntroPanel extends JPanel {
@@ -108,7 +108,7 @@ public class IntroPanel extends JPanel {
 		});
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				joinGameMessage jgm = new joinGameMessage();
+				JoinGameMessage jgm = new JoinGameMessage();
 			}
 		});
 	}

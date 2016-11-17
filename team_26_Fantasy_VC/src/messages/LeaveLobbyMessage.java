@@ -1,12 +1,12 @@
 package messages;
 
-public class leaveLobbyMessage extends Message{
+public class LeaveLobbyMessage extends Message{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public leaveLobbyMessage() {
+	public LeaveLobbyMessage() {
 		super(MessageType.leaveLobby);
 	}
 }
