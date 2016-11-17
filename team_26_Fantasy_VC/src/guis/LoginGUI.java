@@ -234,7 +234,7 @@ public class LoginGUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			try {
 				LoginMessage lm = new LoginMessage(); //TODO
-				
+				System.out.println("Attempting login.");
 				
 				PreparedStatement ps = conn.prepareStatement(queryStatement);
 				ps.setString(1, username.getText().trim());
