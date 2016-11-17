@@ -37,7 +37,7 @@ public class LobbyPanel extends JPanel{
 	JTextField firmField;
 	JButton readyButton, inviteButton, leaveButton;
 	
-	LobbyPanel() {
+	public LobbyPanel() {
 		initializeComponents();
 		createGUI();
 		addEvents();

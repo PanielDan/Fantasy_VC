@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 import gameplay.User;
 import guis.ChatPanel;
-import guis.TimelapsePanel;
+import guis.QuarterlyGUI;
 import guis.TopPanel;
 
 public class TestFrame extends JFrame{
@@ -30,7 +30,10 @@ public class TestFrame extends JFrame{
 		JPanel chatbox = new ChatPanel(null, user);
 		//AuctionTeamList main = new AuctionTeamList(null);
 		//AuctionBidScreen main = new AuctionBidScreen();
-		TimelapsePanel main = new TimelapsePanel(null);
+		//TimelapsePanel main = new TimelapsePanel(null);
+		//IntroPanel main = new IntroPanel();
+		//LobbyPanel main = new LobbyPanel();
+		QuarterlyGUI main = new QuarterlyGUI();
 		
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));

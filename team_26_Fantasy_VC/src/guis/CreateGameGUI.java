@@ -30,7 +30,7 @@ public class CreateGameGUI extends JFrame{
 	JTextField lobbyName;
 	JComboBox<Integer> size;
 	
-	CreateGameGUI() {
+	public CreateGameGUI() {
 		initializeComponents();
 		createGUI();
 		addEvents();
