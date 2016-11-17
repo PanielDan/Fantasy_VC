@@ -54,6 +54,7 @@ public class AuctionTeamList extends JPanel {
 	
 	private Client client;
 	private GameFrame gameFrame;
+	private Vector<Company> companyVect;
 	
 	
 	public AuctionTeamList(Client client, GameFrame gameFrame) {
@@ -84,7 +85,7 @@ public class AuctionTeamList extends JPanel {
 		
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.setColumnIdentifiers(columnNames);
-		Vector<Company> companyVect = gameFrame.getGame().getCompanies();
+		companyVect = gameFrame.getGame().getCompanies();
 		for(int i = 0; i < companyVect.size(); i++){
 			dtm.addRow(new Object[]{companyVect.get(i).getName(), Integer.toString(companyVect.get(i).getTierLevel()),
 					Integer.toString(companyVect.get(i).getStartingPrice())});
@@ -443,13 +444,16 @@ public class AuctionTeamList extends JPanel {
 	            }
 	            */
 	        	
-	        	/*This has to be filled in with data.
-	        	detailsCompany.setText("");
-	        	detailsCompanyPicture.setIcon();
-	        	detailsCompanyBio.setText();
+	        	int selectedRow = firmData.getSelectedRow();
+	        	detailsCompanyName.setText(companyVect.get(selectedRow).getName());
+	    		
+	        	ImageIcon companyImage = new ImageIcon(companyVect.get(selectedRow).getImage());
+	        	Image icon = companyImage.getImage();
+	        	detailsCompanyPicture.setIcon(new ImageIcon(icon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
+	        	detailsCompanyBio.setText(companyVect.get(selectedRow).getDescription());
 	        	//How to use a JTable
-	        	detailsCompanyInfo
-	        	*/
+	        	//detailsCompanyInfo
+	        	
 	        	
 				CardLayout cardLayout = (CardLayout)companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Company");
