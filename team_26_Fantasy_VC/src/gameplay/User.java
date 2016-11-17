@@ -77,6 +77,33 @@ public class User {
 	
 	
 	/**
+	 * Company manipulation
+	 */
+	public synchronized Vector<Company> getCompanies() {
+		return companies;
+	}
+	
+	public synchronized void setCompanies(Vector<Company> companies) {
+		this.companies = companies;
+	}
+	
+	public synchronized void addCompany(Company company) {
+		companies.add(company);
+	}
+	
+	public synchronized void deleteCompany(Company company) {
+		for(int i = 0; i < companies.size(); i++) {
+			if(companies.get(i).getName().equals(company.getName())) {
+				companies.remove(i);
+				return;
+			}
+		}
+	}
+	
+	
+	
+	
+	/**
 	 * Comparator class for sorting users
 	 * @author arschroc
 	 *

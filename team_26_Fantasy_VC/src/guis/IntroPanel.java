@@ -19,12 +19,12 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import messages.HostGameMessage;
-import messages.joinGameMessage;
+import messages.JoinGameMessage;
 import utility.AppearanceConstants;
 
 public class IntroPanel extends JPanel {
 	JLabel lobbyLabel, hostLabel, sizeLabel, playerLabel;
-	JButton hostButton, joinButton, singleButton;
+	JButton hostButton, joinButton;
 	JPanel eastPanel, centerPanel;
 	
 	public IntroPanel() {
@@ -44,7 +44,6 @@ public class IntroPanel extends JPanel {
 		playerLabel = new JLabel("Players:");
 		hostButton = new JButton("Host");
 		joinButton = new JButton("Join");
-		singleButton = new JButton("Single");
 	}
 	
 	private void createGUI() {
@@ -70,15 +69,14 @@ public class IntroPanel extends JPanel {
 		this.add(infoPane, BorderLayout.EAST);
 		
 		JPanel southPanel = new JPanel();
-		southPanel.setBackground(AppearanceConstants.darkBlue);
-		southPanel.setLayout(new GridLayout(1, 3, 90, 90));
+		southPanel.setBackground(AppearanceConstants.mediumGray);
+		southPanel.setLayout(new GridLayout(1, 2, 90, 90));
 		southPanel.setBorder(new EmptyBorder(20, 90, 20, 90));
 		southPanel.setPreferredSize(new Dimension(0, 90));
 		
-		makeButton(hostButton, joinButton, singleButton);
+		makeButton(hostButton, joinButton);
 		southPanel.add(hostButton);
 		southPanel.add(joinButton);
-		southPanel.add(singleButton);
 		
 		this.add(southPanel, BorderLayout.SOUTH);
 		
@@ -108,7 +106,7 @@ public class IntroPanel extends JPanel {
 		});
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				joinGameMessage jgm = new joinGameMessage();
+				JoinGameMessage jgm = new JoinGameMessage();
 			}
 		});
 	}
