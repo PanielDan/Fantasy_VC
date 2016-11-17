@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import gameplay.GameFrame;
 import messages.InitiateTradeMessage;
 
 public class PlayerTab extends JComponent{
@@ -24,12 +25,14 @@ public class PlayerTab extends JComponent{
 	public JPanel playerInfo;
 	public Vector<String> assets;
 	public QuarterlyGUI qg;
+	public GameFrame gameFrame;
 	
 	public PlayerTab(String playerName, ImageIcon playerIcon, Vector<String> assets, QuarterlyGUI qg) {
 		this.playerName = playerName;
 		this.playerIcon = playerIcon;
 		this.assets = assets;
 		this.qg = qg;
+		this.gameFrame = qg.gameFrame;
 		initializeComponents();
 		createGUI();
 		addActionListeners();
@@ -73,8 +76,7 @@ public class PlayerTab extends JComponent{
 		trade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				qg.setVisible(false);
-				TradeGUI tg = new TradeGUI(qg);
-				tg.setVisible(true);
+				gameFrame.switchToTrade(qg);
 				//System.out.println("TRADE");
 				InitiateTradeMessage itm = new InitiateTradeMessage();
 			}

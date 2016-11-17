@@ -11,7 +11,9 @@ import client.Client;
 import guis.AuctionTeamList;
 import guis.ChatPanel;
 import guis.IntroPanel;
+import guis.QuarterlyGUI;
 import guis.TopPanel;
+import guis.TradeGUI;
 import listeners.ExitWindowListener;
 
 public class GameFrame extends JFrame {
@@ -77,6 +79,13 @@ public class GameFrame extends JFrame {
 		add(main, BorderLayout.CENTER);
 		
 		setVisible(true);
+	}
+
+	public void switchToTrade(QuarterlyGUI qg) {
+		TradeGUI main = new TradeGUI(qg);
+		add(main, BorderLayout.CENTER);
+		repaint();
+		
 	}
 
 }

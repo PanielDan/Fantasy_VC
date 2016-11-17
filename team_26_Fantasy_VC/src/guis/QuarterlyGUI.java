@@ -9,14 +9,13 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 
+import gameplay.GameFrame;
 import messages.QuarterlyReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -31,20 +30,18 @@ public class QuarterlyGUI extends JPanel{
 	public JTabbedPane tabbedPane;
 	public PlayerTab panel1, panel2, panel3, panel4;
 	public JPanel freeAgents;
+	public GameFrame gameFrame;
 	
 	/** Used https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public QuarterlyGUI() {
+	public QuarterlyGUI(GameFrame gameFrame) {
+		this.gameFrame = gameFrame;
 		initializeComponents();
 		createGUI();
 		addActionListeners();
-	}
-	
-	public static void main(String[] args) {
-		new QuarterlyGUI().setVisible(true);
 	}
 	
 	private void initializeComponents() {
@@ -80,9 +77,6 @@ public class QuarterlyGUI extends JPanel{
 	
 		freeAgents = new JPanel();
 		tabbedPane.add("Free Agents", freeAgents);
-		
-	
-		
 		
 		//Create notificationsAndReadyPanel
 		notificationsAndReadyPanel.setLayout(new BorderLayout());
