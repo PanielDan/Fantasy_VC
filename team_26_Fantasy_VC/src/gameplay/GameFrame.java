@@ -44,7 +44,7 @@ public class GameFrame extends JFrame {
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		
-		AuctionTeamList main = new AuctionTeamList(null);
+		AuctionTeamList main = new AuctionTeamList(null, this);
 
 		chatbox.setBackground(Color.GRAY);
 		

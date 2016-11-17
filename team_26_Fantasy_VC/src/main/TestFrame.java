@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import client.Client;
 import gameplay.User;
 import guis.AuctionBidScreen;
 import guis.ChatPanel;
@@ -25,9 +26,10 @@ public class TestFrame extends JFrame{
 		setSize(1280,720);
 		User user = new User(1, "Tims", "test",1,1,1000);
 		networked = true;
+		Client client = null;
 		
-		JPanel header = new TopPanel(null, user);
-		JPanel chatbox = new ChatPanel(null, user);
+		JPanel header = new TopPanel(client);
+		JPanel chatbox = new ChatPanel(client);
 		//AuctionTeamList main = new AuctionTeamList(null);
 		AuctionBidScreen main = new AuctionBidScreen();
 		//TimelapsePanel main = new TimelapsePanel(null);

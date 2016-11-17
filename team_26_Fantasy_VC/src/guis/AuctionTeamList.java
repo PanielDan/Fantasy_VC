@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -29,8 +28,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import client.Client;
+import gameplay.Company;
+import gameplay.GameFrame;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -51,9 +53,11 @@ public class AuctionTeamList extends JPanel {
 	private JPanel companyDetailsPanel;
 	
 	private Client client;
+	private GameFrame gameFrame;
 	
 	
-	public AuctionTeamList(Client client) {
+	public AuctionTeamList(Client client, GameFrame gameFrame) {
+		this.gameFrame = gameFrame;
 		this.client = client;
 		intializeVariables();
 		createGUI();
@@ -76,9 +80,18 @@ public class AuctionTeamList extends JPanel {
 		middleFirmName = new JLabel("JMoney Capital");
 		purchasedFirmsLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		purchasedFirms = new Vector<String>();
-		firmData = new JTable();
-		//firmData.setEdit
+		String[] columnNames = {"Name", "Tier Level", "Price"};
 		
+		DefaultTableModel dtm = new DefaultTableModel();
+		dtm.setColumnIdentifiers(columnNames);
+		Vector<Company> companyVect = gameFrame.getGame().getCompanies();
+		for(int i = 0; i < companyVect.size(); i++){
+			dtm.addRow(new Object[]{companyVect.get(i).getName(), Integer.toString(companyVect.get(i).getTierLevel()),
+					Integer.toString(companyVect.get(i).getStartingPrice())});
+		}
+		firmData = new JTable(dtm);
+
+				
 		
 		//Test Values for Purchased Firms
 		for (int i = 0; i < 5; i++){
@@ -379,6 +392,11 @@ public class AuctionTeamList extends JPanel {
 	            	
 	            }
 	            */
+				/*
+				detailsFirmPicture.setIcon(icon);
+				detailsFirmName.setText(text);
+				detailsFirmCurrentMoney.setText(text);
+				*/
 				
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Firm");
@@ -421,8 +439,16 @@ public class AuctionTeamList extends JPanel {
 	            	
 	            }
 	            */
-	            
-				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
+	        	
+	        	/*This has to be filled in with data.
+	        	detailsCompany.setText("");
+	        	detailsCompanyPicture.setIcon();
+	        	detailsCompanyBio.setText();
+	        	//How to use a JTable
+	        	detailsCompanyInfo
+	        	*/
+	        	
+				CardLayout cardLayout = (CardLayout)companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Company");
 	        }
 		});
@@ -443,6 +469,7 @@ public class AuctionTeamList extends JPanel {
 					//swap to bid auction frame.
 				}
 				*/
+				
 			}
 			
 		});
