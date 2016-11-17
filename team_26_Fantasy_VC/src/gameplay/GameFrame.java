@@ -31,7 +31,7 @@ public class GameFrame extends JFrame {
 	 * @param guest A guest {@code User} instantiation.
 	 */
 	public GameFrame(User guest) {
-		super("Venture Capital – Guest Mode");
+		super("Venture Capital Guest Mode");
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new ExitWindowListener(this));
