@@ -17,6 +17,8 @@ public class SQLDriver {
 	private Connection con;
 	private static final String addCompany = "INSERT INTO Companies(imagePath, companyName, description, startingPrice, tierLevel) values (?,?,?,?,?)";
 	private static final String getCompany = "SELECT * FROM Companies";
+	private static final String selectUser = "SELECT * FROM Users where username=?";
+	private static final String addUser = "INSERT INTO Users(username, passcode, biography) values(?,?,?)";
 	
 	public SQLDriver() {
 		try {
@@ -46,6 +48,7 @@ public class SQLDriver {
 		}
 	}
 	
+	// Inserts companies into the DB. Only used by Company Filler.
 	public void insertCompany(String imagePath, String companyName, String description, int startingPrice, int tier) {
 		try {
 			PreparedStatement ps = con.prepareStatement(addCompany);
@@ -60,6 +63,7 @@ public class SQLDriver {
 		}
 	}
 	
+	// Returns a vector of all the companies
 	public Vector<Company> getCompanies() {
 		Vector<Company> companies = new Vector<Company>();
 		Statement st = null;
@@ -81,5 +85,51 @@ public class SQLDriver {
 			sqle.printStackTrace();
 		}		
 		return companies;
+	}
+	
+	// Returns boolean of whether or not username already exists
+	public boolean userExists(String username) {
+		try {
+			PreparedStatement ps = con.prepareStatement(selectUser);
+			ps.setString(1, username);
+			ResultSet result = ps.executeQuery();
+			while(result.next()) {
+				return true;
+			}
+		} catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return false;
+	}
+	
+	// Checks to see if the password matches for that user
+	public boolean checkPassword(String username, String password) {
+		try {
+			PreparedStatement ps = con.prepareStatement(selectUser);
+			ps.setString(1, username);
+			ResultSet result = ps.executeQuery();
+			while(result.next()) {
+				if (password.equals(result.getString(3))) {
+					return true;
+				}
+				return false;
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return false;
+	}
+	
+	// Inserts user into the DB
+	public void insertUser(String username, String password, String biography) {
+		try {
+			PreparedStatement ps = con.prepareStatement(addUser);
+			ps.setString(1, username);
+			ps.setString(2, password);
+			ps.setString(3, biography);
+			ps.executeUpdate();
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
 	}
 }
