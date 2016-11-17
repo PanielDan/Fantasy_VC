@@ -19,8 +19,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
+import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
+import listeners.TableModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
@@ -68,8 +70,20 @@ public class FinalGUI extends JPanel {
 		bestInvestment = new JLabel("Best investment: Umbrella Corp");
 		portfolioLabel = new JLabel("Portfolio");
 		
-		portfolio = new JTable();
+		//TODO Needs to update Table stats
+		String[] columnNames = {"Name", "Tier Level", "Worth"};
 		
+		TableModel dtm = new TableModel();
+		dtm.setColumnIdentifiers(columnNames);
+		Vector<Company> usercompanies = gameFrame.user.getCompanies();
+		for(int i = 0; i < usercompanies.size(); i++){
+			dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
+					Double.toString(usercompanies.get(i).getCurrentWorth())});
+		}
+		portfolio = new JTable(dtm);
+		portfolio.setForeground(AppearanceConstants.darkBlue);
+		portfolio.setFont(AppearanceConstants.fontSmallest);
+				
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, winner, done);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, done, winner, userFirmName,
 				totalEquity, percentGain, bestInvestment, portfolioLabel, numCompanies);

@@ -34,6 +34,7 @@ import client.Client;
 import gameplay.Company;
 import gameplay.GameFrame;
 import listeners.DisabledItemSelectionModel;
+import listeners.TableModel;
 import messages.BeginAuctionBidMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -88,9 +89,9 @@ public class AuctionTeamList extends JPanel {
 		middleFirmName = new JLabel("JMoney Capital");
 		purchasedFirmsLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		purchasedFirms = new Vector<String>();
-		String[] columnNames = {"Name", "Tier Level", "Price"};
 		
-		DefaultTableModel dtm = new DefaultTableModel();
+		String[] columnNames = {"Name", "Tier Level", "Price"};
+		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		companyVect = gameFrame.getGame().getCompanies();
 		for(int i = 0; i < companyVect.size(); i++){
@@ -436,7 +437,8 @@ public class AuctionTeamList extends JPanel {
 	        			{"Current Worth", companyVect.get(selectedRow).getCurrentWorth()},
 	        	};
 	        	String[] columnNames = {"",""};
-	        	DefaultTableModel dtm = new DefaultTableModel(companyData,columnNames);
+	        	TableModel dtm = new TableModel();
+	        	dtm.setDataVector(companyData, columnNames);
 	   	       	detailsCompanyInfo.setModel(dtm);
 	   	       		        	
 				CardLayout cardLayout = (CardLayout)companyDetailsPanel.getLayout();
@@ -458,7 +460,7 @@ public class AuctionTeamList extends JPanel {
 				} else {
 					int selectedRow = firmData.getSelectedRow();
 					firmData.setRowSelectionInterval(0, 0);
-					DefaultTableModel dtm = (DefaultTableModel) firmData.getModel();
+					TableModel dtm = (TableModel) firmData.getModel();
 					dtm.removeRow(selectedRow);
 
 					purchasedFirms.add(companyVect.get(selectedRow).getName());

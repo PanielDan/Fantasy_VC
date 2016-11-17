@@ -3,7 +3,6 @@ package guis;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +22,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import gameplay.Company;
+import gameplay.GameFrame;
+import listeners.TableModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -41,9 +43,13 @@ public class AuctionBidScreen extends JPanel {
 	private JButton bidButton;
 	private JTextField bidAmount;
 	private JPanel[] firmPanels;
+	private Company company;
+	private GameFrame gameFrame;
 	
 	
-	public AuctionBidScreen(){
+	public AuctionBidScreen(GameFrame gameFrame, Company company){
+		this.company = company;
+		this.gameFrame = gameFrame;
 		initializeVariables();
 		createGUI();
 		addActionListeners();
@@ -57,11 +63,24 @@ public class AuctionBidScreen extends JPanel {
 		companyPicture = new JLabel();
 		companyName = new JLabel("Alliance Pharmaceuticals");
 		minimumBid = new JLabel("Minimum Bid: $15,000,000");
-		companyStatistics = new JTable();
 		companyBio = new JTextArea("Alliance Pharmaceuticals an American large-cap business driven biomedical research corporation focused on the discovery of innovative medicine. Alliance is looking for a large investment to fund an expansion into european laboritories to further drug creation.");
 		companyBio.setLineWrap(true);
 		companyBio.setWrapStyleWord(true);
 		companyBio.setEditable(false);
+		
+		//Table code		
+    	Object[][] companyData = {
+    			{"Name", company.getName()},
+    			{"Tier", company.getTierLevel()},
+    			{"Asking Price", company.getAskingPrice()},
+    			{"Current Worth", company.getCurrentWorth()},
+    	};
+    	String[] columnNames = {"",""};
+    	TableModel dtm = new TableModel();
+    	dtm.setDataVector(companyData, columnNames);
+    	companyStatistics = new JTable(dtm);
+		companyStatistics.setForeground(AppearanceConstants.darkBlue);
+		companyStatistics.setFont(AppearanceConstants.fontSmallest);
 		
 		//Firm bidding panel Variables
 		intializeFirms();
@@ -190,8 +209,9 @@ public class AuctionBidScreen extends JPanel {
 		companyLabelsPanel.add(minimumBid, BorderLayout.SOUTH);
 		
 		
-		AppearanceSettings.addGlue(companyInfoPanel, BoxLayout.LINE_AXIS, true, companyPicture, companyLabelsPanel,
-				new JSeparator(JSeparator.VERTICAL), companyTablePane);
+		AppearanceSettings.addGlue(companyInfoPanel, BoxLayout.LINE_AXIS, true, companyPicture, companyLabelsPanel);
+		companyInfoPanel.add(companyTablePane);
+		companyInfoPanel.add(Box.createHorizontalStrut(20));
 		
 		return companyInfoPanel;
 	}
@@ -299,5 +319,9 @@ public class AuctionBidScreen extends JPanel {
 			}
 			
 		});
+	}
+	
+	public void setCompany(Company company){
+		company = company;
 	}
 }
