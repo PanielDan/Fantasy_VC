@@ -48,10 +48,30 @@ public class ChatPanel extends JPanel {
 	private JTextField input;
 	private JButton submit;
 	
-	public ChatPanel(Client client, User user) { 
-		this.client = client;
-		//Changed this b/c we can get a user from the client on a non-networked game.
+	private final boolean networked;
+	
+	/**
+	 * Singleplayer ChatPanel.
+	 * @param user
+	 */
+	public ChatPanel(User user) { 
 		this.user = user;
+		this.networked = false;
+		initializeComponents();
+		createGUI();
+		addEvents();
+		colorizeComponents();
+	}
+	
+	/**
+	 * Multiplayer ChatPanel.
+	 * @param client The player's client.
+	 * @param user The player's user.
+	 */
+	public ChatPanel(Client client) { 
+		this.client = client;
+		this.user = client.getUser();
+		this.networked = true;
 		initializeComponents();
 		createGUI();
 		addEvents();
@@ -77,8 +97,6 @@ public class ChatPanel extends JPanel {
 		chat.setEditable(false);
 		chat.setFont(AppearanceConstants.fontSmallest);
 		//Testing purposes
-		chat.append("hello there everyone");
-
 
 	}
 	
@@ -143,7 +161,7 @@ public class ChatPanel extends JPanel {
 		bottomPanel.add(buttonPanel);
 		
 		add(scroll);
-		add( new JSeparator(JSeparator.HORIZONTAL));
+		add(new JSeparator(JSeparator.HORIZONTAL));
 		add(bottomPanel);
 				
 	}
@@ -156,11 +174,19 @@ public class ChatPanel extends JPanel {
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
-				System.out.println(message.getUsername() + " says: " + message.getMessage());
-				input.setText("");
-				submit.setEnabled(false);
-				client.sendMessage(message);
+				if (networked) {
+					if (!input.getText().isEmpty() && !input.getText().equals("Chat...")) {
+						ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
+						System.out.println(message.getUsername() + " says: " + message.getMessage());
+						input.setText("");
+						submit.setEnabled(false);
+						client.sendMessage(message);
+					}
+				} else {
+					addChat(user.getUsername(), input.getText());
+					input.setText("");
+					submit.setEnabled(false);
+				}
 			} 
 		});
 		
@@ -192,10 +218,18 @@ public class ChatPanel extends JPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
-					input.setText("");
-					client.sendMessage(message);
-					submit.setEnabled(false);
+					if (!input.getText().trim().equals("")) {
+						if (networked) {
+							ChatMessage message = new ChatMessage(client.getUser().getUsername(), input.getText());
+							input.setText("");
+							client.sendMessage(message);
+							submit.setEnabled(false);
+						} else {
+							addChat(user.getUsername(), input.getText());
+							input.setText("");
+							submit.setEnabled(false);
+						}
+					}
 				}
 			}
 		});
@@ -227,5 +261,7 @@ public class ChatPanel extends JPanel {
 		});
 	}
 	
-
+	public void addChat(String username, String text) {
+		chat.setText(chat.getText() + '\n' + username + ": " + text);
+	}
 }
