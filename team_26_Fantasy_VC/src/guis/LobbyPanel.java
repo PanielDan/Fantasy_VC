@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import gameplay.GameFrame;
 import gameplay.User;
 import messages.LeaveLobbyMessage;
 import messages.LobbyPlayerReadyMessage;
@@ -36,8 +37,10 @@ public class LobbyPanel extends JPanel{
 	JLabel statusLabel, firmLabel;
 	JTextField firmField;
 	JButton readyButton, inviteButton, leaveButton;
+	public GameFrame gameFrame;
 	
-	public LobbyPanel() {
+	public LobbyPanel(GameFrame gameFrame) {
+		this.gameFrame = gameFrame;
 		initializeComponents();
 		createGUI();
 		addEvents();
@@ -130,6 +133,8 @@ public class LobbyPanel extends JPanel{
 		leaveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				LeaveLobbyMessage llm = new LeaveLobbyMessage();
+				//TODO must send this out.
+				gameFrame.changePanel(new IntroPanel(gameFrame));
 			}
 		});
 				

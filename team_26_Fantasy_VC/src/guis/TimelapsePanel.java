@@ -16,6 +16,7 @@ import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
 import client.Client;
+import gameplay.GameFrame;
 import listeners.DisabledItemSelectionModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -33,13 +34,14 @@ public class TimelapsePanel extends JPanel {
 	private Vector<String> notificationList;
 	private ImageIcon animation;
 	private JLabel animationLabel, notificationLabel;
+	public GameFrame gameFrame;
 	
 	/**
 	 * Create the panel.
 	 */
-	public TimelapsePanel(Client client) {
+	public TimelapsePanel(Client client, GameFrame gameFrame) {
 		this.client = client;
-		
+		this.gameFrame = gameFrame;
 		initializeComponents();
 		createGUI();
 		addActionListeners();

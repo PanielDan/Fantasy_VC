@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import gameplay.GameFrame;
 import messages.CreateGameMessage;
 import utility.AppearanceConstants;
 
@@ -29,23 +30,21 @@ public class CreateGameGUI extends JFrame{
 	JButton cancelButton, createButton;
 	JTextField lobbyName;
 	JComboBox<Integer> size;
+	public IntroPanel ip;
 	
-	public CreateGameGUI() {
+	public CreateGameGUI(IntroPanel ip) {
+		this.ip = ip;
 		initializeComponents();
 		createGUI();
 		addEvents();
 		this.setVisible(true);
 	}
 	
-	public static void main(String[] args) {
-		new CreateGameGUI().setVisible(true);
-	}
-	
 	private void initializeComponents() {
 		createLabel = new JLabel("Create Game");
 		lobbyLabel = new JLabel("Lobby Name");
 		sizeLabel = new JLabel("Lobby Size");
-		warningLabel = new JLabel("Warning Text");
+		warningLabel = new JLabel("");
 		
 		cancelButton = new JButton("Cancel");
 		createButton = new JButton("Create");
@@ -128,7 +127,20 @@ public class CreateGameGUI extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				CreateGameMessage cgm = new CreateGameMessage();
+				if(!lobbyName.getText().equals("")) {
+					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()));
+					//TODO send this message and add the game to the lobby
+					ip.switchToLobby();
+					dispose();
+				}
+				else {
+					warningLabel.setText("Please enter a lobby name.");
+				}
+			}
+		});
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				dispose();
 			}
 		});
 	}

@@ -31,7 +31,7 @@ public class GameFrame extends JFrame {
 	 * @param guest A guest {@code User} instantiation.
 	 */
 	public GameFrame(User guest) {
-		super("Venture Capital – Guest Mode");
+		super("Venture Capital Guest Mode");
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new ExitWindowListener(this));
@@ -49,9 +49,16 @@ public class GameFrame extends JFrame {
 		
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
+<<<<<<< HEAD
 		
 		//AuctionBidScreen main = new AuctionBidScreen(this,game.getCompanies().get(5));
 		AuctionTeamList main = new AuctionTeamList(null, this);
+=======
+		IntroPanel main = new IntroPanel(this);
+		currentPanel = main;
+		//AuctionBidScreen main = new AuctionBidScreen(this,game.getCompanies().get(5));
+		//AuctionTeamList main = new AuctionTeamList(null, this);
+>>>>>>> origin/master
 		//FinalGUI main = new FinalGUI(this);
 		
 		add(header, BorderLayout.NORTH);
@@ -77,7 +84,7 @@ public class GameFrame extends JFrame {
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		
-		IntroPanel main = new IntroPanel();
+		IntroPanel main = new IntroPanel(this);
 
 		currentPanel = main;
 		

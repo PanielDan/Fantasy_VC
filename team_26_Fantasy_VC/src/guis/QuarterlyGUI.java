@@ -101,9 +101,12 @@ public class QuarterlyGUI extends JPanel{
 	private void addActionListeners() {
 		ready.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				game.currentQuarter++;
+				game.currentQuarter++; //TODO
 				if(game.currentQuarter == 20){
-					//display final for non networked, send message for networked; //TODO
+					gameFrame.changePanel(new FinalGUI(gameFrame));
+				}
+				else {
+					gameFrame.changePanel(new TimelapsePanel(null, gameFrame));
 				}
 				QuarterlyReadyMessage qrm = new QuarterlyReadyMessage();
 			}

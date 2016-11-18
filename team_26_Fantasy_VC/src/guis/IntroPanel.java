@@ -18,6 +18,7 @@ import javax.swing.JSeparator;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import gameplay.GameFrame;
 import messages.HostGameMessage;
 import messages.JoinGameMessage;
 import utility.AppearanceConstants;
@@ -26,15 +27,15 @@ public class IntroPanel extends JPanel {
 	JLabel lobbyLabel, hostLabel, sizeLabel, playerLabel;
 	JButton hostButton, joinButton;
 	JPanel eastPanel, centerPanel;
+	public GameFrame gameFrame;
+	IntroPanel ip;
 	
-	public IntroPanel() {
+	public IntroPanel(GameFrame gameFrame) {
+		this.ip = this;
+		this.gameFrame = gameFrame;
 		initializeComponents();
 		createGUI();
 		addEvents();
-	}
-	
-	public static void main(String[] args) {
-		new IntroPanel().setVisible(true);
 	}
 	
 	private void initializeComponents() {
@@ -98,15 +99,22 @@ public class IntroPanel extends JPanel {
 		this.add(lobbyPane);
 	}
 	
+	public void switchToLobby() {
+		gameFrame.changePanel(new LobbyPanel(gameFrame));
+	}
+	
 	private void addEvents() {
 		hostButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				HostGameMessage hgm = new HostGameMessage();
+				new CreateGameGUI(ip).setVisible(true);
+				
 			}
 		});
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				JoinGameMessage jgm = new JoinGameMessage();
+				//gameFrame.changePanel(new LobbyPanel(gameFrame));
 			}
 		});
 	}
