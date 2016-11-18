@@ -220,7 +220,7 @@ public class QuarterlyGUI extends JPanel{
 								df.format(percentChange) + "%" });
 						
 						//update the notifications
-						String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + "\n";
+						String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName();
 						sendUpdate(update);
 					}
 				}

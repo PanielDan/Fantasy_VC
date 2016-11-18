@@ -195,7 +195,7 @@ public class PlayerTab extends JPanel {
 							df.format(percentChange) + "%" });
 		        	
 					//update the notifications
-					String update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName() + "\n";
+					String update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName();
 					qg.sendUpdate(update);
 				}
 			}
