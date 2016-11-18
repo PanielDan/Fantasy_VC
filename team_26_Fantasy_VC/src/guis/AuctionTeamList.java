@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -28,7 +29,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 
 import client.Client;
 import gameplay.Company;
@@ -440,20 +440,22 @@ public class AuctionTeamList extends JPanel {
 	        public void valueChanged(ListSelectionEvent event) {
 	        	
 	        	int selectedRow = firmData.getSelectedRow();
-	        	detailsCompanyName.setText(companyVect.get(selectedRow).getName());
+	        	TableModel dtm = (TableModel)firmData.getModel();
+				Company selectedCompany = gameFrame.game.returnCompany((String)dtm.getValueAt(selectedRow, 0));
+	        	detailsCompanyName.setText(selectedCompany.getName());
 
-	        	detailsCompanyPicture.setIcon(new ImageIcon(companyVect.get(selectedRow).getCompanyLogo().getScaledInstance((int)(100*companyVect.get(selectedRow).getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
-	        	detailsCompanyBio.setText(companyVect.get(selectedRow).getDescription());
+	        	detailsCompanyPicture.setIcon(new ImageIcon(selectedCompany.getCompanyLogo().getScaledInstance((int)(100*companyVect.get(selectedRow).getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
+	        	detailsCompanyBio.setText(selectedCompany.getDescription());
 	        	
 	        	//detailsCompanyInfo
 	        	Object[][] companyData = {
-	        			{"Name", companyVect.get(selectedRow).getName()},
-	        			{"Tier", companyVect.get(selectedRow).getTierLevel()},
-	        			{"Asking Price", companyVect.get(selectedRow).getAskingPrice()},
-	        			{"Current Worth", companyVect.get(selectedRow).getCurrentWorth()},
+	        			{"Name", selectedCompany.getName()},
+	        			{"Tier", selectedCompany.getTierLevel()},
+	        			{"Asking Price", selectedCompany.getAskingPrice()},
+	        			{"Current Worth", selectedCompany.getCurrentWorth()},
 	        	};
 	        	String[] columnNames = {"",""};
-	        	TableModel dtm = new TableModel();
+	        	dtm = new TableModel();
 	        	dtm.setDataVector(companyData, columnNames);
 	   	       	detailsCompanyInfo.setModel(dtm);
 	   	       		        	
@@ -473,18 +475,22 @@ public class AuctionTeamList extends JPanel {
 				// TODO: Set up bidding screen and transition to bidding screen.
 				if(gameFrame.networked){
 					client.sendMessage(new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()).getName()));
-				} else {
+				} else {	
 					int selectedRow = firmData.getSelectedRow();
-					firmData.setRowSelectionInterval(0, 0);
+					firmData.getSelectionModel().addSelectionInterval((selectedRow+1)%firmData.getRowCount(),
+							(selectedRow+1)%firmData.getRowCount());
 					TableModel dtm = (TableModel) firmData.getModel();
-					dtm.removeRow(selectedRow);
-
-					purchasedFirms.add(companyVect.get(selectedRow).getName());
+					Company selectedCompany = gameFrame.game.returnCompany((String)dtm.getValueAt(selectedRow, 0));
+					
+					purchasedFirms.add(selectedCompany.getName());
 					purchasedCompanysList.setListData(purchasedFirms);
-					double newMoney = gameFrame.user.getCurrentCapital() - companyVect.get(selectedRow).getAskingPrice();
+					double newMoney = gameFrame.user.getCurrentCapital() - selectedCompany.getAskingPrice();
 					gameFrame.user.setCurrentCapital(newMoney);
 					firmCurrentMoney.setText(Constants.currentCapital + Double.toString(newMoney) + Constants.million);
 					gameFrame.header.updateCurrentCapital();
+					dtm.removeRow(selectedRow);
+					firmData.revalidate();
+					firmData.repaint();
 				}
 			}
 			

@@ -153,9 +153,11 @@ public class UserInfoGUI extends JFrame {
 				// TODO Auto-generated method stub
 				gameFrame.user.setUsername(username.getText());
 				gameFrame.user.setUserBio(userBio.getText());
-				gameFrame.user.setUserIcon(imageLocation);
+				if (imageLocation != null){
+					gameFrame.user.setUserIcon(imageLocation);
+					gameFrame.header.updateIcon();
+				}
 				//Need to write function that updates SQL server and and the panels
-				gameFrame.header.updateIcon();
 				dispose();
 			}
 			
