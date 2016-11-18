@@ -119,7 +119,10 @@ public class TimelapsePanel extends JPanel {
 		add(animationLabel);
 		add(Box.createHorizontalStrut(50));
 		
-		new TimelapseHelper().start();
+		if(!gameFrame.networked) {
+			new TimelapseHelper().start();
+		}
+
 	}
 	
 	public void addActionListeners(){
