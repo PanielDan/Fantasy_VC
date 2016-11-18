@@ -95,7 +95,7 @@ public class TimelapsePanel extends JPanel {
 		notifications.setBorder(new EmptyBorder(5,5,5,5));
 		notificationLabel.setBorder(new EmptyBorder(10,0,0,0));
 				
-		AppearanceSettings.setSize(500, 400, notificationPanel);
+		AppearanceSettings.setSize(700, 400, notificationPanel);
 		notificationPanel.setMaximumSize(new Dimension(500,400));
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, notificationPanel, notifications,
 				leftPanel, listPane);
