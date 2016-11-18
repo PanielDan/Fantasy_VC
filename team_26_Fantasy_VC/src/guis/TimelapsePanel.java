@@ -2,6 +2,7 @@ package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.util.Random;
 import java.util.Vector;
 
@@ -23,6 +24,7 @@ import listeners.DisabledItemSelectionModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
+import utility.ImageLibrary;
 
 public class TimelapsePanel extends JPanel {
 
@@ -75,8 +77,9 @@ public class TimelapsePanel extends JPanel {
 		model = new DefaultListModel<>();
 		notifications = new JList<>( model );
 		notificationLabel = new JLabel("Notifications");
-		
-	    animation = new ImageIcon(Constants.images + "animation" + Constants.gif);
+//		Image i = ImageLibrary.getImage(Constants.images + "graph" + Constants.gif);
+//	    animation = new ImageIcon(i.getScaledInstance(400, 300, Image.SCALE_SMOOTH));
+		animation = new ImageIcon(Constants.images + "animation" + Constants.gif);
 	    animationLabel = new JLabel(animation);
 	}
 	
