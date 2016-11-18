@@ -2,6 +2,7 @@ package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,13 +10,18 @@ import java.text.DecimalFormat;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import gameplay.Company;
 import gameplay.GameFrame;
@@ -78,7 +84,6 @@ public class PlayerTab extends JPanel{
 		Vector<Company> companies = user.getCompanies();
 		
 		for(int i = 0; i < companies.size(); i++) {
-			
 			double percentChange = (companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
 					 companies.get(i).getStartingPrice();
 			System.out.println(percentChange);
@@ -91,10 +96,14 @@ public class PlayerTab extends JPanel{
 					df.format(percentChange) + "%"});
 		}
 		
+		
 		portfolio = new JTable(dtm);
-		portfolio.setBackground(AppearanceConstants.darkBlue);
-		portfolio.setForeground(AppearanceConstants.darkBlue);
-		portfolio.setFont(AppearanceConstants.fontSmallest);
+		portfolio.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		
+		JScrollPane portfolioScrollPane = new JScrollPane(portfolio);
+
+		portfolioScrollPane.setFocusable(false);
+		portfolioScrollPane.setBorder(null);
 		
 //		for (int a = 0; a < user.getCompanies().size(); a++) { 
 //			
@@ -103,15 +112,10 @@ public class PlayerTab extends JPanel{
 //		
 		setLayout(new BorderLayout());
 		JPanel westPanel = new JPanel();
-//		westPanel.setLayout(new BorderLayout());
-		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.PAGE_AXIS));
-//		JLabel playerPicture = new JLabel();
-//		playerPicture.setIcon(playerIcon);
-//		JLabel playerLabel = new JLabel(playerName);
-//		JLabel playerBio = new JLabel()
+//		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.PAGE_AXIS));
+		westPanel.setLayout(new GridLayout(2, 1));
 		
-		
-		JButton playerPicture = new JButton();
+		JLabel playerPicture = new JLabel();
 		Image i = ImageLibrary.getImage("resources/img/profile.png");
 		ImageIcon ii = new ImageIcon(i.getScaledInstance(300, 300, Image.SCALE_SMOOTH));
 		playerPicture.setIcon(ii);
@@ -134,14 +138,12 @@ public class PlayerTab extends JPanel{
 		wordsPanel.add(companyName);
 		wordsPanel.add(playerBio);
 		
-//		westPanel.add(playerPicture, BorderLayout.CENTER);
-//		westPanel.add(wordsPanel, BorderLayout.SOUTH);
 		westPanel.add(playerPicture);
 		westPanel.add(wordsPanel);
 		
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
-		centerPanel.add(portfolio);
+		centerPanel.add(portfolioScrollPane);
 		centerPanel.add(trade);
 		
 		westPanel.setPreferredSize(new Dimension(350, 0));
@@ -149,18 +151,59 @@ public class PlayerTab extends JPanel{
 		add(centerPanel, BorderLayout.CENTER);
 		
 		/* Colorize! */
-		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, wordsPanel, playerInfo, playerBio, this);
-		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, centerPanel, portfolio);
-		AppearanceSettings.setForeground(AppearanceConstants.offWhite, playerName, companyName, playerBio, trade, portfolio);
+		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, wordsPanel, westPanel, playerInfo, playerBio, this);
+		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, centerPanel, portfolioScrollPane);
+		AppearanceSettings.setBackground(AppearanceConstants.offWhite, portfolio);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, playerName, companyName, playerBio, trade);
+		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, trade);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, trade);
+		AppearanceSettings.unSetBorderOnButtons(trade);
+		AppearanceSettings.setOpaque(trade);
 	}
 	
 	private void addActionListeners() {
+		portfolio.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				/**
+				 * The SellActionListener is an ActionListener only meant for
+				 * the JPopupMenu button to sell a company if selected on your
+				 * own portfolio.
+				 * @author alancoon
+				 *
+				 */
+				class SellActionListener implements ActionListener {
+					private Company companyToSell;
+					public SellActionListener(Company companyToSell) {
+						this.companyToSell = companyToSell;
+					}
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+//						gameFrame.g
+					} 
+				}
+				
+				// Instantiate the pop up menu and the button within it
+				JPopupMenu jpm = new JPopupMenu();
+				JMenuItem jmi = new JMenuItem();
+				// Get the company that's selected
+	        	int selectedRow = portfolio.getSelectedRow();
+	        	TableModel dtm = (TableModel) portfolio.getModel();
+				Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+			
+				// Add a SellActionListener to the JMenuItem
+				jmi.addActionListener(new SellActionListener(selectedCompany));
+				
+
+			}
+		});
 		trade.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				qg.setVisible(false);
 				gameFrame.changePanel(new TradeGUI(qg));
 				//System.out.println("TRADE");
-				
 				InitiateTradeMessage itm = new InitiateTradeMessage();
 			}
 		});

@@ -8,17 +8,15 @@ import gameplay.Game;
 public class ServerLobby extends Thread{
 	private Vector<ServerClientCommunicator> sccVector;
 	private Server server;
-	private String lobbyName;
-	private int hostID, numPlayers;
-	private Game game;
+	private String lobbyName, hostName;
+	private int numPlayers;
 	
-	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, int hostID, int numPlayers, Game game) {
+	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, String hostName, int numPlayers) {
 		this.sccVector = sccVector;
 		this.server = server;
 		this.lobbyName = lobbyName;
-		this.hostID = hostID;
+		this.hostName = hostName;
 		this.numPlayers = numPlayers;
-		this.game = game;
 	}
 	
 	public String getLobbyName() {

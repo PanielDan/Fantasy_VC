@@ -110,5 +110,9 @@ public class GameFrame extends JFrame {
 	public Game getGame() {
 		return game;
 	}
+	
+	public Client getClient() {
+		return client;
+	}
 
 }

@@ -40,10 +40,9 @@ import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
 
-/*
- * Author: Danny Pan
+/**
+ * @author Danny Pan
  */
-
 public class AuctionTeamList extends JPanel {
 	//variables used here
 	private JLabel timer, middleFirmPicture, firmCurrentMoney, middleFirmName,
@@ -338,7 +337,7 @@ public class AuctionTeamList extends JPanel {
 		//Bid Button Appearance Settings
 		bidButton.setOpaque(true);
 		bidButton.setFont(AppearanceConstants.fontLargeBidButton);
-		bidButton.setBackground(new Color(51,102,0));
+		bidButton.setBackground(AppearanceConstants.green);
 		bidButton.setBorderPainted(false);
 		//Function to Align all Labels to the center of the BoxLayout.
 		//Needs to be added to Appearance Settings.
@@ -474,7 +473,7 @@ public class AuctionTeamList extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO: Set up bidding screen and transition to bidding screen.
-				if(gameFrame.networked) {
+				if (gameFrame.networked) {
 					client.sendMessage(new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()).getName()));
 				} else {	
 					int selectedRow = firmData.getSelectedRow();
@@ -486,9 +485,8 @@ public class AuctionTeamList extends JPanel {
 					purchasedFirms.add(selectedCompany.getName());
 					purchasedCompanysList.setListData(purchasedFirms);
 					gameFrame.user.addCompany(selectedCompany);
-					double newMoney = gameFrame.user.getCurrentCapital() - selectedCompany.getAskingPrice();
-					gameFrame.user.setCurrentCapital(newMoney);
-					firmCurrentMoney.setText(Constants.currentCapital + Double.toString(newMoney) + Constants.million);
+					
+					firmCurrentMoney.setText(Constants.currentCapital + gameFrame.user.getCurrentCapital() + Constants.million);
 					gameFrame.header.updateCurrentCapital();
 					dtm.removeRow(selectedRow);
 					firmData.revalidate();

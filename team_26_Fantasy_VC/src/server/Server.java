@@ -60,13 +60,13 @@ public class Server extends Thread{
 		}
 	}
 	
-	public void sentToAll(Message msg) {
+	public void sendToAll(Message msg) {
 		for(ServerClientCommunicator scc : sccVector) {
 			scc.sendMessage(msg);
 		}
 	}
 	
-	public synchronized void createLobby(ServerClientCommunicator scc, String lobbyName, int hostID, int numPlayers, Game game) {
+	public synchronized void createLobby(ServerClientCommunicator scc, String lobbyName, String hostName, int numPlayers) {
 		if (lobbies.containsKey(lobbyName)) {
 			// TODO: Send message that lobby name is already taken
 			return;
@@ -75,10 +75,13 @@ public class Server extends Thread{
 		sccVector2.add(scc);
 		sccVector.remove(scc);
 		
-		ServerLobby sl = new ServerLobby(sccVector2, this, lobbyName, hostID, numPlayers, game);
+		ServerLobby sl = new ServerLobby(sccVector2, this, lobbyName, hostName, numPlayers);
+
+		scc.setLobby(sl);
 		
 		lobbies.put(lobbyName, sl);
 		
+		System.out.println("Lobby created");
 		// TODO: Send updated listing of all the lobbies
 	}
 	
@@ -89,6 +92,8 @@ public class Server extends Thread{
 		else {
 			lobbies.get(lobbyName).addToLobby(scc);
 			sccVector.remove(scc);
+			
+			scc.setLobby(lobbies.get(lobbyName));
 		}
 		
 		// TODO: Send updated listing of all the lobbies (since they have more players available now

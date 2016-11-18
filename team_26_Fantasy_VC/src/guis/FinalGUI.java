@@ -59,6 +59,7 @@ public class FinalGUI extends JPanel {
 		AppearanceSettings.unSetBorderOnButtons(done);
 		
 		//TODO All these labels need logic
+		//userIcon = new JLabel(new ImageIcon(gameFrame.getIconImage().getScaledInstance(200, 200,java.awt.Image.SCALE_SMOOTH)));
 		userIcon = new JLabel();
 		ImageIcon profile = new ImageIcon("resources/img/profile.png");
 		Image profileImage = profile.getImage();
@@ -77,7 +78,6 @@ public class FinalGUI extends JPanel {
 			gameFrame.header.updateCurrentCapital();
 			
 			winner = new JLabel("Winner: Guest");
-			System.out.println(gameFrame.user.getCompanyName());
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());
 			totalEquity = new JLabel("Total value: " + gameFrame.user.getCurrentCapital() + " Million");
 			numCompanies = new JLabel("Numbers of companies: " + gameFrame.user.getCompanies().size());
@@ -235,7 +235,11 @@ public class FinalGUI extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO go back to intro screen. If Guest do we want to ask to replay?
+				//If not networked go back to login gui
+				if(!gameFrame.networked) {
+					gameFrame.dispose();
+					new LoginGUI().setVisible(true);
+				}
 				
 			}
 			

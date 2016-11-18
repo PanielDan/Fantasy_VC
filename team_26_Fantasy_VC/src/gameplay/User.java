@@ -2,6 +2,7 @@
 package gameplay;
 
 import java.awt.Image;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
@@ -146,15 +147,43 @@ public class User {
 	
 	public synchronized void addCompany(Company company) {
 		companies.add(company);
+		currentCapital -= company.getAskingPrice();
 	}
 	
 	public synchronized void deleteCompany(Company company) {
 		for(int i = 0; i < companies.size(); i++) {
 			if(companies.get(i).getName().equals(company.getName())) {
 				companies.remove(i);
+				currentCapital -= company.getAskingPrice();
 				return;
 			}
 		}
+	}
+	
+	//returns a list of winning teams
+	public Vector<Company> getBestTeams() {
+		Vector<Company> finalists = companies;
+		Vector<Company> winners = new Vector<Company>();
+		
+		//sorts the finalists in order of their total profit
+		Collections.sort(finalists, Company.getComparator());
+		Company definiteMax = finalists.get(finalists.size() - 1);
+		double max = definiteMax.getCurrentWorth();
+		
+		winners.add(definiteMax);
+		
+		//check to see if there are other winners
+		if(finalists.size() > 1) {
+			
+			for(int i = finalists.size() - 2; i > -1; i--) {
+				//if this team has the same score as the definite winner then their is a tie
+				if(finalists.get(i).getCurrentWorth() == max) {
+					winners.add(finalists.get(i));
+				}
+			}
+		}
+		
+		return winners;
 	}
 	
 	
@@ -186,3 +215,4 @@ public class User {
 	}
 	
 }
+
