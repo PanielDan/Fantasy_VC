@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
+import client.Client;
 import gameplay.Game;
 import gameplay.GameFrame;
 import messages.QuarterlyReadyMessage;
@@ -33,14 +34,16 @@ public class QuarterlyGUI extends JPanel{
 	public JPanel freeAgents;
 	public GameFrame gameFrame;
 	public Game game;
+	private Client client;
 	
 	/** Used https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public QuarterlyGUI(GameFrame gameFrame) {
+	public QuarterlyGUI(GameFrame gameFrame, Client client) {
 		this.gameFrame = gameFrame;
+		this.client = client;
 		initializeComponents();
 		createGUI();
 		addActionListeners();

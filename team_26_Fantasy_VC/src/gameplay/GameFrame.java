@@ -11,6 +11,8 @@ import client.Client;
 import guis.AuctionTeamList;
 import guis.ChatPanel;
 import guis.IntroPanel;
+import guis.QuarterlyGUI;
+import guis.TimelapsePanel;
 import guis.TopPanel;
 import listeners.ExitWindowListener;
 
@@ -19,6 +21,7 @@ public class GameFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1;
+	private Client client;
 	public static Boolean networked;
 	public Game game;
 	public JPanel currentPanel;
@@ -72,6 +75,7 @@ public class GameFrame extends JFrame {
 		addWindowListener(new ExitWindowListener(this, client));
 		setSize(1280,720);
 		
+		this.client = client;
 		User user = client.getUser();
 		networked = true;
 		
@@ -100,8 +104,8 @@ public class GameFrame extends JFrame {
 		currentPanel = panel;
 		add(currentPanel, BorderLayout.CENTER);
 		// must repaint or the change won't show
-		repaint();
 		revalidate();
+		repaint();
 	}
 	
 	public Game getGame() {
