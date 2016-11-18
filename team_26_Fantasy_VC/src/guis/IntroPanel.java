@@ -27,7 +27,7 @@ import messages.JoinGameMessage;
 import utility.AppearanceConstants;
 
 public class IntroPanel extends JPanel {
-	JLabel lobbyLabel, hostLabel, sizeLabel, playerLabel;
+	JLabel lobbyLabel, hostLabel, sizeLabel, playerLabel, playerList;
 	JButton hostButton, joinButton;
 	JPanel eastPanel, centerPanel;
 	public GameFrame gameFrame;
@@ -42,6 +42,7 @@ public class IntroPanel extends JPanel {
 		addEvents();
 		clearCenterPanel();
 		lobbyButton = new Vector<JButton>();
+		joinButton.setEnabled(false);
 	}
 	
 	private void initializeComponents() {
@@ -49,6 +50,7 @@ public class IntroPanel extends JPanel {
 		hostLabel = new JLabel("Host: Host Name");
 		sizeLabel = new JLabel("Game Size: 3");
 		playerLabel = new JLabel("Players:");
+		playerList = new JLabel();
 		hostButton = new JButton("Host");
 		joinButton = new JButton("Join");
 	}
@@ -66,6 +68,7 @@ public class IntroPanel extends JPanel {
 		addToInfo(hostLabel);
 		addToInfo(sizeLabel);
 		addToInfo(playerLabel);
+		addToInfo(playerList);
 		
 		JScrollPane infoPane = new JScrollPane(eastPanel);
 		infoPane.getViewport().setOpaque(false);
@@ -156,15 +159,33 @@ public class IntroPanel extends JPanel {
 		selectButton.setBorder(new EmptyBorder(10,40,10,40));
 		selectButton.setFont(new Font("Arial", Font.BOLD, 28));
 		selectButton.putClientProperty("lobbyName", lobby);
+		selectButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				JButton source = (JButton) ae.getSource();
+				Lobby lobby = (Lobby)source.getClientProperty("lobbyName");
+				lobbyLabel.setText(lobby.getLobbyName());
+				hostLabel.setText("Host: " + lobby.getHostName());
+				sizeLabel.setText("Game Size: " + lobby.getGameSize());
+				String players = "";
+				for (String p : lobby.getUsername()){
+					players += p+"\n";
+				}
+				playerList.setText(players);
+			}
+			
+		});
 		lobbyButton.add(selectButton);
+		
 		
 		lobbyPanel.add(selectButton);
 		
 		centerPanel.add(lobbyPanel);
 		
-		JSeparator separator = new JSeparator();
-		separator.setBackground(AppearanceConstants.offWhite);
-		separator.setBorder(null);
+//		JSeparator separator = new JSeparator();
+//		separator.setBackground(AppearanceConstants.offWhite);
+//		separator.setBorder(null);
 		//centerPanel.add(separator);
 		
 	}

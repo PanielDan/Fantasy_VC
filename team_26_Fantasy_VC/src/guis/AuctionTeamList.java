@@ -445,7 +445,7 @@ public class AuctionTeamList extends JPanel {
 				Company selectedCompany = gameFrame.game.returnCompany((String)dtm.getValueAt(selectedRow, 0));
 	        	detailsCompanyName.setText(selectedCompany.getName());
 
-	        	detailsCompanyPicture.setIcon(new ImageIcon(selectedCompany.getCompanyLogo().getScaledInstance((int)(100*companyVect.get(selectedRow).getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
+	        	detailsCompanyPicture.setIcon(new ImageIcon(selectedCompany.getCompanyLogo().getScaledInstance((int)(100*companyVect.get(selectedRow).getAspectRatio()), 100, Image.SCALE_SMOOTH)));
 	        	detailsCompanyBio.setText(selectedCompany.getDescription());
 	        	
 	        	//detailsCompanyInfo
