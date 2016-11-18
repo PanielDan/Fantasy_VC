@@ -33,7 +33,6 @@ import javax.swing.event.ListSelectionListener;
 import client.Client;
 import gameplay.Company;
 import gameplay.GameFrame;
-import gameplay.User;
 import listeners.DisabledItemSelectionModel;
 import listeners.TableModel;
 import messages.BeginAuctionBidMessage;
@@ -41,10 +40,9 @@ import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
 
-/*
- * Author: Danny Pan
+/**
+ * @author Danny Pan
  */
-
 public class AuctionTeamList extends JPanel {
 	//variables used here
 	private JLabel timer, middleFirmPicture, firmCurrentMoney, middleFirmName,
@@ -487,7 +485,7 @@ public class AuctionTeamList extends JPanel {
 					purchasedFirms.add(selectedCompany.getName());
 					purchasedCompanysList.setListData(purchasedFirms);
 					gameFrame.user.addCompany(selectedCompany);
-
+					
 					firmCurrentMoney.setText(Constants.currentCapital + gameFrame.user.getCurrentCapital() + Constants.million);
 					gameFrame.header.updateCurrentCapital();
 					dtm.removeRow(selectedRow);

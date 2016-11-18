@@ -180,6 +180,7 @@ public class PlayerTab extends JPanel{
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
+//						gameFrame.g
 					} 
 				}
 				
@@ -207,6 +208,4 @@ public class PlayerTab extends JPanel{
 			}
 		});
 	}
-	
-	private 
 } 
