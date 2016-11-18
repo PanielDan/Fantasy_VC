@@ -154,7 +154,7 @@ public class User {
 		for(int i = 0; i < companies.size(); i++) {
 			if(companies.get(i).getName().equals(company.getName())) {
 				companies.remove(i);
-				currentCapital -= company.getAskingPrice();
+				currentCapital += company.getAskingPrice();
 				return;
 			}
 		}
