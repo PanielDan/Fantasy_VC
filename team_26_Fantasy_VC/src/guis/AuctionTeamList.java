@@ -474,7 +474,7 @@ public class AuctionTeamList extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO: Set up bidding screen and transition to bidding screen.
-				if(gameFrame.networked) {
+				if (gameFrame.networked) {
 					client.sendMessage(new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()).getName()));
 				} else {	
 					int selectedRow = firmData.getSelectedRow();

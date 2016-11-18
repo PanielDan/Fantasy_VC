@@ -155,7 +155,7 @@ public class TimelapsePanel extends JPanel {
 				e.printStackTrace();
 			}
 			
-			gameFrame.changePanel(new FinalGUI(gameFrame, client));
+			gameFrame.changePanel(new QuarterlyGUI(gameFrame, client));
 			/* uncomment this later
 			if(gameFrame.game.currentQuarter == 8) {
 				gameFrame.changePanel(new FinalGUI(gameFrame, client));

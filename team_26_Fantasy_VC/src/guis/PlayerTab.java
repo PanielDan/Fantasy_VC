@@ -14,10 +14,14 @@ import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import gameplay.Company;
 import gameplay.GameFrame;
@@ -95,8 +99,11 @@ public class PlayerTab extends JPanel{
 		
 		portfolio = new JTable(dtm);
 		portfolio.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		
 		JScrollPane portfolioScrollPane = new JScrollPane(portfolio);
 
+		portfolioScrollPane.setFocusable(false);
+		portfolioScrollPane.setBorder(null);
 		
 //		for (int a = 0; a < user.getCompanies().size(); a++) { 
 //			
@@ -155,14 +162,51 @@ public class PlayerTab extends JPanel{
 	}
 	
 	private void addActionListeners() {
+		portfolio.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				/**
+				 * The SellActionListener is an ActionListener only meant for
+				 * the JPopupMenu button to sell a company if selected on your
+				 * own portfolio.
+				 * @author alancoon
+				 *
+				 */
+				class SellActionListener implements ActionListener {
+					private Company companyToSell;
+					public SellActionListener(Company companyToSell) {
+						this.companyToSell = companyToSell;
+					}
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+					} 
+				}
+				
+				// Instantiate the pop up menu and the button within it
+				JPopupMenu jpm = new JPopupMenu();
+				JMenuItem jmi = new JMenuItem();
+				// Get the company that's selected
+	        	int selectedRow = portfolio.getSelectedRow();
+	        	TableModel dtm = (TableModel) portfolio.getModel();
+				Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+			
+				// Add a SellActionListener to the JMenuItem
+				jmi.addActionListener(new SellActionListener(selectedCompany));
+				
+
+			}
+		});
 		trade.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				qg.setVisible(false);
 				gameFrame.changePanel(new TradeGUI(qg));
 				//System.out.println("TRADE");
-				
 				InitiateTradeMessage itm = new InitiateTradeMessage();
 			}
 		});
 	}
+	
+	private 
 } 
