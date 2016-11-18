@@ -46,6 +46,7 @@ public class TimelapsePanel extends JPanel {
 		createGUI();
 		addActionListeners();
 	}
+	
 
 	private void initializeComponents() {
 		notificationList = new Vector<String>();

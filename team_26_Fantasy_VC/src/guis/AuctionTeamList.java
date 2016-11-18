@@ -484,6 +484,7 @@ public class AuctionTeamList extends JPanel {
 					
 					purchasedFirms.add(selectedCompany.getName());
 					purchasedCompanysList.setListData(purchasedFirms);
+					gameFrame.user.addCompany(selectedCompany);
 					double newMoney = gameFrame.user.getCurrentCapital() - selectedCompany.getAskingPrice();
 					gameFrame.user.setCurrentCapital(newMoney);
 					firmCurrentMoney.setText(Constants.currentCapital + Double.toString(newMoney) + Constants.million);
@@ -491,6 +492,10 @@ public class AuctionTeamList extends JPanel {
 					dtm.removeRow(selectedRow);
 					firmData.revalidate();
 					firmData.repaint();
+					
+					if(gameFrame.user.getCompanies().size() == 8) {
+						gameFrame.changePanel(new TimelapsePanel(client, gameFrame));
+					}
 				}
 			}
 			
