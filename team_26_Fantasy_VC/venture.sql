@@ -12,7 +12,7 @@ create table Users (
     biography	varchar(144) not null,
     gamesPlayed int(11) 	not null default 0,
     gamesWon 	int(11) 	not null default 0,
-    totalProfit bigint	 	not null default 0
+    totalProfit double	 	not null default 0
 );
 
 create table Companies (

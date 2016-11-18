@@ -24,17 +24,21 @@ public class User {
 	private String username;
 	private int gamesPlayed;
 	private int gamesWon;
-	private long totalProfit;
+	private double totalProfit;
 	private Vector<Company> companies;
 	private double currentCapital;
 	//For the user Text blurb
 	private String userBio;
 	private String companyName;
 	
-	public User(int id, String username, String password) {
+	public User(int id, String username, String password, String userBio, int gamesPlayed, int gamesWon, double totalProfit) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
+		this.gamesPlayed = gamesPlayed;
+		this.userBio = userBio;
+		this.gamesWon = gamesWon;
+		this.totalProfit = totalProfit;
 		companies = new Vector<Company>();
 		currentCapital = 100.0;
 	}
@@ -79,7 +83,7 @@ public class User {
 	/**
 	 * @return The lifetime profit the user has earned (or lost).
 	 */
-	public synchronized long getTotalProfit() { 
+	public synchronized double getTotalProfit() { 
 		return totalProfit;
 	}
 	
@@ -164,7 +168,7 @@ public class User {
 
 		@Override
 		public int compare(User teamOne, User teamTwo) {
-			return Long.compare(teamOne.getTotalProfit(), teamTwo.getTotalProfit());
+			return Double.compare(teamOne.getTotalProfit(), teamTwo.getTotalProfit());
 		}
 		
 	}

@@ -11,6 +11,7 @@ import java.util.Vector;
 import com.mysql.jdbc.Driver;
 
 import gameplay.Company;
+import gameplay.User;
 
 public class SQLDriver {
 	
@@ -19,6 +20,7 @@ public class SQLDriver {
 	private static final String getCompany = "SELECT * FROM Companies";
 	private static final String selectUser = "SELECT * FROM Users where username=?";
 	private static final String addUser = "INSERT INTO Users(username, passcode, biography) values(?,?,?)";
+	private static final String updateInfo = "UPDATE Users SET gamesPlayed=?, gamesWon=?, totalProfit=? WHERE username=?";
 	
 	public SQLDriver() {
 		try {
@@ -131,5 +133,42 @@ public class SQLDriver {
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
+	}
+	
+	// Updates the user's number of games played, won, and total profit
+	public void updateInfo(String username, int gamesPlayed, int gamesWon, double totalProfit) {
+		try {
+			PreparedStatement ps = con.prepareStatement(updateInfo);
+			ps.setInt(1, gamesPlayed);
+			ps.setInt(gamesWon, 2);
+			ps.setDouble(3, totalProfit);
+			ps.setString(4, username);
+			ps.executeUpdate();
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+	}
+	
+	public User getUser(String username) {
+		User user = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(selectUser);
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int userID = rs.getInt("userID");
+				String biography = rs.getString("biography");
+				String password = rs.getString("passcode");
+				int gamesPlayed = rs.getInt("gamesPlayed");
+				int gamesWon = rs.getInt("gamesWon");
+				double totalProfit = rs.getDouble("totalProfit");
+				System.out.println(userID);
+				user = new User(userID, username, password, biography, gamesPlayed, gamesWon, totalProfit);
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return user;
 	}
 }
