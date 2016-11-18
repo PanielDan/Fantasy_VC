@@ -7,13 +7,16 @@ import java.net.Socket;
 import java.util.Vector;
 
 import gameplay.Company;
+import gameplay.GameFrame;
 import gameplay.User;
+import guis.IntroPanel;
 import messages.AuctionBidUpdateMessage;
 import messages.AuctionDetailsUpdateCompanyMessage;
 import messages.AuctionDetailsUpdateUserMessage;
 import messages.BeginAuctionBidMessage;
 import messages.BeginAuctionMessage;
 import messages.ChatMessage;
+import messages.LobbyListMessage;
 import messages.Message;
 import messages.Message.MessageType;
 import messages.UserInfoPopupMessage;
@@ -34,7 +37,7 @@ public class Client extends Thread {
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private Socket s;
-	
+	private GameFrame gameFrame;
 	private boolean host;
 	//Running boolean used to determine when to break the run while loop.
 	private boolean running;
@@ -47,10 +50,12 @@ public class Client extends Thread {
 			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
-			this.start();
 		} catch (IOException ioe) { 
 			ioe.printStackTrace();
 		}
+		gameFrame = new GameFrame(this);
+		gameFrame.setVisible(true);
+		System.out.println(gameFrame.getCurrentPanel().getClass());
 	}
 	
 	public void run() {
@@ -87,6 +92,13 @@ public class Client extends Thread {
 				//Transition to Auction Bid screen
 				else if (m.getType() == MessageType.beginBid){
 					BeginAuctionBidMessage babm = (BeginAuctionBidMessage)m;
+				}
+				else if (m.getType() == MessageType.LobbyList) {
+					System.err.println(gameFrame == null);
+					if(gameFrame.getCurrentPanel() instanceof IntroPanel) {
+						LobbyListMessage llm = (LobbyListMessage)m;
+						((IntroPanel)gameFrame.getCurrentPanel()).setLobbies(llm.lobbies);
+					}
 				}
 			}
 

@@ -1,11 +1,13 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,6 +21,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import gameplay.GameFrame;
+import gameplay.Lobby;
 import messages.HostGameMessage;
 import messages.JoinGameMessage;
 import utility.AppearanceConstants;
@@ -28,6 +31,7 @@ public class IntroPanel extends JPanel {
 	JButton hostButton, joinButton;
 	JPanel eastPanel, centerPanel;
 	public GameFrame gameFrame;
+	Vector<JButton> lobbyButton;
 	IntroPanel ip;
 	
 	public IntroPanel(GameFrame gameFrame) {
@@ -36,6 +40,8 @@ public class IntroPanel extends JPanel {
 		initializeComponents();
 		createGUI();
 		addEvents();
+		clearCenterPanel();
+		lobbyButton = new Vector<JButton>();
 	}
 	
 	private void initializeComponents() {
@@ -86,10 +92,6 @@ public class IntroPanel extends JPanel {
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 		centerPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
 		
-		for(int i = 0; i < 20; i++) {
-			addLobby("A");
-		}
-		
 		JScrollPane lobbyPane = new JScrollPane(centerPanel);
 		lobbyPane.getViewport().setOpaque(false);
 		lobbyPane.setOpaque(false);
@@ -135,13 +137,13 @@ public class IntroPanel extends JPanel {
 		eastPanel.add(jc);
 	}
 	
-	public void addLobby(String name) {
+	public void addLobby(Lobby lobby) {
 		JPanel lobbyPanel = new JPanel();
 		lobbyPanel.setLayout(new BoxLayout(lobbyPanel, BoxLayout.X_AXIS));
 		lobbyPanel.setBorder(new EmptyBorder(15,40,15,40));
 		lobbyPanel.setOpaque(false);
 		
-		JLabel lobbyName = new JLabel(name);
+		JLabel lobbyName = new JLabel(lobby.getLobbyName());
 		lobbyName.setFont(new Font("Arial", Font.BOLD, 32));
 		lobbyName.setForeground(AppearanceConstants.offWhite);
 		
@@ -153,6 +155,8 @@ public class IntroPanel extends JPanel {
 		selectButton.setBackground(AppearanceConstants.darkGray);
 		selectButton.setBorder(new EmptyBorder(10,40,10,40));
 		selectButton.setFont(new Font("Arial", Font.BOLD, 28));
+		selectButton.putClientProperty("lobbyName", lobby);
+		lobbyButton.add(selectButton);
 		
 		lobbyPanel.add(selectButton);
 		
@@ -164,5 +168,21 @@ public class IntroPanel extends JPanel {
 		//centerPanel.add(separator);
 		
 	}
+	
+	public void setLobbies(Vector<Lobby> lobbies) {
+		lobbyButton.clear();
+		clearCenterPanel();
+		
+		for(Lobby lobby : lobbies) {
+			addLobby(lobby);
+		}
+		gameFrame.revalidate();
+		gameFrame.repaint();
+	}
 
+	public void clearCenterPanel() {
+		for(Component c : centerPanel.getComponents()) {
+			centerPanel.remove(c);
+		}
+	}
 }
