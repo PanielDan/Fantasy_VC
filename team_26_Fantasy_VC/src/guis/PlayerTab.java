@@ -77,6 +77,7 @@ public class PlayerTab extends JPanel{
 				qg.setVisible(false);
 				gameFrame.changePanel(new TradeGUI(qg));
 				//System.out.println("TRADE");
+				
 				InitiateTradeMessage itm = new InitiateTradeMessage();
 			}
 		});
