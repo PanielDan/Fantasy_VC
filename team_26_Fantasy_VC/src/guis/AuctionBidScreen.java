@@ -322,6 +322,6 @@ public class AuctionBidScreen extends JPanel {
 	}
 	
 	public void setCompany(Company company){
-		company = company;
+		this.company = company;
 	}
 }
