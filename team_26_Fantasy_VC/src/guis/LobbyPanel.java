@@ -1,9 +1,7 @@
 package guis;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +23,8 @@ import gameplay.User;
 import messages.LeaveLobbyMessage;
 import messages.LobbyPlayerReadyMessage;
 import utility.AppearanceConstants;
+import utility.AppearanceSettings;
+import utility.LobbyUserPanel;
 
 public class LobbyPanel extends JPanel{
 	
@@ -33,11 +33,13 @@ public class LobbyPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Vector<User> players;
-	JLabel statusLabel, firmLabel;
-	JTextField firmField;
-	JButton readyButton, inviteButton, leaveButton;
+	private Vector<User> players;
+	private JLabel statusLabel, firmLabel;
+	private JTextField firmField;
+	private JButton readyButton, inviteButton, leaveButton;
+	private Vector<LobbyUserPanel> lobbyUserLabels;
 	public GameFrame gameFrame;
+	private JPanel memberPanel;
 	
 	public LobbyPanel(GameFrame gameFrame) {
 		this.gameFrame = gameFrame;
@@ -53,18 +55,22 @@ public class LobbyPanel extends JPanel{
 		readyButton = new JButton("Ready");
 		inviteButton = new JButton("Invite");
 		leaveButton = new JButton("Leave");
+		lobbyUserLabels = new Vector<LobbyUserPanel>();
 		
 	}
 	private void createGUI() {
+		this.setSize(new Dimension(1280, 648));
 		this.setBackground(AppearanceConstants.lightBlue);
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		
 		JPanel eastPanel = new JPanel();
 		eastPanel.setBackground(AppearanceConstants.offWhite);
 		eastPanel.setLayout(new BorderLayout());
-		eastPanel.setPreferredSize(new Dimension(400, 0));
+		eastPanel.setPreferredSize(new Dimension(400, 500));
+		eastPanel.setMaximumSize(new Dimension(400, 500));
 		
 		JPanel buttonPanel = new JPanel();
+		AppearanceSettings.setCenterAlignment(readyButton,inviteButton,leaveButton);
 		buttonPanel.setOpaque(false);
 		buttonPanel.setBorder(new EmptyBorder(30,60,30,60));
 		buttonPanel.setLayout(new GridLayout(3, 1, 30, 30));
@@ -72,6 +78,7 @@ public class LobbyPanel extends JPanel{
 		buttonPanel.add(readyButton);
 		buttonPanel.add(inviteButton);
 		buttonPanel.add(leaveButton);
+		buttonPanel.setBackground(AppearanceConstants.offWhite);
 		
 		eastPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
@@ -81,46 +88,53 @@ public class LobbyPanel extends JPanel{
 		firmPanel.setLayout(new GridLayout(2,1,10,10));
 		
 		firmLabel.setHorizontalAlignment(JLabel.CENTER);
-		firmLabel.setFont(new Font("Arial", Font.BOLD, 32));
+		firmLabel.setFont(AppearanceConstants.fontLarge);
 		firmLabel.setForeground(AppearanceConstants.darkGray);
 		firmPanel.add(firmLabel);
 		
-		firmField.setFont(new Font("Arial", Font.BOLD, 32));
-		firmField.setForeground(Color.black);
+		firmField.setFont(AppearanceConstants.fontLarge);
 		firmField.setBorder(new EmptyBorder(10, 5, 10, 5));
 		firmPanel.add(firmField);
 		
 		eastPanel.add(firmPanel, BorderLayout.NORTH);
 		
-		this.add(eastPanel, BorderLayout.EAST);
+		//TODO this.add(eastPanel);
 		
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
-		centerPanel.setOpaque(false);
-				
-		JPanel memberPanel = new JPanel();
+		centerPanel.setPreferredSize(new Dimension(700, 500));
+		centerPanel.setMaximumSize(new Dimension(700, 500));
+		centerPanel.setBackground(AppearanceConstants.darkBlue);
+		
+		memberPanel = new JPanel();
 		memberPanel.setLayout(new BoxLayout(memberPanel, BoxLayout.Y_AXIS));
 		memberPanel.setOpaque(false);
 		memberPanel.setBorder(new EmptyBorder(20,40,0,40));
 		
 		for(int i = 0; i < 2; i++) {
-			addPlayer(memberPanel, Integer.toString(i), Integer.toString(i));
+			lobbyUserLabels.add(new LobbyUserPanel("Jeffrey " + Integer.toString(i)));
+			lobbyUserLabels.get(i).setFirmName("JMoney Capital "+ Integer.toString(i));
 		}
+		refreshMemberPanel();
 		
 		JScrollPane scrollPane = new JScrollPane(memberPanel);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setOpaque(false);
 		scrollPane.setBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setPreferredSize(new Dimension(860, 400));
+
 		centerPanel.add(scrollPane, BorderLayout.NORTH);
 		
 		statusLabel.setBorder(new EmptyBorder(20, 20, 20, 20));
 		statusLabel.setForeground(AppearanceConstants.offWhite);
-		statusLabel.setFont(new Font("Arial", Font.ITALIC, 28));
+		statusLabel.setFont(AppearanceConstants.fontHeaderUser);
 		centerPanel.add(statusLabel, BorderLayout.SOUTH);
 		
-		this.add(centerPanel);
+		add(Box.createGlue());
+		add(centerPanel);
+		add(Box.createGlue());
+		add(eastPanel);
+		add(Box.createGlue());
 		
 	}
 	private void addEvents() {
@@ -142,40 +156,34 @@ public class LobbyPanel extends JPanel{
 	
 	public void makeButton(JButton... button) {
 		for (JButton b : button) {
-			b.setBackground(AppearanceConstants.darkGray);
+			b.setOpaque(true);
+			b.setBackground(AppearanceConstants.darkBlue);
 			b.setForeground(AppearanceConstants.offWhite);
-			b.setFont(new Font("Arial", Font.BOLD, 32));
-			b.setBorder(null);
+			b.setFont(AppearanceConstants.fontButtonBig);
+			b.setBorderPainted(false);
 		}
 	}
 	
-	public void addPlayer(JPanel member, String name, String firm) {
-		JPanel playerPanel = new JPanel();
-		playerPanel.setOpaque(false);
-		playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.X_AXIS));
-		JLabel username = new JLabel("Jeffrey");
-		username.setFont(AppearanceConstants.fontLobby);
-		username.setForeground(AppearanceConstants.offWhite);
-		JLabel firmName = new JLabel(firm);
-		firmName.setFont(AppearanceConstants.fontLobby);
-		firmName.setForeground(AppearanceConstants.offWhite);
-		JLabel ready = new JLabel("ready");		
-		ready.setFont(AppearanceConstants.fontLobby);
-		ready.setForeground(Color.green);
-		playerPanel.add(username);
-		playerPanel.add(Box.createHorizontalGlue());
-		playerPanel.add(firmName);
-		playerPanel.add(Box.createHorizontalGlue());
-		playerPanel.add(ready);
-		playerPanel.setBorder(new EmptyBorder(15,40,15,40));
-		member.add(playerPanel);
-		//member.add(Box.createRigidArea(new Dimension(0,15)));
-		JSeparator separator = new JSeparator();
-		separator.setBackground(AppearanceConstants.offWhite);
-		separator.setBorder(null);
-//		member.add(separator);
-		//member.add(Box.createRigidArea(new Dimension(0,15)));
-		
+	public void refreshMemberPanel() {
+		memberPanel.removeAll();
+		for (int i = 0; i < lobbyUserLabels.size(); i++){
+			memberPanel.add(lobbyUserLabels.get(i));
+			if (i != (lobbyUserLabels.size()-1) )
+					memberPanel.add(new JSeparator(JSeparator.HORIZONTAL));
+		}
+	}
+	
+	public void addUser(String username){
+		lobbyUserLabels.add(new LobbyUserPanel(username));
+		refreshMemberPanel();
+	}
+	
+	public void removeUser(String username){
+		for(int i = 0; i < lobbyUserLabels.size(); i++){
+			if(lobbyUserLabels.get(i).getUsername().equals(username))
+				lobbyUserLabels.remove(i);
+		}
+		refreshMemberPanel();
 	}
 
 }

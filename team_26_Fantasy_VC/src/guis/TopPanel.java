@@ -91,7 +91,7 @@ public class TopPanel extends JPanel {
 		}
 		*/		
 		//Logo here
-		currentCapital = new JLabel(Constants.currentCapital + user.getCurrentCapital() + Constants.million);
+		currentCapital = new JLabel();
 		currentCapital.setForeground(AppearanceConstants.offWhite);
 		currentCapital.setFont(AppearanceConstants.fontHeaderMoney);
 		//AppearanceSettings.setCenterAlignment(currentCapital);
@@ -177,6 +177,8 @@ public class TopPanel extends JPanel {
 	}
 	public void updateIcon(){
 		userIcon.setIcon(new ImageIcon(user.getUserIcon().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
-		
+	}
+	public void hideCurrentCapital(){
+		currentCapital.setText("");
 	}
 }
