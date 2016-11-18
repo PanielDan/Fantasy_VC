@@ -42,7 +42,7 @@ public class GameFrame extends JFrame {
 		game = new Game();
 		user = guest;
 		game.addUser(guest);
-		game.addUser(new User(0,"Guest 1","Hello"));
+		//game.addUser(new User(0,"Guest 1","Hello"));
 		
 		header = new TopPanel(this, guest);
 		chatbox = new ChatPanel(guest);
