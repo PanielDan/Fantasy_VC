@@ -324,7 +324,7 @@ public class LoginGUI extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			/* Guest users will have an ID of -1. */
-			User guest = new User(-1, "Guest User", "Guest Password");
+			User guest = new User(-1, "Guest User", "null", "Guest User", 0, 0, 0);
 			new GameFrame(guest).setVisible(true);
 			dispose();
 		}
