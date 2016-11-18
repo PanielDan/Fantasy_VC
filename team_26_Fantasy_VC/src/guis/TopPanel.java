@@ -97,22 +97,17 @@ public class TopPanel extends JPanel {
 		
 		fantasyVCLogo = new JLabel();
 		fantasyVCLogo.setBorder(new EmptyBorder(0,5,0,0));
-		ImageIcon logo = new ImageIcon("resources/img/FantasyVC.png");
+		ImageIcon logo = new ImageIcon("src/resources/FantasyVC.png");
 		Image logoIcon = logo.getImage();
 		fantasyVCLogo.setIcon(new ImageIcon(logoIcon.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
-		
-		
+
 		//userIcon here
 		userIcon = new JButton();
 		userIcon.setOpaque(true);
 		AppearanceSettings.unSetBorderOnButtons(userIcon);
 		userIcon.setBackground(AppearanceConstants.darkBlue);
 		userIcon.setVerticalAlignment(SwingConstants.CENTER);
-		
-		//Test Code
-		ImageIcon profile = new ImageIcon("resources/img/profile.png");
-		Image profileImage = profile.getImage();
-		userIcon.setIcon(new ImageIcon(profileImage.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
+		userIcon.setIcon(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
 		
 		//Username formatting
 		username = new JLabel(user.getUsername());

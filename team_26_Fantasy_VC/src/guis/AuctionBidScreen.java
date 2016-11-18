@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -15,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 
 import gameplay.Company;
 import gameplay.GameFrame;
+import gameplay.User;
 import listeners.TableModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -61,9 +62,9 @@ public class AuctionBidScreen extends JPanel {
 		
 		//Middle Panel Variables
 		companyPicture = new JLabel();
-		companyName = new JLabel("Alliance Pharmaceuticals");
-		minimumBid = new JLabel("Minimum Bid: $15,000,000");
-		companyBio = new JTextArea("Alliance Pharmaceuticals an American large-cap business driven biomedical research corporation focused on the discovery of innovative medicine. Alliance is looking for a large investment to fund an expansion into european laboritories to further drug creation.");
+		companyName = new JLabel(company.getName());
+		minimumBid = new JLabel("Minimum Bid: " + company.getAskingPrice() + "Million");
+		companyBio = new JTextArea(company.getDescription());
 		companyBio.setLineWrap(true);
 		companyBio.setWrapStyleWord(true);
 		companyBio.setEditable(false);
@@ -86,19 +87,12 @@ public class AuctionBidScreen extends JPanel {
 		intializeFirms();
 		bidButton = new JButton("BID");
 		bidAmount = new JTextField();
-		maximumBidAmount = new JLabel("$20,400,000");
+		maximumBidAmount = new JLabel();
 		maximumBidLabel = new JLabel("CURRENT MAX BID");
 		maximumBidIcon = new JLabel();
 		
 		//Testing code
-		ImageIcon alliance = new ImageIcon("resources/img/lobbies.png");
-		Image companyIcon = alliance.getImage();
-		companyPicture.setIcon(new ImageIcon(companyIcon.getScaledInstance(150, 150,  java.awt.Image.SCALE_SMOOTH)));
-		
-		ImageIcon tim = new ImageIcon("resources/img/profile.png");
-		Image firmIcon = tim.getImage();
-		maximumBidIcon.setIcon(new ImageIcon(firmIcon.getScaledInstance(75, 75,  java.awt.Image.SCALE_SMOOTH)));
-
+		companyPicture.setIcon(new ImageIcon(company.getCompanyLogo().getScaledInstance((int)(150*company.getAspectRatio()), 150, Image.SCALE_SMOOTH)));
 	}
 	
 	//Function to allocate information for each user.
@@ -109,15 +103,10 @@ public class AuctionBidScreen extends JPanel {
 		firmName = new JLabel[4];
 		firmBid = new JLabel[4];
 		
-		//INTIALIZED FOR TESTING PURPOSES
-		ImageIcon tim = new ImageIcon("resources/img/profile.png");
-		Image firmIcon = tim.getImage();
-
 		for(int i = 0; i < 4; i++){
 			firmPicture[i] = new JLabel();
-			firmPicture[i].setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
-			firmName[i] = new JLabel("Timillionaries");
-			firmBid[i] = new JLabel("$20,400,000");
+			firmName[i] = new JLabel("");
+			firmBid[i] = new JLabel("$");
 			
 			AppearanceSettings.setBackground(AppearanceConstants.darkBlue, firmPicture[i],firmName[i],firmBid[i]);
 			AppearanceSettings.setForeground(AppearanceConstants.offWhite,firmName[i],firmBid[i]);
@@ -128,7 +117,33 @@ public class AuctionBidScreen extends JPanel {
 			firmPicture[i].setMaximumSize(new Dimension(100,100));
 			firmName[i].setBorder(new EmptyBorder(5,5,5,5));
 			firmBid[i].setBorder(new EmptyBorder(5,5,5,5));
-
+		}
+		
+		Vector<User> userVect = gameFrame.game.getUsers();
+		int i = 0;
+		int j = 0;
+		while(i < 4){
+			if (j < userVect.size()){
+				if (i == 0){
+					firmPicture[i].setIcon(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+					firmName[i].setText(gameFrame.user.getCompanyName());
+					firmBid[i].setText("0 Million");
+					i++;
+				} else if (!userVect.get(j).getUsername().equals(gameFrame.user.getUsername())){
+					firmPicture[i].setIcon(new ImageIcon(userVect.get(j).getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+					firmName[i].setText(userVect.get(j).getCompanyName());
+					firmBid[i].setText("0 Million");
+					i++;
+					j++;
+				}else{
+					j++;
+				}
+			} else{
+				firmPicture[i].setText("");
+				firmName[i].setText("");
+				firmBid[i].setText("");
+				i++;
+			}
 		}
 	}
 	
@@ -172,8 +187,11 @@ public class AuctionBidScreen extends JPanel {
 	private JPanel createCompanyInfoPanel(){
 		JPanel companyInfoPanel = new JPanel();
 		JPanel companyLabelsPanel = new JPanel();
+		JPanel companyStatisticsPanel = new JPanel();
 		JScrollPane companyTablePane = new JScrollPane(companyStatistics);
 		JScrollPane companyBioPane = new JScrollPane(companyBio);
+		
+		JLabel statisticsLabel = new JLabel("Statistics");
 		
 		//remove borders
 		companyTablePane.setFocusable(false);
@@ -185,8 +203,10 @@ public class AuctionBidScreen extends JPanel {
 		//Set padding
 		companyName.setBorder(new EmptyBorder(5,5,5,5));
 		minimumBid.setBorder(new EmptyBorder(5,5,5,5));
+		companyStatistics.setBorder(new EmptyBorder(5,5,5,5));
 
 		//Set layouts
+		AppearanceSettings.setBoxLayout(BoxLayout.PAGE_AXIS, companyStatisticsPanel);
 		AppearanceSettings.setBoxLayout(BoxLayout.LINE_AXIS, companyInfoPanel);
 		companyLabelsPanel.setLayout(new BorderLayout());
 		
@@ -195,23 +215,28 @@ public class AuctionBidScreen extends JPanel {
 		companyInfoPanel.setMaximumSize(new Dimension(1200, 200));
 		AppearanceSettings.setSize(600, 150, companyLabelsPanel);
 		companyLabelsPanel.setMaximumSize(new Dimension(600, 150));
-		AppearanceSettings.setSize(300, 180, companyTablePane);
-		companyBioPane.setMaximumSize(new Dimension(300, 180));
+		AppearanceSettings.setSize(200, 150, companyTablePane);
+		companyBioPane.setMaximumSize(new Dimension(200, 150));
+		AppearanceSettings.setSize(200, 200, companyStatisticsPanel);
+		companyStatisticsPanel.setMaximumSize(new Dimension(200, 200));
 
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, companyInfoPanel,companyLabelsPanel,
-				companyTablePane, companyBioPane, companyBio);
-		AppearanceSettings.setForeground(AppearanceConstants.offWhite, companyName, companyBio, minimumBid);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall,companyName, minimumBid);
+				companyTablePane, companyBioPane, companyBio, companyStatisticsPanel,statisticsLabel);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, companyName, companyBio, minimumBid,
+				statisticsLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall,companyName, minimumBid, statisticsLabel);
+		AppearanceSettings.setCenterAlignment(statisticsLabel);
 		companyBio.setFont(AppearanceConstants.fontSmallest);
 		
 		companyLabelsPanel.add(companyName, BorderLayout.NORTH);
 		companyLabelsPanel.add(companyBioPane, BorderLayout.CENTER);
 		companyLabelsPanel.add(minimumBid, BorderLayout.SOUTH);
 		
+		AppearanceSettings.addGlue(companyStatisticsPanel, BoxLayout.PAGE_AXIS, true, statisticsLabel, companyTablePane);
 		
 		AppearanceSettings.addGlue(companyInfoPanel, BoxLayout.LINE_AXIS, true, companyPicture, companyLabelsPanel);
-		companyInfoPanel.add(companyTablePane);
-		companyInfoPanel.add(Box.createHorizontalStrut(20));
+		companyInfoPanel.add(companyStatisticsPanel);
+		companyInfoPanel.add(Box.createHorizontalStrut(30));
 		
 		return companyInfoPanel;
 	}
@@ -241,9 +266,11 @@ public class AuctionBidScreen extends JPanel {
 		AppearanceSettings.setCenterAlignment(maximumBidLabel);
 		//Create all the user and their max bids
 		createFirmsPanels(firmBiddingPanel);
-				
-		AppearanceSettings.addGlue(maxBidFirmPanel, BoxLayout.LINE_AXIS, true, maximumBidIcon, maximumBidAmount);
-		AppearanceSettings.addGlue(maxBidPanel, BoxLayout.PAGE_AXIS, true, maximumBidLabel, maxBidFirmPanel);
+		
+		maxBidFirmPanel.add(Box.createHorizontalStrut(20));
+		AppearanceSettings.addGlue(maxBidFirmPanel, BoxLayout.LINE_AXIS, false, maximumBidIcon, maximumBidAmount);
+		maxBidPanel.add(Box.createVerticalStrut(20));
+		AppearanceSettings.addGlue(maxBidPanel, BoxLayout.PAGE_AXIS, false, maximumBidLabel, maxBidFirmPanel);
 		
 		//Add
 		AppearanceSettings.addGlue(firmBiddingPanel, BoxLayout.LINE_AXIS, true, firmPanels[0],

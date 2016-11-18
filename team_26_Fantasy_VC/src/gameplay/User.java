@@ -7,6 +7,8 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 
+import utility.ImageLibrary;
+
 /**
  * The {@code User} class stores information about the logged
  * in user, using data queried from the MySQL database.
@@ -41,6 +43,8 @@ public class User {
 		this.totalProfit = totalProfit;
 		companies = new Vector<Company>();
 		currentCapital = 100.0;
+		userIconString = "resources/img/profile.png";
+		createIcon();
 	}
 
 	/**
@@ -99,8 +103,8 @@ public class User {
 	}
 	
 	public void setUserIcon(String input){
-		ImageIcon icon = new ImageIcon(input);
-		userIcon = icon.getImage();
+		userIconString = input;
+		createIcon();
 	}
 	/**
 	 * @set The user's currentCapital.
@@ -175,6 +179,10 @@ public class User {
 	
 	public static MoneyComparator getComparator(){
 		return new MoneyComparator();
+	}
+	
+	private void createIcon(){
+		userIcon = ImageLibrary.getImage(userIconString);
 	}
 	
 }
