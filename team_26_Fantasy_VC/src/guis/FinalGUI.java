@@ -59,6 +59,7 @@ public class FinalGUI extends JPanel {
 		AppearanceSettings.unSetBorderOnButtons(done);
 		
 		//TODO All these labels need logic
+		//userIcon = new JLabel(new ImageIcon(gameFrame.getIconImage().getScaledInstance(200, 200,java.awt.Image.SCALE_SMOOTH)));
 		userIcon = new JLabel();
 		ImageIcon profile = new ImageIcon("resources/img/profile.png");
 		Image profileImage = profile.getImage();
