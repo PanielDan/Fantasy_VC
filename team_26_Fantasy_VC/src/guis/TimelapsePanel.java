@@ -59,6 +59,7 @@ public class TimelapsePanel extends JPanel {
 		//set notificationList in NOT NETWORKED game
 		if(!gameFrame.networked) {
 			notificationList = gameFrame.game.updateNonNetworkedCompanies();
+			//increment quarter every time lapse
 			gameFrame.game.incrementQuarter();
 		}
 		
@@ -142,7 +143,7 @@ public class TimelapsePanel extends JPanel {
 			for(int i = 0; i < notificationList.size(); i++) {
 				model.addElement(notificationList.get(i));
 				try {
-					Thread.sleep(rand.nextInt(2500));
+					Thread.sleep(rand.nextInt(1000));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -154,7 +155,12 @@ public class TimelapsePanel extends JPanel {
 				e.printStackTrace();
 			}
 			
-			gameFrame.changePanel(new QuarterlyGUI(gameFrame, client));
+			if(gameFrame.game.currentQuarter == 8) {
+				gameFrame.changePanel(new FinalGUI(gameFrame, client));
+			}
+			else {
+				gameFrame.changePanel(new QuarterlyGUI(gameFrame, client));
+			}
 		}
 	}
 }

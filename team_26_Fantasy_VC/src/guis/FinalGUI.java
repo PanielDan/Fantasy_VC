@@ -1,5 +1,9 @@
 package guis;
 
+import gameplay.Company;
+import gameplay.GameFrame;
+import gameplay.User;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -19,14 +23,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
-import gameplay.Company;
-import gameplay.GameFrame;
-import gameplay.User;
 import listeners.TableModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
 import utility.FinalUserButton;
+import client.Client;
 
 public class FinalGUI extends JPanel {
 
@@ -36,8 +38,10 @@ public class FinalGUI extends JPanel {
 	percentGain, numCompanies, bestInvestment, portfolioLabel;
 	private JButton done;
 	private JTable portfolio;
+	private Client client;
 	
-	public FinalGUI(GameFrame gameFrame){
+	public FinalGUI(GameFrame gameFrame, Client client){
+		this.client = client;
 		this.gameFrame = gameFrame;
 		initializeVariables();
 		CreateGUI();
