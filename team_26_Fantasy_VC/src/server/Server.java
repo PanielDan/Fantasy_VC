@@ -24,6 +24,7 @@ public class Server extends Thread{
 		}
 		sccVector = new Vector<ServerClientCommunicator>();
 		lobbies = new HashMap<String, ServerLobby>();
+		this.start();
 	}
 	
 	public void removeServerClientCommunicator(ServerClientCommunicator scc) {
@@ -91,5 +92,9 @@ public class Server extends Thread{
 		}
 		
 		// TODO: Send updated listing of all the lobbies (since they have more players available now
+	}
+	
+	public static void main(String [] args) {
+		new Server();
 	}
 }

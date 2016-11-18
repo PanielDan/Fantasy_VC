@@ -27,6 +27,7 @@ import messages.UserInfoPopupMessage;
 public class Client extends Thread {
 	private User user;
 	private String firmName;
+	private String lobbyName;
 	private long bankAccount;
 	private Vector<Company> portfolio;
 	
@@ -38,20 +39,17 @@ public class Client extends Thread {
 	//Running boolean used to determine when to break the run while loop.
 	private boolean running;
 	
-	public Client(String hostname, int port, User user, boolean host) { 
-		synchronized (this) {
-			running = true;
-			this.s = null;
-			this.user = user;
-			this.host = host;
-			try {
-				s = new Socket(hostname, port);
-				oos = new ObjectOutputStream(s.getOutputStream());
-				ois = new ObjectInputStream(s.getInputStream());
-				this.start();
-			} catch (IOException ioe) { 
-				ioe.printStackTrace();
-			}
+	public Client(User user) { 
+		running = true;
+		this.s = null;
+		this.user = user;
+		try {
+			s = new Socket("localhost", 8008);
+			oos = new ObjectOutputStream(s.getOutputStream());
+			ois = new ObjectInputStream(s.getInputStream());
+			this.start();
+		} catch (IOException ioe) { 
+			ioe.printStackTrace();
 		}
 	}
 	

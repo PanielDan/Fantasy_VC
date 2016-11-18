@@ -43,7 +43,7 @@ public class User {
 		this.totalProfit = totalProfit;
 		companies = new Vector<Company>();
 		currentCapital = 100.0;
-		userIconString = "resources/img/profile.png";
+		userIconString = "http://jeffreychen.space/fantasyvc/users/guestuser.png";
 		createIcon();
 	}
 
