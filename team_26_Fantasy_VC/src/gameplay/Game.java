@@ -109,7 +109,7 @@ public class Game implements Serializable {
 			}
 			
 			if(!updateText.equals("")) {
-				output.add(company.getName() + " " + updateText);
+				output.add(company.getName() + updateText);
 			}
 		}
 		

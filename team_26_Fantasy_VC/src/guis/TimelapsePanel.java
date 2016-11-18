@@ -2,10 +2,12 @@ package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -35,6 +37,7 @@ public class TimelapsePanel extends JPanel {
 	private ImageIcon animation;
 	private JLabel animationLabel, notificationLabel;
 	public GameFrame gameFrame;
+	private DefaultListModel<String> model;
 	
 	/**
 	 * Create the panel.
@@ -66,7 +69,9 @@ public class TimelapsePanel extends JPanel {
 		}
 		*/
 		
-		notifications = new JList<String>(notificationList);
+		//notifications = new JList<String>(notificationList);
+		model = new DefaultListModel<>();
+		notifications = new JList<>( model );
 		notificationLabel = new JLabel("Notifications");
 		
 	    animation = new ImageIcon(Constants.images + "animation" + Constants.gif);
@@ -113,6 +118,8 @@ public class TimelapsePanel extends JPanel {
 		add(Box.createGlue());
 		add(animationLabel);
 		add(Box.createHorizontalStrut(50));
+		
+		new TimelapseHelper().start();
 	}
 	
 	public void addActionListeners(){
@@ -122,5 +129,29 @@ public class TimelapsePanel extends JPanel {
 	
 	public void appendNotification(String message) {
 		
+	}
+	
+	public class TimelapseHelper extends Thread {
+		
+		public void run() {
+			Random rand = new Random();
+			
+			for(int i = 0; i < notificationList.size(); i++) {
+				model.addElement(notificationList.get(i));
+				try {
+					Thread.sleep(rand.nextInt(2500));
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			gameFrame.changePanel(new QuarterlyGUI(gameFrame, client));
+		}
 	}
 }
