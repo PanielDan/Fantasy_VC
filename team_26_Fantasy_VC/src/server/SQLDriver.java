@@ -18,9 +18,11 @@ public class SQLDriver {
 	private Connection con;
 	private static final String addCompany = "INSERT INTO Companies(imagePath, companyName, description, startingPrice, tierLevel) values (?,?,?,?,?)";
 	private static final String getCompany = "SELECT * FROM Companies";
-	private static final String selectUser = "SELECT * FROM Users where username=?";
+	private static final String selectUser1 = "SELECT * FROM Users where username=?";
+	private static final String selectUser2 = "SELECT * FROM Users where userID=?";
 	private static final String addUser = "INSERT INTO Users(username, passcode, biography) values(?,?,?)";
-	private static final String updateInfo = "UPDATE Users SET gamesPlayed=?, gamesWon=?, totalProfit=? WHERE username=?";
+	private static final String updateRecords = "UPDATE Users SET gamesPlayed=?, gamesWon=?, totalProfit=? WHERE username=?";
+	private static final String updateInfo = "UPDATE Users Set username=?, biography=? WHERE userID=?";
 	
 	public SQLDriver() {
 		try {
@@ -92,7 +94,7 @@ public class SQLDriver {
 	// Returns boolean of whether or not username already exists
 	public boolean userExists(String username) {
 		try {
-			PreparedStatement ps = con.prepareStatement(selectUser);
+			PreparedStatement ps = con.prepareStatement(selectUser1);
 			ps.setString(1, username);
 			ResultSet result = ps.executeQuery();
 			while(result.next()) {
@@ -107,7 +109,7 @@ public class SQLDriver {
 	// Checks to see if the password matches for that user
 	public boolean checkPassword(String username, String password) {
 		try {
-			PreparedStatement ps = con.prepareStatement(selectUser);
+			PreparedStatement ps = con.prepareStatement(selectUser1);
 			ps.setString(1, username);
 			ResultSet result = ps.executeQuery();
 			while(result.next()) {
@@ -136,9 +138,9 @@ public class SQLDriver {
 	}
 	
 	// Updates the user's number of games played, won, and total profit
-	public void updateInfo(String username, int gamesPlayed, int gamesWon, double totalProfit) {
+	public void updateUserRecords(String username, int gamesPlayed, int gamesWon, double totalProfit) {
 		try {
-			PreparedStatement ps = con.prepareStatement(updateInfo);
+			PreparedStatement ps = con.prepareStatement(updateRecords);
 			ps.setInt(1, gamesPlayed);
 			ps.setInt(gamesWon, 2);
 			ps.setDouble(3, totalProfit);
@@ -149,15 +151,53 @@ public class SQLDriver {
 		}
 	}
 	
+	// Used to update the user's username or biography
+	public void updateUserInfo(int userID, String username, String biography) {
+		try {
+			PreparedStatement ps = con.prepareStatement(updateInfo);
+			ps.setString(1, username);
+			ps.setString(2, biography);
+			ps.setInt(3, userID);
+			
+			ps.executeUpdate();
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+	}
+	
+	// Overloaded method of getting user by username
 	public User getUser(String username) {
 		User user = null;
 		try {
-			PreparedStatement ps = con.prepareStatement(selectUser);
+			PreparedStatement ps = con.prepareStatement(selectUser1);
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				int userID = rs.getInt("userID");
+				String biography = rs.getString("biography");
+				String password = rs.getString("passcode");
+				int gamesPlayed = rs.getInt("gamesPlayed");
+				int gamesWon = rs.getInt("gamesWon");
+				double totalProfit = rs.getDouble("totalProfit");
+				System.out.println(userID);
+				user = new User(userID, username, password, biography, gamesPlayed, gamesWon, totalProfit);
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return user;
+	}
+	
+	// Overloaded method of getting user by userID.
+	public User getUser(int userID) {
+		User user = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(selectUser2);
+			ps.setInt(1, userID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				String username = rs.getString("username");
 				String biography = rs.getString("biography");
 				String password = rs.getString("passcode");
 				int gamesPlayed = rs.getInt("gamesPlayed");

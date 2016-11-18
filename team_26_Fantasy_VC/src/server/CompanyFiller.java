@@ -46,9 +46,12 @@ public class CompanyFiller {
 //		System.out.println(driver.userExists("Timmy Lewd"));
 //		System.out.println(driver.checkPassword("Timmy Lewd", "passcode"));
 		
-		driver.updateInfo("Timmy Lewd", 1, 2, 4);
 		
 		User user = driver.getUser("Timmy Lewd");
+		
+		driver.updateUserInfo(user.getID(), "New Name", "new biography");
+		
+		user = driver.getUser("New Name");
 		System.out.println(user.getUserBio());
 		
 		driver.stop();
