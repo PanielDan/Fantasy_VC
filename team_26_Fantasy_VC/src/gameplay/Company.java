@@ -155,7 +155,7 @@ public class Company {
 					text = " became bankrupt!";
 				}
 				else {
-					text += "They are now bankrupt!";
+					text += " They are now bankrupt!";
 				}
 				currentWorth = 0;
 			}

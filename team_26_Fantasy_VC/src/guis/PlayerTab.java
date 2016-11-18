@@ -94,7 +94,6 @@ public class PlayerTab extends JPanel {
 		for(int i = 0; i < companies.size(); i++) {
 			double percentChange = (companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
 					 companies.get(i).getStartingPrice() * 100;
-			System.out.println(percentChange);
 			DecimalFormat df = new DecimalFormat ("#.##");
 			System.out.println(df.format(percentChange));
 			System.out.println(df.format(percentChange) + "%");
