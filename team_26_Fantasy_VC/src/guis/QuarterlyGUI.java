@@ -49,6 +49,7 @@ public class QuarterlyGUI extends JPanel{
 	public QuarterlyGUI(GameFrame gameFrame, Client client) {
 		this.gameFrame = gameFrame;
 		this.client = client;
+		this.gameFrame.header.updateCurrentCapital();
 		initializeComponents();
 		createGUI();
 		addActionListeners();
