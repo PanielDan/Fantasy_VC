@@ -1,6 +1,95 @@
 package server;
 
-public class Server {
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
+import gameplay.Game;
+import messages.Message;
+
+public class Server extends Thread{
+	private ServerSocket ss;
+	private Vector<ServerClientCommunicator> sccVector;
+	private Map<String, ServerLobby> lobbies;
 	
+	public Server() {
+		try {
+			ss = new ServerSocket(8008);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		sccVector = new Vector<ServerClientCommunicator>();
+		lobbies = new HashMap<String, ServerLobby>();
+	}
 	
+	public void removeServerClientCommunicator(ServerClientCommunicator scc) {
+		sccVector.remove(scc);
+	}
+	
+	public void removeServerLobby(ServerLobby sl) {
+		lobbies.remove(sl.getLobbyName());
+		// TODO: Send updated listing of available lobbies
+	}
+	
+	public void run() {
+		try {
+			while(true) {
+				Socket s = ss.accept();
+				System.out.println("accepted");
+				ServerClientCommunicator scc = new ServerClientCommunicator(s, this);
+				scc.start();
+				sccVector.addElement(scc);
+			}
+		} catch (SocketException se) {
+			se.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} finally {
+			if (ss != null) {
+				try {
+					ss.close();							
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void sentToAll(Message msg) {
+		for(ServerClientCommunicator scc : sccVector) {
+			scc.sendMessage(msg);
+		}
+	}
+	
+	public synchronized void createLobby(ServerClientCommunicator scc, String lobbyName, int hostID, int numPlayers, Game game) {
+		if (lobbies.containsKey(lobbyName)) {
+			// TODO: Send message that lobby name is already taken
+			return;
+		}
+		Vector<ServerClientCommunicator> sccVector2 = new Vector<ServerClientCommunicator>();
+		sccVector2.add(scc);
+		sccVector.remove(scc);
+		
+		ServerLobby sl = new ServerLobby(sccVector2, this, lobbyName, hostID, numPlayers, game);
+		
+		lobbies.put(lobbyName, sl);
+		
+		// TODO: Send updated listing of all the lobbies
+	}
+	
+	public synchronized void addToLobby(ServerClientCommunicator scc, String lobbyName) {
+		if(!lobbies.containsKey(lobbyName)) {
+			// TODO: Send message that lobby does not exist
+		}
+		else {
+			lobbies.get(lobbyName).addToLobby(scc);
+			sccVector.remove(scc);
+		}
+		
+		// TODO: Send updated listing of all the lobbies (since they have more players available now
+	}
 }
