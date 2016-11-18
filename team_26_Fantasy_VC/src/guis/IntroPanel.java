@@ -66,10 +66,10 @@ public class IntroPanel extends JPanel {
 		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
 		eastPanel.setPreferredSize(new Dimension(400,0));
 		eastPanel.setBorder(new EmptyBorder(30, 20, 30, 20));
-		addToInfo(lobbyLabel);
-		addToInfo(hostLabel);
-		addToInfo(sizeLabel);
-		addToInfo(playerLabel);
+//		addToInfo(lobbyLabel);
+//		addToInfo(hostLabel);
+//		addToInfo(sizeLabel);
+//		addToInfo(playerLabel);
 		
 		JScrollPane infoPane = new JScrollPane(eastPanel);
 		infoPane.getViewport().setOpaque(false);
@@ -172,7 +172,7 @@ public class IntroPanel extends JPanel {
 				clearPlayerPanel();
 				JButton source = (JButton) ae.getSource();
 				activeLobby = (Lobby)source.getClientProperty("lobbyName");
-				lobbyLabel.setText(lobby.getLobbyName());
+				lobbyLabel.setText("Lobby: " + lobby.getLobbyName());
 				hostLabel.setText("Host: " + lobby.getHostName());
 				sizeLabel.setText("Game Size: " + lobby.getGameSize());
 				addToInfo(lobbyLabel);

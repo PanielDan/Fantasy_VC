@@ -19,6 +19,7 @@ public class ServerLobby extends Thread{
 		this.numPlayers = numPlayers;
 		usernames = new Vector<String>();
 		usernames.add(hostName);
+		this.start();
 	}
 	
 	public String getLobbyName() {
@@ -44,16 +45,19 @@ public class ServerLobby extends Thread{
 	}
 	
 	public void addToLobby(ServerClientCommunicator scc, String username) {
+		System.out.println("add");
 		sccVector.add(scc);
 		usernames.add(username);
 		for(String u : usernames) {
 			System.out.println(u);
-		}
+		} 
+		System.out.println(sccVector.size() + " " + numPlayers);
 		// TODO: send to people in the lobby how many to wait on
 	}
 	
 	public void run() {
 		while (sccVector.size() < numPlayers);
+		System.out.print("full");
 		// TODO: Send signal that the lobby has enough players and start game
 		server.removeServerLobby(this);
 	}

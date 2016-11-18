@@ -33,8 +33,10 @@ public class Server extends Thread{
 	}
 	
 	public void removeServerLobby(ServerLobby sl) {
+		System.out.println("remove");
 		lobbies.remove(sl.getLobbyName());
 		// TODO: Send updated listing of available lobbies
+		sendLobbies();
 	}
 	
 	public void run() {
@@ -90,6 +92,7 @@ public class Server extends Thread{
 	public synchronized void addToLobby(ServerClientCommunicator scc, String lobbyName, String username) {
 		if(!lobbies.containsKey(lobbyName)) {
 			// TODO: Send message that lobby does not exist
+			System.out.println("not found");
 		}
 		else {
 			lobbies.get(lobbyName).addToLobby(scc, username);
