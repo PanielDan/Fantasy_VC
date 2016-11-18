@@ -123,9 +123,14 @@ public class QuarterlyGUI extends JPanel{
 		add(notificationsAndReadyPanel, BorderLayout.EAST);
 
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, timer);
+		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, updatesTextArea, notificationsAndReadyPanel);
+		AppearanceSettings.setBackground(AppearanceConstants.darkBlue );
 		
-		ready.setBackground(Color.GREEN);	
-		
+		AppearanceSettings.setBackground(AppearanceConstants.green, ready);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, ready);
+		AppearanceSettings.setOpaque(ready);
+		AppearanceSettings.unSetBorderOnButtons(ready);
+		AppearanceSettings.setFont(AppearanceConstants.fontLargeBidButton, ready);
 		setBackground(AppearanceConstants.darkBlue);
 	}
 	

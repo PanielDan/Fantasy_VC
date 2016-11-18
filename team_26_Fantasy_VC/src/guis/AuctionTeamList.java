@@ -338,7 +338,7 @@ public class AuctionTeamList extends JPanel {
 		//Bid Button Appearance Settings
 		bidButton.setOpaque(true);
 		bidButton.setFont(AppearanceConstants.fontLargeBidButton);
-		bidButton.setBackground(new Color(51,102,0));
+		bidButton.setBackground(AppearanceConstants.green);
 		bidButton.setBorderPainted(false);
 		//Function to Align all Labels to the center of the BoxLayout.
 		//Needs to be added to Appearance Settings.
