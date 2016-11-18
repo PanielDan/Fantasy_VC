@@ -138,6 +138,6 @@ public class TradeGUI extends JPanel {
 	}
 	
 	public void sendUpdate(String message) {
-		updatesTextArea.append("\n" + message);
+		updatesTextArea.append(message);
 	}
 }

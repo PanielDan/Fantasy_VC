@@ -68,7 +68,6 @@ public class GameFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	// Forced overload
 	public GameFrame(Client client) {
 		super("Venture Capital Online");
 		
@@ -110,11 +109,6 @@ public class GameFrame extends JFrame {
 	
 	public Game getGame() {
 		return game;
-	}
-	
-	public JPanel getCurrentPanel(){
-//		System.out.println(currentPanel.getClass());
-		return currentPanel;
 	}
 	
 	public Client getClient() {
