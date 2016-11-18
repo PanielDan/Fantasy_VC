@@ -113,7 +113,7 @@ public class IntroPanel extends JPanel {
 		});
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				JoinGameMessage jgm = new JoinGameMessage();
+				JoinGameMessage jgm = new JoinGameMessage(gameFrame.user.getUsername());
 				//gameFrame.changePanel(new LobbyPanel(gameFrame));
 			}
 		});
