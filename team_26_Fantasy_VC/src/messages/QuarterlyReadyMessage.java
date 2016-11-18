@@ -8,6 +8,5 @@ public class QuarterlyReadyMessage extends Message{
 
 	public QuarterlyReadyMessage() {
 		super(MessageType.quarterlyReady);
-		
 	}
 }
