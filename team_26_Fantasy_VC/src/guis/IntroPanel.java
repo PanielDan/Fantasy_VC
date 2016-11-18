@@ -105,7 +105,7 @@ public class IntroPanel extends JPanel {
 		this.add(lobbyPane);
 	}
 	
-	public void switchToLobby(int numWaiting, String [] user) {
+	public void switchToLobby(int numWaiting, Vector<String> user) {
 		LobbyPanel lp = new LobbyPanel(gameFrame);
 		lp.setUsers(user);
 		lp.setWaitingText(numWaiting);

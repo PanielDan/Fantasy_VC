@@ -8,10 +8,10 @@ public class UserListMessage extends Message{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public String [] user;
+	public Vector<String> user;
 	public int waitingOn;
 
-	public UserListMessage(String [] user, int waitingOn) {
+	public UserListMessage(Vector<String> user, int waitingOn) {
 		super(MessageType.UserList); 
 		this.user = user;
 		this.waitingOn = waitingOn;

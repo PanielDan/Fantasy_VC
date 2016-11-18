@@ -20,8 +20,6 @@ import javax.swing.border.EmptyBorder;
 
 import gameplay.GameFrame;
 import gameplay.User;
-import messages.LeaveLobbyMessage;
-import messages.LobbyPlayerReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.LobbyUserPanel;
@@ -184,7 +182,7 @@ public class LobbyPanel extends JPanel{
 		}
 	}
 	
-	public void setUsers(String [] users) {
+	public void setUsers(Vector<String> users) {
 		for(String u : users) {
 			System.out.println(u);
 			removeUser(u);

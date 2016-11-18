@@ -1,6 +1,5 @@
 package server;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 import messages.Message;
@@ -8,7 +7,7 @@ import messages.UserListMessage;
 
 public class ServerLobby extends Thread{
 	private Vector<ServerClientCommunicator> sccVector;
-	private ArrayList<String> usernames;
+	private Vector<String> usernames;
 	private Server server;
 	private String lobbyName, hostName;
 	private int numPlayers;
@@ -19,14 +18,10 @@ public class ServerLobby extends Thread{
 		this.lobbyName = lobbyName;
 		this.hostName = hostName;
 		this.numPlayers = numPlayers;
-		usernames = new ArrayList<String>();
+		usernames = new Vector<String>();
 		usernames.add(hostName);
 		this.start();
-		String [] arr = new String[usernames.size()];
-		for (int i = 0; i < usernames.size(); i++) {
-			arr[i] = usernames.get(i);
-		}
-		sendToAll(new UserListMessage(arr, numPlayers - usernames.size()));
+		sendToAll(new UserListMessage(usernames, numPlayers - usernames.size()));
 	}
 	
 	public String getLobbyName() {
@@ -41,7 +36,7 @@ public class ServerLobby extends Thread{
 		return numPlayers;
 	}
 	
-	public ArrayList<String> getUserNames() {
+	public Vector<String> getUserNames() {
 		return usernames;
 	}
 	
@@ -60,11 +55,7 @@ public class ServerLobby extends Thread{
 			System.out.println(u);
 		} 
 		// TODO: send to people in the lobby how many to wait on		
-		String [] arr = new String[usernames.size()];
-		for (int i = 0; i < usernames.size(); i++) {
-			arr[i] = usernames.get(i);
-		}
-		sendToAll(new UserListMessage(arr, numPlayers - usernames.size()));
+		sendToAll(new UserListMessage(usernames, numPlayers - usernames.size()));
 	}
 	
 	public void run() {

@@ -71,7 +71,7 @@ public class Server extends Thread{
 		}
 	}
 	
-	public synchronized void createLobby(ServerClientCommunicator scc, String lobbyName, String hostName, int numPlayers) {
+	public void createLobby(ServerClientCommunicator scc, String lobbyName, String hostName, int numPlayers) {
 		if (lobbies.containsKey(lobbyName)) {
 			// TODO: Send message that lobby name is already taken
 			return;
@@ -90,7 +90,7 @@ public class Server extends Thread{
 		// TODO: Send updated listing of all the lobbies
 	}
 	
-	public synchronized void addToLobby(ServerClientCommunicator scc, String lobbyName, String username) {
+	public void addToLobby(ServerClientCommunicator scc, String lobbyName, String username) {
 		if(!lobbies.containsKey(lobbyName)) {
 			// TODO: Send message that lobby does not exist
 			System.out.println("not found");
@@ -98,6 +98,7 @@ public class Server extends Thread{
 		else {
 			lobbies.get(lobbyName).addToLobby(scc, username);
 			sccVector.remove(scc);
+			
 			
 			scc.setLobby(lobbies.get(lobbyName));
 			sendLobbies();
@@ -111,10 +112,15 @@ public class Server extends Thread{
 		Vector<Lobby> lobbies = new Vector<Lobby>();
 		for(ServerLobby sl : this.lobbies.values()) {
 			Lobby lobby = new Lobby(sl.getLobbyName(), sl.getHostName(), sl.getGameSize(), sl.getUserNames());
+			System.out.println("Lobby: " + lobby.getUsername());
+			
 			lobbies.add(lobby);
 		}
 		System.out.println("Sending lobbies");
-		sendToAll(new LobbyListMessage(lobbies));
+		LobbyListMessage llm = new LobbyListMessage(lobbies);
+		if(llm.lobbies.size() != 0)
+		System.out.println(llm.lobbies.get(0).getUsername());
+		sendToAll(llm);
 	}
 	
 	public static void main(String [] args) {

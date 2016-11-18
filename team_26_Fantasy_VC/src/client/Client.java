@@ -11,16 +11,8 @@ import gameplay.GameFrame;
 import gameplay.User;
 import guis.IntroPanel;
 import guis.LobbyPanel;
-import messages.AuctionBidUpdateMessage;
-import messages.AuctionDetailsUpdateCompanyMessage;
-import messages.AuctionDetailsUpdateUserMessage;
-import messages.BeginAuctionBidMessage;
-import messages.BeginAuctionMessage;
-import messages.ChatMessage;
 import messages.LobbyListMessage;
 import messages.Message;
-import messages.Message.MessageType;
-import messages.UserInfoPopupMessage;
 import messages.UserListMessage;
 
 /**
@@ -61,22 +53,19 @@ public class Client extends Thread {
 	}
 	
 	public void run() {
-		Message m = null;
+		Object m = null;
 		try{
-			while(running){
-				m = (Message)ois.readObject();
-				if (m.getType() == MessageType.LobbyList) {
+			while(true){
+				m = ois.readObject();
+				if (m instanceof LobbyListMessage) {
 					if(gameFrame.getCurrentPanel() instanceof IntroPanel) {
 						LobbyListMessage llm = (LobbyListMessage)m;
+						if (llm.lobbies.size() != 0)	System.out.println("LobbyList: " + llm.lobbies.get(0).getUsername());
 						((IntroPanel)gameFrame.getCurrentPanel()).setLobbies(llm.lobbies);
 					}
 				}
-				else if(m.getType() == MessageType.UserList) {
+				else if(m instanceof UserListMessage) {
 					UserListMessage ulm = (UserListMessage)m;
-					System.out.println(ulm.user.length);
-					for(String u : ulm.user) {
-						System.out.println(u);
-					}
 					if (gameFrame.getCurrentPanel() instanceof LobbyPanel) {
 						((LobbyPanel)gameFrame.getCurrentPanel()).setUsers(ulm.user);
 						((LobbyPanel)gameFrame.getCurrentPanel()).setWaitingText(ulm.waitingOn);

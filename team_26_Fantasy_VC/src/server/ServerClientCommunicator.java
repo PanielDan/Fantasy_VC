@@ -28,6 +28,7 @@ public class ServerClientCommunicator extends Thread {
 		try {
 			oos.writeObject(msg);
 			oos.flush();
+			oos.reset();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
