@@ -64,7 +64,6 @@ public class Server extends Thread{
 	
 	public void sendToAll(Message msg) {
 		for(ServerClientCommunicator scc : sccVector) {
-			System.out.println("sent");
 			scc.sendMessage(msg);
 		}
 	}
@@ -100,7 +99,8 @@ public class Server extends Thread{
 		}
 		
 		sendLobbies();
-		// TODO: Send updated listing of all the lobbies (since they have more players available now
+		System.out.println("Lobby joined");
+		// TODO: Send updated listing of all the lobbies (since they have more players available now)
 	}
 	
 	public synchronized void sendLobbies() {

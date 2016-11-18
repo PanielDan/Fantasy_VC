@@ -46,6 +46,9 @@ public class ServerLobby extends Thread{
 	public void addToLobby(ServerClientCommunicator scc, String username) {
 		sccVector.add(scc);
 		usernames.add(username);
+		for(String u : usernames) {
+			System.out.println(u);
+		}
 		// TODO: send to people in the lobby how many to wait on
 	}
 	
