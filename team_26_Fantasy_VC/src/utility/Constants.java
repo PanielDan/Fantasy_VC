@@ -19,17 +19,24 @@ public class Constants {
 		  " proactively harness high-payoff resources!",
 		  " rapidiously engineered end-to-end relationships!",
 		  " globally conceptualized turnkey scenarios!",
-		  " assertively recaptiualized value-added strategic theme niches!" 
+		  " assertively recaptiualized value-added strategic theme niches!", 
+		  " assessed their critical profit points!",
+		  " rapidiously generated user-centric core competencies!"
 		  };
 	
 	public static final String negativeEvents[] = 
 		{ "'s C.E.O. caught in embezzlement scandal.",
 		  "'s product was a failure.", 
 		  " is having a hard quarter.", 
-		  "'s office building burned down!! Oh no!",
+		  "'s office building burned down!! Oh no.",
 		  " condemned by U.S. Government.", 
-		  " caught evading taxes!",
-		  "'s C.E.O. gambled away company money!",
-		  "'s accountant team can't find important documents!"
+		  " caught evading taxes.",
+		  "'s C.E.O. gambled away company money.",
+		  "'s accountant team can't find important documents.",
+		  "'s C.E.O. caught snorting cocaine.",
+		  "'s C.E.O. caught injecting illicit substances into cafeteria food.",
+		  " forgot to set their alarm clocks for a big investment meeting!",
+		  " failed to appeal to Millennials.",
+		  " infringed a patent!"
 		  };
 }
