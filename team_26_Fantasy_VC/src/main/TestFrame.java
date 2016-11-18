@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 
 import client.Client;
 import gameplay.User;
+import guis.AuctionBidScreen;
 import guis.ChatPanel;
-import guis.TimelapsePanel;
 import guis.TopPanel;
 
 public class TestFrame extends JFrame{
@@ -32,8 +32,8 @@ public class TestFrame extends JFrame{
 		JPanel chatbox = new ChatPanel(user);
 
 		//AuctionTeamList main = new AuctionTeamList(null);
-		//AuctionBidScreen main = new AuctionBidScreen();
-		TimelapsePanel main = new TimelapsePanel(null);
+		AuctionBidScreen main = new AuctionBidScreen(null);
+		//TimelapsePanel main = new TimelapsePanel(null);
 		//FinalGUI main = new FinalGUI(null);
 		
 		header.setPreferredSize(new Dimension(1280,72));
