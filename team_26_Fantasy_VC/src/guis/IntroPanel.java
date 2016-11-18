@@ -16,23 +16,25 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import gameplay.GameFrame;
 import gameplay.Lobby;
-import messages.HostGameMessage;
 import messages.JoinGameMessage;
 import utility.AppearanceConstants;
 
 public class IntroPanel extends JPanel {
-	JLabel lobbyLabel, hostLabel, sizeLabel, playerLabel, playerList;
+	JLabel lobbyLabel, hostLabel, sizeLabel, playerLabel;
+	JLabel playerList;
 	JButton hostButton, joinButton;
-	JPanel eastPanel, centerPanel;
+	JPanel eastPanel, centerPanel, playerPanel;
 	public GameFrame gameFrame;
 	Vector<JButton> lobbyButton;
 	IntroPanel ip;
+	Lobby activeLobby;
 	
 	public IntroPanel(GameFrame gameFrame) {
 		this.ip = this;
@@ -50,7 +52,7 @@ public class IntroPanel extends JPanel {
 		hostLabel = new JLabel("Host: Host Name");
 		sizeLabel = new JLabel("Game Size: 3");
 		playerLabel = new JLabel("Players:");
-		playerList = new JLabel();
+		playerList = new JLabel("test");
 		hostButton = new JButton("Host");
 		joinButton = new JButton("Join");
 	}
@@ -68,7 +70,6 @@ public class IntroPanel extends JPanel {
 		addToInfo(hostLabel);
 		addToInfo(sizeLabel);
 		addToInfo(playerLabel);
-		addToInfo(playerList);
 		
 		JScrollPane infoPane = new JScrollPane(eastPanel);
 		infoPane.getViewport().setOpaque(false);
@@ -111,15 +112,13 @@ public class IntroPanel extends JPanel {
 	private void addEvents() {
 		hostButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				HostGameMessage hgm = new HostGameMessage();
 				new CreateGameGUI(ip).setVisible(true);
-				
 			}
 		});
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				JoinGameMessage jgm = new JoinGameMessage(gameFrame.user.getUsername());
-				//gameFrame.changePanel(new LobbyPanel(gameFrame));
+				JoinGameMessage jgm = new JoinGameMessage(gameFrame.user.getUsername(), activeLobby.getLobbyName());
+				gameFrame.getClient().sendMessage(jgm);
 			}
 		});
 	}
@@ -138,6 +137,12 @@ public class IntroPanel extends JPanel {
 		jc.setForeground(AppearanceConstants.darkGray);
 		jc.setBorder(new EmptyBorder(10, 0, 10, 0));
 		eastPanel.add(jc);
+	}
+
+	public void clearPlayerPanel() {
+		for(Component c : eastPanel.getComponents()) {
+			eastPanel.remove(c);
+		}
 	}
 	
 	public void addLobby(Lobby lobby) {
@@ -163,16 +168,23 @@ public class IntroPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				joinButton.setEnabled(true);
+				clearPlayerPanel();
 				JButton source = (JButton) ae.getSource();
-				Lobby lobby = (Lobby)source.getClientProperty("lobbyName");
+				activeLobby = (Lobby)source.getClientProperty("lobbyName");
 				lobbyLabel.setText(lobby.getLobbyName());
 				hostLabel.setText("Host: " + lobby.getHostName());
 				sizeLabel.setText("Game Size: " + lobby.getGameSize());
-				String players = "";
-				for (String p : lobby.getUsername()){
-					players += p+"\n";
+				addToInfo(lobbyLabel);
+				addToInfo(hostLabel);
+				addToInfo(sizeLabel);
+				addToInfo(playerLabel);
+				for(String p : lobby.getUsername()) {
+					System.out.println(p);
+					addToInfo(new JLabel(p));
 				}
-				playerList.setText(players);
+				gameFrame.revalidate();
+				gameFrame.repaint();
 			}
 			
 		});

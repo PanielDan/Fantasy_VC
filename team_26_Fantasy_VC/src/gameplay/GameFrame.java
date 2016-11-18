@@ -91,7 +91,7 @@ public class GameFrame extends JFrame {
 		chatbox.setBackground(Color.GRAY);
 		
 		add(header, BorderLayout.NORTH);
-		add(chatbox, BorderLayout.SOUTH);
+		//add(chatbox, BorderLayout.SOUTH);
 		add(currentPanel, BorderLayout.CENTER);
 		
 		setVisible(true);
