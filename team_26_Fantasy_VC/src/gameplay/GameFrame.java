@@ -8,9 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client.Client;
+import guis.AuctionTeamList;
 import guis.ChatPanel;
 import guis.IntroPanel;
-import guis.LobbyPanel;
 import guis.TopPanel;
 import listeners.ExitWindowListener;
 
@@ -48,20 +48,20 @@ public class GameFrame extends JFrame {
 		game.addUser(guest);
 		
 		header = new TopPanel(this, guest);
-		//chatbox = new ChatPanel(guest);
+		chatbox = new ChatPanel(guest);
 		
 		header.setPreferredSize(new Dimension(1280,72));
-		//chatbox.setPreferredSize(new Dimension(1280,144));
+		chatbox.setPreferredSize(new Dimension(1280,144));
 		
-		LobbyPanel main = new LobbyPanel(this);
-		//AuctionTeamList main = new AuctionTeamList(null, this);
+//		LobbyPanel main = new LobbyPanel(this);
+		AuctionTeamList main = new AuctionTeamList(null, this);
 		//AuctionBidScreen main = new AuctionBidScreen(this,game.getCompanies().get(5));
 		//AuctionTeamList main = new AuctionTeamList(null, this);
 		//FinalGUI main = new FinalGUI(this);
 		
 		
 		add(header, BorderLayout.NORTH);
-		//add(chatbox, BorderLayout.SOUTH);
+		add(chatbox, BorderLayout.SOUTH);
 		add(main, BorderLayout.CENTER);
 		
 		currentPanel = main;
