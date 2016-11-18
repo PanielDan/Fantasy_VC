@@ -8,10 +8,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client.Client;
-import guis.AuctionTeamList;
 import guis.ChatPanel;
 import guis.IntroPanel;
 import guis.TopPanel;
+import guis.TradeGUI;
 import listeners.ExitWindowListener;
 
 public class GameFrame extends JFrame {
@@ -53,11 +53,12 @@ public class GameFrame extends JFrame {
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		
-//		LobbyPanel main = new LobbyPanel(this);
-		AuctionTeamList main = new AuctionTeamList(null, this);
+		//LobbyPanel main = new LobbyPanel(this);
+		//AuctionTeamList main = new AuctionTeamList(null, this);
 		//AuctionBidScreen main = new AuctionBidScreen(this,game.getCompanies().get(5));
 		//AuctionTeamList main = new AuctionTeamList(null, this);
 		//FinalGUI main = new FinalGUI(this);
+		TradeGUI main = new TradeGUI(null);
 		
 		
 		add(header, BorderLayout.NORTH);
