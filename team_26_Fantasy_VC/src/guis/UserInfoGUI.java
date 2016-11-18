@@ -21,12 +21,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import gameplay.GameFrame;
+import server.SQLDriver;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
 public class UserInfoGUI extends JFrame {
 	private JButton userIcon, cancel, save;
-	private JTextField username;
+	private JLabel username;
 	private JTextArea userBio;
 	private String imageLocation;
 	private GameFrame gameFrame;
@@ -44,18 +45,13 @@ public class UserInfoGUI extends JFrame {
 	
 	private void intializeVariables(){		
 		//Commented out portion is the real code
-		//userIcon = new JButton(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
 		userIcon = new JButton();
 		userIcon.setOpaque(true);
+		userIcon.setIcon(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
 		AppearanceSettings.unSetBorderOnButtons(userIcon);
 		
 		//testCode
-		ImageIcon profile = new ImageIcon("resources/img/profile.png");
-		Image profileImage = profile.getImage();
-		userIcon.setIcon(new ImageIcon(profileImage.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
-		
-		
-		username = new JTextField(gameFrame.user.getUsername());
+		username = new JLabel(gameFrame.user.getUsername());
 		userBio = new JTextArea(gameFrame.user.getUserBio());
 		
 		cancel = new JButton("Cancel");
@@ -71,7 +67,6 @@ public class UserInfoGUI extends JFrame {
 		setLocationRelativeTo(null);
 		
 		JPanel framePanel = new JPanel();
-		JPanel userNameTextPanel = new JPanel();
 		JPanel userBioTextPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		JLabel userNameLabel = new JLabel("Username");
@@ -80,7 +75,6 @@ public class UserInfoGUI extends JFrame {
 		//Layouts
 		framePanel.setLayout(new BoxLayout(framePanel, BoxLayout.PAGE_AXIS));
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-		userNameTextPanel.setLayout(new BorderLayout());
 		userBioTextPanel.setLayout(new BorderLayout());
 
 		//BorderPadding
@@ -89,27 +83,23 @@ public class UserInfoGUI extends JFrame {
 		userBioLabel.setBorder(new EmptyBorder(5,5,5,5));
 
 		//Sizes
-		AppearanceSettings.setSize(300, 60, userNameTextPanel);
-		userNameTextPanel.setMaximumSize(new Dimension(300,60));
 		AppearanceSettings.setSize(300, 150, userBioTextPanel);
 		userBioTextPanel.setMaximumSize(new Dimension(300,150));
 
 		//appearance settings
-		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, userNameTextPanel,userNameTextPanel,
-				buttonPanel, framePanel, userIcon);
+		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, userBioTextPanel, buttonPanel, framePanel, userIcon);
 		AppearanceSettings.setBackground(AppearanceConstants.offWhite, username, userBio);
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, cancel, save);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, cancel, save, userNameLabel,
-				userBioLabel);
-		AppearanceSettings.setForeground(AppearanceConstants.darkBlue, username, userBio);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, username, userNameLabel,userBioLabel);
+				userBioLabel, username);
+		AppearanceSettings.setForeground(AppearanceConstants.darkBlue, userBio);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, userNameLabel,userBioLabel);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmallest, userBio);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, username);
 		AppearanceSettings.setFont(AppearanceConstants.fontButtonBig, cancel, save);
 		AppearanceSettings.unSetBorderOnButtons(userIcon, cancel, save);
-		AppearanceSettings.setCenterAlignment(userNameLabel, userBioLabel);
-		userIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
+		AppearanceSettings.setCenterAlignment(userNameLabel, userBioLabel, username, userIcon);
 		
-		userNameTextPanel.add(username);
 		userBioTextPanel.add(userBio);
 		
 		buttonPanel.add(cancel);
@@ -120,7 +110,7 @@ public class UserInfoGUI extends JFrame {
 				userIcon);
 		framePanel.add(userNameLabel);
 		AppearanceSettings.addGlue(framePanel, BoxLayout.PAGE_AXIS, false,
-				userNameTextPanel);		
+				username);		
 		framePanel.add(userBioLabel);
 		AppearanceSettings.addGlue(framePanel, BoxLayout.PAGE_AXIS, false,userBioTextPanel,
 				buttonPanel);
@@ -151,13 +141,15 @@ public class UserInfoGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				gameFrame.user.setUsername(username.getText());
 				gameFrame.user.setUserBio(userBio.getText());
 				if (imageLocation != null){
 					gameFrame.user.setUserIcon(imageLocation);
 					gameFrame.header.updateIcon();
 				}
 				//Need to write function that updates SQL server and and the panels
+				SQLDriver sqlDriver = new SQLDriver();
+				sqlDriver.connect();
+				sqlDriver.updateUserInfo(gameFrame.user.getID(), username.getText(), userBio.getText());
 				dispose();
 			}
 			

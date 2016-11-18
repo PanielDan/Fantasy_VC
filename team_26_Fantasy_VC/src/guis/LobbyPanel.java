@@ -154,13 +154,13 @@ public class LobbyPanel extends JPanel{
 		playerPanel.setOpaque(false);
 		playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.X_AXIS));
 		JLabel username = new JLabel("Jeffrey");
-		username.setFont(new Font("Arial", Font.PLAIN, 28));
+		username.setFont(AppearanceConstants.fontLobby);
 		username.setForeground(AppearanceConstants.offWhite);
 		JLabel firmName = new JLabel(firm);
-		firmName.setFont(new Font("Arial", Font.PLAIN, 28));
+		firmName.setFont(AppearanceConstants.fontLobby);
 		firmName.setForeground(AppearanceConstants.offWhite);
 		JLabel ready = new JLabel("ready");		
-		ready.setFont(new Font("Arial", Font.PLAIN, 28));
+		ready.setFont(AppearanceConstants.fontLobby);
 		ready.setForeground(Color.green);
 		playerPanel.add(username);
 		playerPanel.add(Box.createHorizontalGlue());
