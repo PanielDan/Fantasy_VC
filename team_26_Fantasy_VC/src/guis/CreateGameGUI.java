@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import gameplay.GameFrame;
+import client.Client;
 import messages.CreateGameMessage;
 import utility.AppearanceConstants;
 
@@ -128,8 +128,8 @@ public class CreateGameGUI extends JFrame{
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				if(!lobbyName.getText().equals("")) {
-					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()));
-					//TODO send this message and add the game to the lobby
+					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.getClient().getUser().getUsername());
+					ip.gameFrame.getClient().sendMessage(cgm);
 					ip.switchToLobby();
 					dispose();
 				}
