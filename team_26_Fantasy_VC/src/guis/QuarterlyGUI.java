@@ -78,6 +78,7 @@ public class QuarterlyGUI extends JPanel{
 		tabbedPane.add("Player 4 Name", panel4);
 	
 		freeAgents = new JPanel();
+		//TODO set text label for free agents and add a table of available companies
 		tabbedPane.add("Free Agents", freeAgents);
 		
 		//Create notificationsAndReadyPanel
