@@ -1,7 +1,9 @@
 
 package gameplay;
 
+
 import java.awt.Image;
+import java.util.Comparator;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -121,31 +123,44 @@ public class Company {
 		boolean positive = rand.nextBoolean();
 		boolean specialEvent = rand.nextBoolean();
 		String text = "";
-
-		// First we check if a special event has occurred. 
-		if (specialEvent) { 
-			// We will either boost or decrease this turn's delta by
-			// a factor of between 3 and 6.
-			int modifier = Math.abs(rand.nextInt(3)) + 3;
-			int index;
-			if (positive) { 
-				change *= modifier;  // Boost the change by the modifier.
-				index = rand.nextInt(Constants.positiveEvents.length - 1); // Randomly pick an event text.
-				text = Constants.positiveEvents[index];  // Grab the event text.
-			} else {
-				change *= -modifier;
-				index = rand.nextInt(Constants.negativeEvents.length - 1);
-				text = Constants.negativeEvents[index];
-			}
-		} else {
-			// If no special event has occurred, we just modify the 
-			// change based on whether positive came out true or not.
-			change = positive ? change : -change;
-		}
 		
-		// At the end we just add the change to the currentWorth,
-		// and we return the text.  
-		currentWorth += change;
+		if(currentWorth!= 0) {
+			// First we check if a special event has occurred. 
+			if (specialEvent) { 
+				// We will either boost or decrease this turn's delta by
+				// a factor of between 3 and 6.
+				int modifier = Math.abs(rand.nextInt(3)) + 3;
+				int index;
+				if (positive) { 
+					change *= modifier;  // Boost the change by the modifier.
+					index = rand.nextInt(Constants.positiveEvents.length - 1); // Randomly pick an event text.
+					text = Constants.positiveEvents[index];  // Grab the event text.
+				} else {
+					change *= -modifier;
+					index = rand.nextInt(Constants.negativeEvents.length - 1);
+					text = Constants.negativeEvents[index];
+				}
+			} else {
+				// If no special event has occurred, we just modify the 
+				// change based on whether positive came out true or not.
+				change = positive ? change : -change;
+			}
+			
+			// At the end we just add the change to the currentWorth,
+			// and we return the text.  
+			currentWorth += change;
+			//announce that the company became bankrupt
+			if(currentWorth < 0) {
+				if(text.equals("")) {
+					text = " became bankrupt!";
+				}
+				else {
+					text += "They are now bankrupt!";
+				}
+				currentWorth = 0;
+			}
+		}
+
 		return text;
 	}
 	
@@ -183,5 +198,26 @@ public class Company {
 	private void createIcon(){
 		companyLogo = ImageLibrary.getImage(image);
 		imageAspectRatio = (double)companyLogo.getWidth(null) / companyLogo.getHeight(null);
+	}
+	
+	/**
+	 * Comparator class for sorting companies
+	 * @author arschroc
+	 *
+	 */
+	//comparator for sorting companies
+	//it is passed into the sort method from the Java Collections class as a custom comparator
+	//this will sort the users in order of their total profit
+	private static class CompanyComparator implements Comparator<Company>{
+
+		@Override
+		public int compare(Company companyOne, Company companyTwo) {
+			return Double.compare(companyOne.getCurrentWorth(), companyTwo.getCurrentWorth());
+		}
+		
+	}
+	
+	public static CompanyComparator getComparator(){
+		return new CompanyComparator();
 	}
 }

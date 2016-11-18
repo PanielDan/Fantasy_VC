@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -22,10 +23,10 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import client.Client;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TextFieldFocusListener;
+import messages.LoginMessage;
 import server.SQLDriver;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -135,7 +136,7 @@ public class LoginGUI extends JFrame{
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
 
 		//add Logo image
-		ImageIcon logo = new ImageIcon("src/resources/FantasyVC.png");
+		ImageIcon logo = new ImageIcon("resources/img/FantasyVC.png");
 		Image logoIcon = logo.getImage();
 		fantasyVCLogo.setIcon(new ImageIcon(logoIcon.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
 
@@ -252,7 +253,7 @@ public class LoginGUI extends JFrame{
 			}
 			else {
 				if (driver.checkPassword(username.getText().trim(), password.getText().trim())) {
-					new GameFrame(new Client(driver.getUser(username.getText().trim()))).setVisible(true);
+					new GameFrame(driver.getUser(username.getText().trim())).setVisible(true);
 					dispose();
 				}
 				else {
@@ -305,7 +306,7 @@ public class LoginGUI extends JFrame{
 			}
 			else {
 				driver.insertUser(username.getText().trim(), password.getText().trim(), "Fill in biography here.");
-				new GameFrame(new Client(driver.getUser(username.getText().trim()))).setVisible(true);
+				new GameFrame(driver.getUser(username.getText().trim())).setVisible(true);
 				dispose();
 			}
 //			CreateAccountMessage cam = new CreateAccountMessage(); //TODO
@@ -348,6 +349,7 @@ public class LoginGUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			/* Guest users will have an ID of -1. */
 			User guest = new User(-1, "Guest User", "null", "Guest User", 0, 0, 0);
+			guest.setCompanyName("Guestbros");
 			new GameFrame(guest).setVisible(true);
 			dispose();
 		}

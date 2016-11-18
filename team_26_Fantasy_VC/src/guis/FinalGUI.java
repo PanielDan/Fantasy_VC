@@ -66,13 +66,42 @@ public class FinalGUI extends JPanel {
 		userIcon.setIcon(new ImageIcon(profileImage.getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH)));
 		userIcon.setAlignmentY(Component.CENTER_ALIGNMENT);
 		
-		winner = new JLabel("Winner: JMoney Capital");
-		userFirmName = new JLabel("JMoney Capital");
-		totalEquity = new JLabel("Total value: 308 Million");
-		numCompanies = new JLabel("Numbers of vompanies: 5");
-		percentGain = new JLabel("Percentage gain: 1250%");
-		bestInvestment = new JLabel("Best investment: Umbrella Corp");
-		portfolioLabel = new JLabel("Portfolio");
+		//if NOT NETWORKED game
+		if(!gameFrame.networked) {
+			
+			//update the users total value
+			double value = gameFrame.user.getCurrentCapital();
+			for(Company company : gameFrame.user.getCompanies()) {
+				value += company.getCurrentWorth();
+			}
+			gameFrame.user.setCurrentCapital(value);
+			gameFrame.header.updateCurrentCapital();
+			
+			winner = new JLabel("Winner: Guest");
+			System.out.println(gameFrame.user.getCompanyName());
+			userFirmName = new JLabel(gameFrame.user.getCompanyName());
+			totalEquity = new JLabel("Total value: " + gameFrame.user.getCurrentCapital() + " Million");
+			numCompanies = new JLabel("Numbers of companies: " + gameFrame.user.getCompanies().size());
+			double percent = (gameFrame.user.getCurrentCapital() - 100.0); //(final - 100)/100*100
+			percentGain = new JLabel("Percentage gain: " + (int)percent + "%");
+			
+			//calculate user's best company(s)
+			Vector<Company> bestCompanies = gameFrame.user.getBestTeams();
+			String bestCompaniesString = "Best investment(s): ";
+			boolean multipleCompanies = false;
+			for(Company company : bestCompanies) {
+				if(multipleCompanies) {
+					String temp = " and " + company.getName();
+					bestCompaniesString += temp;
+				}
+				else {
+					bestCompaniesString += company.getName();
+					multipleCompanies = true;
+				} 
+			}
+			bestInvestment = new JLabel(bestCompaniesString);
+			portfolioLabel = new JLabel("Portfolio");
+		}
 		
 		//TODO Needs to update Table stats
 		String[] columnNames = {"Name", "Tier Level", "Worth"};
