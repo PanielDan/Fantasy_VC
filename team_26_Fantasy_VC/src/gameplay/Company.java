@@ -1,9 +1,13 @@
 
 package gameplay;
 
+import java.awt.Image;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+
 import utility.Constants;
+import utility.ImageLibrary;
 
 /**
  * The {@code Company} class stores information about a company.
@@ -19,6 +23,8 @@ public class Company {
 	private String image, name, description;
 	private double startingPrice, askingPrice, currentWorth;
 	private int delta, tierLevel;
+	private Image companyLogo;
+	private double imageAspectRatio;
 	
 	public Company(String image, String name, String description, double startingPrice, int delta, int tierLevel) {
 		this.image = image;
@@ -29,6 +35,7 @@ public class Company {
 		currentWorth = startingPrice; //the current worth starts at startingPrice
 		this.delta = delta;
 		this.tierLevel = tierLevel;
+		createIcon();
 	}
 	
 
@@ -41,6 +48,7 @@ public class Company {
 		this.tierLevel = tierLevel;
 		askingPrice = startingPrice; //asking price = startingPrice at beginning of auction
 		currentWorth = startingPrice; //the current worth starts at startingPrice
+		createIcon();
 
 		
 		switch (tierLevel) { 
@@ -91,6 +99,10 @@ public class Company {
 	
 	public int getTierLevel() {
 		return tierLevel;
+	}
+	
+	public Image getCompanyLogo(){
+		return companyLogo;
 	}
 	
 	
@@ -149,6 +161,7 @@ public class Company {
 	
 	public void setImage(String image) {
 		this.image = image;
+		createIcon();
 	}
 	
 	public void setDescription(String description) {
@@ -161,5 +174,14 @@ public class Company {
 	
 	public void setTier(int tierLevel) {
 		this.tierLevel = tierLevel;
+	}
+	
+	public double getAspectRatio(){
+		return imageAspectRatio;
+	}
+	
+	private void createIcon(){
+		companyLogo = ImageLibrary.getImage(image);
+		imageAspectRatio = (double)companyLogo.getWidth(null) / companyLogo.getHeight(null);
 	}
 }

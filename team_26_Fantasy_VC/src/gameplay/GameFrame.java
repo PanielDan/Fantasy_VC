@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client.Client;
-import guis.AuctionBidScreen;
+import guis.AuctionTeamList;
 import guis.ChatPanel;
 import guis.IntroPanel;
 import guis.TopPanel;
@@ -38,6 +38,7 @@ public class GameFrame extends JFrame {
 		setSize(1280, 720);
 		
 		networked = false;
+		
 		game = new Game();
 		user = guest;
 		game.addUser(guest);
@@ -49,8 +50,8 @@ public class GameFrame extends JFrame {
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		
-		AuctionBidScreen main = new AuctionBidScreen(this,game.getCompanies().get(5));
-		//AuctionTeamList main = new AuctionTeamList(null, this);
+		//AuctionBidScreen main = new AuctionBidScreen(this,game.getCompanies().get(5));
+		AuctionTeamList main = new AuctionTeamList(null, this);
 		//FinalGUI main = new FinalGUI(this);
 		
 		add(header, BorderLayout.NORTH);

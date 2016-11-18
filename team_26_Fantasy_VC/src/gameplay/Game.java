@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import server.SQLDriver;
 import utility.CompanyPopulator;
 
 /**
@@ -57,7 +58,7 @@ public class Game implements Serializable {
 		//TODO UNCOMMENT THESE WHEN NETWORKING IS READY
 		//CompanyPopulator compPop = new CompanyPopulator();
 		//companies = compPop.populate();
-		
+		/*
 		//DUMMY COMPANIES
 		for(int i = 0; i < 10; i++) {
 			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 1000, 1000, 0);
@@ -83,6 +84,10 @@ public class Game implements Serializable {
 		
 		System.out.println("Companies populated!");
 		System.out.println("Ready to play.");
+		*/
+		SQLDriver driver = new SQLDriver();
+		driver.connect();
+		companies = driver.getCompanies();
 		
 	}
 	
@@ -188,10 +193,18 @@ public class Game implements Serializable {
 		return users;
 	}
 	
-	public User returnUser(String companyName){
+	public User returnUser(String userCompanyName){
 		for(User user: users){
-			if (user.getCompanyName().equals(companyName))
+			if (user.getCompanyName().equals(userCompanyName))
 				return user;
+		}
+		return null;
+	}
+	
+	public Company returnCompany(String companyName){
+		for(Company company: companies){
+			if (company.getName().equals(companyName))
+				return company;
 		}
 		return null;
 	}

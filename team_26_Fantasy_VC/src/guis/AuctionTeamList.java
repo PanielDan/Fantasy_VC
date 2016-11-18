@@ -137,12 +137,10 @@ public class AuctionTeamList extends JPanel {
 	private void intializePictures(){
 		ImageIcon jeffrey = new ImageIcon("resources/img/profile.png");
 		Image firmIcon = jeffrey.getImage();
-		ImageIcon alliance = new ImageIcon("resources/img/lobbies.png");
-		Image companyIcon = alliance.getImage();
 		
 		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
 		detailsFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
-		detailsCompanyPicture.setIcon(new ImageIcon(companyIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
+    	detailsCompanyPicture.setIcon(new ImageIcon(companyVect.get(0).getCompanyLogo().getScaledInstance((int)(100*companyVect.get(0).getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
 	
 	}
 	
@@ -411,6 +409,25 @@ public class AuctionTeamList extends JPanel {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				
+	        	Company selectedCompany = gameFrame.game.returnCompany(purchasedCompanysList.getSelectedValue());
+	        	detailsCompanyName.setText(selectedCompany.getName());
+
+	        	detailsCompanyPicture.setIcon(new ImageIcon(selectedCompany.getCompanyLogo().getScaledInstance((int)(100*selectedCompany.getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
+	        	detailsCompanyBio.setText(selectedCompany.getDescription());
+	        	
+	        	//detailsCompanyInfo
+	        	Object[][] companyData = {
+	        			{"Name", selectedCompany.getName()},
+	        			{"Tier", selectedCompany.getTierLevel()},
+	        			{"Asking Price", selectedCompany.getAskingPrice()},
+	        			{"Current Worth", selectedCompany.getCurrentWorth()},
+	        	};
+	        	String[] columnNames = {"",""};
+	        	TableModel dtm = new TableModel();
+	        	dtm.setDataVector(companyData, columnNames);
+	   	       	detailsCompanyInfo.setModel(dtm);
+				
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Company");				
 			}
@@ -418,15 +435,14 @@ public class AuctionTeamList extends JPanel {
 		});
 		
 		//Maybe we use a mouse listener? We'll see in the future
+		firmData.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		firmData.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	
 	        	int selectedRow = firmData.getSelectedRow();
 	        	detailsCompanyName.setText(companyVect.get(selectedRow).getName());
-	    		
-	        	ImageIcon companyImage = new ImageIcon(companyVect.get(selectedRow).getImage());
-	        	Image icon = companyImage.getImage();
-	        	detailsCompanyPicture.setIcon(new ImageIcon(icon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
+
+	        	detailsCompanyPicture.setIcon(new ImageIcon(companyVect.get(selectedRow).getCompanyLogo().getScaledInstance((int)(100*companyVect.get(selectedRow).getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
 	        	detailsCompanyBio.setText(companyVect.get(selectedRow).getDescription());
 	        	
 	        	//detailsCompanyInfo
