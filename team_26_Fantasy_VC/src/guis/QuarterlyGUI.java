@@ -1,18 +1,21 @@
 package guis;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 import client.Client;
@@ -20,6 +23,7 @@ import gameplay.Company;
 import gameplay.Game;
 import gameplay.GameFrame;
 import gameplay.User;
+import listeners.TableModel;
 import messages.QuarterlyReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -35,11 +39,14 @@ public class QuarterlyGUI extends JPanel{
 	public PlayerTab panel1, panel2, panel3, panel4;
 	public JPanel freeAgents;
 	public GameFrame gameFrame;
-	public Game game;
 	private Client client;
 	
 	private Vector<User> users;
 	private Vector<PlayerTab> tabs;
+	
+	private JTable freeAgentTable;
+	private JButton buy;
+	
 	
 	/** Used https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
 	 * 
@@ -66,6 +73,7 @@ public class QuarterlyGUI extends JPanel{
 		
 		users = gameFrame.game.getUsers();
 		tabs = new Vector<PlayerTab>();
+		buy = new JButton("Buy selected company.");
 	}
 	
 	private void createGUI() {
@@ -109,7 +117,38 @@ public class QuarterlyGUI extends JPanel{
 		//TODO set text label for free agents and add a table of available companies
 		tabbedPane.add("Free Agents", freeAgents);
 		
-		//Create notificationsAndReadyPanel
+		
+		
+		// Create freeAgents 
+		String[] columnNames = {"Name", "Tier Level", "Price", "Trend"};
+		TableModel dtm = new TableModel();
+		dtm.setColumnIdentifiers(columnNames);
+		Vector<Company> companies = gameFrame.game.getFreeAgents();
+		
+		for(int i = 0; i < companies.size(); i++) {
+			double percentChange = (companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
+					 companies.get(i).getStartingPrice();
+			System.out.println(percentChange);
+			DecimalFormat df = new DecimalFormat ("#.##");
+			System.out.println(df.format(percentChange));
+			System.out.println(df.format(percentChange) + "%");
+
+			dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
+					Double.toString(companies.get(i).getCurrentWorth()), 
+					df.format(percentChange) + "%"});
+		}
+		
+		freeAgentTable = new JTable(dtm);
+		freeAgentTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		
+		JScrollPane freeAgentScrollPane = new JScrollPane(freeAgentTable);
+		freeAgents.setLayout(new BorderLayout());
+		freeAgents.add(freeAgentScrollPane, BorderLayout.CENTER);
+		freeAgents.add(buy, BorderLayout.SOUTH);
+		
+		AppearanceSettings.setBackground(AppearanceConstants.offWhite, freeAgentTable);
+		
+		// Create notificationsAndReadyPanel
 		notificationsAndReadyPanel.setLayout(new BorderLayout());
 		notificationsAndReadyPanel.add(timer, BorderLayout.NORTH);
 		notificationsAndReadyPanel.add(ready, BorderLayout.CENTER);
@@ -131,17 +170,40 @@ public class QuarterlyGUI extends JPanel{
 		AppearanceSettings.setOpaque(ready);
 		AppearanceSettings.unSetBorderOnButtons(ready);
 		AppearanceSettings.setFont(AppearanceConstants.fontLargeBidButton, ready);
-		setBackground(AppearanceConstants.darkBlue);
+		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, freeAgents, this);
 	}
 	
 	private void addActionListeners() {
-		ready.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				game.currentQuarter++; //TODO
-				if(game.currentQuarter == 20){
-					gameFrame.changePanel(new FinalGUI(gameFrame));
+		buy.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Get the selected company
+				int selectedRow = freeAgentTable.getSelectedRow();
+	        	TableModel dtm = (TableModel) freeAgentTable.getModel();
+				Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+				double price = selectedCompany.getCurrentWorth();
+				double currentCapital = gameFrame.user.getCurrentCapital();
+				if (price > currentCapital) {
+					JOptionPane.showConfirmDialog(null, "You can't afford that!", "Venture Capital", JOptionPane.WARNING_MESSAGE);
+				} else {
+					// Buy the company
+					gameFrame.user.addCompany(selectedCompany);
+					
+					// Update our GUI to reflect current capital
+					gameFrame.header.updateCurrentCapital();
+					
+					// Remove from table
+					dtm.removeRow(selectedRow);
 				}
-				else {
+			}
+		});
+		ready.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				gameFrame.game.currentQuarter++; //TODO
+				if (gameFrame.game.currentQuarter == 20) {
+					gameFrame.changePanel(new FinalGUI(gameFrame));
+				} else {
 					gameFrame.changePanel(new TimelapsePanel(null, gameFrame));
 				}
 				QuarterlyReadyMessage qrm = new QuarterlyReadyMessage();
