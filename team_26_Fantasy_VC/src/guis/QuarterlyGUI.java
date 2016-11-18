@@ -131,10 +131,7 @@ public class QuarterlyGUI extends JPanel{
 		for(int i = 0; i < companies.size(); i++) {
 			double percentChange = (companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
 					 companies.get(i).getStartingPrice() * 100;
-			System.out.println(percentChange);
 			DecimalFormat df = new DecimalFormat ("#.##");
-			System.out.println(df.format(percentChange));
-			System.out.println(df.format(percentChange) + "%");
 
 			dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
 					Double.toString(companies.get(i).getCurrentWorth()), 
@@ -216,7 +213,6 @@ public class QuarterlyGUI extends JPanel{
 		ready.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				gameFrame.game.currentQuarter++; //TODO
 				if (gameFrame.game.currentQuarter == 20) {
 					gameFrame.changePanel(new FinalGUI(gameFrame, null));
 				} else {

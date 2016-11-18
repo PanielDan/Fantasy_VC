@@ -61,6 +61,7 @@ public class TimelapsePanel extends JPanel {
 			notificationList = gameFrame.game.updateNonNetworkedCompanies();
 			//increment quarter every time lapse
 			gameFrame.game.incrementQuarter();
+			System.out.println(gameFrame.game.currentQuarter);
 		}
 		
 		//test code
@@ -155,15 +156,13 @@ public class TimelapsePanel extends JPanel {
 				e.printStackTrace();
 			}
 			
-			gameFrame.changePanel(new QuarterlyGUI(gameFrame, client));
-			/* uncomment this later
+
 			if(gameFrame.game.currentQuarter == 8) {
 				gameFrame.changePanel(new FinalGUI(gameFrame, client));
 			}
 			else {
 				gameFrame.changePanel(new QuarterlyGUI(gameFrame, client));
 			}
-			*/
 		}
 	}
 }
