@@ -193,6 +193,10 @@ public class PlayerTab extends JPanel {
 							Integer.toString(selectedCompany.getTierLevel()),
 							Double.toString(selectedCompany.getCurrentWorth()),
 							df.format(percentChange) + "%" });
+		        	
+					//update the notifications
+					String update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName() + "\n";
+					qg.sendUpdate(update);
 				}
 			}
 		});

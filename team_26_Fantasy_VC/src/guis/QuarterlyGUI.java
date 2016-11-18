@@ -69,6 +69,7 @@ public class QuarterlyGUI extends JPanel{
 		this.setLayout(new BorderLayout());
 		tabbedPane = new JTabbedPane();
 		updatesTextArea = new JTextArea();
+		updatesTextArea.setWrapStyleWord(true);
 		notificationsAndReadyPanel = new JPanel();
 		ready = new JButton("Ready");
 		timer = new JLabel("Timer");
@@ -217,6 +218,10 @@ public class QuarterlyGUI extends JPanel{
 								Integer.toString(selectedCompany.getTierLevel()),
 								Double.toString(selectedCompany.getCurrentWorth()),
 								df.format(percentChange) + "%" });
+						
+						//update the notifications
+						String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + "\n";
+						sendUpdate(update);
 					}
 				}
 			}
