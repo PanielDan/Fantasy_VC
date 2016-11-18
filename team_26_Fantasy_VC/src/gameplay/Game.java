@@ -208,4 +208,8 @@ public class Game implements Serializable {
 		}
 		return null;
 	}
+	
+	public void incrementQuarter() {
+		currentQuarter++;
+	}
 }

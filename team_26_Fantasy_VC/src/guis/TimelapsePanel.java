@@ -49,9 +49,20 @@ public class TimelapsePanel extends JPanel {
 
 	private void initializeComponents() {
 		notificationList = new Vector<String>();
+		
+		//set notificationList in NOT NETWORKED game
+		if(!gameFrame.networked) {
+			notificationList = gameFrame.game.updateNonNetworkedCompanies();
+			gameFrame.game.incrementQuarter();
+		}
+		
+		//test code
+		/*
 		for ( int i = 0; i < 30; i++){
 			notificationList.add("Notification " + Integer.toString(i));
 		}
+		*/
+		
 		notifications = new JList<String>(notificationList);
 		notificationLabel = new JLabel("Notifications");
 		
