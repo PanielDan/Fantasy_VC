@@ -32,7 +32,7 @@ import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.ImageLibrary;
 
-public class PlayerTab extends JPanel{
+public class PlayerTab extends JPanel {
 
 	public JButton trade;
 	public JButton sell;
@@ -73,6 +73,11 @@ public class PlayerTab extends JPanel{
 
 	private void initializeComponents(){
 		trade = new JButton("Trade with this player.");
+		if (user.getID() == -1) {
+			trade.setEnabled(false);
+		} else if (!gameFrame.user.equals(user)) {
+			trade.setEnabled(false);
+		}
 		sell = new JButton("Sell selected company.");
 		playerInfo = new JPanel();
 	}
@@ -88,8 +93,7 @@ public class PlayerTab extends JPanel{
 		
 		for(int i = 0; i < companies.size(); i++) {
 			double percentChange = (companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
-					 companies.get(i).getStartingPrice();
-			System.out.println(percentChange);
+					 companies.get(i).getStartingPrice() * 100;
 			DecimalFormat df = new DecimalFormat ("#.##");
 			System.out.println(df.format(percentChange));
 			System.out.println(df.format(percentChange) + "%");
@@ -165,56 +169,34 @@ public class PlayerTab extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// Get the selected company
 				int selectedRow = portfolio.getSelectedRow();
-	        	TableModel dtm = (TableModel) portfolio.getModel();
-				Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
-				
-				// Sell the company
-				gameFrame.user.deleteCompany(selectedCompany);
-				
-				// Update our GUI to reflect current capital
-				gameFrame.header.updateCurrentCapital();
-				
-				// Remove from table
-				dtm.removeRow(selectedRow);
+				if (selectedRow != -1) {
+		        	TableModel dtm = (TableModel) portfolio.getModel();
+					Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+					
+					// Sell the company
+					gameFrame.user.deleteCompany(selectedCompany);
+					
+					// Update our GUI to reflect current capital
+					gameFrame.header.updateCurrentCapital();
+					
+					// Remove from table
+					dtm.removeRow(selectedRow);
+					
+					// Make the stuff needed to insert
+					double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+					DecimalFormat df = new DecimalFormat("#.##");
+					
+					// Get the free agents table
+					JTable freeAgentTable = qg.getFreeAgentTable();
+		        	TableModel freeAgentDtm = (TableModel) freeAgentTable.getModel();
+		        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
+							Integer.toString(selectedCompany.getTierLevel()),
+							Double.toString(selectedCompany.getCurrentWorth()),
+							df.format(percentChange) + "%" });
+				}
 			}
 		});
 		
-		/*
-		portfolio.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				/**
-				 * The SellActionListener is an ActionListener only meant for
-				 * the JPopupMenu button to sell a company if selected on your
-				 * own portfolio.
-				 * @author alancoon
-				 *
-				 *//*
-				class SellActionListener implements ActionListener {
-					private Company companyToSell;
-					public SellActionListener(Company companyToSell) {
-						this.companyToSell = companyToSell;
-					}
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-//						gameFrame.g
-					} 
-				}
-				// Instantiate the pop up menu and the button within it
-				JPopupMenu jpm = new JPopupMenu();
-				JMenuItem jmi = new JMenuItem();
-				// Get the company that's selected
-	        	int selectedRow = portfolio.getSelectedRow();
-	        	TableModel dtm = (TableModel) portfolio.getModel();
-				Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
-			
-				// Add a SellActionListener to the JMenuItem
-				jmi.addActionListener(new SellActionListener(selectedCompany));
-				jpm.add(jmi);
-				jpm.setVisible(true);
-			}
-		}); */
 		trade.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -224,5 +206,9 @@ public class PlayerTab extends JPanel{
 				InitiateTradeMessage itm = new InitiateTradeMessage();
 			}
 		});
+	}
+
+	public JTable getTable() {
+		return portfolio;
 	}
 } 

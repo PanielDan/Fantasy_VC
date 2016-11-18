@@ -147,14 +147,14 @@ public class User {
 	
 	public synchronized void addCompany(Company company) {
 		companies.add(company);
-		currentCapital -= company.getAskingPrice();
+		currentCapital -= company.getCurrentWorth();
 	}
 	
 	public synchronized void deleteCompany(Company company) {
 		for(int i = 0; i < companies.size(); i++) {
 			if(companies.get(i).getName().equals(company.getName())) {
 				companies.remove(i);
-				currentCapital += company.getAskingPrice();
+				currentCapital += company.getCurrentWorth();
 				return;
 			}
 		}

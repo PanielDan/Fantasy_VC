@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import messages.CreateGameMessage;
+import messages.JoinGameMessage;
 import messages.Message;
 
 public class ServerClientCommunicator extends Thread {
@@ -48,6 +49,10 @@ public class ServerClientCommunicator extends Thread {
 					if (msg instanceof CreateGameMessage) {
 						CreateGameMessage cgm = (CreateGameMessage)msg;
 						server.createLobby(this, cgm.gamename, cgm.hostUser, cgm.numUsers);
+					}
+					else if (msg instanceof JoinGameMessage) {
+						JoinGameMessage jgm = (JoinGameMessage)msg;
+						server.addToLobby(this, jgm.lobbyName, jgm.username);
 					}
 					else {
 						server.sendToAll(msg);
