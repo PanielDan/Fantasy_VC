@@ -172,7 +172,7 @@ public class Game implements Serializable {
 		//sorts the finalists in order of their total profit
 		Collections.sort(finalists, User.getComparator());
 		User definiteWinner = finalists.get(finalists.size() - 1);
-		long max = definiteWinner.getTotalProfit();
+		double max = definiteWinner.getTotalProfit();
 		
 		winners.add(definiteWinner);
 		
