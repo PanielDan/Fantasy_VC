@@ -202,7 +202,7 @@ public class QuarterlyGUI extends JPanel{
 			public void actionPerformed(ActionEvent ae) {
 				gameFrame.game.currentQuarter++; //TODO
 				if (gameFrame.game.currentQuarter == 20) {
-					gameFrame.changePanel(new FinalGUI(gameFrame));
+					gameFrame.changePanel(new FinalGUI(gameFrame, null));
 				} else {
 					gameFrame.changePanel(new TimelapsePanel(null, gameFrame));
 				}
