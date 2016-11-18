@@ -133,6 +133,8 @@ public class LobbyPanel extends JPanel{
 		leaveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				LeaveLobbyMessage llm = new LeaveLobbyMessage();
+				//TODO must send this out.
+				gameFrame.changePanel(new IntroPanel(gameFrame));
 			}
 		});
 				

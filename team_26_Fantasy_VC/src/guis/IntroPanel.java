@@ -12,7 +12,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -29,8 +28,10 @@ public class IntroPanel extends JPanel {
 	JButton hostButton, joinButton;
 	JPanel eastPanel, centerPanel;
 	public GameFrame gameFrame;
+	IntroPanel ip;
 	
 	public IntroPanel(GameFrame gameFrame) {
+		this.ip = this;
 		this.gameFrame = gameFrame;
 		initializeComponents();
 		createGUI();
@@ -98,11 +99,15 @@ public class IntroPanel extends JPanel {
 		this.add(lobbyPane);
 	}
 	
+	public void switchToLobby() {
+		gameFrame.changePanel(new LobbyPanel(gameFrame));
+	}
+	
 	private void addEvents() {
 		hostButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				HostGameMessage hgm = new HostGameMessage();
-				new CreateGameGUI().setVisible(true);
+				new CreateGameGUI(ip).setVisible(true);
 				
 			}
 		});

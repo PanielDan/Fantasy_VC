@@ -49,6 +49,7 @@ public class GameFrame extends JFrame {
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
 		IntroPanel main = new IntroPanel(this);
+		currentPanel = main;
 		//AuctionBidScreen main = new AuctionBidScreen(this,game.getCompanies().get(5));
 		//AuctionTeamList main = new AuctionTeamList(null, this);
 		//FinalGUI main = new FinalGUI(this);

@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import gameplay.GameFrame;
 import messages.CreateGameMessage;
 import utility.AppearanceConstants;
 
@@ -29,8 +30,10 @@ public class CreateGameGUI extends JFrame{
 	JButton cancelButton, createButton;
 	JTextField lobbyName;
 	JComboBox<Integer> size;
+	public IntroPanel ip;
 	
-	public CreateGameGUI() {
+	public CreateGameGUI(IntroPanel ip) {
+		this.ip = ip;
 		initializeComponents();
 		createGUI();
 		addEvents();
@@ -126,7 +129,8 @@ public class CreateGameGUI extends JFrame{
 			public void actionPerformed(ActionEvent ae) {
 				if(!lobbyName.getText().equals("")) {
 					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()));
-					//TODO send this message
+					//TODO send this message and add the game to the lobby
+					ip.switchToLobby();
 					dispose();
 				}
 				else {
