@@ -29,6 +29,7 @@ import listeners.TextFieldFocusListener;
 import server.SQLDriver;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
+import utility.ImageLibrary;
 
 /**
  * The {@code LoginGUI} is the first graphical user interface 
@@ -111,6 +112,11 @@ public class LoginGUI extends JFrame{
 		JPanel welcomePanel = new JPanel();
 		welcomePanel.setLayout(new BoxLayout(welcomePanel, BoxLayout.PAGE_AXIS));
 
+		//add Logo image
+		Image logoIcon = ImageLibrary.getImage("src/resources/FantasyVC.png");
+		fantasyVCLogo.setIcon(new ImageIcon(logoIcon.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
+
+		
 		// Set mass component appearances
 		// TODO replace with generalized variables from AppearanceConstants
 		Color buttonForeground = Color.lightGray;
@@ -133,13 +139,6 @@ public class LoginGUI extends JFrame{
 
 		AppearanceSettings.setBackground(primaryBackground, mainPanel, welcome, alertLabel, ventureLabel, alertPanel, textFieldsPanel, 
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
-
-		//add Logo image
-		ImageIcon logo = new ImageIcon("resources/img/FantasyVC.png");
-		Image logoIcon = logo.getImage();
-		fantasyVCLogo.setIcon(new ImageIcon(logoIcon.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
-
-		
 		// Other appearance settings
 		welcome.setFont(AppearanceConstants.fontMedium);
 		ventureLabel.setFont(AppearanceConstants.fontHeader);

@@ -65,6 +65,7 @@ public class AuctionTeamList extends JPanel {
 		intializeVariables();
 		createGUI();
 		addActionListeners();
+		gameFrame.header.updateCurrentCapital();
 	}
 	
 	
@@ -88,7 +89,7 @@ public class AuctionTeamList extends JPanel {
 		purchasedFirmsLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		purchasedFirms = new Vector<String>();
 		
-		String[] columnNames = {"Name", "Tier Level", "Price"};
+		String[] columnNames = {"Name", "Tier Level", "Price (Millions)"};
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		companyVect = gameFrame.getGame().getCompanies();
@@ -134,9 +135,7 @@ public class AuctionTeamList extends JPanel {
 	//All of this just has to be updated with user images from company and user objects.
 	private void intializePictures(){
 		
-		middleFirmPicture.setIcon(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
-    	detailsCompanyPicture.setIcon(new ImageIcon(companyVect.get(0).getCompanyLogo().getScaledInstance((int)(100*companyVect.get(0).getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
-	
+		middleFirmPicture.setIcon(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));	
 	}
 	
 	//Function that fills in the random test team names
@@ -316,7 +315,7 @@ public class AuctionTeamList extends JPanel {
 		cardSwapPanel.setMaximumSize(new Dimension(250,450));
 		firmDetailsPanel.setMaximumSize(new Dimension(250,450));
 		companyDetailsPanel.setMaximumSize(new Dimension(250,450));
-		AppearanceSettings.setSize(250,80, companyBioPane);
+		AppearanceSettings.setSize(250,100, companyBioPane);
 		AppearanceSettings.setSize(100,40, bidButton);
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, cardSwapPanel, firmDetailsPanel,
 				companyDetailsPanel,companyInfoPanel,firmInfoPanel,detailsFirmCurrentMoney, detailsFirmName,
