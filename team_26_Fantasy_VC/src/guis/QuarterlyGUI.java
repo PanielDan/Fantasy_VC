@@ -16,8 +16,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 import client.Client;
+import gameplay.Company;
 import gameplay.Game;
 import gameplay.GameFrame;
+import gameplay.User;
 import messages.QuarterlyReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -35,6 +37,9 @@ public class QuarterlyGUI extends JPanel{
 	public GameFrame gameFrame;
 	public Game game;
 	private Client client;
+	
+	private Vector<User> users;
+	private Vector<PlayerTab> tabs;
 	
 	/** Used https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
 	 * 
@@ -57,6 +62,9 @@ public class QuarterlyGUI extends JPanel{
 		notificationsAndReadyPanel = new JPanel();
 		ready = new JButton("Ready");
 		timer = new JLabel("Timer");
+		
+		users = gameFrame.game.getUsers();
+		tabs = new Vector<PlayerTab>();
 	}
 	
 	private void createGUI() {
@@ -68,6 +76,21 @@ public class QuarterlyGUI extends JPanel{
 		ImageIcon icon = new ImageIcon("src/14705784_10210522380393027_557234648620204411_n.jpg");
 		Vector<String> assets = new Vector();
 		assets.addElement("Portfolio Contents:");
+		
+		for (User user : users) {
+			String companyName = user.getCompanyName();
+//			ImageIcon imageIcon = new ImageIcon(user.getUserIcon());
+			ImageIcon imageIcon = new ImageIcon("src/14705784_10210522380393027_557234648620204411_n.jpg");
+			user.setUserIcon("src/14705784_10210522380393027_557234648620204411_n.jpg");
+			Vector<Company> companies = user.getCompanies();
+			
+			PlayerTab pt = new PlayerTab(user, this);
+//			PlayerTab pt = new PlayerTab(companyName, imageIcon, companies, this);
+			tabs.add(pt);
+			tabbedPane.add(user.getCompanyName(), pt);
+		}
+		
+		/*
 		panel1 = new PlayerTab("Tim", icon, assets, this);
 		tabbedPane.add("Player 1 Name", panel1);
 		
@@ -79,7 +102,8 @@ public class QuarterlyGUI extends JPanel{
 		
 		panel4 = new PlayerTab("Alan", icon, assets, this);
 		tabbedPane.add("Player 4 Name", panel4);
-	
+		*/
+		
 		freeAgents = new JPanel();
 		//TODO set text label for free agents and add a table of available companies
 		tabbedPane.add("Free Agents", freeAgents);
@@ -100,6 +124,8 @@ public class QuarterlyGUI extends JPanel{
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, timer);
 		
 		ready.setBackground(Color.GREEN);	
+		
+		setBackground(AppearanceConstants.darkBlue);
 	}
 	
 	private void addActionListeners() {
