@@ -33,7 +33,9 @@ import utility.AppearanceSettings;
 import utility.ImageLibrary;
 
 public class PlayerTab extends JPanel{
+
 	public JButton trade;
+	public JButton sell;
 	public String playerName;
 	public ImageIcon playerIcon;
 	public JPanel playerInfo;
@@ -71,6 +73,7 @@ public class PlayerTab extends JPanel{
 
 	private void initializeComponents(){
 		trade = new JButton("Trade with this player.");
+		sell = new JButton("Sell selected company.");
 		playerInfo = new JPanel();
 	}
 	
@@ -102,17 +105,8 @@ public class PlayerTab extends JPanel{
 		
 		JScrollPane portfolioScrollPane = new JScrollPane(portfolio);
 
-		portfolioScrollPane.setFocusable(false);
-		portfolioScrollPane.setBorder(null);
-		
-//		for (int a = 0; a < user.getCompanies().size(); a++) { 
-//			
-//			portfolio.append(user.getCompanies().get(a).getName() + '\n');
-//		}
-//		
 		setLayout(new BorderLayout());
 		JPanel westPanel = new JPanel();
-//		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.PAGE_AXIS));
 		westPanel.setLayout(new GridLayout(2, 1));
 		
 		JLabel playerPicture = new JLabel();
@@ -142,26 +136,50 @@ public class PlayerTab extends JPanel{
 		westPanel.add(wordsPanel);
 		
 		JPanel centerPanel = new JPanel();
+		JPanel buttonPanel = new JPanel();
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
 		centerPanel.add(portfolioScrollPane);
-		centerPanel.add(trade);
+		buttonPanel.add(trade);
+		buttonPanel.add(sell);
+		centerPanel.add(buttonPanel);
 		
 		westPanel.setPreferredSize(new Dimension(350, 0));
 		add(westPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
 		
-		/* Colorize! */
-		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, wordsPanel, westPanel, playerInfo, playerBio, this);
+		/* Modify Appearances! */
+		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, wordsPanel, westPanel, playerInfo, playerBio, buttonPanel, this);
 		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, centerPanel, portfolioScrollPane);
 		AppearanceSettings.setBackground(AppearanceConstants.offWhite, portfolio);
-		AppearanceSettings.setForeground(AppearanceConstants.offWhite, playerName, companyName, playerBio, trade);
-		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, trade);
-		AppearanceSettings.setFont(AppearanceConstants.fontMedium, trade);
-		AppearanceSettings.unSetBorderOnButtons(trade);
-		AppearanceSettings.setOpaque(trade);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, playerName, companyName, playerBio, trade, sell);
+		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, trade, sell);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, trade, sell);
+		AppearanceSettings.unSetBorderOnButtons(trade, sell);
+		AppearanceSettings.setOpaque(trade, sell);
 	}
 	
 	private void addActionListeners() {
+		
+		sell.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Get the selected company
+				int selectedRow = portfolio.getSelectedRow();
+	        	TableModel dtm = (TableModel) portfolio.getModel();
+				Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+				
+				// Sell the company
+				gameFrame.user.deleteCompany(selectedCompany);
+				
+				// Update our GUI to reflect current capital
+				gameFrame.header.updateCurrentCapital();
+				
+				// Remove from table
+				dtm.removeRow(selectedRow);
+			}
+		});
+		
+		/*
 		portfolio.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -171,7 +189,7 @@ public class PlayerTab extends JPanel{
 				 * own portfolio.
 				 * @author alancoon
 				 *
-				 */
+				 *//*
 				class SellActionListener implements ActionListener {
 					private Company companyToSell;
 					public SellActionListener(Company companyToSell) {
@@ -183,7 +201,6 @@ public class PlayerTab extends JPanel{
 //						gameFrame.g
 					} 
 				}
-				
 				// Instantiate the pop up menu and the button within it
 				JPopupMenu jpm = new JPopupMenu();
 				JMenuItem jmi = new JMenuItem();
@@ -194,10 +211,10 @@ public class PlayerTab extends JPanel{
 			
 				// Add a SellActionListener to the JMenuItem
 				jmi.addActionListener(new SellActionListener(selectedCompany));
-				
-
+				jpm.add(jmi);
+				jpm.setVisible(true);
 			}
-		});
+		}); */
 		trade.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
