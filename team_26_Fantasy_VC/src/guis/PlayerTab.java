@@ -32,7 +32,7 @@ import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.ImageLibrary;
 
-public class PlayerTab extends JPanel{
+public class PlayerTab extends JPanel {
 
 	public JButton trade;
 	public JButton sell;
@@ -73,6 +73,11 @@ public class PlayerTab extends JPanel{
 
 	private void initializeComponents(){
 		trade = new JButton("Trade with this player.");
+		if (user.getID() == -1) {
+			trade.setEnabled(false);
+		} else if (!gameFrame.user.equals(user)) {
+			trade.setEnabled(false);
+		}
 		sell = new JButton("Sell selected company.");
 		playerInfo = new JPanel();
 	}
