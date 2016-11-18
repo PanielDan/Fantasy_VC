@@ -169,29 +169,31 @@ public class PlayerTab extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// Get the selected company
 				int selectedRow = portfolio.getSelectedRow();
-	        	TableModel dtm = (TableModel) portfolio.getModel();
-				Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
-				
-				// Sell the company
-				gameFrame.user.deleteCompany(selectedCompany);
-				
-				// Update our GUI to reflect current capital
-				gameFrame.header.updateCurrentCapital();
-				
-				// Remove from table
-				dtm.removeRow(selectedRow);
-				
-				// Make the stuff needed to insert
-				double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
-				DecimalFormat df = new DecimalFormat("#.##");
-				
-				// Get the free agents table
-				JTable freeAgentTable = qg.getFreeAgentTable();
-	        	TableModel freeAgentDtm = (TableModel) freeAgentTable.getModel();
-	        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
-						Integer.toString(selectedCompany.getTierLevel()),
-						Double.toString(selectedCompany.getCurrentWorth()),
-						df.format(percentChange) + "%" });
+				if (selectedRow != -1) {
+		        	TableModel dtm = (TableModel) portfolio.getModel();
+					Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+					
+					// Sell the company
+					gameFrame.user.deleteCompany(selectedCompany);
+					
+					// Update our GUI to reflect current capital
+					gameFrame.header.updateCurrentCapital();
+					
+					// Remove from table
+					dtm.removeRow(selectedRow);
+					
+					// Make the stuff needed to insert
+					double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+					DecimalFormat df = new DecimalFormat("#.##");
+					
+					// Get the free agents table
+					JTable freeAgentTable = qg.getFreeAgentTable();
+		        	TableModel freeAgentDtm = (TableModel) freeAgentTable.getModel();
+		        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
+							Integer.toString(selectedCompany.getTierLevel()),
+							Double.toString(selectedCompany.getCurrentWorth()),
+							df.format(percentChange) + "%" });
+				}
 			}
 		});
 		
