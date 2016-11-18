@@ -45,6 +45,8 @@ public class TimelapsePanel extends JPanel {
 		initializeComponents();
 		createGUI();
 		addActionListeners();
+		
+		
 	}
 	
 
