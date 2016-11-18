@@ -2,13 +2,11 @@ package guis;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -33,6 +31,7 @@ import javax.swing.event.ListSelectionListener;
 import client.Client;
 import gameplay.Company;
 import gameplay.GameFrame;
+import gameplay.User;
 import listeners.DisabledItemSelectionModel;
 import listeners.TableModel;
 import messages.BeginAuctionBidMessage;
@@ -134,11 +133,8 @@ public class AuctionTeamList extends JPanel {
 	
 	//All of this just has to be updated with user images from company and user objects.
 	private void intializePictures(){
-		ImageIcon jeffrey = new ImageIcon("resources/img/profile.png");
-		Image firmIcon = jeffrey.getImage();
 		
-		middleFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
-		detailsFirmPicture.setIcon(new ImageIcon(firmIcon.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
+		middleFirmPicture.setIcon(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
     	detailsCompanyPicture.setIcon(new ImageIcon(companyVect.get(0).getCompanyLogo().getScaledInstance((int)(100*companyVect.get(0).getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
 	
 	}
@@ -389,16 +385,21 @@ public class AuctionTeamList extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 	            //TODO Add some sort of function to update detail panel
+				User selectedUser = gameFrame.game.returnUser(firmList.getSelectedValue());
 				
-				/*needs list of users.
-				detailsFirmPicture.setIcon(gameFrame.getGame());
-				detailsFirmName.setText(text);
-				detailsFirmCurrentMoney.setText(text);
-				*/
+				detailsFirmPicture.setIcon(new ImageIcon(selectedUser.getUserIcon().getScaledInstance(100, 100,Image.SCALE_SMOOTH)));
+				detailsFirmName.setText(selectedUser.getCompanyName());
+				detailsFirmCurrentMoney.setText(Double.toString(selectedUser.getCurrentCapital()) + Constants.million);
+				
+				//Populate temporary string vector to insert into the list
+				Vector<String> companyNames = new Vector<String>();
+				for(Company company: selectedUser.getCompanies()){
+					companyNames.add(company.getName());
+				}	
+				detailsFirmPurchasedList.setListData(companyNames);
 				
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Firm");
-				
 			}
 			
 		});

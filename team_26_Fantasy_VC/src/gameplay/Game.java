@@ -212,4 +212,28 @@ public class Game implements Serializable {
 	public void incrementQuarter() {
 		currentQuarter++;
 	}
+	
+	public Vector<Company> getFreeAgents() {
+		Vector<Company> freeAgents = new Vector<Company>();
+		
+		for(Company company : companies) {
+			boolean isntOwned = true;
+			
+			userloop:
+			for(User user : users) {
+				for(Company ownedCompany: user.getCompanies()) {
+					if(company.getName().equals(ownedCompany.getName())) {
+						isntOwned = false;
+						break userloop;
+					}
+				}
+			}
+			
+			if(isntOwned) {
+				freeAgents.add(company);
+			}
+		}
+		
+		return freeAgents;
+	}
 }

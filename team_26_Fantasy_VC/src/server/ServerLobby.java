@@ -3,10 +3,10 @@ package server;
 import java.util.Vector;
 
 import messages.Message;
-import gameplay.Game;
 
 public class ServerLobby extends Thread{
 	private Vector<ServerClientCommunicator> sccVector;
+	private Vector<String> usernames;
 	private Server server;
 	private String lobbyName, hostName;
 	private int numPlayers;
@@ -17,10 +17,24 @@ public class ServerLobby extends Thread{
 		this.lobbyName = lobbyName;
 		this.hostName = hostName;
 		this.numPlayers = numPlayers;
+		usernames = new Vector<String>();
+		usernames.add(hostName);
 	}
 	
 	public String getLobbyName() {
 		return lobbyName;
+	}
+	
+	public String getHostName() {
+		return hostName;
+	}
+	
+	public int getGameSize() {
+		return numPlayers;
+	}
+	
+	public Vector<String> getUserNames() {
+		return usernames;
 	}
 	
 	public void sendToAll(Message msg) {
@@ -29,8 +43,9 @@ public class ServerLobby extends Thread{
 		}
 	}
 	
-	public void addToLobby(ServerClientCommunicator scc) {
+	public void addToLobby(ServerClientCommunicator scc, String username) {
 		sccVector.add(scc);
+		usernames.add(username);
 		// TODO: send to people in the lobby how many to wait on
 	}
 	

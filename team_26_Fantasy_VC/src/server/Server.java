@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import gameplay.Game;
+import gameplay.Lobby;
+import messages.LobbyListMessage;
 import messages.Message;
 
 public class Server extends Thread{
@@ -44,6 +45,7 @@ public class Server extends Thread{
 				ServerClientCommunicator scc = new ServerClientCommunicator(s, this);
 				scc.start();
 				sccVector.addElement(scc);
+				sendLobbies();
 			}
 		} catch (SocketException se) {
 			se.printStackTrace();
@@ -62,6 +64,7 @@ public class Server extends Thread{
 	
 	public void sendToAll(Message msg) {
 		for(ServerClientCommunicator scc : sccVector) {
+			System.out.println("sent");
 			scc.sendMessage(msg);
 		}
 	}
@@ -80,23 +83,33 @@ public class Server extends Thread{
 		scc.setLobby(sl);
 		
 		lobbies.put(lobbyName, sl);
-		
+		sendLobbies();
 		System.out.println("Lobby created");
 		// TODO: Send updated listing of all the lobbies
 	}
 	
-	public synchronized void addToLobby(ServerClientCommunicator scc, String lobbyName) {
+	public synchronized void addToLobby(ServerClientCommunicator scc, String lobbyName, String username) {
 		if(!lobbies.containsKey(lobbyName)) {
 			// TODO: Send message that lobby does not exist
 		}
 		else {
-			lobbies.get(lobbyName).addToLobby(scc);
+			lobbies.get(lobbyName).addToLobby(scc, username);
 			sccVector.remove(scc);
 			
 			scc.setLobby(lobbies.get(lobbyName));
 		}
 		
+		sendLobbies();
 		// TODO: Send updated listing of all the lobbies (since they have more players available now
+	}
+	
+	public synchronized void sendLobbies() {
+		Vector<Lobby> lobbies = new Vector<Lobby>();
+		for(ServerLobby sl : this.lobbies.values()) {
+			Lobby lobby = new Lobby(sl.getLobbyName(), sl.getHostName(), sl.getGameSize(), sl.getUserNames());
+			lobbies.add(lobby);
+		}
+		sendToAll(new LobbyListMessage(lobbies));
 	}
 	
 	public static void main(String [] args) {
