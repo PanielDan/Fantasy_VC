@@ -165,7 +165,8 @@ public class TopPanel extends JPanel {
 		userIcon.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new UserInfoGUI(gameFrame);
+				if(!gameFrame.gameInProgress)
+					new UserInfoGUI(gameFrame);
 			}
 		});
 	}

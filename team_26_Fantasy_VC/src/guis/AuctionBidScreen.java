@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -62,6 +63,8 @@ public class AuctionBidScreen extends JPanel {
 		
 		//Middle Panel Variables
 		companyPicture = new JLabel();
+		companyPicture.setIcon(new ImageIcon(company.getCompanyLogo().getScaledInstance((int)(150*company.getAspectRatio()), 150, Image.SCALE_SMOOTH)));
+
 		companyName = new JLabel(company.getName());
 		minimumBid = new JLabel("Minimum Bid: " + company.getAskingPrice() + "Million");
 		companyBio = new JTextArea(company.getDescription());
@@ -73,8 +76,8 @@ public class AuctionBidScreen extends JPanel {
     	Object[][] companyData = {
     			{"Name", company.getName()},
     			{"Tier", company.getTierLevel()},
-    			{"Asking Price", company.getAskingPrice()},
-    			{"Current Worth", company.getCurrentWorth()},
+    			{"Price (Millions)", company.getAskingPrice()},
+    			{"Current Worth (Millions)", company.getCurrentWorth()},
     	};
     	String[] columnNames = {"",""};
     	TableModel dtm = new TableModel();
@@ -82,6 +85,7 @@ public class AuctionBidScreen extends JPanel {
     	companyStatistics = new JTable(dtm);
 		companyStatistics.setForeground(AppearanceConstants.darkBlue);
 		companyStatistics.setFont(AppearanceConstants.fontSmallest);
+		companyStatistics.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		
 		//Firm bidding panel Variables
 		intializeFirms();
@@ -90,9 +94,6 @@ public class AuctionBidScreen extends JPanel {
 		maximumBidAmount = new JLabel();
 		maximumBidLabel = new JLabel("CURRENT MAX BID");
 		maximumBidIcon = new JLabel();
-		
-		//Testing code
-		companyPicture.setIcon(new ImageIcon(company.getCompanyLogo().getScaledInstance((int)(150*company.getAspectRatio()), 150, Image.SCALE_SMOOTH)));
 	}
 	
 	//Function to allocate information for each user.
@@ -215,10 +216,10 @@ public class AuctionBidScreen extends JPanel {
 		companyInfoPanel.setMaximumSize(new Dimension(1200, 200));
 		AppearanceSettings.setSize(600, 150, companyLabelsPanel);
 		companyLabelsPanel.setMaximumSize(new Dimension(600, 150));
-		AppearanceSettings.setSize(200, 150, companyTablePane);
-		companyBioPane.setMaximumSize(new Dimension(200, 150));
-		AppearanceSettings.setSize(200, 200, companyStatisticsPanel);
-		companyStatisticsPanel.setMaximumSize(new Dimension(200, 200));
+		AppearanceSettings.setSize(300, 150, companyTablePane);
+		companyBioPane.setMaximumSize(new Dimension(300, 150));
+		AppearanceSettings.setSize(300, 200, companyStatisticsPanel);
+		companyStatisticsPanel.setMaximumSize(new Dimension(300, 200));
 
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, companyInfoPanel,companyLabelsPanel,
 				companyTablePane, companyBioPane, companyBio, companyStatisticsPanel,statisticsLabel);
@@ -350,5 +351,22 @@ public class AuctionBidScreen extends JPanel {
 	
 	public void setCompany(Company company){
 		this.company = company;
+	}
+	public void refresh(){
+		companyName.setText(company.getName());
+		minimumBid.setText("Minimum Bid: " + company.getAskingPrice() + "Million");
+		companyBio.setText(company.getDescription());
+		companyPicture.setIcon(new ImageIcon(company.getCompanyLogo().getScaledInstance((int)(150*company.getAspectRatio()), 150, Image.SCALE_SMOOTH)));
+
+    	Object[][] companyData = {
+    			{"Name", company.getName()},
+    			{"Tier", company.getTierLevel()},
+    			{"Asking Price", company.getAskingPrice()},
+    			{"Current Worth", company.getCurrentWorth()},
+    	};
+    	String[] columnNames = {"",""};
+    	TableModel dtm = new TableModel();
+    	dtm.setDataVector(companyData, columnNames);
+    	companyStatistics.setModel(dtm);
 	}
 }
