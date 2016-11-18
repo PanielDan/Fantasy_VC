@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -75,11 +76,19 @@ public class PlayerTab extends JPanel{
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		Vector<Company> companies = user.getCompanies();
-		for(int i = 0; i < companies.size(); i++){
+		
+		for(int i = 0; i < companies.size(); i++) {
+			
+			double percentChange = (companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
+					 companies.get(i).getStartingPrice();
+			System.out.println(percentChange);
+			DecimalFormat df = new DecimalFormat ("#.##");
+			System.out.println(df.format(percentChange));
+			System.out.println(df.format(percentChange) + "%");
+
 			dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
 					Double.toString(companies.get(i).getCurrentWorth()), 
-					Double.toString((companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
-									 companies.get(i).getStartingPrice()) + "%"});
+					df.format(percentChange) + "%"});
 		}
 		
 		portfolio = new JTable(dtm);
