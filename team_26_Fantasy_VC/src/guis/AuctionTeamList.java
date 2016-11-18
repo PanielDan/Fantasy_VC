@@ -441,6 +441,7 @@ public class AuctionTeamList extends JPanel {
 	        	
 	        	int selectedRow = firmData.getSelectedRow();
 	        	TableModel dtm = (TableModel)firmData.getModel();
+	        	
 				Company selectedCompany = gameFrame.game.returnCompany((String)dtm.getValueAt(selectedRow, 0));
 	        	detailsCompanyName.setText(selectedCompany.getName());
 
@@ -468,12 +469,12 @@ public class AuctionTeamList extends JPanel {
 		detailsFirmPurchasedList.setSelectionModel(new DisabledItemSelectionModel());
 		detailsFirmPurchasedList.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		
-		bidButton.addActionListener(new ActionListener(){
+		bidButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO: Set up bidding screen and transition to bidding screen.
-				if(gameFrame.networked){
+				if(gameFrame.networked) {
 					client.sendMessage(new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()).getName()));
 				} else {	
 					int selectedRow = firmData.getSelectedRow();
