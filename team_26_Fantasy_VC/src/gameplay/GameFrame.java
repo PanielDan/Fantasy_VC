@@ -107,6 +107,10 @@ public class GameFrame extends JFrame {
 		repaint();
 	}
 	
+	public JPanel getCurrentPanel() {
+		return currentPanel;
+	}
+	
 	public Game getGame() {
 		return game;
 	}

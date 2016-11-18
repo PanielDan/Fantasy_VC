@@ -42,6 +42,7 @@ public class IntroPanel extends JPanel {
 		addEvents();
 		clearCenterPanel();
 		lobbyButton = new Vector<JButton>();
+		joinButton.setEnabled(false);
 	}
 	
 	private void initializeComponents() {
@@ -156,7 +157,20 @@ public class IntroPanel extends JPanel {
 		selectButton.setBorder(new EmptyBorder(10,40,10,40));
 		selectButton.setFont(new Font("Arial", Font.BOLD, 28));
 		selectButton.putClientProperty("lobbyName", lobby);
+		selectButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				JButton source = (JButton) ae.getSource();
+				Lobby lobby = (Lobby)source.getClientProperty("lobbyName");
+				lobbyLabel.setText(lobby.getLobbyName());
+				hostLabel.setText("Host: " + lobby.getHostName());
+				sizeLabel.setText("Game Size: " + lobby.getGameSize());
+			}
+			
+		});
 		lobbyButton.add(selectButton);
+		
 		
 		lobbyPanel.add(selectButton);
 		
