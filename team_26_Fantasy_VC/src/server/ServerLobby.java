@@ -1,12 +1,14 @@
 package server;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import messages.Message;
+import messages.UserListMessage;
 
 public class ServerLobby extends Thread{
 	private Vector<ServerClientCommunicator> sccVector;
-	private Vector<String> usernames;
+	private ArrayList<String> usernames;
 	private Server server;
 	private String lobbyName, hostName;
 	private int numPlayers;
@@ -17,9 +19,14 @@ public class ServerLobby extends Thread{
 		this.lobbyName = lobbyName;
 		this.hostName = hostName;
 		this.numPlayers = numPlayers;
-		usernames = new Vector<String>();
+		usernames = new ArrayList<String>();
 		usernames.add(hostName);
 		this.start();
+		String [] arr = new String[usernames.size()];
+		for (int i = 0; i < usernames.size(); i++) {
+			arr[i] = usernames.get(i);
+		}
+		sendToAll(new UserListMessage(arr, numPlayers - usernames.size()));
 	}
 	
 	public String getLobbyName() {
@@ -34,11 +41,12 @@ public class ServerLobby extends Thread{
 		return numPlayers;
 	}
 	
-	public Vector<String> getUserNames() {
+	public ArrayList<String> getUserNames() {
 		return usernames;
 	}
 	
 	public void sendToAll(Message msg) {
+		System.out.println("send");
 		for (ServerClientCommunicator scc : sccVector) {
 			scc.sendMessage(msg);
 		}
@@ -51,13 +59,16 @@ public class ServerLobby extends Thread{
 		for(String u : usernames) {
 			System.out.println(u);
 		} 
-		System.out.println(sccVector.size() + " " + numPlayers);
-		// TODO: send to people in the lobby how many to wait on
+		// TODO: send to people in the lobby how many to wait on		
+		String [] arr = new String[usernames.size()];
+		for (int i = 0; i < usernames.size(); i++) {
+			arr[i] = usernames.get(i);
+		}
+		sendToAll(new UserListMessage(arr, numPlayers - usernames.size()));
 	}
 	
 	public void run() {
 		while (sccVector.size() < numPlayers);
-		System.out.print("full");
 		// TODO: Send signal that the lobby has enough players and start game
 		server.removeServerLobby(this);
 	}

@@ -1,6 +1,7 @@
 package gameplay;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Lobby implements Serializable{
@@ -11,9 +12,9 @@ public class Lobby implements Serializable{
 	
 	private String lobbyName, hostName;
 	private int gameSize;
-	private Vector<String> username;
+	private ArrayList<String> username;
 	
-	public Lobby(String lobbyName, String hostName, int gameSize, Vector<String> username) {
+	public Lobby(String lobbyName, String hostName, int gameSize, ArrayList<String> username) {
 		this.lobbyName = lobbyName;
 		this.hostName = hostName;
 		this.gameSize = gameSize;
@@ -44,11 +45,11 @@ public class Lobby implements Serializable{
 		this.gameSize = gameSize;
 	}
 
-	public Vector<String> getUsername() {
+	public ArrayList<String> getUsername() {
 		return username;
 	}
 
-	public void setUsername(Vector<String> username) {
+	public void setUsername(ArrayList<String> username) {
 		this.username = username;
 	}
 	

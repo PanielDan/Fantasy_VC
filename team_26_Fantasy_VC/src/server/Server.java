@@ -66,6 +66,7 @@ public class Server extends Thread{
 	
 	public void sendToAll(Message msg) {
 		for(ServerClientCommunicator scc : sccVector) {
+			System.out.println("sent");
 			scc.sendMessage(msg);
 		}
 	}
@@ -99,19 +100,20 @@ public class Server extends Thread{
 			sccVector.remove(scc);
 			
 			scc.setLobby(lobbies.get(lobbyName));
+			sendLobbies();
+			System.out.println("Lobby joined");
 		}
 		
-		sendLobbies();
-		System.out.println("Lobby joined");
 		// TODO: Send updated listing of all the lobbies (since they have more players available now)
 	}
 	
-	public synchronized void sendLobbies() {
+	public void sendLobbies() {
 		Vector<Lobby> lobbies = new Vector<Lobby>();
 		for(ServerLobby sl : this.lobbies.values()) {
 			Lobby lobby = new Lobby(sl.getLobbyName(), sl.getHostName(), sl.getGameSize(), sl.getUserNames());
 			lobbies.add(lobby);
 		}
+		System.out.println("Sending lobbies");
 		sendToAll(new LobbyListMessage(lobbies));
 	}
 	

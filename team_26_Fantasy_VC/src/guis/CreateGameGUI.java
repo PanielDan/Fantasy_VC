@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import client.Client;
 import messages.CreateGameMessage;
 import utility.AppearanceConstants;
 
@@ -130,7 +129,6 @@ public class CreateGameGUI extends JFrame{
 				if(!lobbyName.getText().equals("")) {
 					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.getClient().getUser().getUsername());
 					ip.gameFrame.getClient().sendMessage(cgm);
-					ip.switchToLobby();
 					dispose();
 				}
 				else {

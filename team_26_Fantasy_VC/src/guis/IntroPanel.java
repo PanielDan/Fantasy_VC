@@ -42,7 +42,7 @@ public class IntroPanel extends JPanel {
 		initializeComponents();
 		createGUI();
 		addEvents();
-		clearCenterPanel();
+		centerPanel.removeAll();
 		lobbyButton = new Vector<JButton>();
 		joinButton.setEnabled(false);
 	}
@@ -105,8 +105,12 @@ public class IntroPanel extends JPanel {
 		this.add(lobbyPane);
 	}
 	
-	public void switchToLobby() {
-		gameFrame.changePanel(new LobbyPanel(gameFrame));
+	public void switchToLobby(int numWaiting, String [] user) {
+		LobbyPanel lp = new LobbyPanel(gameFrame);
+		lp.setUsers(user);
+		lp.setWaitingText(numWaiting);
+		
+		gameFrame.changePanel(lp);
 	}
 	
 	private void addEvents() {
@@ -204,7 +208,7 @@ public class IntroPanel extends JPanel {
 	
 	public void setLobbies(Vector<Lobby> lobbies) {
 		lobbyButton.clear();
-		clearCenterPanel();
+		centerPanel.removeAll();
 		
 		for(Lobby lobby : lobbies) {
 			addLobby(lobby);
@@ -213,9 +217,9 @@ public class IntroPanel extends JPanel {
 		gameFrame.repaint();
 	}
 
-	public void clearCenterPanel() {
-		for(Component c : centerPanel.getComponents()) {
-			centerPanel.remove(c);
-		}
-	}
+//	public void clearCenterPanel() {
+//		for(Component c : centerPanel.getComponents()) {
+//			centerPanel.remove(c);
+//		}
+//	}
 }

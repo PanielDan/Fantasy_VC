@@ -10,6 +10,7 @@ import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import guis.IntroPanel;
+import guis.LobbyPanel;
 import messages.AuctionBidUpdateMessage;
 import messages.AuctionDetailsUpdateCompanyMessage;
 import messages.AuctionDetailsUpdateUserMessage;
@@ -20,6 +21,7 @@ import messages.LobbyListMessage;
 import messages.Message;
 import messages.Message.MessageType;
 import messages.UserInfoPopupMessage;
+import messages.UserListMessage;
 
 /**
  * The {@code Client} class is a {@code Thread} that represents a 
@@ -63,41 +65,24 @@ public class Client extends Thread {
 		try{
 			while(running){
 				m = (Message)ois.readObject();
-				//Add all message if statements here
-				
-				//Chat Message
-				if(m.getType() == MessageType.chatMessage){
-					ChatMessage cm = (ChatMessage)m;
-				}
-				//User info pop up
-				else if (m.getType() == MessageType.userInfo){
-					UserInfoPopupMessage uipm = (UserInfoPopupMessage)m;
-				}
-				//Update Auction Bid
-				else if (m.getType() == MessageType.AuctionBidUpdate){
-					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage)m;
-				}
-				//Update Auction Details to display Company Information
-				else if (m.getType() == MessageType.AuctionDetailsUpdateCompany){
-					AuctionDetailsUpdateCompanyMessage aducm = (AuctionDetailsUpdateCompanyMessage)m;
-				}				
-				//Update Auction Details to display User Information
-				else if (m.getType() == MessageType.AuctionDetailsUpdateUser){
-					AuctionDetailsUpdateUserMessage abuum = (AuctionDetailsUpdateUserMessage)m;
-				}
-				//Transition to Auction List screen
-				else if (m.getType() == MessageType.beginAuction){
-					BeginAuctionMessage bam = (BeginAuctionMessage)m;
-				}
-				//Transition to Auction Bid screen
-				else if (m.getType() == MessageType.beginBid){
-					BeginAuctionBidMessage babm = (BeginAuctionBidMessage)m;
-				}
-				else if (m.getType() == MessageType.LobbyList) {
-					System.err.println(gameFrame == null);
+				if (m.getType() == MessageType.LobbyList) {
 					if(gameFrame.getCurrentPanel() instanceof IntroPanel) {
 						LobbyListMessage llm = (LobbyListMessage)m;
 						((IntroPanel)gameFrame.getCurrentPanel()).setLobbies(llm.lobbies);
+					}
+				}
+				else if(m.getType() == MessageType.UserList) {
+					UserListMessage ulm = (UserListMessage)m;
+					System.out.println(ulm.user.length);
+					for(String u : ulm.user) {
+						System.out.println(u);
+					}
+					if (gameFrame.getCurrentPanel() instanceof LobbyPanel) {
+						((LobbyPanel)gameFrame.getCurrentPanel()).setUsers(ulm.user);
+						((LobbyPanel)gameFrame.getCurrentPanel()).setWaitingText(ulm.waitingOn);
+					}
+					else if (gameFrame.getCurrentPanel() instanceof IntroPanel) {
+						((IntroPanel)gameFrame.getCurrentPanel()).switchToLobby(ulm.waitingOn, ulm.user);
 					}
 				}
 			}

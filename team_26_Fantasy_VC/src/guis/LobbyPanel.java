@@ -111,10 +111,10 @@ public class LobbyPanel extends JPanel{
 		memberPanel.setOpaque(false);
 		memberPanel.setBorder(new EmptyBorder(20,40,0,40));
 		
-		for(int i = 0; i < 2; i++) {
-			lobbyUserLabels.add(new LobbyUserPanel("Jeffrey " + Integer.toString(i)));
-			lobbyUserLabels.get(i).setFirmName("JMoney Capital "+ Integer.toString(i));
-		}
+//		for(int i = 0; i < 2; i++) {
+//			lobbyUserLabels.add(new LobbyUserPanel("Jeffrey " + Integer.toString(i)));
+//			lobbyUserLabels.get(i).setFirmName("JMoney Capital "+ Integer.toString(i));
+//		}
 		refreshMemberPanel();
 		
 		JScrollPane scrollPane = new JScrollPane(memberPanel);
@@ -140,13 +140,13 @@ public class LobbyPanel extends JPanel{
 	private void addEvents() {
 		readyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage();
+//				LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage();
 			}
 		});
 				
 		leaveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				LeaveLobbyMessage llm = new LeaveLobbyMessage();
+//				LeaveLobbyMessage llm = new LeaveLobbyMessage();
 				//TODO must send this out.
 				gameFrame.changePanel(new IntroPanel(gameFrame));
 			}
@@ -175,7 +175,6 @@ public class LobbyPanel extends JPanel{
 	
 	public void addUser(String username){
 		lobbyUserLabels.add(new LobbyUserPanel(username));
-		refreshMemberPanel();
 	}
 	
 	public void removeUser(String username){
@@ -183,7 +182,23 @@ public class LobbyPanel extends JPanel{
 			if(lobbyUserLabels.get(i).getUsername().equals(username))
 				lobbyUserLabels.remove(i);
 		}
+	}
+	
+	public void setUsers(String [] users) {
+		for(String u : users) {
+			System.out.println(u);
+			removeUser(u);
+			addUser(u);
+		}
 		refreshMemberPanel();
+		gameFrame.revalidate();
+		gameFrame.repaint();
+	}
+	
+	public void setWaitingText(int waiting) {
+		if (waiting > 1) statusLabel.setText("Waiting for " + waiting + " more players to join...");
+		else if (waiting == 1) statusLabel.setText("Waiting for " + waiting + " more player to join...");
+		else statusLabel.setText("All players here");
 	}
 
 }
