@@ -3,7 +3,6 @@ package guis;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,8 +26,8 @@ import javax.swing.event.DocumentListener;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TextFieldFocusListener;
-import messages.CreateAccountMessage;
 import messages.LoginMessage;
+import server.SQLDriver;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -55,6 +54,7 @@ public class LoginGUI extends JFrame{
 	private JTextField username;
 	private JTextField password;
 	private JLabel alertLabel;
+	private SQLDriver driver;
 
 	private final static String queryStatement = "SELECT * FROM Venture.Users WHERE username = ?";
 	private final static String insertStatement = "INSERT INTO Venture.Users (username, passcode) VALUES (?, ?);";
@@ -64,10 +64,12 @@ public class LoginGUI extends JFrame{
 
 	public LoginGUI() {
 		super("Fantasy Venture Capital");
-		initializeConnection();
+		//initializeConnection();
 		initializeComponents();
 		createGUI();
 		addListeners();
+		driver = new SQLDriver();
+		driver.connect();
 	}
 	
 	public static void main(String[] args) {
@@ -245,34 +247,47 @@ public class LoginGUI extends JFrame{
 	private class LoginActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			try {
-				LoginMessage lm = new LoginMessage(); //TODO
-				System.out.println("Attempting login.");
-				
-				PreparedStatement ps = conn.prepareStatement(queryStatement);
-				ps.setString(1, username.getText().trim());
-				rs = ps.executeQuery();
-				if (rs.next()) {
-					/* User name exists, now check password. */
-					if (rs.getString(3).equals(password.getText())) {
-						/* Valid login! */
-						User currentUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
-						new IntroPanel().setVisible(true);
-						dispose();
-					} else {
-						/* Invalid password! */
-						alertLabel.setText("Incorrect password.");
-						rs = null;
-					}
-				} else {
-					/* User name does not exist. */
-					alertLabel.setText("That username does not exist.");
-					rs = null;
+			
+			if(!driver.userExists(username.getText().trim())) {
+				alertLabel.setText("That username does not exist.");
+			}
+			else {
+				if (driver.checkPassword(username.getText().trim(), password.getText().trim())) {
+					new GameFrame(driver.getUser(username.getText().trim())).setVisible(true);
+					dispose();
 				}
-			} catch (SQLException sqle) {
-				System.out.println("SQLException in LoginActionListener: " + sqle.getMessage());
-				sqle.printStackTrace();
-			} 
+				else {
+					alertLabel.setText("Incorrect password.");
+				}
+			}
+//			try {
+//				LoginMessage lm = new LoginMessage(); //TODO
+//				System.out.println("Attempting login.");
+//				
+//				PreparedStatement ps = conn.prepareStatement(queryStatement);
+//				ps.setString(1, username.getText().trim());
+//				rs = ps.executeQuery();
+//				if (rs.next()) {
+//					/* User name exists, now check password. */
+//					if (rs.getString(3).equals(password.getText())) {
+//						/* Valid login! */
+//						User currentUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
+//						new IntroPanel().setVisible(true);
+//						dispose();
+//					} else {
+//						/* Invalid password! */
+//						alertLabel.setText("Incorrect password.");
+//						rs = null;
+//					}
+//				} else {
+//					/* User name does not exist. */
+//					alertLabel.setText("That username does not exist.");
+//					rs = null;
+//				}
+//			} catch (SQLException sqle) {
+//				System.out.println("SQLException in LoginActionListener: " + sqle.getMessage());
+//				sqle.printStackTrace();
+//			} 
 		}
 	}
 	
@@ -285,38 +300,47 @@ public class LoginGUI extends JFrame{
 	private class CreateActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CreateAccountMessage cam = new CreateAccountMessage(); //TODO
 			
+			if(driver.userExists(username.getText().trim())) {
+				alertLabel.setText("Username already exists.");
+			}
+			else {
+				driver.insertUser(username.getText().trim(), password.getText().trim(), "Fill in biography here.");
+				new GameFrame(driver.getUser(username.getText().trim())).setVisible(true);
+				dispose();
+			}
+//			CreateAccountMessage cam = new CreateAccountMessage(); //TODO
 			
-			try {
-				PreparedStatement ps = conn.prepareStatement(queryStatement);
-				ps.setString(1, username.getText().trim());
-				rs = ps.executeQuery();
-				if (rs.next()) {
-					/* User name already in use. */
-					alertLabel.setText("Username already exists.");
-					rs = null;
-				} else {
-					/* User name does not exist. */
-					PreparedStatement is = conn.prepareStatement(insertStatement);
-					is.setString(1, username.getText().trim());
-					is.setString(2, password.getText());
-					is.execute();
-					
-					/* Now we must fetch the information we just inserted to get the ID. */
-					PreparedStatement ps2 = conn.prepareStatement(queryStatement);
-					ps2.setString(1, username.getText().trim());
-					rs = ps2.executeQuery();
-					if (rs.next()) { // Prevents SQLException about being before the result set or something like that.
-						User newUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
-						new IntroPanel().setVisible(true);
-						dispose();
-					}
-				}
-			} catch (SQLException sqle) {
-				System.out.println("SQLException in CreateActionListener: " + sqle.getMessage());
-				sqle.printStackTrace();
-			} 
+//			
+//			try {
+//				PreparedStatement ps = conn.prepareStatement(queryStatement);
+//				ps.setString(1, username.getText().trim());
+//				rs = ps.executeQuery();
+//				if (rs.next()) {
+//					/* User name already in use. */
+//					alertLabel.setText("Username already exists.");
+//					rs = null;
+//				} else {
+//					/* User name does not exist. */
+//					PreparedStatement is = conn.prepareStatement(insertStatement);
+//					is.setString(1, username.getText().trim());
+//					is.setString(2, password.getText());
+//					is.execute();
+//					
+//					/* Now we must fetch the information we just inserted to get the ID. */
+//					PreparedStatement ps2 = conn.prepareStatement(queryStatement);
+//					ps2.setString(1, username.getText().trim());
+//					rs = ps2.executeQuery();
+//					if (rs.next()) { // Prevents SQLException about being before the result set or something like that.
+//						User newUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
+//						new IntroPanel().setVisible(true);
+//						dispose();
+//					}
+//				}
+//			} catch (SQLException sqle) {
+//				System.out.println("SQLException in CreateActionListener: " + sqle.getMessage());
+//				sqle.printStackTrace();
+//			} 
 		}
 	}
 	
