@@ -11,6 +11,7 @@ import java.util.Vector;
 import exceptions.PortBoundException;
 import gameplay.User;
 import messages.ClientExitMessage;
+import messages.JoinGameMessage;
 import messages.Message;
 
 /**
@@ -44,8 +45,8 @@ public class Server extends Thread {
 		} catch (BindException be) {
 			throw new PortBoundException();
 		} catch (IllegalArgumentException iae) {
-			hostGUI.setLobbyStatus("Invalid port.");
-			hostGUI.reenableAfterDisconnection();
+//			hostGUI.setLobbyStatus("Invalid port.");
+//			hostGUI.reenableAfterDisconnection();
 			this.kill();
 		} catch (IOException ioe) {
 			System.out.println("IOException in Server::Server(): " + ioe.getMessage());
@@ -76,9 +77,10 @@ public class Server extends Thread {
 					
 					// Change things on the Client side
 					playersJoined++;
+					JoinGameMessage message = new JoinGameMessage(users.get(playersJoined - 1).getUsername());
+					sendMessageToAllClients(message);
 					
-					sendMessageToAllClients();
-					
+					if (playersJoined == numberOfPlayers) { allConnected = true; }
 				} catch (SocketException se) {
 					System.out.println("SocketException: " + se.getLocalizedMessage());
 					se.printStackTrace();
