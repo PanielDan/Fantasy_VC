@@ -73,9 +73,8 @@ public class GameFrame extends JFrame {
 		setSize(1280,720);
 		
 		this.client = client;
-		User user = client.getUser();
+		user = client.getUser();
 		networked = true;
-		
 		JPanel header = new TopPanel(this, client);
 		JPanel chatbox = new ChatPanel(client);
 
