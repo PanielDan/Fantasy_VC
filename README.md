@@ -3,9 +3,9 @@
 - **Danny Pan**
 - **USC ID**: 
 - **Email**:
-- **Tim Lew**
-- **USC ID**: 
-- **Email**:
+- **Timothy Lew**
+- **USC ID**: 2140819493
+- **Email**: lewt@usc.edu
 - **Jeffrey Chen**
 - **USC ID**: 
 - **Email**:
