@@ -41,7 +41,7 @@ public class CreateGameGUI extends JFrame{
 		createLabel = new JLabel("Create Game");
 		lobbyLabel = new JLabel("Lobby Name");
 		sizeLabel = new JLabel("Lobby Size");
-		warningLabel = new JLabel("Warning Text");
+		warningLabel = new JLabel("");
 		
 		cancelButton = new JButton("Cancel");
 		createButton = new JButton("Create");
@@ -124,9 +124,14 @@ public class CreateGameGUI extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()));
-				//TODO send this message
-				dispose();
+				if(!lobbyName.getText().equals("")) {
+					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()));
+					//TODO send this message
+					dispose();
+				}
+				else {
+					warningLabel.setText("Please enter a lobby name.");
+				}
 			}
 		});
 		cancelButton.addActionListener(new ActionListener() {
