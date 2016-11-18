@@ -19,6 +19,18 @@ public class ServerClientCommunicator extends Thread {
 	private String username;
 	private User user;
 
+	public ServerClientCommunicator(Socket s, Server server) { 
+		this.server = server;
+		try {
+			oos = new ObjectOutputStream(s.getOutputStream());
+			ois = new ObjectInputStream(s.getInputStream());
+			this.start();
+		} catch (IOException ioe) {
+			System.out.println("IOException in ServerClientCommunicator: " + ioe.getMessage());
+			ioe.printStackTrace();
+		}
+	}
+	
 	public ServerClientCommunicator(Socket s, Server server, User user) {
 		try {
 			this.server = server;

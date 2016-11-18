@@ -29,11 +29,12 @@ public class Server extends Thread {
 	
 	
 	private int numberOfPlayers;
-
+	private int playersJoined;
 	
 	public Server(int port, int numberOfPlayers) throws PortBoundException {
 		this.ss = null;
 		this.numberOfPlayers = numberOfPlayers;
+		this.playersJoined = 0;
 		this.serverClientCommunicators = new Vector<ServerClientCommunicator>();
 		this.users = new Vector<User>();
 		
@@ -66,38 +67,21 @@ public class Server extends Thread {
 			boolean allConnected = false;
 			while (!allConnected) {
 				try {
-					System.out.println("Waiting for connection...");
+					// Look for a connecting Client
 					Thread.yield();
 					Socket s = ss.accept();
 					System.out.println("Connection from " + s.getInetAddress());
-					ServerClientCommunicator scc = new ServerClientCommunicator(s, this, hostGUI.getUser());
+					ServerClientCommunicator scc = new ServerClientCommunicator(s, this);
 					serverClientCommunicators.add(scc);
+					
 					// Change things on the Client side
-					if (hostGUI.getPlayersYetToJoin() == 0) { allConnected = true; } 
+					playersJoined++;
+					
+					sendMessageToAllClients();
+					
 				} catch (SocketException se) {
-					System.out.println("SOCKET EXCEPTION");
-					if (teamNames.isEmpty()) {
-						return;
-					} else {
-						HostQuitInitMessage message = new HostQuitInitMessage(teamNames.get(0));
-						this.sendHostDroppedMessage(message);
-						for (int i = 0; i < 20; i++) Thread.yield();
-						return;
-					}
-				}
-			}
-			
-			/* Yield until all of the team name have been received! */
-			boolean allUsersReceived = false;
-			while (!allUsersReceived) {
-				try {
-					Thread.sleep(10);
-					if (users.size() == numberOfPlayers) { 
-						allUsersReceived = true;
-					}
-				} catch (InterruptedException ie) {
-					System.out.println("InterruptedException in Server::run(): " + ie.getMessage());
-					ie.printStackTrace();
+					System.out.println("SocketException: " + se.getLocalizedMessage());
+					se.printStackTrace();
 				}
 			}
 		} catch (IOException ioe) {
@@ -121,11 +105,6 @@ public class Server extends Thread {
 		// Remove from GUIs
 	}
 	
-	public void allClientsUpdateLobbyStatus(String message) {
-		for (ServerClientCommunicator scc : serverClientCommunicators) {
-			scc.sendMessage(new Message(0, message));
-		}
-	}
 
 	public void allClientsToMainGUI() {
 		
@@ -140,11 +119,11 @@ public class Server extends Thread {
 		int firstTurn = Math.abs(rand.nextInt()) % numberOfPlayers;
 		
 		for (ServerClientCommunicator scc : serverClientCommunicators) {
-			StartMainGUIMessage message = new StartMainGUIMessage();
-			message.setTeamNames(teamNames);
-			message.setNumberOfQuestions(numberOfQuestions);
- 			message.setFirstTurn(firstTurn);
-			st.sendMessage(message);
+//			StartMainGUIMessage message = new StartMainGUIMessage();
+//			message.setTeamNames(teamNames);
+//			message.setNumberOfQuestions(numberOfQuestions);
+// 			message.setFirstTurn(firstTurn);
+//			st.sendMessage(message);
 		}
 	}
 
