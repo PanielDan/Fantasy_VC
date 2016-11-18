@@ -56,6 +56,7 @@ public class TopPanel extends JPanel {
 	 */
 	public TopPanel(GameFrame gameFrame, Client client) {
 		this.client = client;
+		this.user = client.getUser();
 		this.gameFrame = gameFrame;
 		initializeComponents(client.getUser());
 		createGUI();
