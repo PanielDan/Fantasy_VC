@@ -29,6 +29,7 @@ import gameplay.User;
 import listeners.TableModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
+import utility.Constants;
 
 /*
  * Author: Danny Pan
@@ -47,6 +48,8 @@ public class AuctionBidScreen extends JPanel {
 	private JPanel[] firmPanels;
 	private Company company;
 	private GameFrame gameFrame;
+	private double bidAmountNumber[];
+	private Vector<User> userVect;
 	
 	
 	public AuctionBidScreen(GameFrame gameFrame, Company company){
@@ -58,6 +61,8 @@ public class AuctionBidScreen extends JPanel {
 	}
 	
 	private void initializeVariables(){
+		bidAmountNumber = new double[4];
+		
 		//Timer Panel
 		timer = new JLabel("0:45");
 		
@@ -120,7 +125,7 @@ public class AuctionBidScreen extends JPanel {
 			firmBid[i].setBorder(new EmptyBorder(5,5,5,5));
 		}
 		
-		Vector<User> userVect = gameFrame.game.getUsers();
+		userVect = gameFrame.game.getUsers();
 		int i = 0;
 		int j = 0;
 		while(i < 4){
@@ -368,5 +373,40 @@ public class AuctionBidScreen extends JPanel {
     	TableModel dtm = new TableModel();
     	dtm.setDataVector(companyData, columnNames);
     	companyStatistics.setModel(dtm);
+    	maximumBidAmount.setText("");
+    	maximumBidIcon.setIcon(null);
+    	maximumBidIcon.revalidate();
+    	
+    	for(int i = 0; i < 4; i++){
+    		firmBid[i].setText("");
+    	}
 	}
+	public void updateBet(String companyName, double amount){
+		int index = 0;
+		for(int i = 0; i < 4; i++){
+			if(firmName[i].getText().equals(companyName)){
+				index = i;
+				break;
+			}
+		}
+		bidAmountNumber[index] = amount;
+		firmBid[index].setText(Double.toString(amount) + Constants.million);
+		findMaxBet();
+	}
+	
+	private void findMaxBet(){
+		int maxBetIndex = 0;
+		for(int i = 0; i < 4; i++){
+			if(bidAmountNumber[0] > bidAmountNumber[i]){
+				maxBetIndex = i;
+			}
+		}
+		maximumBidAmount.setText(firmBid[maxBetIndex].getText());
+		for(int i = 0; i < userVect.size(); i++){
+			if(userVect.get(i).getCompanyName().equals(firmName[maxBetIndex].getText())){
+				maximumBidIcon.setIcon(new ImageIcon(userVect.get(i).getUserIcon().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
+			}
+		}
+	}
+	
 }
