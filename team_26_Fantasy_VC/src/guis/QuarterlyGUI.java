@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.DefaultListSelectionModel;
@@ -46,7 +47,7 @@ public class QuarterlyGUI extends JPanel{
 	
 	private JTable freeAgentTable;
 	private JButton buy;
-	
+	private HashMap<User, PlayerTab> userToTab;
 	
 	/** Used https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
 	 * 
@@ -74,6 +75,7 @@ public class QuarterlyGUI extends JPanel{
 		users = gameFrame.game.getUsers();
 		tabs = new Vector<PlayerTab>();
 		buy = new JButton("Buy selected company.");
+		userToTab = new HashMap<User, PlayerTab>();
 	}
 	
 	private void createGUI() {
@@ -95,6 +97,7 @@ public class QuarterlyGUI extends JPanel{
 			
 			PlayerTab pt = new PlayerTab(user, this);
 //			PlayerTab pt = new PlayerTab(companyName, imageIcon, companies, this);
+			userToTab.put(user, pt);
 			tabs.add(pt);
 			tabbedPane.add(user.getCompanyName(), pt);
 		}
@@ -127,7 +130,7 @@ public class QuarterlyGUI extends JPanel{
 		
 		for(int i = 0; i < companies.size(); i++) {
 			double percentChange = (companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
-					 companies.get(i).getStartingPrice();
+					 companies.get(i).getStartingPrice() * 100;
 			System.out.println(percentChange);
 			DecimalFormat df = new DecimalFormat ("#.##");
 			System.out.println(df.format(percentChange));
@@ -194,6 +197,19 @@ public class QuarterlyGUI extends JPanel{
 					
 					// Remove from table
 					dtm.removeRow(selectedRow);
+					
+					// Make the stuff needed to insert
+					double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+					DecimalFormat df = new DecimalFormat("#,##");
+					
+					// Get the PlayerTab of the user
+					PlayerTab pt = userToTab.get(gameFrame.user);
+					JTable userTable = pt.getTable();
+		        	TableModel userDtm = (TableModel) userTable.getModel();
+		        	userDtm.addRow(new Object[]{selectedCompany.getName(), 
+		        								Integer.toString(selectedCompany.getTierLevel()),
+		        								Double.toString(selectedCompany.getCurrentWorth()),
+		        								df.format(percentChange) + "%" });
 				}
 			}
 		});
@@ -213,5 +229,9 @@ public class QuarterlyGUI extends JPanel{
 	
 	public void sendUpdate(String message) {
 		updatesTextArea.append("\n" + message);
+	}
+
+	public JTable getFreeAgentTable() {
+		return freeAgentTable;
 	}
 }
