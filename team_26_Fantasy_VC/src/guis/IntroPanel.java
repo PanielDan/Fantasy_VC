@@ -138,7 +138,8 @@ public class IntroPanel extends JPanel {
 	}
 	
 	public void addToInfo(JComponent jc) {
-		jc.setFont(new Font("Arial", Font.BOLD, 32));
+		//jc.setFont(new Font("Arial", Font.BOLD, 32));
+		jc.setFont(AppearanceConstants.fontMedium);
 		jc.setForeground(AppearanceConstants.darkGray);
 		jc.setBorder(new EmptyBorder(10, 0, 10, 0));
 		eastPanel.add(jc);
@@ -157,7 +158,8 @@ public class IntroPanel extends JPanel {
 		lobbyPanel.setOpaque(false);
 		
 		JLabel lobbyName = new JLabel(lobby.getLobbyName());
-		lobbyName.setFont(new Font("Arial", Font.BOLD, 32));
+		//lobbyName.setFont(new Font("Arial", Font.BOLD, 32));
+		lobbyName.setFont(AppearanceConstants.fontMedium);
 		lobbyName.setForeground(AppearanceConstants.offWhite);
 		
 		lobbyPanel.add(lobbyName);
@@ -167,7 +169,8 @@ public class IntroPanel extends JPanel {
 		selectButton.setForeground(AppearanceConstants.offWhite);
 		selectButton.setBackground(AppearanceConstants.darkGray);
 		selectButton.setBorder(new EmptyBorder(10,40,10,40));
-		selectButton.setFont(new Font("Arial", Font.BOLD, 28));
+		//selectButton.setFont(new Font("Arial", Font.BOLD, 28));
+		selectButton.setFont(AppearanceConstants.fontMedium);
 		selectButton.putClientProperty("lobbyName", lobby);
 		selectButton.addActionListener(new ActionListener() {
 

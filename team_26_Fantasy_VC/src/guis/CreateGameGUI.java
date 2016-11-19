@@ -59,7 +59,7 @@ public class CreateGameGUI extends JFrame{
 		this.getContentPane().setBackground(AppearanceConstants.lightBlue);
 		
 		//createLabel.setFont(new Font("Arial", Font.BOLD, 42));
-		createLabel.setFont(AppearanceConstants.fontMedium);
+		createLabel.setFont(AppearanceConstants.fontLarge);
 		createLabel.setForeground(AppearanceConstants.offWhite);
 		createLabel.setHorizontalAlignment(JLabel.CENTER);
 		createLabel.setBorder(new EmptyBorder(20, 0, 20, 0));
@@ -97,7 +97,7 @@ public class CreateGameGUI extends JFrame{
 		northPanel.add(lobbyName);
 		
 		//warningLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-		warningLabel.setFont(AppearanceConstants.fontMedium);
+		warningLabel.setFont(AppearanceConstants.fontSmall);
 		warningLabel.setForeground(Color.red);
 		warningLabel.setHorizontalAlignment(JLabel.CENTER);
 		northPanel.add(warningLabel, BorderLayout.SOUTH);
@@ -153,7 +153,8 @@ public class CreateGameGUI extends JFrame{
 		for (JButton b : button) {
 			b.setBackground(AppearanceConstants.darkGray);
 			b.setForeground(AppearanceConstants.offWhite);
-			b.setFont(new Font("Arial", Font.BOLD, 32));
+			//b.setFont(new Font("Arial", Font.BOLD, 32));
+			b.setFont(AppearanceConstants.fontMedium);
 			b.setBorder(new EmptyBorder(8, 0, 8, 0));
 		}
 	}
