@@ -68,22 +68,21 @@ public class ServerClientCommunicator extends Thread {
 						server.removeServerClientCommunicator(this);
 					}
 					else {
-						System.out.println("ServerClientCommunicator deciding what to do");
 						if (server == null) {
-							System.out.println("server is null");
 							serverLobby.sendToAll(msg);
 						} else {
-							System.out.println("server isn't null");
 							server.sendToAll(msg);
 						}
 					}
 				}
 			}
-			
+			System.out.println("Beginning main game" );
 			while (true) {
 				Object obj = ois.readObject();
+				System.out.println("SCC read a message");
 				if(obj != null) {
-					if(obj instanceof LobbyPlayerReadyMessage) {
+					System.out.println("It isn't null");
+					if (obj instanceof LobbyPlayerReadyMessage) {
 						LobbyPlayerReadyMessage lprm = (LobbyPlayerReadyMessage)obj;
 						serverLobby.setReady(lprm.getUsername(), lprm.getTeamName());
 					}
@@ -93,7 +92,10 @@ public class ServerClientCommunicator extends Thread {
 						serverLobby.removeUser(cle.getUsername());
 						serverLobby.removeServerClientCommunicator(this);
 					}
-					else serverLobby.sendToAll(obj);
+					else {
+						System.out.println("command this is scc");
+						serverLobby.sendToAll(obj);
+					}
 				}
 			}
 		} catch (IOException ioe) {

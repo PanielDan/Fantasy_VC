@@ -60,9 +60,10 @@ public class ServerLobby extends Thread{
 	}
 	
 	public void sendToAll(Object msg) {
-		System.out.println("send");
+		System.out.println("This is SL, sending to all!");
 		for (ServerClientCommunicator scc : sccVector) {
 			scc.sendMessage(msg);
+			System.out.println(scc.getName() + " sent!");
 		}
 	}
 	
