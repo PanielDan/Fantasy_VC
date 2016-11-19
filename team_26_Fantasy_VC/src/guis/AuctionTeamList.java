@@ -526,7 +526,13 @@ public class AuctionTeamList extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Bid button fired");
 				if (gameFrame.networked) {
-					BeginAuctionBidMessage message = new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()), gameFrame.getClient().getUser().getCompanyName());
+					int selectedRow = firmData.getSelectedRow();
+					firmData.getSelectionModel().addSelectionInterval((selectedRow+1)%firmData.getRowCount(),
+							(selectedRow+1)%firmData.getRowCount());
+					TableModel dtm = (TableModel) firmData.getModel();
+					Company selectedCompany = gameFrame.game.returnCompany((String)dtm.getValueAt(selectedRow, 0));
+					System.out.println(selectedCompany.getName());
+					BeginAuctionBidMessage message = new BeginAuctionBidMessage(selectedCompany, gameFrame.getClient().getUser().getCompanyName(), selectedRow);
 					System.out.println("attempting to bid upon " + message.getCompany().getName());
 					client.sendMessage(message);
 				} else {	
@@ -556,5 +562,14 @@ public class AuctionTeamList extends JPanel {
 		
 		//We might have to add empty action listeners to the tables to prevent
 		//editing of data
+	}
+	
+	public void removeRow(int selectedRow) {
+		firmData.getSelectionModel().addSelectionInterval((selectedRow+1)%firmData.getRowCount(),
+				(selectedRow+1)%firmData.getRowCount());
+		TableModel dtm = (TableModel) firmData.getModel();
+		dtm.removeRow(selectedRow);
+		firmData.revalidate();
+		firmData.repaint();
 	}
 }

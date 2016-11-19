@@ -408,7 +408,7 @@ public class AuctionBidScreen extends JPanel {
 //				maxBetIndex = i;
 //			}
 //		}
-		maximumBidAmount.setText(Double.toString(bidMin) + Constants.million);
+		maximumBidAmount.setText(String.format("%.2f %s", bidMin, Constants.million));
 //		for(int i = 0; i < userVect.size(); i++){
 //			if(userVect.get(i).getCompanyName().equals(firmName[maxBetIndex].getText())){
 //				maximumBidIcon.setIcon(new ImageIcon(userVect.get(i).getUserIcon().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));

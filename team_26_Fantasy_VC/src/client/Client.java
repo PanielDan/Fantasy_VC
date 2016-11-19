@@ -135,6 +135,7 @@ public class Client extends Thread {
 					AuctionBidScreen abs = new AuctionBidScreen(gameFrame, company);
 					abs.updateBet(babm.getCompanyName(), company.getStartingPrice());
 					gameFrame.changePanel(abs);
+					atl.removeRow(babm.getSelected());
 				}
 				else if (m instanceof AuctionBidUpdateMessage) {
 					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage) m;
