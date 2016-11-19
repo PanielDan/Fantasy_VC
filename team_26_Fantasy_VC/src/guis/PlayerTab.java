@@ -98,9 +98,16 @@ public class PlayerTab extends JPanel {
 			System.out.println(df.format(percentChange));
 			System.out.println(df.format(percentChange) + "%");
 
-			dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-					String.format("%.2f", companies.get(i).getCurrentWorth()), 
-					df.format(percentChange) + "%"});
+			if(companies.get(i).getCurrentWorth() == 0) {
+				dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
+						String.format("%.2f", companies.get(i).getCurrentWorth()), 
+						"bankrupt"});
+			}
+			else {
+				dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
+						String.format("%.2f", companies.get(i).getCurrentWorth()), 
+						df.format(percentChange) + "%"});
+			}
 		}
 		
 		
@@ -189,10 +196,13 @@ public class PlayerTab extends JPanel {
 					// Get the free agents table
 					JTable freeAgentTable = qg.getFreeAgentTable();
 		        	TableModel freeAgentDtm = (TableModel) freeAgentTable.getModel();
-		        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
-							Integer.toString(selectedCompany.getTierLevel()),
-							Double.toString(selectedCompany.getCurrentWorth()),
-							df.format(percentChange) + "%" });
+		        	
+					if(selectedCompany.getCurrentWorth() != 0) {
+			        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
+								Integer.toString(selectedCompany.getTierLevel()),
+								Double.toString(selectedCompany.getCurrentWorth()),
+								df.format(percentChange) + "%" });
+					}
 		        	
 					//update the notifications
 					String update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName();
