@@ -118,8 +118,14 @@ public class FinalGUI extends JPanel {
 		Vector<Company> usercompanies = gameFrame.user.getCompanies();
 		DecimalFormat df = new DecimalFormat("#.##");
 		for(int i = 0; i < usercompanies.size(); i++){
-			dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
-					String.format("%.2f", usercompanies.get(i).getCurrentWorth())});
+			if(usercompanies.get(i).getCurrentWorth() == 0) {
+				dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
+						"bankrupt"});
+			}
+			else {
+				dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
+						df.format(usercompanies.get(i).getCurrentWorth())});
+			}
 		}
 		portfolio = new JTable(dtm);
 		portfolio.setForeground(AppearanceConstants.darkBlue);
