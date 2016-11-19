@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import messages.CreateGameMessage;
 import messages.JoinGameMessage;
+import messages.LobbyPlayerReadyMessage;
 import messages.Message;
 
 public class ServerClientCommunicator extends Thread {
@@ -72,6 +72,9 @@ public class ServerClientCommunicator extends Thread {
 			while(true) {
 				Object obj = ois.readObject();
 				if(obj != null) {
+					if(obj instanceof LobbyPlayerReadyMessage) {
+						System.out.println(((LobbyPlayerReadyMessage)obj).getUsername());
+					}
 					serverLobby.sendToAll((Message)obj);
 				}
 			}

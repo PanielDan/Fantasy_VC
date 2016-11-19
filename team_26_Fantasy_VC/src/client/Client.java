@@ -13,8 +13,10 @@ import guis.IntroPanel;
 import guis.LobbyPanel;
 import messages.ChatMessage;
 import messages.LobbyListMessage;
+import messages.LobbyPlayerReadyMessage;
 import messages.Message;
 import messages.UserListMessage;
+import utility.LobbyUserPanel;
 
 /**
  * The {@code Client} class is a {@code Thread} that represents a 
@@ -78,6 +80,18 @@ public class Client extends Thread {
 				else if(m instanceof ChatMessage) {
 					ChatMessage cm = (ChatMessage)m;
 					gameFrame.getChatPanel().addChat(cm.getUsername(), cm.getMessage());
+				}
+				if (m instanceof LobbyPlayerReadyMessage) {
+					System.out.println("Ready");
+					LobbyPlayerReadyMessage lprm = (LobbyPlayerReadyMessage)m;
+					Vector<LobbyUserPanel> lup = ((LobbyPanel)gameFrame.getCurrentPanel()).getLobbyPanels();
+					for (LobbyUserPanel user : lup){
+						System.out.println(user.getUsername() + " " + lprm.getUsername());
+						if (user.getUsername().equals(lprm.getUsername())){
+							user.setFirmName(lprm.getTeamName());
+							user.setReady();
+						}
+					}
 				}
 			}
 

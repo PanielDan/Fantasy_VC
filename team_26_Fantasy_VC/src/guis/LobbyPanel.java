@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 
 import gameplay.GameFrame;
 import gameplay.User;
+import messages.LobbyPlayerReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.LobbyUserPanel;
@@ -34,7 +35,7 @@ public class LobbyPanel extends JPanel{
 	private Vector<User> players;
 	private JLabel statusLabel, firmLabel;
 	private JTextField firmField;
-	private JButton readyButton, inviteButton, leaveButton;
+	private JButton readyButton, leaveButton;
 	private Vector<LobbyUserPanel> lobbyUserLabels;
 	public GameFrame gameFrame;
 	private JPanel memberPanel;
@@ -51,7 +52,6 @@ public class LobbyPanel extends JPanel{
 		firmLabel = new JLabel("Firm Name");
 		firmField = new JTextField();
 		readyButton = new JButton("Ready");
-		inviteButton = new JButton("Invite");
 		leaveButton = new JButton("Leave");
 		lobbyUserLabels = new Vector<LobbyUserPanel>();
 		
@@ -68,13 +68,12 @@ public class LobbyPanel extends JPanel{
 		eastPanel.setMaximumSize(new Dimension(400, 500));
 		
 		JPanel buttonPanel = new JPanel();
-		AppearanceSettings.setCenterAlignment(readyButton,inviteButton,leaveButton);
+		AppearanceSettings.setCenterAlignment(readyButton,leaveButton);
 		buttonPanel.setOpaque(false);
 		buttonPanel.setBorder(new EmptyBorder(30,60,30,60));
 		buttonPanel.setLayout(new GridLayout(3, 1, 30, 30));
-		makeButton(readyButton, inviteButton, leaveButton);
+		makeButton(readyButton, leaveButton);
 		buttonPanel.add(readyButton);
-		buttonPanel.add(inviteButton);
 		buttonPanel.add(leaveButton);
 		buttonPanel.setBackground(AppearanceConstants.offWhite);
 		
@@ -138,7 +137,9 @@ public class LobbyPanel extends JPanel{
 	private void addEvents() {
 		readyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-//				LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage();
+				System.out.println("username: " + gameFrame.user.getUsername());
+				LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage(gameFrame.user.getUsername(),firmField.getText().trim());
+				gameFrame.getClient().sendMessage(lprm);
 			}
 		});
 				
@@ -191,6 +192,10 @@ public class LobbyPanel extends JPanel{
 		refreshMemberPanel();
 		gameFrame.revalidate();
 		gameFrame.repaint();
+	}
+	
+	public Vector<LobbyUserPanel> getLobbyPanels() {
+		return lobbyUserLabels;
 	}
 	
 	public void setWaitingText(int waiting) {
