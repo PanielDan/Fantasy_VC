@@ -79,7 +79,10 @@ public class AuctionTeamList extends JPanel {
 	
 	public void nextPlayer() {
 		order.remove(0);
-		if(!order.isEmpty()) updateMiddleFirmName(order.get(0).getUsername());
+		if(!order.isEmpty()) {
+			updateMiddleFirmName(order.get(0).getUsername());
+			middleFirmPicture.setIcon(new ImageIcon(order.get(0).getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+		}
 	}
 	
 	public String getCurrent() {
@@ -197,8 +200,8 @@ public class AuctionTeamList extends JPanel {
 	
 	//All of this just has to be updated with user images from company and user objects.
 	private void intializePictures(){
-		
-		middleFirmPicture.setIcon(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));	
+		if (!gameFrame.networked) middleFirmPicture.setIcon(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));	
+		else middleFirmPicture.setIcon(new ImageIcon(order.get(0).getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
 	}
 	
 	//Function that fills in the random test team names

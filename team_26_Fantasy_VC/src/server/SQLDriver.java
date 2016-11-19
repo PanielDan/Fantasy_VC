@@ -247,8 +247,9 @@ public class SQLDriver {
 				int gamesPlayed = rs.getInt("gamesPlayed");
 				int gamesWon = rs.getInt("gamesWon");
 				double totalProfit = rs.getDouble("totalProfit");
+				String userIconString = rs.getString("imagePath");
 				System.out.println(userID);
-				user = new User(userID, username, password, biography, gamesPlayed, gamesWon, totalProfit);
+				user = new User(userID, username, password, biography, gamesPlayed, gamesWon, totalProfit, userIconString);
 			}
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
@@ -270,8 +271,9 @@ public class SQLDriver {
 				int gamesPlayed = rs.getInt("gamesPlayed");
 				int gamesWon = rs.getInt("gamesWon");
 				double totalProfit = rs.getDouble("totalProfit");
+				String userIconString = rs.getString("imagePath");
 				System.out.println(userID);
-				user = new User(userID, username, password, biography, gamesPlayed, gamesWon, totalProfit);
+				user = new User(userID, username, password, biography, gamesPlayed, gamesWon, totalProfit, userIconString);
 			}
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();

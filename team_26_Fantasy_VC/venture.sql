@@ -12,7 +12,8 @@ create table Users (
     biography	varchar(144) not null,
     gamesPlayed int(11) 	not null default 0,
     gamesWon 	int(11) 	not null default 0,
-    totalProfit double	 	not null default 0
+    totalProfit double	 	not null default 0,
+    imagePath	varchar(100)	default 'http://jeffreychen.space/fantasyvc/users/guestuser.png'
 );
 
 create table Companies (

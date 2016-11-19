@@ -105,6 +105,7 @@ public class TopPanel extends JPanel {
 		//userIcon here
 		userIcon = new JButton();
 		userIcon.setOpaque(true);
+		userIcon.setFocusable(false);
 		AppearanceSettings.unSetBorderOnButtons(userIcon);
 		userIcon.setBackground(AppearanceConstants.darkBlue);
 		userIcon.setVerticalAlignment(SwingConstants.CENTER);
