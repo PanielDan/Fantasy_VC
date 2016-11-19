@@ -2,6 +2,7 @@ package threads;
 
 import javax.swing.JLabel;
 
+import messages.TimerTickMessage;
 import server.ServerLobby;
 
 /**

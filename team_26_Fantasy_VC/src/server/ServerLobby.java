@@ -9,6 +9,7 @@ import gameplay.Game;
 import gameplay.User;
 import messages.ReadyGameMessage;
 import messages.UserListMessage;
+import threads.Timer;
 
 public class ServerLobby extends Thread{
 	protected Vector<ServerClientCommunicator> sccVector;
@@ -127,5 +128,9 @@ public class ServerLobby extends Thread{
 		}
 		lock.unlock();
 		this.sendToAll(new ReadyGameMessage(users));
+	}
+	
+	public void startTimer(int time) {
+		Timer t = new Timer(this, time);
 	}
 }

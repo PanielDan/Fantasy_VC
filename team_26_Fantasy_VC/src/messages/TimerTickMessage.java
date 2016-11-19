@@ -1,4 +1,4 @@
-package threads;
+package messages;
 
 import java.io.Serializable;
 
