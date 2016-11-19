@@ -48,6 +48,7 @@ public class Game implements Serializable {
 		currentQuarter = 0;
 		this.users = users;
 		companies = new Vector<Company>();
+		initializeCompanies();
 	}
 	
 	/**
