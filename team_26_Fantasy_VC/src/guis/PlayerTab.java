@@ -47,16 +47,18 @@ public class PlayerTab extends JPanel {
 	private JTable portfolio;
 	private User user;
 	
-	public PlayerTab(String playerName, ImageIcon playerIcon, Vector<Company> assets, QuarterlyGUI qg) {
-		this.playerName = playerName;
-		this.playerIcon = playerIcon;
-		this.assets = assets;
-		this.qg = qg;
-		this.gameFrame = qg.gameFrame;
-		initializeComponents();
-		createGUI();
-		addActionListeners();
-	}
+	private PlayerTab currentTab = this;
+	
+//	public PlayerTab(String playerName, ImageIcon playerIcon, Vector<Company> assets, QuarterlyGUI qg) {
+//		this.playerName = playerName;
+//		this.playerIcon = playerIcon;
+//		this.assets = assets;
+//		this.qg = qg;
+//		this.gameFrame = qg.gameFrame;
+//		initializeComponents();
+//		createGUI();
+//		addActionListeners();
+//	}
 	
 	public PlayerTab(User user, QuarterlyGUI qg) {
 		this.user = user;
@@ -205,7 +207,12 @@ public class PlayerTab extends JPanel {
 					}
 		        	
 					//update the notifications
-					String update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName();
+					String update;
+					if (selectedCompany.getCurrentWorth() == 0) {
+						update = gameFrame.user.getCompanyName() + " liquidated " + selectedCompany.getName();
+					} else {
+						update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName();
+					}
 					qg.sendUpdate(update);
 				}
 			}
@@ -214,10 +221,10 @@ public class PlayerTab extends JPanel {
 		trade.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				qg.setVisible(false);
-				gameFrame.changePanel(new TradeGUI(qg));
-				//System.out.println("TRADE");
-				InitiateTradeMessage itm = new InitiateTradeMessage();
+				// Determine the initiator and target of the trade (both Users)
+				User initiator = gameFrame.user;
+				User target = qg.getTabToUser().get(currentTab);
+				InitiateTradeMessage itm = new InitiateTradeMessage(initiator, target);
 			}
 		});
 	}

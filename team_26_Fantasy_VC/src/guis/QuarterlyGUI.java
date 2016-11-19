@@ -50,6 +50,7 @@ public class QuarterlyGUI extends JPanel{
 	private JTable freeAgentTable;
 	private JButton buy;
 	private HashMap<User, PlayerTab> userToTab;
+	private HashMap<PlayerTab, User> tabToUser;
 	private JScrollBar scrollBar;
 
 	/** Used https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
@@ -101,31 +102,14 @@ public class QuarterlyGUI extends JPanel{
 			Vector<Company> companies = user.getCompanies();
 
 			PlayerTab pt = new PlayerTab(user, this);
-			//			PlayerTab pt = new PlayerTab(companyName, imageIcon, companies, this);
 			userToTab.put(user, pt);
+			tabToUser.put(pt, user);
 			tabs.add(pt);
 			tabbedPane.add(user.getCompanyName(), pt);
 		}
 
-		/*
-		panel1 = new PlayerTab("Tim", icon, assets, this);
-		tabbedPane.add("Player 1 Name", panel1);
-
-		panel2 = new PlayerTab("Danny", icon, assets, this);
-		tabbedPane.add("Player 2 Name", panel2);
-
-		panel3 = new PlayerTab("Jeff", icon, assets, this);
-		tabbedPane.add("Player 3 Name", panel3);
-
-		panel4 = new PlayerTab("Alan", icon, assets, this);
-		tabbedPane.add("Player 4 Name", panel4);
-		 */
-
 		freeAgents = new JPanel();
-		//TODO set text label for free agents and add a table of available companies
 		tabbedPane.add("Free Agents", freeAgents);
-
-
 
 		// Create freeAgents 
 		String[] columnNames = {"Name", "Tier Level", "Price (Millions)", "Trend"};
@@ -257,5 +241,13 @@ public class QuarterlyGUI extends JPanel{
 
 	public JTable getFreeAgentTable() {
 		return freeAgentTable;
+	}
+	
+	public HashMap<User, PlayerTab> getUserToTab() {
+		return userToTab;
+	}
+	
+	public HashMap<PlayerTab, User> getTabToUser() { 
+		return tabToUser;
 	}
 }
