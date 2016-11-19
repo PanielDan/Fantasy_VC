@@ -108,7 +108,7 @@ public class TimelapsePanel extends JPanel {
 				notificationLabel);
 		AppearanceSettings.setFont(AppearanceConstants.fontLarge, notificationLabel);
 		AppearanceSettings.setCenterAlignment(notificationLabel);
-		notifications.setFont(AppearanceConstants.fontSmall);
+		notifications.setFont(AppearanceConstants.fontSmallest);
 
 		//LeftPanel Adding
 		leftPanel.add(notificationLabel);
