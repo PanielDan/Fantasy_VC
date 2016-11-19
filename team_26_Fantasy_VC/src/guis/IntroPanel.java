@@ -212,18 +212,20 @@ public class IntroPanel extends JPanel {
 	
 	public void setLobbies(Vector<Lobby> lobbies) {
 		lobbyButton.clear();
-		centerPanel.removeAll();
+		clearCenterPanel();
 		
 		for(Lobby lobby : lobbies) {
+			System.out.println("Lobby");
 			addLobby(lobby);
 		}
+		
 		gameFrame.revalidate();
 		gameFrame.repaint();
 	}
 
-//	public void clearCenterPanel() {
-//		for(Component c : centerPanel.getComponents()) {
-//			centerPanel.remove(c);
-//		}
-//	}
+	public void clearCenterPanel() {
+		for(Component c : centerPanel.getComponents()) {
+			centerPanel.remove(c);
+		}
+	}
 }

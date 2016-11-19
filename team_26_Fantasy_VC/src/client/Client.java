@@ -106,6 +106,7 @@ public class Client extends Thread {
 				else if (m instanceof ReadyGameMessage) {
 					gameFrame.setGame(users);
 					gameFrame.changePanel(new AuctionTeamList(this, gameFrame));
+					
 				}
 			}
 

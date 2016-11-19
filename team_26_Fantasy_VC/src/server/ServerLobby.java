@@ -17,12 +17,20 @@ public class ServerLobby extends Thread{
 		this.sccVector = sccVector;
 		this.server = server;
 		this.lobbyName = lobbyName;
-		this.hostName = hostName;
+		this.hostName = host.getUsername();
 		this.numPlayers = numPlayers;
 		users = new Vector<User>();
 		users.add(host);
 		this.start();
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
+	}
+	
+	public void removeServerClientCommunicator(ServerClientCommunicator scc) {
+		sccVector.remove(scc);
+		if (sccVector.isEmpty()) {
+			System.out.println("remvove");
+			server.removeServerLobby(this);
+		}
 	}
 	
 	public String getLobbyName() {
