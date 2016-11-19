@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 import client.Client;
 import gameplay.Company;
@@ -76,7 +77,7 @@ public class QuarterlyGUI extends JPanel{
 		updatesTextArea.setWrapStyleWord(true);
 		notificationsAndReadyPanel = new JPanel();
 		ready = new JButton("Ready for Next Quarter");
-		timer = new JLabel("01:00");
+		timer = new JLabel("01:00", SwingConstants.CENTER);
 
 		users = gameFrame.game.getUsers();
 		tabs = new Vector<PlayerTab>();

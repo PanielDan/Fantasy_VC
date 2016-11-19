@@ -1,10 +1,13 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -22,6 +25,7 @@ import javax.swing.event.DocumentListener;
 
 import gameplay.GameFrame;
 import gameplay.User;
+import listeners.TextFieldFocusListener;
 import messages.LobbyPlayerReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -138,6 +142,28 @@ public class LobbyPanel extends JPanel{
 		readyButton.setEnabled(false);
 	}
 	private void addEvents() {
+		firmField.addFocusListener(new TextFieldFocusListener("Enter a name...", firmField));
+		firmField.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) { }
+
+			@Override
+			public void keyPressed(KeyEvent e) { }
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(readyButton.isEnabled()) {
+						System.out.println("username: " + gameFrame.user.getUsername());
+						LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage(gameFrame.user.getUsername(),firmField.getText().trim());
+						gameFrame.getClient().sendMessage(lprm);
+						gameFrame.getClient().getUser().setCompanyName(firmField.getText().trim());
+						readyButton.setEnabled(false);
+						firmField.setEnabled(false);
+					}
+				}
+			}
+		});
 		readyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				System.out.println("username: " + gameFrame.user.getUsername());
@@ -145,6 +171,7 @@ public class LobbyPanel extends JPanel{
 				gameFrame.getClient().sendMessage(lprm);
 				gameFrame.getClient().getUser().setCompanyName(firmField.getText().trim());
 				((JButton)ae.getSource()).setEnabled(false);
+				firmField.setEnabled(false);
 			}
 		});
 				
@@ -169,6 +196,7 @@ public class LobbyPanel extends JPanel{
 			  }
 	
 			  public void updateButton() {
+				  firmField.setForeground(Color.BLACK);
 			     if (firmField.getText().length() > 0) {
 			        readyButton.setEnabled(true);
 			     }
