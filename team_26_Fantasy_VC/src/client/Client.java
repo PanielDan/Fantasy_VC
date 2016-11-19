@@ -71,6 +71,7 @@ public class Client extends Thread {
 				}
 				else if(m instanceof UserListMessage) {
 					UserListMessage ulm = (UserListMessage)m;
+					users = ulm.user;
 					if (gameFrame.getCurrentPanel() instanceof LobbyPanel) {
 						((LobbyPanel)gameFrame.getCurrentPanel()).setUsers(ulm.user);
 						((LobbyPanel)gameFrame.getCurrentPanel()).setWaitingText(ulm.waitingOn);

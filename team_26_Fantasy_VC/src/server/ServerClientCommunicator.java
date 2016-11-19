@@ -73,7 +73,7 @@ public class ServerClientCommunicator extends Thread {
 				Object obj = ois.readObject();
 				if(obj != null) {
 					if(obj instanceof LobbyPlayerReadyMessage) {
-						System.out.println(((LobbyPlayerReadyMessage)obj).getUsername());
+						serverLobby.setReady(((LobbyPlayerReadyMessage)obj).getUsername());
 					}
 					serverLobby.sendToAll((Message)obj);
 				}

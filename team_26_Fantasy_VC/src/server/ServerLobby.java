@@ -56,10 +56,30 @@ public class ServerLobby extends Thread{
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 	}
 	
+	public synchronized boolean checkReady() {
+		for (User user : users) {
+			if (!user.getReady()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public synchronized void setReady(String username) {
+		for (User user : users) {
+			if(user.getUsername().equals(username)) {
+				System.out.println(user.getUsername() + " ready");
+				user.setReady();
+			}
+		}
+	}
+	
 	public void run() {
 		while (sccVector.size() < numPlayers);
 		// TODO: Send signal that the lobby has enough players and start game
 		server.removeServerLobby(this);
+		
+		while(!checkReady());
 		this.sendToAll(new ReadyGameMessage(users));
 	}
 }
