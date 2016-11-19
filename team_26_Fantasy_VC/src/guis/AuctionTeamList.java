@@ -475,7 +475,7 @@ public class AuctionTeamList extends JPanel {
 		//Listener for the purschased firms list at the top
 		purchasedCompanysList.addListSelectionListener(new ListSelectionListener(){
 
-			@Override
+			@Override 
 			public void valueChanged(ListSelectionEvent e) {
 				if(purchasedCompanysList.getSelectedValue() != null){
 		        	Company selectedCompany = gameFrame.game.returnCompany(purchasedCompanysList.getSelectedValue());

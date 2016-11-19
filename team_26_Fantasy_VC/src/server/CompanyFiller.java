@@ -3,9 +3,14 @@ package server;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 
 import gameplay.Company;
 import gameplay.User;
@@ -25,6 +30,12 @@ public class CompanyFiller {
 				StringTokenizer st = new StringTokenizer(scanner.nextLine(), "||");
 				String companyName = st.nextToken();
 				String imagePath = st.nextToken();
+				try {
+					InputStream is = new URL(imagePath).openStream();
+					ImageInputStream iis = ImageIO.createImageInputStream(is);
+				} catch (Exception e) {
+					System.out.println(companyName);
+				}
 				String description = st.nextToken();
 				String startingPrice = st.nextToken();
 				String tier = st.nextToken();

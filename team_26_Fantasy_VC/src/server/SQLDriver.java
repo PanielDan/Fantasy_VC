@@ -9,10 +9,13 @@ import java.sql.Statement;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.imageio.IIOException;
+
 import com.mysql.jdbc.Driver;
 
 import gameplay.Company;
 import gameplay.User;
+import utility.ImageLibrary;
 
 public class SQLDriver {
 	
@@ -93,7 +96,7 @@ public class SQLDriver {
 					starting = generateStartingPrice(tier);
 					delta = generateDelta(tier);
 				}
-				
+								
 				Company tempComp = new Company(imagePath, companyName, description, starting, tier);
 				companies.add(tempComp);
 			}
