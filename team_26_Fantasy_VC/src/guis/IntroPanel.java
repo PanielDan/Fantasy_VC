@@ -3,7 +3,6 @@ package guis;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +15,12 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import gameplay.GameFrame;
 import gameplay.Lobby;
+import gameplay.User;
 import messages.JoinGameMessage;
 import utility.AppearanceConstants;
 
@@ -105,7 +103,7 @@ public class IntroPanel extends JPanel {
 		this.add(lobbyPane);
 	}
 	
-	public void switchToLobby(int numWaiting, Vector<String> user) {
+	public void switchToLobby(int numWaiting, Vector<User> user) {
 		LobbyPanel lp = new LobbyPanel(gameFrame);
 		lp.setUsers(user);
 		lp.setWaitingText(numWaiting);
@@ -121,7 +119,7 @@ public class IntroPanel extends JPanel {
 		});
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				JoinGameMessage jgm = new JoinGameMessage(gameFrame.user.getUsername(), activeLobby.getLobbyName());
+				JoinGameMessage jgm = new JoinGameMessage(gameFrame.user, activeLobby.getLobbyName());
 				gameFrame.getClient().sendMessage(jgm);
 			}
 		});
@@ -187,9 +185,8 @@ public class IntroPanel extends JPanel {
 				addToInfo(hostLabel);
 				addToInfo(sizeLabel);
 				addToInfo(playerLabel);
-				for(String p : lobby.getUsername()) {
-					System.out.println(p);
-					addToInfo(new JLabel(p));
+				for(User u : lobby.getUsers()) {
+					addToInfo(new JLabel(u.getUsername()));
 				}
 				gameFrame.revalidate();
 				gameFrame.repaint();
@@ -211,10 +208,12 @@ public class IntroPanel extends JPanel {
 	}
 	
 	public void setLobbies(Vector<Lobby> lobbies) {
+		System.out.println("lobbies set");
 		lobbyButton.clear();
 		centerPanel.removeAll();
 		
 		for(Lobby lobby : lobbies) {
+			System.out.println("lobby");
 			addLobby(lobby);
 		}
 		gameFrame.revalidate();

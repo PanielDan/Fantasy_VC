@@ -2,11 +2,10 @@
 package gameplay;
 
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
-
-import javax.swing.ImageIcon;
 
 import utility.ImageLibrary;
 
@@ -17,17 +16,21 @@ import utility.ImageLibrary;
  * @author alancoon
  * 
  */
-public class User {
+public class User implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
-	private String password;
+	private transient String password;
 	//User icon saved as an image, all we need to to pass in the string
-	private Image userIcon;
+	private transient Image userIcon;
 	private String userIconString;
 	private String username;
-	private int gamesPlayed;
-	private int gamesWon;
-	private double totalProfit;
+	private transient int gamesPlayed;
+	private transient int gamesWon;
+	private transient double totalProfit;
 	private Vector<Company> companies;
 	private double currentCapital;
 	//For the user Text blurb

@@ -44,7 +44,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -63,7 +63,6 @@ public class Client extends Thread {
 				if (m instanceof LobbyListMessage) {
 					if(gameFrame.getCurrentPanel() instanceof IntroPanel) {
 						LobbyListMessage llm = (LobbyListMessage)m;
-						if (llm.lobbies.size() != 0)	System.out.println("LobbyList: " + llm.lobbies.get(0).getUsername());
 						((IntroPanel)gameFrame.getCurrentPanel()).setLobbies(llm.lobbies);
 					}
 				}

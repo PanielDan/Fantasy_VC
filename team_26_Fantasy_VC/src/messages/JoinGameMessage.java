@@ -1,15 +1,18 @@
 package messages;
 
+import gameplay.User;
+
 public class JoinGameMessage extends Message{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public String username, lobbyName;
-
-	public JoinGameMessage(String username, String lobbyName) {
+	public String lobbyName;
+	public User user;
+	
+	public JoinGameMessage(User user, String lobbyName) {
 		super(MessageType.joinGame);
-		this.username = username;
+		this.user = user;
 		this.lobbyName = lobbyName;
 	}
 

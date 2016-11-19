@@ -40,6 +40,7 @@ public class ServerClientCommunicator extends Thread {
 	}
 
 	public void setLobby(ServerLobby sl) {
+		System.out.println("Hostname: " + sl);
 		lock.lock();
 		server = null;
 		serverLobby = sl;
@@ -50,7 +51,6 @@ public class ServerClientCommunicator extends Thread {
 		try {
 			while(server != null) {
 				Object obj = ois.readObject();
-				
 				if (obj != null) {
 					Message msg = (Message) obj;
 
@@ -60,14 +60,14 @@ public class ServerClientCommunicator extends Thread {
 					}
 					else if (msg instanceof JoinGameMessage) {
 						JoinGameMessage jgm = (JoinGameMessage)msg;
-						server.addToLobby(this, jgm.lobbyName, jgm.username);
+						server.addToLobby(this, jgm.lobbyName, jgm.user);
 					}
 					else {
 						if (server == null) serverLobby.sendToAll(msg);
 						else server.sendToAll(msg);
 					}
 				}
-			}
+			}			
 			
 			while(true) {
 				Object obj = ois.readObject();
