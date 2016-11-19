@@ -213,7 +213,7 @@ public class QuarterlyGUI extends JPanel{
 
 						// Make the stuff needed to insert
 						double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
-						DecimalFormat df = new DecimalFormat("#,##");
+						DecimalFormat df = new DecimalFormat("#.##");
 
 						// Get the PlayerTab of the user
 						PlayerTab pt = userToTab.get(gameFrame.user);
