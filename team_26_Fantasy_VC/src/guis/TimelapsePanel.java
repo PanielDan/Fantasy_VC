@@ -2,7 +2,6 @@ package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.util.Random;
 import java.util.Vector;
 
@@ -14,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
@@ -24,7 +24,6 @@ import listeners.DisabledItemSelectionModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
-import utility.ImageLibrary;
 
 public class TimelapsePanel extends JPanel {
 
@@ -40,6 +39,7 @@ public class TimelapsePanel extends JPanel {
 	private JLabel animationLabel, notificationLabel;
 	public GameFrame gameFrame;
 	private DefaultListModel<String> model;
+	private JScrollBar scrollBar;
 	
 	/**
 	 * Create the panel.
@@ -116,6 +116,7 @@ public class TimelapsePanel extends JPanel {
 
 		notificationPanel.add(leftPanel, BorderLayout.NORTH);
 		notificationPanel.add(listPane, BorderLayout.CENTER);
+		scrollBar = listPane.getVerticalScrollBar();
 
 		//Adding to normal panel
 		add(Box.createHorizontalStrut(50));
@@ -146,6 +147,8 @@ public class TimelapsePanel extends JPanel {
 			
 			for(int i = 0; i < notificationList.size(); i++) {
 				model.addElement(notificationList.get(i));
+
+				scrollBar.setValue(scrollBar.getMaximum());
 				try {
 					Thread.sleep(rand.nextInt(1000));
 				} catch (InterruptedException e) {
