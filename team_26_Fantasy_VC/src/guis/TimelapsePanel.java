@@ -60,10 +60,22 @@ public class TimelapsePanel extends JPanel {
 		
 		//set notificationList in NOT NETWORKED game
 		if(!gameFrame.networked) {
-			notificationList = gameFrame.game.updateNonNetworkedCompanies();
+			notificationList = gameFrame.game.updateCompanies();
 			//increment quarter every time lapse
 			gameFrame.game.incrementQuarter();
 			System.out.println(gameFrame.game.currentQuarter);
+		}
+		//TODO in networked game:
+		/**
+		 *  call game.updateCompanies() to return vector of strings of notifications
+		 *  Send that vector and the game with updated companies and user data to all clients
+		 *  When you receive that message on the client:
+		 *  set notificationList = the vector of strings of notificatons
+		 *  set the game = the new game from the message
+		 *  call game.incrementQuarter()
+		 */
+		else {
+			//create message here
 		}
 		
 		//test code
@@ -133,6 +145,13 @@ public class TimelapsePanel extends JPanel {
 		if(!gameFrame.networked) {
 			new TimelapseHelper().start();
 		}
+		//TODO in non networked game:
+		/**
+		 * One client should call new TimelapseHelper().start();
+		 * and whenever a notification is displayed to timelapse 
+		 * a message should be sent to all clients to display that notification
+		 * (see timelapsehelper below)
+		 */
 
 	}
 	
@@ -152,23 +171,37 @@ public class TimelapsePanel extends JPanel {
 			Random rand = new Random();
 			
 			for(int i = 0; i < notificationList.size(); i++) {
-				model.addElement(notificationList.get(i));
+				
+				if(!gameFrame.networked) {
+					model.addElement(notificationList.get(i));
 
-				scrollBar.setValue(scrollBar.getMaximum());
-				try {
-					Thread.sleep(rand.nextInt(1000));
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+					scrollBar.setValue(scrollBar.getMaximum());
+					try {
+						Thread.sleep(rand.nextInt(1000));
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
+				else {
+					//TODO
+					/**
+					 * send a message to all clients telling them
+					 * to display this message by doing model.addElement(element from message)
+					 * Then sleep for a random amount between 0 and 1000 ms which should
+					 * be the same for every client
+					 */
+				}
+
 			}
 			
+			//TODO sleep for 4000 ms after all the notifications are sent
 			try {
 				Thread.sleep(4000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			
-
+			//TODO send a message to all clients about what panel to go to next
 			if(gameFrame.game.currentQuarter == 8) {
 				gameFrame.changePanel(new FinalGUI(gameFrame, client));
 			}

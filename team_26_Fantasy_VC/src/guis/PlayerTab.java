@@ -179,53 +179,115 @@ public class PlayerTab extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// Get the selected company
 				int selectedRow = portfolio.getSelectedRow();
-				if (selectedRow != -1) {
-		        	TableModel dtm = (TableModel) portfolio.getModel();
-					Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
-					
-					// Sell the company
-					gameFrame.user.deleteCompany(selectedCompany);
-					
-					// Update our GUI to reflect current capital
-					gameFrame.header.updateCurrentCapital();
-					
-					// Remove from table
-					dtm.removeRow(selectedRow);
-					
-					// Make the stuff needed to insert
-					double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
-					DecimalFormat df = new DecimalFormat("#.##");
-					
-					// Get the free agents table
-					JTable freeAgentTable = qg.getFreeAgentTable();
-		        	TableModel freeAgentDtm = (TableModel) freeAgentTable.getModel();
-		        	
-					if(selectedCompany.getCurrentWorth() != 0) {
-			        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
-								Integer.toString(selectedCompany.getTierLevel()),
-								Double.toString(selectedCompany.getCurrentWorth()),
-								df.format(percentChange) + "%" });
+				
+				if(!gameFrame.networked) {
+					if (selectedRow != -1) {
+			        	TableModel dtm = (TableModel) portfolio.getModel();
+						Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+						
+						// Sell the company
+						gameFrame.user.deleteCompany(selectedCompany);
+						
+						// Update our GUI to reflect current capital
+						gameFrame.header.updateCurrentCapital();
+						
+						// Remove from table
+						dtm.removeRow(selectedRow);
+						
+						// Make the stuff needed to insert
+						double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+						DecimalFormat df = new DecimalFormat("#.##");
+						
+						// Get the free agents table
+						JTable freeAgentTable = qg.getFreeAgentTable();
+			        	TableModel freeAgentDtm = (TableModel) freeAgentTable.getModel();
+			        	
+						if(selectedCompany.getCurrentWorth() != 0) {
+				        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
+									Integer.toString(selectedCompany.getTierLevel()),
+									Double.toString(selectedCompany.getCurrentWorth()),
+									df.format(percentChange) + "%" });
+						}
+			        	
+						//update the notifications
+						String update;
+						if (selectedCompany.getCurrentWorth() == 0) {
+							update = gameFrame.user.getCompanyName() + " liquidated " + selectedCompany.getName() + ".";
+						} else {
+							update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName() + ".";
+						}
+						qg.sendUpdate(update);
 					}
-		        	
-					//update the notifications
-					String update;
-					if (selectedCompany.getCurrentWorth() == 0) {
-						update = gameFrame.user.getCompanyName() + " liquidated " + selectedCompany.getName() + ".";
-					} else {
-						update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName() + ".";
-					}
-					qg.sendUpdate(update);
 				}
+				//TODO networked game version of when sell button pressed
+				else {
+					//if there is a row selected and it is the user's actual player page
+					if (selectedRow != -1 && gameFrame.user.equals(user)) {
+			        	TableModel dtm = (TableModel) portfolio.getModel();
+						Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+						
+						// Sell the company
+						gameFrame.user.deleteCompany(selectedCompany);
+						
+						// Update our GUI to reflect current capital
+						gameFrame.header.updateCurrentCapital();
+						
+						//TODO
+						/**
+						 * Send a message with either selectedCompany or selectedRow and the user
+						 * to all clients. When the clients recieve this message they should 
+						 * remove the selected row from the correct playerTab and then add the row to free agents
+						 * Base these changes in every client off the commented code below:
+						 */
+						
+						/*
+						// Remove from table
+						PlayerTab pt = qg.getUserToTab().get(gameFrame.user);
+						JTable userTable = pt.getTable();
+						TableModel userDtm = (TableModel) userTable.getModel();
+						userDtm.removeRow(selectedRow);
+						
+						// Make the stuff needed to insert
+						double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+						DecimalFormat df = new DecimalFormat("#.##");
+						
+						// Get the free agents table
+						JTable freeAgentTable = qg.getFreeAgentTable();
+			        	TableModel freeAgentDtm = (TableModel) freeAgentTable.getModel();
+			        	
+						if(selectedCompany.getCurrentWorth() != 0) {
+				        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
+									Integer.toString(selectedCompany.getTierLevel()),
+									Double.toString(selectedCompany.getCurrentWorth()),
+									df.format(percentChange) + "%" });
+						}
+			        	
+						//update the notifications
+						String update;
+						if (selectedCompany.getCurrentWorth() == 0) {
+							update = gameFrame.user.getCompanyName() + " liquidated " + selectedCompany.getName() + ".";
+						} else {
+							update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName() + ".";
+						}
+						qg.sendUpdate(update);
+						*/
+					}
+				}
+				
 			}
 		});
 		
 		trade.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// Determine the initiator and target of the trade (both Users)
-				User initiator = gameFrame.user;
-				User target = qg.getTabToUser().get(currentTab);
-				InitiateTradeMessage itm = new InitiateTradeMessage(initiator, target);
+				//TODO handle the trade in networked game
+				//send every user to the tradeGUI
+				if(gameFrame.networked) {
+					// Determine the initiator and target of the trade (both Users)
+					//User initiator = gameFrame.user;
+					//User target = qg.getTabToUser().get(currentTab);
+					//InitiateTradeMessage itm = new InitiateTradeMessage(initiator, target);
+				}
 			}
 		});
 	}

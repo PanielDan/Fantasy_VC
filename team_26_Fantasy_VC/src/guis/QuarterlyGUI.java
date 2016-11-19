@@ -209,54 +209,126 @@ public class QuarterlyGUI extends JPanel{
 				// Get the selected company
 				int selectedRow = freeAgentTable.getSelectedRow();
 				
-				if (selectedRow != -1) {
-					TableModel dtm = (TableModel) freeAgentTable.getModel();
-					Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
-					double price = selectedCompany.getCurrentWorth();
-					double currentCapital = gameFrame.user.getCurrentCapital();
-					if (price > currentCapital) {
-						JOptionPane.showConfirmDialog(null, "You can't afford that!", "Venture Capital", JOptionPane.WARNING_MESSAGE);
-					} else {
-						// Buy the company
-						gameFrame.user.addCompany(selectedCompany);
+				if(!gameFrame.networked) {
+					if (selectedRow != -1) {
+						TableModel dtm = (TableModel) freeAgentTable.getModel();
+						Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+						double price = selectedCompany.getCurrentWorth();
+						double currentCapital = gameFrame.user.getCurrentCapital();
+						if (price > currentCapital) {
+							JOptionPane.showConfirmDialog(null, "You can't afford that!", "Venture Capital", JOptionPane.WARNING_MESSAGE);
+						} else {
+							// Buy the company
+							gameFrame.user.addCompany(selectedCompany);
 
-						// Update our GUI to reflect current capital
-						gameFrame.header.updateCurrentCapital();
+							// Update our GUI to reflect current capital
+							gameFrame.header.updateCurrentCapital();
 
-						// Remove from table
-						dtm.removeRow(selectedRow);
+							// Remove from table
+							dtm.removeRow(selectedRow);
 
-						// Make the stuff needed to insert
-						double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
-						DecimalFormat df = new DecimalFormat("#.##");
+							// Make the stuff needed to insert
+							double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+							DecimalFormat df = new DecimalFormat("#.##");
 
-						// Get the PlayerTab of the user
-						PlayerTab pt = userToTab.get(gameFrame.user);
-						JTable userTable = pt.getTable();
-						TableModel userDtm = (TableModel) userTable.getModel();
-						
-						
-						userDtm.addRow(new Object[]{selectedCompany.getName(), 
-								Integer.toString(selectedCompany.getTierLevel()),
-								df.format(selectedCompany.getCurrentWorth()),
-								df.format(percentChange) + "%" });
-						
-						//update the notifications
-						String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
-						sendUpdate(update);
+							// Get the PlayerTab of the user
+							PlayerTab pt = userToTab.get(gameFrame.user);
+							JTable userTable = pt.getTable();
+							TableModel userDtm = (TableModel) userTable.getModel();
+							
+							
+							userDtm.addRow(new Object[]{selectedCompany.getName(), 
+									Integer.toString(selectedCompany.getTierLevel()),
+									df.format(selectedCompany.getCurrentWorth()),
+									df.format(percentChange) + "%" });
+							
+							//update the notifications
+							String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
+							sendUpdate(update);
+						}
 					}
 				}
+				//TODO networked game buy button pressed:
+				else {
+					if (selectedRow != -1) {
+						TableModel dtm = (TableModel) freeAgentTable.getModel();
+						Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
+						double price = selectedCompany.getCurrentWorth();
+						double currentCapital = gameFrame.user.getCurrentCapital();
+						if (price > currentCapital) {
+							JOptionPane.showConfirmDialog(null, "You can't afford that!", "Venture Capital", JOptionPane.WARNING_MESSAGE);
+						} else {
+							// Buy the company
+							gameFrame.user.addCompany(selectedCompany);
+							// Update our GUI to reflect current capital
+							gameFrame.header.updateCurrentCapital();
+							
+							//TODO
+							/**
+							 * Send a message with either selectedCompany or selectedRow and the user
+							 * to all clients. When the clients recieve this message they should 
+							 * remove the selected row then add the row to the player tab of the user who bought it
+							 * Base these changes in every client off the commented code below:
+							 */
+							
+							/*
+							// Remove from table
+							dtm.removeRow(selectedRow);
+
+							// Make the stuff needed to insert
+							double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+							DecimalFormat df = new DecimalFormat("#.##");
+
+							// Get the PlayerTab of the user
+							PlayerTab pt = userToTab.get(gameFrame.user);
+							JTable userTable = pt.getTable();
+							TableModel userDtm = (TableModel) userTable.getModel();
+							
+							
+							userDtm.addRow(new Object[]{selectedCompany.getName(), 
+									Integer.toString(selectedCompany.getTierLevel()),
+									df.format(selectedCompany.getCurrentWorth()),
+									df.format(percentChange) + "%" });
+							
+							//update the notifications
+							String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
+							sendUpdate(update);
+							*/
+						}
+					}
+				}
+				
 			}
 		});
 		ready.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				if (gameFrame.game.currentQuarter == 20) {
-					gameFrame.changePanel(new FinalGUI(gameFrame, null));
-				} else {
-					gameFrame.changePanel(new TimelapsePanel(null, gameFrame));
+				
+				if(!gameFrame.networked) {
+					if (gameFrame.game.currentQuarter == 20) {
+						gameFrame.changePanel(new FinalGUI(gameFrame, null));
+					} else {
+						gameFrame.changePanel(new TimelapsePanel(null, gameFrame));
+					}
 				}
-				QuarterlyReadyMessage qrm = new QuarterlyReadyMessage();
+				else {
+					//TODO networked game
+					//QuarterlyReadyMessage qrm = new QuarterlyReadyMessage(); //maybe this message?
+					/**
+					 * send a message to all clients letting them know this user hit ready
+					 * When all players hit ready then based on following code:
+					 * 
+					 * 	if (gameFrame.game.currentQuarter == 20) {
+								gameFrame.changePanel(new FinalGUI(gameFrame, null));
+						} else {
+								gameFrame.changePanel(new TimelapsePanel(null, gameFrame));
+						}	
+						
+						Go to the correct panel
+					 */
+				}
+
+				
 			}
 		});
 	}

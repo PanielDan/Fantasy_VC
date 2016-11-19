@@ -74,7 +74,8 @@ public class Game extends Thread implements Serializable {
 		this.sl = sl;
 	}
 	
-	public Vector<String> updateNonNetworkedCompanies() {
+	//formally updateNonNetworkedCompanies
+	public Vector<String> updateCompanies() {
 		Vector<String> output = new Vector<String>();
 		for(Company company : companies) {
 			//update every company
@@ -104,6 +105,7 @@ public class Game extends Thread implements Serializable {
 	 * updates all of the companies and sends a message to 
 	 * the clients with the new companies
 	 */
+	/*
 	public void updateCompanies() {
 		Random rand = new Random();
 		for(Company company : companies) {
@@ -134,6 +136,7 @@ public class Game extends Thread implements Serializable {
 		
 		//TODO send message to all clients containing the new game and User updates
 	}
+	*/
 	
 	public Vector<Company> getCompanies() {
 		return companies;
