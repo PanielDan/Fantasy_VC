@@ -138,14 +138,11 @@ public class QuarterlyGUI extends JPanel{
 					companies.get(i).getStartingPrice() * 100;
 			DecimalFormat df = new DecimalFormat ("#.##");
 			
-			if(companies.get(i).getCurrentWorth() == 0) {
-				dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-						String.format("%.2f", companies.get(i).getCurrentWorth()), 
-						"bankrupt"});
-			}
-			else {
-				dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-						String.format("%.2f", companies.get(i).getCurrentWorth()), 
+			if(companies.get(i).getCurrentWorth() != 0) {
+				dtm.addRow(new Object[] {
+						companies.get(i).getName(), 
+						Integer.toString(companies.get(i).getTierLevel()),
+						df.format(companies.get(i).getCurrentWorth()), 
 						df.format(percentChange) + "%"});
 			}
 		}
@@ -226,6 +223,8 @@ public class QuarterlyGUI extends JPanel{
 						PlayerTab pt = userToTab.get(gameFrame.user);
 						JTable userTable = pt.getTable();
 						TableModel userDtm = (TableModel) userTable.getModel();
+						
+						
 						userDtm.addRow(new Object[]{selectedCompany.getName(), 
 								Integer.toString(selectedCompany.getTierLevel()),
 								Double.toString(selectedCompany.getCurrentWorth()),

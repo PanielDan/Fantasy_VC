@@ -116,9 +116,10 @@ public class FinalGUI extends JPanel {
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		Vector<Company> usercompanies = gameFrame.user.getCompanies();
+		DecimalFormat df = new DecimalFormat("#.##");
 		for(int i = 0; i < usercompanies.size(); i++){
 			dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
-					Double.toString(usercompanies.get(i).getCurrentWorth())});
+					df.format(usercompanies.get(i).getCurrentWorth())});
 		}
 		portfolio = new JTable(dtm);
 		portfolio.setForeground(AppearanceConstants.darkBlue);
