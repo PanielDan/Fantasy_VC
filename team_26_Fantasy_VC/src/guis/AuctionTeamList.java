@@ -83,7 +83,7 @@ public class AuctionTeamList extends JPanel {
 		//Variables for middle panel
 		middleFirmPicture = new JLabel();
 		middleFirmPicture.setPreferredSize(new Dimension(100,100));
-		firmCurrentMoney = new JLabel(Constants.currentCapital + Double.toString(gameFrame.user.getCurrentCapital()) +
+		firmCurrentMoney = new JLabel(Constants.currentCapital + String.format("%.2f", gameFrame.user.getCurrentCapital()) +
 				 Constants.million);
 		middleFirmName = new JLabel("JMoney Capital");
 		purchasedFirmsLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);

@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -49,6 +50,7 @@ public class QuarterlyGUI extends JPanel{
 	private JTable freeAgentTable;
 	private JButton buy;
 	private HashMap<User, PlayerTab> userToTab;
+	private JScrollBar scrollBar;
 
 	/** Used https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
 	 * 
@@ -183,6 +185,7 @@ public class QuarterlyGUI extends JPanel{
 		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, buy);
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, freeAgents, buyPanel, this);
 
+		JScrollBar scrollBar = updatesScrollPane.getVerticalScrollBar();
 	}
 
 	private void addActionListeners() {
@@ -244,6 +247,7 @@ public class QuarterlyGUI extends JPanel{
 
 	public void sendUpdate(String message) {
 		updatesTextArea.append("\n" + message);
+		scrollBar.setValue(scrollBar.getMaximum());
 	}
 
 	public JTable getFreeAgentTable() {
