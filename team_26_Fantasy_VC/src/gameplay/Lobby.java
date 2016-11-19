@@ -12,13 +12,13 @@ public class Lobby implements Serializable{
 	
 	private String lobbyName, hostName;
 	private int gameSize;
-	private Vector<String> username;
+	private Vector<User> users;
 	
-	public Lobby(String lobbyName, String hostName, int gameSize, Vector<String> username) {
+	public Lobby(String lobbyName, String hostName, int gameSize, Vector<User> users) {
 		this.lobbyName = lobbyName;
 		this.hostName = hostName;
 		this.gameSize = gameSize;
-		this.username = username;
+		this.users = users;
 	}
 
 	public String getLobbyName() {
@@ -45,12 +45,8 @@ public class Lobby implements Serializable{
 		this.gameSize = gameSize;
 	}
 
-	public Vector<String> getUsername() {
-		return username;
-	}
-
-	public void setUsername(Vector<String> username) {
-		this.username = username;
+	public Vector<User> getUsers() {
+		return users;
 	}
 	
 

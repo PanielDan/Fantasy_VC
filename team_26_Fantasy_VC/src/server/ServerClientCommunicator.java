@@ -60,7 +60,7 @@ public class ServerClientCommunicator extends Thread {
 					}
 					else if (msg instanceof JoinGameMessage) {
 						JoinGameMessage jgm = (JoinGameMessage)msg;
-						server.addToLobby(this, jgm.lobbyName, jgm.username);
+						server.addToLobby(this, jgm.lobbyName, jgm.user);
 					}
 					else {
 						if (server == null) serverLobby.sendToAll(msg);

@@ -23,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 
 import gameplay.GameFrame;
 import gameplay.Lobby;
+import gameplay.User;
 import messages.JoinGameMessage;
 import utility.AppearanceConstants;
 
@@ -105,9 +106,9 @@ public class IntroPanel extends JPanel {
 		this.add(lobbyPane);
 	}
 	
-	public void switchToLobby(int numWaiting, Vector<String> user) {
+	public void switchToLobby(int numWaiting, Vector<User> users) {
 		LobbyPanel lp = new LobbyPanel(gameFrame);
-		lp.setUsers(user);
+		lp.setUsers(users);
 		lp.setWaitingText(numWaiting);
 		gameFrame.chatVisible();
 		gameFrame.changePanel(lp);
@@ -121,7 +122,7 @@ public class IntroPanel extends JPanel {
 		});
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				JoinGameMessage jgm = new JoinGameMessage(gameFrame.user.getUsername(), activeLobby.getLobbyName());
+				JoinGameMessage jgm = new JoinGameMessage(gameFrame.user, activeLobby.getLobbyName());
 				gameFrame.getClient().sendMessage(jgm);
 			}
 		});
@@ -187,9 +188,8 @@ public class IntroPanel extends JPanel {
 				addToInfo(hostLabel);
 				addToInfo(sizeLabel);
 				addToInfo(playerLabel);
-				for(String p : lobby.getUsername()) {
-					System.out.println(p);
-					addToInfo(new JLabel(p));
+				for(User p : lobby.getUsers()) {
+					addToInfo(new JLabel(p.getUsername()));
 				}
 				gameFrame.revalidate();
 				gameFrame.repaint();

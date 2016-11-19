@@ -209,11 +209,10 @@ public class LobbyPanel extends JPanel{
 		}
 	}
 	
-	public void setUsers(Vector<String> users) {
-		for(String u : users) {
-			System.out.println(u);
-			removeUser(u);
-			addUser(u);
+	public void setUsers(Vector<User> users) {
+		for(User u : users) {
+			removeUser(u.getUsername());
+			addUser(u.getUsername());
 		}
 		refreshMemberPanel();
 		gameFrame.revalidate();

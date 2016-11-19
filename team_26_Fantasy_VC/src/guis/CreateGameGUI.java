@@ -133,7 +133,7 @@ public class CreateGameGUI extends JFrame{
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				if(!lobbyName.getText().equals("")) {
-					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.getClient().getUser().getUsername());
+					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user);
 					ip.gameFrame.getClient().sendMessage(cgm);
 					dispose();
 				}

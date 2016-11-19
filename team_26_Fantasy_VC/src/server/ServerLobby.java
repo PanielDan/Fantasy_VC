@@ -2,26 +2,27 @@ package server;
 
 import java.util.Vector;
 
+import gameplay.User;
 import messages.Message;
 import messages.UserListMessage;
 
 public class ServerLobby extends Thread{
 	private Vector<ServerClientCommunicator> sccVector;
-	private Vector<String> usernames;
+	private Vector<User> users;
 	private Server server;
 	private String lobbyName, hostName;
 	private int numPlayers;
 	
-	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, String hostName, int numPlayers) {
+	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
 		this.sccVector = sccVector;
 		this.server = server;
 		this.lobbyName = lobbyName;
 		this.hostName = hostName;
 		this.numPlayers = numPlayers;
-		usernames = new Vector<String>();
-		usernames.add(hostName);
+		users = new Vector<User>();
+		users.add(host);
 		this.start();
-		sendToAll(new UserListMessage(usernames, numPlayers - usernames.size()));
+		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 	}
 	
 	public String getLobbyName() {
@@ -36,8 +37,8 @@ public class ServerLobby extends Thread{
 		return numPlayers;
 	}
 	
-	public Vector<String> getUserNames() {
-		return usernames;
+	public Vector<User> getUsers() {
+		return users;
 	}
 	
 	public void sendToAll(Message msg) {
@@ -47,15 +48,12 @@ public class ServerLobby extends Thread{
 		}
 	}
 	
-	public void addToLobby(ServerClientCommunicator scc, String username) {
+	public void addToLobby(ServerClientCommunicator scc, User user) {
 		System.out.println("add");
 		sccVector.add(scc);
-		usernames.add(username);
-		for(String u : usernames) {
-			System.out.println(u);
-		} 
+		users.add(user);
 		// TODO: send to people in the lobby how many to wait on		
-		sendToAll(new UserListMessage(usernames, numPlayers - usernames.size()));
+		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 	}
 	
 	public void run() {
