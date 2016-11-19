@@ -149,12 +149,12 @@ public class Client extends Thread {
 						AuctionBidScreen auctionBidScreen = (AuctionBidScreen) gameFrame.getCurrentPanel();
 						auctionBidScreen.updateTimer(ttm.getDisplay());
 						if(ttm.getDisplay().equals("00:00")) {
+							auctionBidScreen.company.setCurrentWorth(auctionBidScreen.bidMin);
 							for(User u : users) {
 								if(u.getCompanyName().equals(auctionBidScreen.currentBidder)) {
 									u.addCompany(auctionBidScreen.company);
 									if (u.getCompanyName().equals(user.getCompanyName())) {
 										user.addCompany(auctionBidScreen.company);
-										gameFrame.user.addCompany(auctionBidScreen.company);
 										gameFrame.header.updateCurrentCapital();
 									}
 								}

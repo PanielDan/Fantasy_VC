@@ -92,6 +92,10 @@ public class Company implements Serializable {
 		return currentWorth;
 	}
 	
+	public void setCurrentWorth(double worth) {
+		currentWorth = worth;
+	}
+	
 	public int getTierLevel() {
 		return tierLevel;
 	}

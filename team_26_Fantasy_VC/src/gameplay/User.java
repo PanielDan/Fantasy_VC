@@ -160,6 +160,7 @@ public class User implements Serializable {
 	}
 	
 	public synchronized void addCompany(Company company) {
+		System.out.println(username + " " + company.getCurrentWorth());
 		companies.add(company);
 		currentCapital -= company.getCurrentWorth();
 	}
