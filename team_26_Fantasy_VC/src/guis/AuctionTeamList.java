@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -80,21 +81,22 @@ public class AuctionTeamList extends JPanel {
 		firmList = new JList<String>(firms);
 		
 		//Variables for middle panel
+		DecimalFormat df = new DecimalFormat("#.##");
 		middleFirmPicture = new JLabel();
 		middleFirmPicture.setPreferredSize(new Dimension(100,100));
-		firmCurrentMoney = new JLabel(Constants.currentCapital + String.format("%.2f", gameFrame.user.getCurrentCapital()) +
+		firmCurrentMoney = new JLabel(Constants.currentCapital + df.format(gameFrame.user.getCurrentCapital()) +
 				 Constants.million);
 		middleFirmName = new JLabel("JMoney Capital");
 		purchasedFirmsLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		purchasedFirms = new Vector<String>();
 		
-		String[] columnNames = {"Name", "Tier Level", "Price (Millions)"};
+		String[] columnNames = {"Name", "Tier Level", "Asking Price (Millions)"};
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		companyVect = gameFrame.getGame().getCompanies();
 		for(int i = 0; i < companyVect.size(); i++){
 			dtm.addRow(new Object[]{companyVect.get(i).getName(), Integer.toString(companyVect.get(i).getTierLevel()),
-					String.format("%.2f", companyVect.get(i).getStartingPrice())});
+					df.format(companyVect.get(i).getStartingPrice())});
 		}
 		firmData = new JTable(dtm);
 		firmData.setBackground(AppearanceConstants.darkBlue);
@@ -122,7 +124,11 @@ public class AuctionTeamList extends JPanel {
 		detailsCompanyInfo.setForeground(AppearanceConstants.darkBlue);
 		detailsCompanyInfo.setFont(AppearanceConstants.fontSmallest);
 		
-		bidButton = new JButton("BID");
+		if (gameFrame.user.getID() == -1) {
+			bidButton = new JButton("BUY"); 
+		} else {
+			bidButton = new JButton("BID");
+		}
 		
 		//Initialized here to purchased firms for testing purposes.
 		detailsFirmPurchasedList = new JList<String>(purchasedFirms);
@@ -460,8 +466,7 @@ public class AuctionTeamList extends JPanel {
 	        	Object[][] companyData = {
 	        			{"Name", selectedCompany.getName()},
 	        			{"Tier", selectedCompany.getTierLevel()},
-	        			{"Asking Price", selectedCompany.getAskingPrice()},
-	        			{"Current Worth", selectedCompany.getCurrentWorth()},
+	        			{"Asking Price", selectedCompany.getAskingPrice()}
 	        	};
 	        	String[] columnNames = {"",""};
 	        	dtm = new TableModel();
