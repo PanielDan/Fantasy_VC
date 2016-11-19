@@ -101,13 +101,14 @@ public class PlayerTab extends JPanel {
 			System.out.println(df.format(percentChange) + "%");
 
 			if(companies.get(i).getCurrentWorth() == 0) {
-				dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-						String.format("%.2f", companies.get(i).getCurrentWorth()), 
-						"bankrupt"});
-			}
-			else {
-				dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-						String.format("%.2f", companies.get(i).getCurrentWorth()), 
+				dtm.addRow(new Object[]{companies.get(i).getName(), 
+						Integer.toString(companies.get(i).getTierLevel()),
+						df.format(companies.get(i).getCurrentWorth()), 
+						"Bankrupt"});
+			} else {
+				dtm.addRow(new Object[]{companies.get(i).getName(),
+						Integer.toString(companies.get(i).getTierLevel()),
+						df.format(companies.get(i).getCurrentWorth()), 
 						df.format(percentChange) + "%"});
 			}
 		}
