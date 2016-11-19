@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import messages.CompanyUpdateMessage;
+import messages.SwitchPanelMessage;
 import server.SQLDriver;
 import server.ServerLobby;
 
@@ -105,8 +106,8 @@ public class Game extends Thread implements Serializable {
 	 * updates all of the companies and sends a message to 
 	 * the clients with the new companies
 	 */
-	/*
-	public void updateCompanies() {
+	
+	public void updateCompanies(int overload) {
 		Random rand = new Random();
 		for(Company company : companies) {
 			//update every company
@@ -134,9 +135,12 @@ public class Game extends Thread implements Serializable {
 			}
 		}
 		
+		sl.sendToAll(this);
+		sl.sendToAll(new SwitchPanelMessage());
+		
 		//TODO send message to all clients containing the new game and User updates
 	}
-	*/
+	
 	
 	public Vector<Company> getCompanies() {
 		return companies;

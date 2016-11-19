@@ -2,7 +2,7 @@ package messages;
 
 import java.io.Serializable;
 
-public class SwitchToTimelapseMessage implements Serializable {
+public class SwitchPanelMessage implements Serializable {
 
 	/**
 	 * 

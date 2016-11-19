@@ -14,6 +14,7 @@ import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
 import guis.IntroPanel;
 import guis.LobbyPanel;
+import guis.QuarterlyGUI;
 import guis.TimelapsePanel;
 import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
@@ -24,7 +25,7 @@ import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.ReadyGameMessage;
 import messages.StartTimerMessage;
-import messages.SwitchToTimelapseMessage;
+import messages.SwitchPanelMessage;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
 import messages.UserUpdate;
@@ -116,7 +117,6 @@ public class Client extends Thread {
 					}
 				}
 				else if (m instanceof ReadyGameMessage) {
-					System.out.println("Ready : " + System.currentTimeMillis());
 					atl = new AuctionTeamList(this, gameFrame); 
 					gameFrame.changePanel(atl);
 					if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
@@ -192,8 +192,13 @@ public class Client extends Thread {
 						}
 					}
 				}
-				else if (m instanceof SwitchToTimelapseMessage) {
-					gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
+				else if (m instanceof SwitchPanelMessage) {
+					if(gameFrame.getCurrentPanel() instanceof AuctionBidScreen){
+						gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
+					}
+					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
+						gameFrame.changePanel(new QuarterlyGUI(gameFrame, this));
+					}
 				}
 				else if (m instanceof CompanyUpdateMessage) {
 					CompanyUpdateMessage cum = (CompanyUpdateMessage)m; // hehe, cum...

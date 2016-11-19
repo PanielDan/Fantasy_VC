@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import gameplay.Game;
 import gameplay.User;
 import messages.ReadyGameMessage;
-import messages.SwitchToTimelapseMessage;
+import messages.SwitchPanelMessage;
 import messages.UserListMessage;
 import threads.Timer;
 
@@ -171,9 +171,9 @@ public class ServerLobby extends Thread{
 			e.printStackTrace();
 		}
 		System.out.println("Send timelapse");
-		sendToAll(new SwitchToTimelapseMessage());
+		sendToAll(new SwitchPanelMessage());
 			
-		seedGame.updateCompanies();
+		seedGame.updateCompanies(1);
 			// TODO:Send message to move to the timelapse GUI
 //		}
 	}
