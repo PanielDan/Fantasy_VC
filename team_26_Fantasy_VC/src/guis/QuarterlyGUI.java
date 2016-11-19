@@ -179,7 +179,7 @@ public class QuarterlyGUI extends JPanel{
 
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, timer);
 		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, updatesTextArea, notificationsAndReadyPanel);
-		AppearanceSettings.setBackground(AppearanceConstants.darkBlue );
+		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, freeAgentScrollPane);
 
 		AppearanceSettings.setBackground(AppearanceConstants.green, ready);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, ready, buy);
