@@ -9,7 +9,7 @@ import messages.ReadyGameMessage;
 import messages.UserListMessage;
 
 public class ServerLobby extends Thread{
-	private Vector<ServerClientCommunicator> sccVector;
+	protected Vector<ServerClientCommunicator> sccVector;
 	private Vector<User> users;
 	private Server server;
 	private String lobbyName, hostName;

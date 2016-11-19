@@ -89,8 +89,13 @@ public class ServerClientCommunicator extends Thread {
 					else if (obj instanceof ClientExitMessage) {
 						serverLobby.sendToAll(obj);
 						ClientExitMessage cle = (ClientExitMessage)obj;
-						serverLobby.removeUser(cle.getUsername());
-						serverLobby.removeServerClientCommunicator(this);
+						if (serverLobby.sccVector.size() == 1) {
+							serverLobby.removeServerClientCommunicator(this);
+						}
+						else {
+							serverLobby.removeUser(cle.getUsername());
+							serverLobby.removeServerClientCommunicator(this);
+						}
 					}
 					else serverLobby.sendToAll(obj);
 				}
