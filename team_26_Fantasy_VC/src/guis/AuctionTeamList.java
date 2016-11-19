@@ -497,12 +497,13 @@ public class AuctionTeamList extends JPanel {
 		detailsFirmPurchasedList.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		
 		bidButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Set up bidding screen and transition to bidding screen.
+				System.out.println("Bid button fired");
 				if (gameFrame.networked) {
-					client.sendMessage(new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()).getName()));
+					BeginAuctionBidMessage message = new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()));
+					System.out.println("attempting to bid upon " + message.getCompany().getName());
+					client.sendMessage(message);
 				} else {	
 					int selectedRow = firmData.getSelectedRow();
 					firmData.getSelectionModel().addSelectionInterval((selectedRow+1)%firmData.getRowCount(),

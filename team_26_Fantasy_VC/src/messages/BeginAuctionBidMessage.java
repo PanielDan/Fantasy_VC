@@ -1,19 +1,27 @@
 package messages;
 
+import gameplay.Company;
+
+/**
+ * 
+ * @author alancoon
+ * Updated Friday (11/18) 11:39 PM changed to Company type for input
+ * parameter from String.
+ */
 public class BeginAuctionBidMessage extends Message {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String companyName;
+	private Company company;
 	
-	public BeginAuctionBidMessage(String companyName) {
+	public BeginAuctionBidMessage(Company company) {
 		super(MessageType.beginBid);
-		this.companyName = companyName;
+		this.company = company;
 	} 
 	
-	public String getCompanyName(){
-		return companyName;
+	public Company getCompany() {
+		return company;
 	}
 }

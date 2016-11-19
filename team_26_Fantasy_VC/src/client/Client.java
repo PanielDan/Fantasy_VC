@@ -9,9 +9,11 @@ import java.util.Vector;
 import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
+import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
 import guis.IntroPanel;
 import guis.LobbyPanel;
+import messages.BeginAuctionBidMessage;
 import messages.ChatMessage;
 import messages.ClientExitMessage;
 import messages.LobbyListMessage;
@@ -47,7 +49,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -121,6 +123,13 @@ public class Client extends Thread {
 					if(gameFrame.getCurrentPanel() instanceof LobbyPanel) {
 						((LobbyPanel)gameFrame.getCurrentPanel()).removeUser(cem.getUsername());
 					}
+				}
+				else if (m instanceof BeginAuctionBidMessage) { 
+					System.out.println("bidding now");
+					BeginAuctionBidMessage babm = (BeginAuctionBidMessage) m;
+					Company company = babm.getCompany();
+					AuctionBidScreen abs = new AuctionBidScreen(gameFrame, company);
+					gameFrame.changePanel(abs);
 				}
 			}
 

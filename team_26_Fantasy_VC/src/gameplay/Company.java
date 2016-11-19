@@ -3,10 +3,9 @@ package gameplay;
 
 
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Random;
-
-import javax.swing.ImageIcon;
 
 import utility.Constants;
 import utility.ImageLibrary;
@@ -20,12 +19,12 @@ import utility.ImageLibrary;
  * 
  */
 
-public class Company {
+public class Company implements Serializable {
 	
 	private String image, name, description;
 	private double startingPrice, askingPrice, currentWorth;
 	private int delta, tierLevel;
-	private Image companyLogo;
+	private transient Image companyLogo;
 	private double imageAspectRatio;
 	
 	public Company(String image, String name, String description, double startingPrice, int delta, int tierLevel) {
