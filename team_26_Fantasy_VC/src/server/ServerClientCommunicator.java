@@ -90,6 +90,9 @@ public class ServerClientCommunicator extends Thread {
 						System.out.println("lprm");
 						serverLobby.setReady(lprm.getUsername(), lprm.getTeamName());
 						serverLobby.sendToAll(lprm);
+						serverLobby.lock.lock();
+						serverLobby.condition.signal();
+						serverLobby.lock.unlock();
 					}
 					else if (obj instanceof ClientExitMessage) {
 						serverLobby.sendToAll(obj);

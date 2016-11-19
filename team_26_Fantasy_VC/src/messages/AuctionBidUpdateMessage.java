@@ -13,20 +13,20 @@ public class AuctionBidUpdateMessage extends Message {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String username;
-	private int bidAmount;
+	private String companyName;
+	private double bidAmount;
 	
-	public AuctionBidUpdateMessage(String username, int amount) {
+	public AuctionBidUpdateMessage(String username, double amount) {
 		super(MessageType.AuctionBidUpdate);
-		this.username = username;
+		this.companyName = username;
 		bidAmount = amount;
 	}
 	
-	public String getUsername() {
-		return username;
+	public String getCompanyName() {
+		return companyName;
 	}
 	
-	public int getBidAmount(){
+	public double getBidAmount(){
 		return bidAmount;
 	}
 }

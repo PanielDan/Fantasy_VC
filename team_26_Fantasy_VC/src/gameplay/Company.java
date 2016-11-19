@@ -205,7 +205,7 @@ public class Company implements Serializable {
 		return imageAspectRatio;
 	}
 	
-	private void createIcon(){
+	public void createIcon(){
 		companyLogo = ImageLibrary.getImage(image);
 		imageAspectRatio = (double)companyLogo.getWidth(null) / companyLogo.getHeight(null);
 	}

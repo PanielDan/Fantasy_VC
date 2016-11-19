@@ -13,6 +13,7 @@ import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
 import guis.IntroPanel;
 import guis.LobbyPanel;
+import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
 import messages.ChatMessage;
 import messages.ClientExitMessage;
@@ -110,7 +111,6 @@ public class Client extends Thread {
 				else if (m instanceof ReadyGameMessage) {
 					gameFrame.setGame(users);
 					gameFrame.changePanel(new AuctionTeamList(this, gameFrame));
-					
 				}
 				else if (m instanceof ClientExitMessage) {
 					System.out.println("exit");
@@ -128,8 +128,13 @@ public class Client extends Thread {
 					System.out.println("bidding now");
 					BeginAuctionBidMessage babm = (BeginAuctionBidMessage) m;
 					Company company = babm.getCompany();
+					company.createIcon();
 					AuctionBidScreen abs = new AuctionBidScreen(gameFrame, company);
 					gameFrame.changePanel(abs);
+				}
+				else if (m instanceof AuctionBidUpdateMessage) {
+					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage) m;
+					((AuctionBidScreen)gameFrame.getCurrentPanel()).updateBet(abum.getCompanyName(), abum.getBidAmount());
 				}
 			}
 
