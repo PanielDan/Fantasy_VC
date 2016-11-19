@@ -8,6 +8,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import messages.BeginAuctionBidMessage;
 import messages.ClientExitMessage;
 import messages.CreateGameMessage;
 import messages.JoinGameMessage;
@@ -104,6 +105,10 @@ public class ServerClientCommunicator extends Thread {
 							serverLobby.removeUser(cle.getUsername());
 							serverLobby.removeServerClientCommunicator(this);
 						}
+					} 
+					else if (obj instanceof BeginAuctionBidMessage) {
+						serverLobby.startTimer(10);
+						serverLobby.sendToAll(obj);
 					}
 					else {
 						System.out.println("command this is scc");

@@ -416,5 +416,8 @@ public class AuctionBidScreen extends JPanel {
 			}
 		}
 	}
-	
+
+	public void updateTimer(String display) {
+		timer.setText(display);
+	}
 }

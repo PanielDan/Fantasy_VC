@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client.Client;
+import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
 import guis.ChatPanel;
 import guis.IntroPanel;
@@ -29,6 +30,7 @@ public class GameFrame extends JFrame {
 	public ChatPanel chatbox;
 	public static Boolean gameInProgress;
 
+	
 	/**
 	 * Single player.
 	 * @param guest A guest {@code User} instantiation.

@@ -21,6 +21,7 @@ import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.Message;
 import messages.ReadyGameMessage;
+import messages.TimerTickMessage;
 import messages.UserListMessage;
 import utility.LobbyUserPanel;
 
@@ -135,6 +136,13 @@ public class Client extends Thread {
 				else if (m instanceof AuctionBidUpdateMessage) {
 					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage) m;
 					((AuctionBidScreen)gameFrame.getCurrentPanel()).updateBet(abum.getCompanyName(), abum.getBidAmount());
+				}
+				else if (m instanceof TimerTickMessage) { 
+					if (gameFrame.getCurrentPanel() instanceof AuctionBidScreen) {
+						AuctionBidScreen auctionBidScreen = (AuctionBidScreen) gameFrame.getCurrentPanel();
+						TimerTickMessage ttm = (TimerTickMessage) m;
+						auctionBidScreen.updateTimer(ttm.getDisplay());
+					}
 				}
 			}
 
