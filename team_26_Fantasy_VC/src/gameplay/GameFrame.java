@@ -93,7 +93,8 @@ public class GameFrame extends JFrame {
 		chatbox.setBackground(Color.GRAY);
 		
 		add(header, BorderLayout.NORTH);
-		//add(chatbox, BorderLayout.SOUTH);
+		add(chatbox, BorderLayout.SOUTH);
+		chatbox.setVisible(false);
 		add(currentPanel, BorderLayout.CENTER);
 		
 		setVisible(true);
@@ -111,6 +112,10 @@ public class GameFrame extends JFrame {
 	
 	public JPanel getCurrentPanel() {
 		return currentPanel;
+	}
+	
+	public ChatPanel getChatPanel() {
+		return chatbox;
 	}
 	
 	public Game getGame() {

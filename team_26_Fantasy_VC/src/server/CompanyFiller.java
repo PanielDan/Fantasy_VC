@@ -28,7 +28,7 @@ public class CompanyFiller {
 				String description = st.nextToken();
 				String startingPrice = st.nextToken();
 				String tier = st.nextToken();
-				driver.insertCompany(imagePath, companyName, description, Integer.parseInt(startingPrice), Integer.parseInt(tier));
+				driver.insertCompany(imagePath, companyName, description, Double.parseDouble(startingPrice), Integer.parseInt(tier));
 			}
 			
 			file.close();

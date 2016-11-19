@@ -11,6 +11,7 @@ import gameplay.GameFrame;
 import gameplay.User;
 import guis.IntroPanel;
 import guis.LobbyPanel;
+import messages.ChatMessage;
 import messages.LobbyListMessage;
 import messages.Message;
 import messages.UserListMessage;
@@ -41,7 +42,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("localhost", 8008);
+			s = new Socket("jeffreychen.space", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -73,6 +74,10 @@ public class Client extends Thread {
 					else if (gameFrame.getCurrentPanel() instanceof IntroPanel) {
 						((IntroPanel)gameFrame.getCurrentPanel()).switchToLobby(ulm.waitingOn, ulm.user);
 					}
+				}
+				else if(m instanceof ChatMessage) {
+					ChatMessage cm = (ChatMessage)m;
+					gameFrame.getChatPanel().addChat(cm.getUsername(), cm.getMessage());
 				}
 			}
 

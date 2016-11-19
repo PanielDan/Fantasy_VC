@@ -44,7 +44,7 @@ public class ChatPanel extends JPanel {
 	
 	private User user;
 	private Client client;
-	private static JTextArea chat;
+	private JTextArea chat;
 	private JTextField input;
 	private JButton submit;
 	
