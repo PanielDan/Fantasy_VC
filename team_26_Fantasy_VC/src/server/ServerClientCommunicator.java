@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -18,6 +19,7 @@ public class ServerClientCommunicator extends Thread {
 	private Server server;
 	private ServerLobby serverLobby;
 	private Lock lock;
+	private Condition condition;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	
@@ -28,6 +30,7 @@ public class ServerClientCommunicator extends Thread {
 		this.oos = new ObjectOutputStream(socket.getOutputStream());
 		this.ois = new ObjectInputStream(socket.getInputStream());
 		this.lock = new ReentrantLock();
+		condition = lock.newCondition();
 	}
 	
 	public void sendMessage(Object msg) {
@@ -84,13 +87,20 @@ public class ServerClientCommunicator extends Thread {
 					System.out.println("It isn't null");
 					if (obj instanceof LobbyPlayerReadyMessage) {
 						LobbyPlayerReadyMessage lprm = (LobbyPlayerReadyMessage)obj;
+						System.out.println("lprm");
 						serverLobby.setReady(lprm.getUsername(), lprm.getTeamName());
+						serverLobby.sendToAll(lprm);
 					}
 					else if (obj instanceof ClientExitMessage) {
 						serverLobby.sendToAll(obj);
 						ClientExitMessage cle = (ClientExitMessage)obj;
-						serverLobby.removeUser(cle.getUsername());
-						serverLobby.removeServerClientCommunicator(this);
+						if (serverLobby.sccVector.size() == 1) {
+							serverLobby.removeServerClientCommunicator(this);
+						}
+						else {
+							serverLobby.removeUser(cle.getUsername());
+							serverLobby.removeServerClientCommunicator(this);
+						}
 					}
 					else {
 						System.out.println("command this is scc");
@@ -102,6 +112,6 @@ public class ServerClientCommunicator extends Thread {
 			System.out.println("disconnect");
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
-		}
+		} 
 	}
 }

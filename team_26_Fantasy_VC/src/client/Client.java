@@ -90,6 +90,7 @@ public class Client extends Thread {
 					gameFrame.getChatPanel().addChat(cm.getUsername(), cm.getMessage());
 				}
 				else if (m instanceof LobbyPlayerReadyMessage) {
+					System.out.println("lprm");
 					LobbyPlayerReadyMessage lprm = (LobbyPlayerReadyMessage)m;
 					Vector<LobbyUserPanel> lup = ((LobbyPanel)gameFrame.getCurrentPanel()).getLobbyPanels();
 					for (LobbyUserPanel user : lup){

@@ -57,6 +57,7 @@ public class ExitWindowListener extends WindowAdapter{
 			 if (isMultiplayer) {
 				 String name = client.getUser().getUsername();
 				 ClientExitMessage message = new ClientExitMessage(name);
+				 System.out.println("sent");
 				 client.sendMessage(message);
 			 }
 		 }
