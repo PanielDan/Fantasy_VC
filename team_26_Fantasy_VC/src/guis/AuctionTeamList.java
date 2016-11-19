@@ -92,7 +92,7 @@ public class AuctionTeamList extends JPanel {
 		DecimalFormat df = new DecimalFormat("#.##");
 		middleFirmPicture = new JLabel();
 		middleFirmPicture.setPreferredSize(new Dimension(100,100));
-		firmCurrentMoney = new JLabel(Constants.currentCapital + df.format(gameFrame.user.getCurrentCapital()) +
+		firmCurrentMoney = new JLabel(Constants.currentCapital + String.format("%.2f", gameFrame.user.getCurrentCapital()) +
 				 Constants.million);
 		purchasedFirmsLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		purchasedFirms = new Vector<String>();
