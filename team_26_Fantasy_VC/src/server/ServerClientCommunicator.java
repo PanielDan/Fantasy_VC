@@ -80,7 +80,12 @@ public class ServerClientCommunicator extends Thread {
 				}
 			}
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
+			if (server != null) {
+				server.removeServerClientCommunicator(this);
+			}
+			else {
+				serverLobby.removeServerClientCommunicator(this);
+			}
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
 		}

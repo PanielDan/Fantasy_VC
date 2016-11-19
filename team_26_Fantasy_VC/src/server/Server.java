@@ -34,8 +34,8 @@ public class Server extends Thread{
 	}
 	
 	public void removeServerLobby(ServerLobby sl) {
-		System.out.println("remove");
 		lobbies.remove(sl.getLobbyName());
+		System.out.println("Lobby empty " + lobbies.isEmpty());
 		// TODO: Send updated listing of available lobbies
 		sendLobbies();
 	}
@@ -111,13 +111,14 @@ public class Server extends Thread{
 	
 	public synchronized void sendLobbies() {
 		Vector<Lobby> lobbies = new Vector<Lobby>();
-		for(ServerLobby sl : this.lobbies.values()) {
-			Lobby lobby = new Lobby(sl.getLobbyName(), sl.getHostName(), sl.getGameSize(), sl.getUsers());
-			
-			lobbies.add(lobby);
+		if (!this.lobbies.isEmpty()) {
+			for(ServerLobby sl : this.lobbies.values()) {
+				Lobby lobby = new Lobby(sl.getLobbyName(), sl.getHostName(), sl.getGameSize(), sl.getUsers());
+				
+				lobbies.add(lobby);
+			}
 		}
 		LobbyListMessage llm = new LobbyListMessage(lobbies);
-		if(llm.lobbies.size() != 0)
 		sendToAll(llm);
 	}
 	

@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -26,6 +28,7 @@ import client.Client;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TextFieldFocusListener;
+import messages.ChatMessage;
 import server.SQLDriver;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -206,6 +209,34 @@ public class LoginGUI extends JFrame{
 		loginButton.addActionListener(new LoginActionListener());
 		createAccount.addActionListener(new CreateActionListener());
 		guestButton.addActionListener(new GuestActionListener());
+		
+		password.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) { }
+
+			@Override
+			public void keyPressed(KeyEvent e) { }
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (!password.getText().trim().equals("") && !username.getText().trim().equals("")) {
+						if(!driver.userExists(username.getText().trim())) {
+							alertLabel.setText("That username does not exist.");
+						}
+						else {
+							if (driver.checkPassword(username.getText().trim(), password.getText().trim())) {
+								new Client(driver.getUser(username.getText().trim())).start();
+								dispose();
+							}
+							else {
+								alertLabel.setText("Incorrect password.");
+							}
+						}
+					}
+				}
+			}
+		});
 	}
 
 	/**
