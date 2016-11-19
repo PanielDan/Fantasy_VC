@@ -92,15 +92,15 @@ public class QuarterlyGUI extends JPanel{
 		updatesTextArea.setForeground(Color.WHITE);
 
 		//TODO temporary icon
-		ImageIcon icon = new ImageIcon("src/14705784_10210522380393027_557234648620204411_n.jpg");
+		ImageIcon icon = new ImageIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
 		Vector<String> assets = new Vector();
 		assets.addElement("Portfolio Contents:");
 
 		for (User user : users) {
 			String companyName = user.getCompanyName();
 			//			ImageIcon imageIcon = new ImageIcon(user.getUserIcon());
-			ImageIcon imageIcon = new ImageIcon("src/14705784_10210522380393027_557234648620204411_n.jpg");
-			user.setUserIcon("src/14705784_10210522380393027_557234648620204411_n.jpg");
+			ImageIcon imageIcon = new ImageIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
+			user.setUserIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
 			Vector<Company> companies = user.getCompanies();
 
 			PlayerTab pt = new PlayerTab(user, this);

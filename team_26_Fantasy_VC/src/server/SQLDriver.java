@@ -9,13 +9,10 @@ import java.sql.Statement;
 import java.util.Random;
 import java.util.Vector;
 
-import javax.imageio.IIOException;
-
 import com.mysql.jdbc.Driver;
 
 import gameplay.Company;
 import gameplay.User;
-import utility.ImageLibrary;
 
 public class SQLDriver {
 	
@@ -209,6 +206,16 @@ public class SQLDriver {
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
+	}
+	
+	public String getUserBio(String username) {
+		User user = getUser(username);
+		return user.getUserBio();
+	}
+	
+	public String getUserBio(int userID) {
+		User user = getUser(userID);
+		return user.getUserBio();
 	}
 	
 	// Used to update the user's username or biography
