@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import messages.CreateGameMessage;
 import messages.JoinGameMessage;
@@ -13,6 +16,7 @@ public class ServerClientCommunicator extends Thread {
 	private Socket socket;
 	private Server server;
 	private ServerLobby serverLobby;
+	private Lock lock;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	
@@ -22,6 +26,7 @@ public class ServerClientCommunicator extends Thread {
 		this.server = server;
 		this.oos = new ObjectOutputStream(socket.getOutputStream());
 		this.ois = new ObjectInputStream(socket.getInputStream());
+		this.lock = new ReentrantLock();
 	}
 	
 	public void sendMessage(Message msg) {
@@ -34,14 +39,16 @@ public class ServerClientCommunicator extends Thread {
 		}
 	}
 
-	public synchronized void setLobby(ServerLobby sl) {
+	public void setLobby(ServerLobby sl) {
+		lock.lock();
 		server = null;
 		serverLobby = sl;
+		lock.unlock();
 	}
 	
 	public void run() {
 		try {
-			while(serverLobby == null) {
+			while(server != null) {
 				Object obj = ois.readObject();
 				
 				if (obj != null) {
@@ -56,14 +63,14 @@ public class ServerClientCommunicator extends Thread {
 						server.addToLobby(this, jgm.lobbyName, jgm.username);
 					}
 					else {
-						server.sendToAll(msg);
+						if (server == null) serverLobby.sendToAll(msg);
+						else server.sendToAll(msg);
 					}
 				}
 			}
 			
 			while(true) {
 				Object obj = ois.readObject();
-				
 				if(obj != null) {
 					serverLobby.sendToAll((Message)obj);
 				}
