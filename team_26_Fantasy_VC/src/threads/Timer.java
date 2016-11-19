@@ -2,6 +2,9 @@ package threads;
 
 import javax.swing.JLabel;
 
+import messages.TimerTickMessage;
+import server.ServerLobby;
+
 /**
  * A simple timer from Jeopardy project.  You can enter an {@code int}
  * in the constructor and the {@code Timer} class will give you
@@ -12,36 +15,34 @@ import javax.swing.JLabel;
  */
 public class Timer extends Thread {
 
-	public final int number_of_frames;
 	private int current;
-	private JLabel label;
+	private final int length;
+	private ServerLobby serverLobby;
 	
-	public Timer( int time) {
-		this.label = new JLabel();
-		this.number_of_frames = time;
-		this.current = time;
-		String seconds = (time < 10) ? "0" + time : "" + time; 
-		this.label.setText("00:" + seconds);
+	public Timer (ServerLobby serverLobby, int length) {
+		this.serverLobby = serverLobby;
+		this.length = length;
+		this.current = 0;
 		this.start();
 	}
 
 	
 	@Override
 	public void run() {
-		for ( ; current >= 0; current--) {
+		while (current < length) {
 			try {
-				String seconds = (current < 10) ? "0" + current : "" + current;
-				this.label.setText("00:" + seconds);
-				label.revalidate();
-				label.repaint();
+				int diff = length - current;
+				Integer minutes = diff / 60;
+				Integer seconds = diff % 60;
+				String minDisplay = (minutes >= 10) ? minutes.toString() : "0" + minutes;
+				String secDisplay = (seconds >= 10) ? seconds.toString() : "0" + seconds;
+				String display = minDisplay + ":" + secDisplay;
+				serverLobby.sendToAll(new TimerTickMessage(display));
 				Thread.sleep(1000);
+				current++;
 			} catch (InterruptedException ie) {
 				ie.printStackTrace();
 			}
 		}
-	}
-	
-	public JLabel getLabel() { 
-		return this.label;
 	}
 }
