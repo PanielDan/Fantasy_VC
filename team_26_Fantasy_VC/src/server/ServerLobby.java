@@ -4,6 +4,7 @@ import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import gameplay.Game;
 import gameplay.User;
 import messages.ReadyGameMessage;
 import messages.UserListMessage;
@@ -99,6 +100,12 @@ public class ServerLobby extends Thread{
 				user.setCompanyName(teamname);
 			}
 		}
+	}
+	
+	private synchronized void initializeGame() { 
+		Game seedGame = new Game(users);
+		seedGame.initializeCompanies();
+		
 	}
 	
 	public void run() {

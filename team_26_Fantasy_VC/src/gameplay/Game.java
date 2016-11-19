@@ -56,36 +56,10 @@ public class Game implements Serializable {
 	 * of the game, initializes all of the companies from the server
 	 */
 	public void initializeCompanies() {
-		//TODO UNCOMMENT THESE WHEN NETWORKING IS READY
 		//CompanyPopulator compPop = new CompanyPopulator();
 		//companies = compPop.populate();
-		/*
-		//DUMMY COMPANIES
-		for(int i = 0; i < 10; i++) {
-			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 1000, 1000, 0);
-			companies.add(tmpCompany);
-		}
-		for(int i = 10; i < 20; i++) {
-			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 10000, 10000, 1);
-			companies.add(tmpCompany);
-		}
-		for(int i = 20; i < 30; i++) {
-			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 100000, 100000,  2);
-			companies.add(tmpCompany);
-		}
-		for(int i = 30; i < 40; i++) {
-			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 1000000, 100000,  3);
-			companies.add(tmpCompany);
-		}
-		for(int i = 40; i < 50; i++) {
-			Company tmpCompany = new Company("resources/img/profile.png", "Company " + i, "this is company " + i, 10000000, 100000,  4);
-			companies.add(tmpCompany);
-		}
 		
-		
-		System.out.println("Companies populated!");
-		System.out.println("Ready to play.");
-		*/
+
 		SQLDriver driver = new SQLDriver();
 		driver.connect();
 		companies = driver.getCompanies();
