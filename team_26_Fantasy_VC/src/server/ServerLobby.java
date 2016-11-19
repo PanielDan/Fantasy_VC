@@ -27,9 +27,19 @@ public class ServerLobby extends Thread{
 	
 	public void removeServerClientCommunicator(ServerClientCommunicator scc) {
 		sccVector.remove(scc);
+		System.out.println(users.size());
+		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 		if (sccVector.isEmpty()) {
 			System.out.println("remvove");
 			server.removeServerLobby(this);
+		}
+	}
+	
+	public void removeUser(String username) {
+		for(User u : users) {
+			if(u.getUsername().equals(username)) {
+				users.remove(u);
+			}
 		}
 	}
 	

@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import messages.ClientExitMessage;
 import messages.CreateGameMessage;
 import messages.JoinGameMessage;
 import messages.LobbyPlayerReadyMessage;
@@ -62,6 +63,10 @@ public class ServerClientCommunicator extends Thread {
 						JoinGameMessage jgm = (JoinGameMessage)msg;
 						server.addToLobby(this, jgm.lobbyName, jgm.user);
 					}
+					else if (msg instanceof ClientExitMessage) {
+						server.sendToAll(msg);
+						server.removeServerClientCommunicator(this);
+					}
 					else {
 						if (server == null) serverLobby.sendToAll(msg);
 						else server.sendToAll(msg);
@@ -76,16 +81,17 @@ public class ServerClientCommunicator extends Thread {
 						LobbyPlayerReadyMessage lprm = (LobbyPlayerReadyMessage)obj;
 						serverLobby.setReady(lprm.getUsername(), lprm.getTeamName());
 					}
-					serverLobby.sendToAll((Message)obj);
+					else if (obj instanceof ClientExitMessage) {
+						serverLobby.sendToAll(obj);
+						ClientExitMessage cle = (ClientExitMessage)obj;
+						serverLobby.removeUser(cle.getUsername());
+						serverLobby.removeServerClientCommunicator(this);
+					}
+					else serverLobby.sendToAll(obj);
 				}
 			}
 		} catch (IOException ioe) {
-			if (server != null) {
-				server.removeServerClientCommunicator(this);
-			}
-			else {
-				serverLobby.removeServerClientCommunicator(this);
-			}
+			System.out.println("disconnect");
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
 		}

@@ -13,6 +13,7 @@ import guis.AuctionTeamList;
 import guis.IntroPanel;
 import guis.LobbyPanel;
 import messages.ChatMessage;
+import messages.ClientExitMessage;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.Message;
@@ -74,7 +75,7 @@ public class Client extends Thread {
 				}
 				else if(m instanceof UserListMessage) {
 					UserListMessage ulm = (UserListMessage)m;
-					users = ulm.user;
+					this.users = ulm.user;
 					if (gameFrame.getCurrentPanel() instanceof LobbyPanel) {
 						((LobbyPanel)gameFrame.getCurrentPanel()).setUsers(ulm.user);
 						((LobbyPanel)gameFrame.getCurrentPanel()).setWaitingText(ulm.waitingOn);
@@ -92,6 +93,7 @@ public class Client extends Thread {
 					Vector<LobbyUserPanel> lup = ((LobbyPanel)gameFrame.getCurrentPanel()).getLobbyPanels();
 					for (LobbyUserPanel user : lup){
 						if (user.getUsername().equals(lprm.getUsername())){
+							System.out.println("set user");
 							user.setFirmName(lprm.getTeamName());
 							user.setReady();
 						}
@@ -107,6 +109,18 @@ public class Client extends Thread {
 					gameFrame.setGame(users);
 					gameFrame.changePanel(new AuctionTeamList(this, gameFrame));
 					
+				}
+				else if (m instanceof ClientExitMessage) {
+					System.out.println("exit");
+					ClientExitMessage cem = (ClientExitMessage)m;
+					System.out.println(cem.getUsername());
+					System.out.println(user.getUsername());
+					if(user.getUsername().equals(cem.getUsername())) {
+						System.exit(0);
+					}
+					if(gameFrame.getCurrentPanel() instanceof LobbyPanel) {
+						((LobbyPanel)gameFrame.getCurrentPanel()).removeUser(cem.getUsername());
+					}
 				}
 			}
 
