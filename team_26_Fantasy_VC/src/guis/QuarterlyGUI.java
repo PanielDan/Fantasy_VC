@@ -81,6 +81,7 @@ public class QuarterlyGUI extends JPanel{
 		tabs = new Vector<PlayerTab>();
 		buy = new JButton("Buy selected company.");
 		userToTab = new HashMap<User, PlayerTab>();
+		tabToUser = new HashMap<PlayerTab, User>();
 	}
 
 	private void createGUI() {
