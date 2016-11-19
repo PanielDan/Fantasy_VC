@@ -501,7 +501,7 @@ public class AuctionTeamList extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Bid button fired");
 				if (gameFrame.networked) {
-					BeginAuctionBidMessage message = new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()));
+					BeginAuctionBidMessage message = new BeginAuctionBidMessage(companyVect.get(firmData.getSelectedRow()), gameFrame.getClient().getUser().getCompanyName());
 					System.out.println("attempting to bid upon " + message.getCompany().getName());
 					client.sendMessage(message);
 				} else {	

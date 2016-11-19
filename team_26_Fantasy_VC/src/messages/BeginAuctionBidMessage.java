@@ -15,13 +15,19 @@ public class BeginAuctionBidMessage extends Message {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Company company;
+	private String companyname;
 	
-	public BeginAuctionBidMessage(Company company) {
+	public BeginAuctionBidMessage(Company company, String companyname) {
 		super(MessageType.beginBid);
 		this.company = company;
+		this.companyname = companyname;
 	} 
 	
 	public Company getCompany() {
 		return company;
+	}
+	
+	public String getCompanyName() {
+		return companyname;
 	}
 }
