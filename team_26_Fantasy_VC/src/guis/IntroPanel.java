@@ -109,7 +109,7 @@ public class IntroPanel extends JPanel {
 		LobbyPanel lp = new LobbyPanel(gameFrame);
 		lp.setUsers(user);
 		lp.setWaitingText(numWaiting);
-		gameFrame.chatbox.setVisible(true);
+		gameFrame.chatVisible();
 		gameFrame.changePanel(lp);
 	}
 	

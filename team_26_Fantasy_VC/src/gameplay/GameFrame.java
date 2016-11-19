@@ -81,7 +81,7 @@ public class GameFrame extends JFrame {
 		user = client.getUser();
 		networked = true;
 		JPanel header = new TopPanel(this, client);
-		JPanel chatbox = new ChatPanel(client);
+		chatbox = new ChatPanel(client);
 
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
@@ -98,6 +98,10 @@ public class GameFrame extends JFrame {
 		add(currentPanel, BorderLayout.CENTER);
 		
 		setVisible(true);
+	}
+	
+	public void chatVisible() {
+		chatbox.setVisible(true);
 	}
 	
 	

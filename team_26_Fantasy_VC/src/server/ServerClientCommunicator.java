@@ -34,14 +34,14 @@ public class ServerClientCommunicator extends Thread {
 		}
 	}
 
-	public void setLobby(ServerLobby sl) {
+	public synchronized void setLobby(ServerLobby sl) {
 		server = null;
 		serverLobby = sl;
 	}
 	
 	public void run() {
 		try {
-			while(server != null) {
+			while(serverLobby == null) {
 				Object obj = ois.readObject();
 				
 				if (obj != null) {
