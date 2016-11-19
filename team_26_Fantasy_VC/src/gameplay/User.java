@@ -223,7 +223,7 @@ public class User implements Serializable {
 		return new MoneyComparator();
 	}
 	
-	private void createIcon(){
+	public void createIcon(){
 		userIcon = ImageLibrary.getImage(userIconString);
 	}
 	

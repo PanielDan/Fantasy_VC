@@ -120,7 +120,7 @@ public class FinalGUI extends JPanel {
 		for(int i = 0; i < usercompanies.size(); i++){
 			if(usercompanies.get(i).getCurrentWorth() == 0) {
 				dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
-						"bankrupt"});
+						"Bankrupt"});
 			}
 			else {
 				dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),

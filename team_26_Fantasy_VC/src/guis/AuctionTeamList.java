@@ -67,15 +67,14 @@ public class AuctionTeamList extends JPanel {
 		addActionListeners();
 		gameFrame.header.updateCurrentCapital();
 	}
-	
-	
+		
 	private void intializeVariables(){
 		
 		//Variables for left panel
 		timer = new JLabel("GUEST", SwingConstants.CENTER);
 		firms = new Vector<String>();
 		if(gameFrame.networked){
-			testDraftOrder();
+			setDraftOrder();
 			timer.setText("0:45");
 		}
 		firmList = new JList<String>(firms);
@@ -142,6 +141,14 @@ public class AuctionTeamList extends JPanel {
 	private void testDraftOrder(){
 		for (int i = 0; i < 20; i++){
 			firms.add("Team " + Integer.toString((i%4) + 1));
+		}
+	}
+	
+	public void setDraftOrder() {
+		for (int i = 0; i < 5; i++) {
+			for(User user : gameFrame.getClient().getUsers()) {
+				firms.add(user.getCompanyName());
+			}
 		}
 	}
 	
@@ -385,6 +392,8 @@ public class AuctionTeamList extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 	            //TODO Add some sort of function to update detail panel
 				User selectedUser = gameFrame.game.returnUser(firmList.getSelectedValue());
+				
+				System.out.println(selectedUser.getUsername());
 				
 				detailsFirmPicture.setIcon(new ImageIcon(selectedUser.getUserIcon().getScaledInstance(100, 100,Image.SCALE_SMOOTH)));
 				detailsFirmName.setText(selectedUser.getCompanyName());
