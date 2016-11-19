@@ -131,7 +131,8 @@ public class IntroPanel extends JPanel {
 		for (JButton b : button) {
 			b.setBackground(AppearanceConstants.offWhite);
 			b.setForeground(AppearanceConstants.darkBlue);
-			b.setFont(new Font("Arial", Font.BOLD, 32));
+			//b.setFont(new Font("Arial", Font.BOLD, 32));
+			b.setFont(AppearanceConstants.fontMedium);
 			b.setBorder(null);
 		}
 	}

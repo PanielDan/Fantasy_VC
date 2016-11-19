@@ -58,7 +58,8 @@ public class CreateGameGUI extends JFrame{
 		this.setSize(360, 480);
 		this.getContentPane().setBackground(AppearanceConstants.lightBlue);
 		
-		createLabel.setFont(new Font("Arial", Font.BOLD, 42));
+		//createLabel.setFont(new Font("Arial", Font.BOLD, 42));
+		createLabel.setFont(AppearanceConstants.fontMedium);
 		createLabel.setForeground(AppearanceConstants.offWhite);
 		createLabel.setHorizontalAlignment(JLabel.CENTER);
 		createLabel.setBorder(new EmptyBorder(20, 0, 20, 0));
@@ -84,16 +85,19 @@ public class CreateGameGUI extends JFrame{
 		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new BorderLayout());
 		northPanel.setOpaque(false);
-		lobbyLabel.setFont(new Font("Arial", Font.PLAIN, 28));
+		//lobbyLabel.setFont(new Font("Arial", Font.PLAIN, 28));
+		lobbyLabel.setFont(AppearanceConstants.fontMedium);
 		lobbyLabel.setForeground(AppearanceConstants.offWhite);
 		lobbyLabel.setHorizontalAlignment(JLabel.CENTER);
 		northPanel.add(lobbyLabel, BorderLayout.NORTH);
 		
-		lobbyName.setFont(new Font("Arial", Font.PLAIN, 28));
+		//lobbyName.setFont(new Font("Arial", Font.PLAIN, 28));
+		lobbyName.setFont(AppearanceConstants.fontMedium);
 		lobbyName.setBorder(new EmptyBorder(10,4,10,4));
 		northPanel.add(lobbyName);
 		
-		warningLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+		//warningLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+		warningLabel.setFont(AppearanceConstants.fontMedium);
 		warningLabel.setForeground(Color.red);
 		warningLabel.setHorizontalAlignment(JLabel.CENTER);
 		northPanel.add(warningLabel, BorderLayout.SOUTH);
@@ -103,12 +107,14 @@ public class CreateGameGUI extends JFrame{
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new BorderLayout());
 		southPanel.setOpaque(false);
-		sizeLabel.setFont(new Font("Arial", Font.PLAIN, 28));
+		//sizeLabel.setFont(new Font("Arial", Font.PLAIN, 28));
+		sizeLabel.setFont(AppearanceConstants.fontMedium);
 		sizeLabel.setForeground(AppearanceConstants.offWhite);
 		sizeLabel.setHorizontalAlignment(JLabel.CENTER);
 		southPanel.add(sizeLabel, BorderLayout.NORTH);
 		
-		size.setFont(new Font("Arial", Font.PLAIN, 28));
+		//size.setFont(new Font("Arial", Font.PLAIN, 28));
+		size.setFont(AppearanceConstants.fontMedium);
 		size.setBackground(Color.white);
 		((JLabel)size.getRenderer()).setBorder(new EmptyBorder(0, 120, 0, 0));
 		size.setFocusable(false);
