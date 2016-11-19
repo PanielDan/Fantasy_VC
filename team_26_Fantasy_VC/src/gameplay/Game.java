@@ -118,7 +118,8 @@ public class Game extends Thread implements Serializable {
 			for(User user : users) {
 				for(Company userCompany : user.getCompanies()) {
 					if(userCompany.getName().equals(company.getName())) {
-						userCompany = company;
+						System.out.println("updating" + company.getName() + " to " + company.getCurrentWorth());
+						userCompany.setCurrentWorth(company.getCurrentWorth());
 					}
 				}
 			}
@@ -134,7 +135,8 @@ public class Game extends Thread implements Serializable {
 				}
 			}
 		}
-		
+
+		System.out.println(this.getUsers().get(0).getCompanies().get(0).getName() + this.getUsers().get(0).getCompanies().get(0).getCurrentWorth());
 		sl.sendToAll(this);
 		sl.sendToAll(new SwitchPanelMessage());
 		

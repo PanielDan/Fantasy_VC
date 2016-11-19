@@ -29,7 +29,6 @@ import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
-import messages.QuarterlyReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
