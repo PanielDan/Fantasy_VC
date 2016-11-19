@@ -59,7 +59,7 @@ public class Client extends Thread {
 		} catch (IOException ioe) { 
 			ioe.printStackTrace();
 		}
-		gameFrame = new GameFrame(this);
+		gameFrame = new GameFrame(this, user);
 		gameFrame.setVisible(true);
 		System.out.println(gameFrame.getCurrentPanel().getClass());
 	}
@@ -154,6 +154,7 @@ public class Client extends Thread {
 									u.addCompany(auctionBidScreen.company);
 									if (u.getCompanyName().equals(user.getCompanyName())) {
 										user.addCompany(auctionBidScreen.company);
+										gameFrame.user.addCompany(auctionBidScreen.company);
 										gameFrame.header.updateCurrentCapital();
 									}
 								}

@@ -72,7 +72,7 @@ public class GameFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	public GameFrame(Client client) {
+	public GameFrame(Client client, User user) {
 		super("Venture Capital Online");
 		
 		gameInProgress = false;
@@ -81,7 +81,7 @@ public class GameFrame extends JFrame {
 		setSize(1280,720);
 		
 		this.client = client;
-		user = client.getUser();
+		this.user = user;
 		networked = true;
 		header = new TopPanel(this, client);
 		chatbox = new ChatPanel(client);

@@ -174,6 +174,7 @@ public class AuctionTeamList extends JPanel {
 //		firmData.getSelectionModel().addSelectionInterval(0,0);
 		
 		// TODO: Set a default table selection so that if the timer runs out, it just picks the first option
+		
 		intializePictures();
 
 	}
@@ -475,27 +476,28 @@ public class AuctionTeamList extends JPanel {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				
-	        	Company selectedCompany = gameFrame.game.returnCompany(purchasedCompanysList.getSelectedValue());
-	        	detailsCompanyName.setText(selectedCompany.getName());
-
-	        	detailsCompanyPicture.setIcon(new ImageIcon(selectedCompany.getCompanyLogo().getScaledInstance((int)(100*selectedCompany.getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
-	        	detailsCompanyBio.setText(selectedCompany.getDescription());
-	        	
-	        	//detailsCompanyInfo
-	        	Object[][] companyData = {
-	        			{"Name", selectedCompany.getName()},
-	        			{"Tier", selectedCompany.getTierLevel()},
-	        			{"Asking Price", selectedCompany.getAskingPrice()},
-	        			{"Current Worth", selectedCompany.getCurrentWorth()},
-	        	};
-	        	String[] columnNames = {"",""};
-	        	TableModel dtm = new TableModel();
-	        	dtm.setDataVector(companyData, columnNames);
-	   	       	detailsCompanyInfo.setModel(dtm);
-				
-				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
-				cardLayout.show(companyDetailsPanel, "Company");				
+				if(purchasedCompanysList.getSelectedValue() != null){
+		        	Company selectedCompany = gameFrame.game.returnCompany(purchasedCompanysList.getSelectedValue());
+		        	detailsCompanyName.setText(selectedCompany.getName());
+	
+		        	detailsCompanyPicture.setIcon(new ImageIcon(selectedCompany.getCompanyLogo().getScaledInstance((int)(100*selectedCompany.getAspectRatio()), 100,  java.awt.Image.SCALE_SMOOTH)));
+		        	detailsCompanyBio.setText(selectedCompany.getDescription());
+		        	
+		        	//detailsCompanyInfo
+		        	Object[][] companyData = {
+		        			{"Name", selectedCompany.getName()},
+		        			{"Tier", selectedCompany.getTierLevel()},
+		        			{"Asking Price", selectedCompany.getAskingPrice()},
+		        			{"Current Worth", selectedCompany.getCurrentWorth()},
+		        	};
+		        	String[] columnNames = {"",""};
+		        	TableModel dtm = new TableModel();
+		        	dtm.setDataVector(companyData, columnNames);
+		   	       	detailsCompanyInfo.setModel(dtm);
+					
+					CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
+					cardLayout.show(companyDetailsPanel, "Company");
+				}
 			}
 			
 		});
