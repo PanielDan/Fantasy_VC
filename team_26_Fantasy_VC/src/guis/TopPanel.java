@@ -173,7 +173,7 @@ public class TopPanel extends JPanel {
 	}
 	
 	public void updateCurrentCapital(){
-		currentCapital.setText(Constants.currentCapital + String.format("%.2f", user.getCurrentCapital()) + Constants.million);
+		currentCapital.setText(Constants.currentCapital + String.format("%.2f", gameFrame.getClient().getUser().getCurrentCapital()) + Constants.million);
 	}
 	public void updateIcon(){
 		userIcon.setIcon(new ImageIcon(user.getUserIcon().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));

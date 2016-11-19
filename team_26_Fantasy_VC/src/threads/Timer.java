@@ -29,7 +29,7 @@ public class Timer extends Thread {
 	
 	@Override
 	public void run() {
-		while (current < length) {
+		while (current <= length) {
 			try {
 				int diff = length - current;
 				Integer minutes = diff / 60;

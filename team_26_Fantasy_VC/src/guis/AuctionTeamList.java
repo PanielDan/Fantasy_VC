@@ -58,6 +58,7 @@ public class AuctionTeamList extends JPanel {
 	private Client client;
 	private GameFrame gameFrame;
 	private Vector<Company> companyVect;
+	private Vector<User> order;
 	
 	
 	public AuctionTeamList(Client client, GameFrame gameFrame) {
@@ -67,6 +68,23 @@ public class AuctionTeamList extends JPanel {
 		createGUI();
 		addActionListeners();
 		gameFrame.header.updateCurrentCapital();
+	}
+	
+	public void nextPlayer() {
+		order.remove(0);
+		updateMiddleFirmName(order.get(0).getUsername());
+	}
+	
+	public void updateCapital() {
+		for (User user : client.getUsers()) {
+			if(user.getUsername().equals(order.get(0).getUsername())) {
+				firmCurrentMoney.setText(Constants.currentCapital + String.format("%.2f", user.getCurrentCapital()) +
+						 Constants.million);
+			}
+		}
+
+		this.revalidate();
+		this.repaint();
 	}
 		
 	private void intializeVariables(){
@@ -81,9 +99,15 @@ public class AuctionTeamList extends JPanel {
 			bidButton = new JButton("BID");
 		}
 		if(gameFrame.networked){
+			order = new Vector<User>();
+			for (int i = 0; i < 5; i++) {
+				for(User user : client.getUsers()) {
+					order.add(user);
+				}
+			}
 			setDraftOrder();
 			middleFirmName = new JLabel(client.getUsers().get(0).getUsername());
-			updateMiddleFirmName(client.getUsers().get(0).getUsername());
+			updateMiddleFirmName(order.get(0).getUsername());
 			timer.setText("0:45");
 		}
 		firmList = new JList<String>(firms);
@@ -165,11 +189,12 @@ public class AuctionTeamList extends JPanel {
 	}
 	
 	public void setDraftOrder() {
-		for (int i = 0; i < 5; i++) {
-			for(User user : gameFrame.getClient().getUsers()) {
-				firms.add(user.getCompanyName());
-			}
+		firms.removeAllElements();
+		for(User user : order) {
+			firms.add(user.getCompanyName());
 		}
+		this.revalidate();
+		this.repaint();
 	}
 	
 	private void createGUI(){

@@ -34,7 +34,7 @@ public class ServerClientCommunicator extends Thread {
 		condition = lock.newCondition();
 	}
 	
-	public void sendMessage(Object msg) {
+	public synchronized void sendMessage(Object msg) {
 		try {
 			oos.writeObject(msg);
 			oos.flush();

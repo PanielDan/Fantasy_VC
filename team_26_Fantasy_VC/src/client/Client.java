@@ -45,6 +45,7 @@ public class Client extends Thread {
 	private boolean host;
 	//Running boolean used to determine when to break the run while loop.
 	private boolean running;
+	private AuctionTeamList atl;
 	
 	public Client(User user) { 
 		running = true;
@@ -111,7 +112,8 @@ public class Client extends Thread {
 				}
 				else if (m instanceof ReadyGameMessage) {
 					gameFrame.setGame(users);
-					gameFrame.changePanel(new AuctionTeamList(this, gameFrame));
+					atl = new AuctionTeamList(this, gameFrame); 
+					gameFrame.changePanel(atl);
 				}
 				else if (m instanceof ClientExitMessage) {
 					System.out.println("exit");
@@ -143,6 +145,21 @@ public class Client extends Thread {
 						AuctionBidScreen auctionBidScreen = (AuctionBidScreen) gameFrame.getCurrentPanel();
 						TimerTickMessage ttm = (TimerTickMessage) m;
 						auctionBidScreen.updateTimer(ttm.getDisplay());
+						if(ttm.getDisplay().equals("00:00")) {
+							for(User u : users) {
+								if(u.getCompanyName().equals(auctionBidScreen.currentBidder)) {
+									u.addCompany(auctionBidScreen.company);
+									if (u.getCompanyName().equals(user.getCompanyName())) {
+										user.addCompany(auctionBidScreen.company);
+										gameFrame.header.updateCurrentCapital();
+									}
+								}
+							}
+							atl.nextPlayer();
+							atl.setDraftOrder();
+							atl.updateCapital();
+							gameFrame.changePanel(atl);
+						}
 					}
 				}
 			}

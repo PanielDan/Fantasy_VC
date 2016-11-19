@@ -124,6 +124,7 @@ public class User implements Serializable {
 	 * @set The user's currentCapital.
 	 */
 	public synchronized void setCurrentCapital(double amount) {
+		System.out.println("updating capital to" + amount);
 		currentCapital = amount;
 	}
 	

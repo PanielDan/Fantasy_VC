@@ -47,11 +47,12 @@ public class AuctionBidScreen extends JPanel {
 	private JButton bidButton;
 	private JTextField bidAmount;
 	private JPanel[] firmPanels;
-	private Company company;
+	public Company company;
 	private GameFrame gameFrame;
 	private double bidAmountNumber[];
-	private double bidMin;
+	public double bidMin;
 	private Vector<User> userVect;
+	public String currentBidder;
 	
 	
 	public AuctionBidScreen(GameFrame gameFrame, Company company){
@@ -61,6 +62,7 @@ public class AuctionBidScreen extends JPanel {
 		createGUI();
 		addActionListeners();
 		this.bidMin = company.getAskingPrice();
+		System.out.println(bidMin);
 	}
 	
 	private void initializeVariables(){
@@ -394,7 +396,9 @@ public class AuctionBidScreen extends JPanel {
 		System.out.println(Double.toString(amount) + Constants.million);
 		firmBid[index].setText(Double.toString(amount) + Constants.million);
 		bidMin = amount;
+		System.out.println("bidMin: " + bidMin);
 		findMaxBet(companyName);
+		currentBidder = companyName;
 	}
 	
 	private void findMaxBet(String companyName){
@@ -419,5 +423,7 @@ public class AuctionBidScreen extends JPanel {
 
 	public void updateTimer(String display) {
 		timer.setText(display);
+		this.revalidate();
+		this.repaint();
 	}
 }
