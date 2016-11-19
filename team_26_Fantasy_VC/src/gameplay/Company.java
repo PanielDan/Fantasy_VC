@@ -115,7 +115,22 @@ public class Company {
 		Random rand = new Random();
 		int intChange = Math.abs(rand.nextInt(delta));
 		double change = intChange/100.0;
-		boolean positive = rand.nextBoolean();
+		boolean positive = false;
+		int random = rand.nextInt(10) + 1; //creates random number between 1 and 10
+		switch (tierLevel) { 
+		case 1:
+			if(random <= 5) positive = true;
+			break;
+		case 2:
+			if(random <=6) positive = true;
+			break;
+		case 3:
+			if(random<=7) positive = true;
+			break;
+		}
+		
+		
+		
 		boolean specialEvent = rand.nextBoolean();
 		String text = "";
 		
