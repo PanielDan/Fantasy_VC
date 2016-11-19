@@ -1,6 +1,8 @@
 package server;
 
 import java.util.Vector;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import gameplay.User;
 import messages.ReadyGameMessage;
@@ -11,6 +13,7 @@ public class ServerLobby extends Thread{
 	private Vector<User> users;
 	private Server server;
 	private String lobbyName, hostName;
+	private Lock lock;
 	private int numPlayers;
 	
 	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
@@ -19,15 +22,16 @@ public class ServerLobby extends Thread{
 		this.lobbyName = lobbyName;
 		this.hostName = host.getUsername();
 		this.numPlayers = numPlayers;
+		this.lock = new ReentrantLock();
 		users = new Vector<User>();
 		users.add(host);
 		this.start();
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 	}
 	
-	public void removeServerClientCommunicator(ServerClientCommunicator scc) {
+	public synchronized void removeServerClientCommunicator(ServerClientCommunicator scc) {
 		sccVector.remove(scc);
-		System.out.println(users.size());
+		System.out.println("remove " + users.size());
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 		if (sccVector.isEmpty()) {
 			System.out.println("remvove");
@@ -35,12 +39,14 @@ public class ServerLobby extends Thread{
 		}
 	}
 	
-	public void removeUser(String username) {
+	public synchronized void removeUser(String username) {
+		lock.lock();
 		for(User u : users) {
 			if(u.getUsername().equals(username)) {
 				users.remove(u);
 			}
 		}
+		lock.unlock();
 	}
 	
 	public String getLobbyName() {
@@ -98,6 +104,7 @@ public class ServerLobby extends Thread{
 		while (sccVector.size() < numPlayers);
 		// TODO: Send signal that the lobby has enough players and start game
 		server.removeServerLobby(this);
+		System.out.println("full");
 		
 		while(!checkReady());
 		this.sendToAll(new ReadyGameMessage(users));
