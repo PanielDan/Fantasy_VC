@@ -137,10 +137,17 @@ public class QuarterlyGUI extends JPanel{
 			double percentChange = (companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
 					companies.get(i).getStartingPrice() * 100;
 			DecimalFormat df = new DecimalFormat ("#.##");
-
-			dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-					String.format("%.2f", companies.get(i).getCurrentWorth()), 
-					df.format(percentChange) + "%"});
+			
+			if(companies.get(i).getCurrentWorth() == 0) {
+				dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
+						String.format("%.2f", companies.get(i).getCurrentWorth()), 
+						"bankrupt"});
+			}
+			else {
+				dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
+						String.format("%.2f", companies.get(i).getCurrentWorth()), 
+						df.format(percentChange) + "%"});
+			}
 		}
 
 		freeAgentTable = new JTable(dtm);
