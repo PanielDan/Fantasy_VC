@@ -155,7 +155,8 @@ public class QuarterlyGUI extends JPanel{
 		timerReadyPanel.add(ready);
 		
 		updatesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		
+		updatesScrollPane.getViewport().setBackground(AppearanceConstants.darkBlue);
+
 		notificationsAndReadyPanel.setLayout(new BorderLayout());
 		notificationsAndReadyPanel.add(timerReadyPanel, BorderLayout.NORTH);
 		notificationsAndReadyPanel.add(updatesScrollPane, BorderLayout.CENTER);
@@ -170,7 +171,9 @@ public class QuarterlyGUI extends JPanel{
 		
 		updatesTextArea.setFont(AppearanceConstants.fontSmallest);
 		updatesTextArea.setLineWrap(true);
+		
 		scrollBar = updatesScrollPane.getVerticalScrollBar();
+		scrollBar.setBackground(AppearanceConstants.darkBlue);
 
 		int quarter = gameFrame.game.getQuarter();
 		int year = gameFrame.game.getYear();
@@ -235,7 +238,7 @@ public class QuarterlyGUI extends JPanel{
 						
 						userDtm.addRow(new Object[]{selectedCompany.getName(), 
 								Integer.toString(selectedCompany.getTierLevel()),
-								Double.toString(selectedCompany.getCurrentWorth()),
+								df.format(selectedCompany.getCurrentWorth()),
 								df.format(percentChange) + "%" });
 						
 						//update the notifications

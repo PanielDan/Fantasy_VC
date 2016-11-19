@@ -41,7 +41,7 @@ import utility.AppearanceSettings;
 import utility.Constants;
 
 /**
- * @author Danny Pan
+ * @author dannypan
  */
 public class AuctionTeamList extends JPanel {
 	//variables used here
@@ -129,6 +129,7 @@ public class AuctionTeamList extends JPanel {
 		detailsCompanyBio.setWrapStyleWord(true);
 		detailsCompanyInfo = new JTable();
 		detailsCompanyInfo.setForeground(AppearanceConstants.darkBlue);
+		detailsCompanyInfo.setBackground(AppearanceConstants.offWhite);
 		detailsCompanyInfo.setFont(AppearanceConstants.fontSmallest);
 		
 
