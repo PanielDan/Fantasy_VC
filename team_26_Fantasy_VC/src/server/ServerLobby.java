@@ -52,6 +52,7 @@ public class ServerLobby extends Thread{
 		System.out.println("add");
 		sccVector.add(scc);
 		users.add(user);
+		System.out.println(users.get(0).getReady());
 		// TODO: send to people in the lobby how many to wait on		
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 	}

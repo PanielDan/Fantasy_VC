@@ -1,8 +1,5 @@
 package guis;
 
-import gameplay.GameFrame;
-import gameplay.User;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -23,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import gameplay.GameFrame;
+import gameplay.User;
 import messages.LobbyPlayerReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -144,6 +143,7 @@ public class LobbyPanel extends JPanel{
 				System.out.println("username: " + gameFrame.user.getUsername());
 				LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage(gameFrame.user.getUsername(),firmField.getText().trim());
 				gameFrame.getClient().sendMessage(lprm);
+				((JButton)ae.getSource()).setEnabled(false);
 			}
 		});
 				
@@ -213,6 +213,14 @@ public class LobbyPanel extends JPanel{
 		for(User u : users) {
 			removeUser(u.getUsername());
 			addUser(u.getUsername());
+			if(u.getReady()) {
+				for (LobbyUserPanel lup : lobbyUserLabels) {
+					if(lup.getUsername().equals(u.getUsername())) {
+						lup.setReady();
+						lup.setFirmName(u.getCompanyName());
+					}
+				}
+			}
 		}
 		refreshMemberPanel();
 		gameFrame.revalidate();
