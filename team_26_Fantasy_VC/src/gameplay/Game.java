@@ -69,6 +69,11 @@ public class Game extends Thread implements Serializable {
 		driver.stop();
 	}
 	
+	public void seed(Vector<User> users, ServerLobby sl) {
+		this.users = users;
+		this.sl = sl;
+	}
+	
 	public Vector<String> updateNonNetworkedCompanies() {
 		Vector<String> output = new Vector<String>();
 		for(Company company : companies) {

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import gameplay.Game;
 import gameplay.Lobby;
 import gameplay.User;
 import messages.LobbyListMessage;
@@ -71,7 +72,7 @@ public class Server extends Thread{
 		}
 	}
 	
-	public synchronized void createLobby(ServerClientCommunicator scc, String lobbyName, User host, int numPlayers) {
+	public synchronized void createLobby(ServerClientCommunicator scc, String lobbyName, User host, int numPlayers, Game game) {
 		if (lobbies.containsKey(lobbyName)) {
 			// TODO: Send message that lobby name is already taken
 			return;
@@ -80,7 +81,7 @@ public class Server extends Thread{
 		sccVector2.add(scc);
 		sccVector.remove(scc);
 		
-		ServerLobby sl = new ServerLobby(sccVector2, this, lobbyName, host, numPlayers);
+		ServerLobby sl = new ServerLobby(sccVector2, this, lobbyName, host, numPlayers, game);
 
 		scc.setLobby(sl);
 		

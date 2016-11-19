@@ -63,7 +63,7 @@ public class ServerClientCommunicator extends Thread {
 
 					if (msg instanceof CreateGameMessage) {
 						CreateGameMessage cgm = (CreateGameMessage)msg;
-						server.createLobby(this, cgm.gamename, cgm.hostUser, cgm.numUsers);
+						server.createLobby(this, cgm.gamename, cgm.hostUser, cgm.numUsers, cgm.game);
 					}
 					else if (msg instanceof JoinGameMessage) {
 						JoinGameMessage jgm = (JoinGameMessage)msg;
@@ -93,9 +93,6 @@ public class ServerClientCommunicator extends Thread {
 						System.out.println("lprm");
 						serverLobby.setReady(lprm.getUsername(), lprm.getTeamName());
 						serverLobby.sendToAll(lprm);
-						serverLobby.lock.lock();
-						serverLobby.condition.signal();
-						serverLobby.lock.unlock();
 					}
 					else if (obj instanceof ClientExitMessage) {
 						serverLobby.sendToAll(obj);
@@ -116,6 +113,7 @@ public class ServerClientCommunicator extends Thread {
 						serverLobby.startTimer(45);
 					}
 					else if (obj instanceof UserUpdate) {
+						System.out.println("update user");
 						UserUpdate ucl = (UserUpdate)obj;
 						serverLobby.setUserCompanies(ucl.getUser());
 					}

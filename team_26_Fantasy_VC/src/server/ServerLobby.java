@@ -23,7 +23,7 @@ public class ServerLobby extends Thread{
 	private Timer timer;
 	private Game seedGame;
 	
-	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
+	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers, Game game) {
 		this.sccVector = sccVector;
 		this.server = server;
 		this.lobbyName = lobbyName;
@@ -31,6 +31,7 @@ public class ServerLobby extends Thread{
 		this.numPlayers = numPlayers;
 		this.lock = new ReentrantLock();
 		this.condition = lock.newCondition();
+		this.seedGame = game;
 		timer = null;
 		users = new Vector<User>();
 		users.add(host);
@@ -83,6 +84,12 @@ public class ServerLobby extends Thread{
 				System.out.println("Unready " + u.getUsername());
 			}
 		}
+		try {
+			condition.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		lock.unlock();
 	}
 	
@@ -90,7 +97,7 @@ public class ServerLobby extends Thread{
 		System.out.println("This is SL, sending to all!");
 		for (ServerClientCommunicator scc : sccVector) {
 			scc.sendMessage(msg);
-			System.out.println(scc.getName() + " sent!");
+			System.out.println(msg.getClass() + " " +  System.currentTimeMillis());
 		}
 	}
 	
@@ -103,16 +110,23 @@ public class ServerLobby extends Thread{
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 	}
 	
-	public synchronized boolean checkReady() {
+	public boolean checkReady(boolean cond) throws InterruptedException {
+		System.out.println("enter");
+		lock.lock();
+		if (cond) condition.await();
 		for (User user : users) {
 			if (!user.getReady()) {
+				System.out.println(user.getUsername());
+				lock.unlock();
 				return false;
 			}
 		}
+		System.out.println("leave");
+		lock.unlock();
 		return true;
 	}
 	
-	public synchronized void resetReady() {
+	public void resetReady() {
 		lock.lock();
 		for(User user : users) {
 			user.unReady();
@@ -120,20 +134,22 @@ public class ServerLobby extends Thread{
 		lock.unlock();
 	}
 	
-	public synchronized void setReady(String username, String teamname) {
+	public void setReady(String username, String teamname) {
+		lock.lock();
 		for (User user : users) {
 			if(user.getUsername().equals(username)) {
-				System.out.println(user.getUsername() + " ready");
 				user.setReady();
 				user.setCompanyName(teamname);
 			}
 		}
+		condition.signalAll();
+		lock.unlock();
 	}
 	
 	private synchronized void initializeGame() { 
 		// TODO arschroc and alancoon implement logic from Company class
 		// to disseminate uniform data about Companies
-		seedGame = new Game(users, this);
+		seedGame.seed(users, this);
 	}
 	
 	public void run() {
@@ -142,23 +158,32 @@ public class ServerLobby extends Thread{
 		server.removeServerLobby(this);
 		System.out.println("full");
 		
-		while(!checkReady());
-		
-		lock.lock();
 		try {
-			condition.await();
+			while(!checkReady(true));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		lock.unlock();
+		
+		
+		
+		System.out.println("stuck 1");
+		
 		initializeGame();
+		System.out.println("stuck 2");
 		this.sendToAll(seedGame);
-		this.sendToAll(new ReadyGameMessage(users));
+		System.out.println("stuck 3");
+		resetReady();
+		this.sendToAll(new ReadyGameMessage());
+		System.out.println("stuck 4");
 		
 //		while(true) {
-		resetReady();
-		while(!checkReady());
+		try {
+			while(!checkReady(false));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Send timelapse");
 		sendToAll(new SwitchToTimelapseMessage());
 			

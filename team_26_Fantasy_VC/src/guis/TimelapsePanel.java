@@ -143,6 +143,7 @@ public class TimelapsePanel extends JPanel {
 	
 	public void appendNotification(String message) {
 		model.addElement(message);
+		scrollBar.setValue(scrollBar.getMaximum());
 	}
 	
 	public class TimelapseHelper extends Thread {

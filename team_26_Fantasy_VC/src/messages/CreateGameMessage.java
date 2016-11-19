@@ -1,15 +1,18 @@
 package messages;
 
+import gameplay.Game;
 import gameplay.User;
 
 public class CreateGameMessage extends Message{
 	public String gamename;
 	public User hostUser;
 	public int numUsers;
-	public CreateGameMessage(String gamename, int numUsers, User user) {
+	public Game game;
+	public CreateGameMessage(String gamename, int numUsers, User user, Game game) {
 		super(MessageType.createGame);
 		this.gamename = gamename;
 		this.numUsers = numUsers;
 		this.hostUser = user;
+		this.game = game;
 	}
 }

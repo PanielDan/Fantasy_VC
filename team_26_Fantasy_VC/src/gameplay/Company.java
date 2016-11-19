@@ -36,8 +36,6 @@ public class Company implements Serializable {
 		askingPrice = startingPrice; //asking price = startingPrice at beginning of auction
 		currentWorth = startingPrice; //the current worth starts at startingPrice
 		createIcon();
-
-		System.out.println(companyName + this.startingPrice);
 		
 		switch (tierLevel) { 
 			case 1:

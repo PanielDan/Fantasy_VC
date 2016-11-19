@@ -91,6 +91,7 @@ public class Client extends Thread {
 					}
 					else if (gameFrame.getCurrentPanel() instanceof IntroPanel) {
 						((IntroPanel)gameFrame.getCurrentPanel()).switchToLobby(ulm.waitingOn, ulm.user);
+						gameFrame.game = new Game();
 					}
 				}
 				else if(m instanceof ChatMessage) {
@@ -116,11 +117,13 @@ public class Client extends Thread {
 					}
 				}
 				else if (m instanceof ReadyGameMessage) {
+					System.out.println("Ready : " + System.currentTimeMillis());
 					atl = new AuctionTeamList(this, gameFrame); 
 					gameFrame.changePanel(atl);
 					if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
 				}
 				else if (m instanceof Game) {
+					System.out.println("Game : " + System.currentTimeMillis());
 					gameFrame.setGame((Game)m);
 				}
 				else if (m instanceof ClientExitMessage) {
