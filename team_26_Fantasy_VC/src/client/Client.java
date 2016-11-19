@@ -49,7 +49,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("localhost", 8008);
+			s = new Socket("jeffreychen.space", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -65,10 +65,9 @@ public class Client extends Thread {
 	}
 	
 	public void run() {
-		Object m = null;
 		try{
-			while(true){
-				m = ois.readObject();
+			while(true) {
+				Object m = ois.readObject();
 				if (m instanceof LobbyListMessage) {
 					if(gameFrame.getCurrentPanel() instanceof IntroPanel) {
 						LobbyListMessage llm = (LobbyListMessage)m;
@@ -160,9 +159,12 @@ public class Client extends Thread {
 
 	public void sendMessage(Message message) {
 		try { 
+			System.out.println("Client sending message");
 			oos.writeObject(message);
+			System.out.println("flushing");
 			oos.flush();
-			oos.reset();
+//			System.out.println("reset");
+//			oos.reset();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}

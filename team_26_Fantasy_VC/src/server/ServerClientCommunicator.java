@@ -68,13 +68,19 @@ public class ServerClientCommunicator extends Thread {
 						server.removeServerClientCommunicator(this);
 					}
 					else {
-						if (server == null) serverLobby.sendToAll(msg);
-						else server.sendToAll(msg);
+						System.out.println("ServerClientCommunicator deciding what to do");
+						if (server == null) {
+							System.out.println("server is null");
+							serverLobby.sendToAll(msg);
+						} else {
+							System.out.println("server isn't null");
+							server.sendToAll(msg);
+						}
 					}
 				}
 			}
 			
-			while(true) {
+			while (true) {
 				Object obj = ois.readObject();
 				if(obj != null) {
 					if(obj instanceof LobbyPlayerReadyMessage) {
