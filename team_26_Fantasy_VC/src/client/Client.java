@@ -57,7 +57,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("localhost", 8008);
+			s = new Socket("jeffreychen.space", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -91,7 +91,6 @@ public class Client extends Thread {
 					}
 					else if (gameFrame.getCurrentPanel() instanceof IntroPanel) {
 						((IntroPanel)gameFrame.getCurrentPanel()).switchToLobby(ulm.waitingOn, ulm.user);
-						gameFrame.game = new Game();
 					}
 				}
 				else if(m instanceof ChatMessage) {

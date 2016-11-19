@@ -84,12 +84,7 @@ public class ServerLobby extends Thread{
 				System.out.println("Unready " + u.getUsername());
 			}
 		}
-		try {
-			condition.await();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		condition.signal();
 		lock.unlock();
 	}
 	
@@ -111,18 +106,16 @@ public class ServerLobby extends Thread{
 	}
 	
 	public boolean checkReady(boolean cond) throws InterruptedException {
-		System.out.println("enter");
-		lock.lock();
-		if (cond) condition.await();
+		if (cond) {
+			lock.lock();
+			condition.await();
+			lock.unlock();
+		}
 		for (User user : users) {
 			if (!user.getReady()) {
-				System.out.println(user.getUsername());
-				lock.unlock();
 				return false;
 			}
 		}
-		System.out.println("leave");
-		lock.unlock();
 		return true;
 	}
 	
