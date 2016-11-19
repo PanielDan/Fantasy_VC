@@ -60,6 +60,9 @@ public class ExitWindowListener extends WindowAdapter{
 				 System.out.println("sent");
 				 client.sendMessage(message);
 			 }
+			 else{
+				 System.exit(0);
+			 }
 		 }
 	 }
 }

@@ -1,6 +1,7 @@
 package server;
 
 import java.util.Vector;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,7 +15,8 @@ public class ServerLobby extends Thread{
 	private Vector<User> users;
 	private Server server;
 	private String lobbyName, hostName;
-	private Lock lock;
+	public Lock lock;
+	public Condition condition;
 	private int numPlayers;
 	
 	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
@@ -24,6 +26,7 @@ public class ServerLobby extends Thread{
 		this.hostName = host.getUsername();
 		this.numPlayers = numPlayers;
 		this.lock = new ReentrantLock();
+		this.condition = lock.newCondition();
 		users = new Vector<User>();
 		users.add(host);
 		this.start();
@@ -115,6 +118,14 @@ public class ServerLobby extends Thread{
 		System.out.println("full");
 		
 		while(!checkReady());
+		lock.lock();
+		try {
+			condition.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		lock.unlock();
 		this.sendToAll(new ReadyGameMessage(users));
 	}
 }

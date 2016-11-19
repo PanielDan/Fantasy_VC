@@ -27,6 +27,7 @@ import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
+import messages.AuctionBidUpdateMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
@@ -49,6 +50,7 @@ public class AuctionBidScreen extends JPanel {
 	private Company company;
 	private GameFrame gameFrame;
 	private double bidAmountNumber[];
+	private double bidMin;
 	private Vector<User> userVect;
 	
 	
@@ -58,6 +60,7 @@ public class AuctionBidScreen extends JPanel {
 		initializeVariables();
 		createGUI();
 		addActionListeners();
+		this.bidMin = company.getAskingPrice();
 	}
 	
 	private void initializeVariables(){
@@ -341,18 +344,16 @@ public class AuctionBidScreen extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Need to send out the message to update the bid amount
-				/*
-				if(networked){
-					client.sendMessage(new AuctionBidUpdateMessage())
-				} else {
-					
+				double amount = Double.parseDouble(bidAmount.getText().trim());
+				if (amount > bidMin) {
+					gameFrame.getClient().sendMessage(new AuctionBidUpdateMessage(gameFrame.user.getCompanyName(), amount));
 				}
-				*/
 			}
 			
 		});
 	}
+	
+
 	
 	public void setCompany(Company company){
 		this.company = company;
@@ -390,7 +391,9 @@ public class AuctionBidScreen extends JPanel {
 			}
 		}
 		bidAmountNumber[index] = amount;
+		System.out.println(Double.toString(amount) + Constants.million);
 		firmBid[index].setText(Double.toString(amount) + Constants.million);
+		bidMin = amount;
 		findMaxBet();
 	}
 	
