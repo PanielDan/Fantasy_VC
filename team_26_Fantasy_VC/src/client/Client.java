@@ -21,6 +21,7 @@ import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.Message;
 import messages.ReadyGameMessage;
+import messages.StartTimerMessage;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
 import utility.LobbyUserPanel;
@@ -114,6 +115,7 @@ public class Client extends Thread {
 					gameFrame.setGame(users);
 					atl = new AuctionTeamList(this, gameFrame); 
 					gameFrame.changePanel(atl);
+					if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
 				}
 				else if (m instanceof ClientExitMessage) {
 					System.out.println("exit");
@@ -142,9 +144,9 @@ public class Client extends Thread {
 					((AuctionBidScreen)gameFrame.getCurrentPanel()).updateBet(abum.getCompanyName(), abum.getBidAmount());
 				}
 				else if (m instanceof TimerTickMessage) { 
+					TimerTickMessage ttm = (TimerTickMessage) m;
 					if (gameFrame.getCurrentPanel() instanceof AuctionBidScreen) {
 						AuctionBidScreen auctionBidScreen = (AuctionBidScreen) gameFrame.getCurrentPanel();
-						TimerTickMessage ttm = (TimerTickMessage) m;
 						auctionBidScreen.updateTimer(ttm.getDisplay());
 						if(ttm.getDisplay().equals("00:00")) {
 							for(User u : users) {
@@ -160,6 +162,15 @@ public class Client extends Thread {
 							atl.setDraftOrder();
 							atl.updateCapital();
 							gameFrame.changePanel(atl);
+							if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
+						}
+					}
+					else if (gameFrame.getCurrentPanel() instanceof AuctionTeamList) {
+						atl.updateTimer(ttm.getDisplay());
+						if(ttm.getDisplay().equals("00:00")){
+							if (user.getUsername().equals(atl.getCurrent())) {
+								atl.networkBidButtonAction();
+							}
 						}
 					}
 				}
@@ -190,7 +201,7 @@ public class Client extends Thread {
 		return user;
 	}
 
-	public void sendMessage(Message message) {
+	public void sendMessage(Object message) {
 		try { 
 			System.out.println("Client sending message");
 			oos.writeObject(message);

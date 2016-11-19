@@ -1,7 +1,5 @@
 package threads;
 
-import javax.swing.JLabel;
-
 import messages.TimerTickMessage;
 import server.ServerLobby;
 
@@ -44,5 +42,11 @@ public class Timer extends Thread {
 				ie.printStackTrace();
 			}
 		}
+		serverLobby.nullifyTimer();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void kill() {
+		this.stop();
 	}
 }

@@ -70,9 +70,19 @@ public class AuctionTeamList extends JPanel {
 		gameFrame.header.updateCurrentCapital();
 	}
 	
+	public void updateTimer(String display) {
+		timer.setText(display);
+		this.revalidate();
+		this.repaint();
+	}
+	
 	public void nextPlayer() {
 		order.remove(0);
 		updateMiddleFirmName(order.get(0).getUsername());
+	}
+	
+	public String getCurrent() {
+		return order.get(0).getUsername();
 	}
 	
 	public void updateCapital() {
@@ -160,7 +170,10 @@ public class AuctionTeamList extends JPanel {
 		
 		//Initialized here to purchased firms for testing purposes.
 		detailsFirmPurchasedList = new JList<String>(purchasedFirms);
+
+//		firmData.getSelectionModel().addSelectionInterval(0,0);
 		
+		// TODO: Set a default table selection so that if the timer runs out, it just picks the first option
 		intializePictures();
 
 	}
@@ -526,15 +539,7 @@ public class AuctionTeamList extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Bid button fired");
 				if (gameFrame.networked) {
-					int selectedRow = firmData.getSelectedRow();
-					firmData.getSelectionModel().addSelectionInterval((selectedRow+1)%firmData.getRowCount(),
-							(selectedRow+1)%firmData.getRowCount());
-					TableModel dtm = (TableModel) firmData.getModel();
-					Company selectedCompany = gameFrame.game.returnCompany((String)dtm.getValueAt(selectedRow, 0));
-					System.out.println(selectedCompany.getName());
-					BeginAuctionBidMessage message = new BeginAuctionBidMessage(selectedCompany, gameFrame.getClient().getUser().getCompanyName(), selectedRow);
-					System.out.println("attempting to bid upon " + message.getCompany().getName());
-					client.sendMessage(message);
+					networkBidButtonAction();
 				} else {	
 					int selectedRow = firmData.getSelectedRow();
 					firmData.getSelectionModel().addSelectionInterval((selectedRow+1)%firmData.getRowCount(),
@@ -562,6 +567,18 @@ public class AuctionTeamList extends JPanel {
 		
 		//We might have to add empty action listeners to the tables to prevent
 		//editing of data
+	}
+	
+	public void networkBidButtonAction() {
+		int selectedRow = firmData.getSelectedRow();
+		firmData.getSelectionModel().addSelectionInterval((selectedRow+1)%firmData.getRowCount(),
+				(selectedRow+1)%firmData.getRowCount());
+		TableModel dtm = (TableModel) firmData.getModel();
+		Company selectedCompany = gameFrame.game.returnCompany((String)dtm.getValueAt(selectedRow, 0));
+		System.out.println(selectedCompany.getName());
+		BeginAuctionBidMessage message = new BeginAuctionBidMessage(selectedCompany, gameFrame.getClient().getUser().getCompanyName(), selectedRow);
+		System.out.println("attempting to bid upon " + message.getCompany().getName());
+		client.sendMessage(message);
 	}
 	
 	public void removeRow(int selectedRow) {

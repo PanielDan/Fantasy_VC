@@ -14,6 +14,7 @@ import messages.CreateGameMessage;
 import messages.JoinGameMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.Message;
+import messages.StartTimerMessage;
 
 public class ServerClientCommunicator extends Thread {
 	private Socket socket;
@@ -109,6 +110,9 @@ public class ServerClientCommunicator extends Thread {
 					else if (obj instanceof BeginAuctionBidMessage) {
 						serverLobby.startTimer(10);
 						serverLobby.sendToAll(obj);
+					}
+					else if (obj instanceof StartTimerMessage) {
+						serverLobby.startTimer(45);
 					}
 					else {
 						System.out.println("command this is scc");

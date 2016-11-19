@@ -19,6 +19,7 @@ public class ServerLobby extends Thread{
 	public Lock lock;
 	public Condition condition;
 	private int numPlayers;
+	private Timer timer;
 	
 	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
 		this.sccVector = sccVector;
@@ -28,6 +29,7 @@ public class ServerLobby extends Thread{
 		this.numPlayers = numPlayers;
 		this.lock = new ReentrantLock();
 		this.condition = lock.newCondition();
+		timer = null;
 		users = new Vector<User>();
 		users.add(host);
 		this.start();
@@ -133,6 +135,13 @@ public class ServerLobby extends Thread{
 	}
 	
 	public void startTimer(int time) {
-		Timer t = new Timer(this, time);
+		if(timer != null) {
+			timer.kill();
+		}
+		timer = new Timer(this, time);
+	}
+	
+	public void nullifyTimer() {
+		timer = null;
 	}
 }
