@@ -71,7 +71,6 @@ public class Game extends Thread implements Serializable {
 	
 	public Vector<String> updateNonNetworkedCompanies() {
 		Vector<String> output = new Vector<String>();
-		Random rand = new Random();
 		for(Company company : companies) {
 			//update every company
 			String updateText = company.updateCurrentWorth();
@@ -88,11 +87,6 @@ public class Game extends Thread implements Serializable {
 			
 			if(!updateText.equals("")) {
 				output.add(company.getName() + updateText);
-				try {
-					Thread.sleep(rand.nextInt(1000));
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 		
@@ -106,6 +100,7 @@ public class Game extends Thread implements Serializable {
 	 * the clients with the new companies
 	 */
 	public void updateCompanies() {
+		Random rand = new Random();
 		for(Company company : companies) {
 			//update every company
 			String updateText = company.updateCurrentWorth();
@@ -123,7 +118,12 @@ public class Game extends Thread implements Serializable {
 			if(!updateText.isEmpty()) {
 				//TODO create and send a message to all clients 
 				//telling them to display the updateText on the TimeLapseGUI
-				sl.sendToAll(new CompanyUpdateMessage(company.getName() + updateText));
+				sl.sendToAll(new CompanyUpdateMessage(company.getName() + updateText));				
+				try {
+					Thread.sleep(rand.nextInt(1000));
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
