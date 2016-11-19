@@ -129,7 +129,8 @@ public class PlayerTab extends JPanel {
 		playerPicture.setIcon(ii);
 		JLabel playerName = new JLabel(user.getUsername());
 		JLabel companyName = new JLabel(user.getCompanyName());
-		user.setUserBio("This is the User's bio. It's less than 144 characters.");
+		//user.setUserBio("This is the User's bio. It's less than 144 characters.");
+		user.setUserBio(user.getUserBio());
 		JTextArea playerBio = new JTextArea(user.getUserBio());
 		playerBio.setEditable(false);
 		playerBio.setLineWrap(true);
