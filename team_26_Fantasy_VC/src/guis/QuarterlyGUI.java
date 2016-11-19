@@ -164,6 +164,7 @@ public class QuarterlyGUI extends JPanel{
 		notificationsAndReadyPanel.add(updatesScrollPane, BorderLayout.SOUTH);
 		updatesTextArea.setFont(AppearanceConstants.fontSmallest);
 		updatesTextArea.setLineWrap(true);
+		scrollBar = updatesScrollPane.getVerticalScrollBar();
 		sendUpdate("Notifications:");
 
 		notificationsAndReadyPanel.setPreferredSize(new Dimension(300, 1));
@@ -184,8 +185,6 @@ public class QuarterlyGUI extends JPanel{
 		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, buy);
 		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, buy);
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, freeAgents, buyPanel, this);
-
-		JScrollBar scrollBar = updatesScrollPane.getVerticalScrollBar();
 	}
 
 	private void addActionListeners() {
