@@ -142,7 +142,7 @@ public class AuctionTeamList extends JPanel {
 	
 	public void updateMiddleFirmName(String username) {
 		middleFirmName.setText(username);
-		if (gameFrame.user.getUsername() == username) {
+		if (gameFrame.user.getUsername().equals(username)) {
 			bidButton.setEnabled(true);
 		}
 		else {
