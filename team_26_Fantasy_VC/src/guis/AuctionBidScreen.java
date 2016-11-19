@@ -394,20 +394,25 @@ public class AuctionBidScreen extends JPanel {
 		System.out.println(Double.toString(amount) + Constants.million);
 		firmBid[index].setText(Double.toString(amount) + Constants.million);
 		bidMin = amount;
-		findMaxBet();
+		findMaxBet(companyName);
 	}
 	
-	private void findMaxBet(){
-		int maxBetIndex = 0;
-		for(int i = 0; i < 4; i++){
-			if(bidAmountNumber[0] > bidAmountNumber[i]){
-				maxBetIndex = i;
-			}
-		}
-		maximumBidAmount.setText(firmBid[maxBetIndex].getText());
-		for(int i = 0; i < userVect.size(); i++){
-			if(userVect.get(i).getCompanyName().equals(firmName[maxBetIndex].getText())){
-				maximumBidIcon.setIcon(new ImageIcon(userVect.get(i).getUserIcon().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
+	private void findMaxBet(String companyName){
+//		int maxBetIndex = 0;
+//		for(int i = 0; i < 4; i++){
+//			if(bidAmountNumber[0] > bidAmountNumber[i]){
+//				maxBetIndex = i;
+//			}
+//		}
+		maximumBidAmount.setText(Double.toString(bidMin) + Constants.million);
+//		for(int i = 0; i < userVect.size(); i++){
+//			if(userVect.get(i).getCompanyName().equals(firmName[maxBetIndex].getText())){
+//				maximumBidIcon.setIcon(new ImageIcon(userVect.get(i).getUserIcon().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
+//			}
+//		}
+		for(User user : gameFrame.getClient().getUsers()) {
+			if (user.getCompanyName().equals(companyName)) {
+				maximumBidIcon.setIcon(new ImageIcon(user.getUserIcon().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
 			}
 		}
 	}
