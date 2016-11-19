@@ -137,10 +137,14 @@ public class QuarterlyGUI extends JPanel{
 			double percentChange = (companies.get(i).getCurrentWorth() - companies.get(i).getStartingPrice())/
 					companies.get(i).getStartingPrice() * 100;
 			DecimalFormat df = new DecimalFormat ("#.##");
-
-			dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-					String.format("%.2f", companies.get(i).getCurrentWorth()), 
-					df.format(percentChange) + "%"});
+			
+			if(companies.get(i).getCurrentWorth() != 0) {
+				dtm.addRow(new Object[] {
+						companies.get(i).getName(), 
+						Integer.toString(companies.get(i).getTierLevel()),
+						df.format(companies.get(i).getCurrentWorth()), 
+						df.format(percentChange) + "%"});
+			}
 		}
 
 		freeAgentTable = new JTable(dtm);
@@ -164,6 +168,7 @@ public class QuarterlyGUI extends JPanel{
 		notificationsAndReadyPanel.add(updatesScrollPane, BorderLayout.SOUTH);
 		updatesTextArea.setFont(AppearanceConstants.fontSmallest);
 		updatesTextArea.setLineWrap(true);
+		scrollBar = updatesScrollPane.getVerticalScrollBar();
 		sendUpdate("Notifications:");
 
 		notificationsAndReadyPanel.setPreferredSize(new Dimension(300, 1));
@@ -184,8 +189,6 @@ public class QuarterlyGUI extends JPanel{
 		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, buy);
 		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, buy);
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, freeAgents, buyPanel, this);
-
-		JScrollBar scrollBar = updatesScrollPane.getVerticalScrollBar();
 	}
 
 	private void addActionListeners() {
@@ -214,12 +217,14 @@ public class QuarterlyGUI extends JPanel{
 
 						// Make the stuff needed to insert
 						double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
-						DecimalFormat df = new DecimalFormat("#,##");
+						DecimalFormat df = new DecimalFormat("#.##");
 
 						// Get the PlayerTab of the user
 						PlayerTab pt = userToTab.get(gameFrame.user);
 						JTable userTable = pt.getTable();
 						TableModel userDtm = (TableModel) userTable.getModel();
+						
+						
 						userDtm.addRow(new Object[]{selectedCompany.getName(), 
 								Integer.toString(selectedCompany.getTierLevel()),
 								Double.toString(selectedCompany.getCurrentWorth()),

@@ -1,15 +1,12 @@
 package guis;
 
-import gameplay.Company;
-import gameplay.GameFrame;
-import gameplay.User;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -23,12 +20,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
+import client.Client;
+import gameplay.Company;
+import gameplay.GameFrame;
+import gameplay.User;
 import listeners.TableModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
 import utility.FinalUserButton;
-import client.Client;
 
 public class FinalGUI extends JPanel {
 
@@ -76,20 +76,23 @@ public class FinalGUI extends JPanel {
 			}
 			gameFrame.user.setCurrentCapital(value);
 			gameFrame.header.updateCurrentCapital();
-			
+
+			DecimalFormat df = new DecimalFormat("#.##");
+
 			winner = new JLabel("Winner: Guest");
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());
-			totalEquity = new JLabel("Total value: " + gameFrame.user.getCurrentCapital() + " Million");
+			totalEquity = new JLabel("Total value: " + df.format(gameFrame.user.getCurrentCapital()) + " Million");
 			numCompanies = new JLabel("Numbers of companies: " + gameFrame.user.getCompanies().size());
 			double percent = (gameFrame.user.getCurrentCapital() - 100.0); //(final - 100)/100*100
-			percentGain = new JLabel("Percentage gain: " + (int)percent + "%");
+
+			percentGain = new JLabel("Percentage gain: " + df.format(percent) + "%");
 			
 			//calculate user's best company(s)
 			Vector<Company> bestCompanies = gameFrame.user.getBestTeams();
-			String bestCompaniesString = "Best investment(s): ";
+			String bestCompaniesString = "Best current investment(s): ";
 			boolean multipleCompanies = false;
 			for(Company company : bestCompanies) {
-				if(multipleCompanies) {
+				if (multipleCompanies) {
 					String temp = " and " + company.getName();
 					bestCompaniesString += temp;
 				}
@@ -98,6 +101,11 @@ public class FinalGUI extends JPanel {
 					multipleCompanies = true;
 				} 
 			}
+			
+			if (bestCompaniesString.equals("Best current investment(s): ")) {
+				bestCompaniesString += "None!";
+			}
+			
 			bestInvestment = new JLabel(bestCompaniesString);
 			portfolioLabel = new JLabel("Portfolio");
 		}
@@ -108,9 +116,10 @@ public class FinalGUI extends JPanel {
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		Vector<Company> usercompanies = gameFrame.user.getCompanies();
+		DecimalFormat df = new DecimalFormat("#.##");
 		for(int i = 0; i < usercompanies.size(); i++){
 			dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
-					Double.toString(usercompanies.get(i).getCurrentWorth())});
+					df.format(usercompanies.get(i).getCurrentWorth())});
 		}
 		portfolio = new JTable(dtm);
 		portfolio.setForeground(AppearanceConstants.darkBlue);
