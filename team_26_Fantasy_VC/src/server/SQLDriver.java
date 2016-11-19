@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 import java.util.Vector;
 
 import com.mysql.jdbc.Driver;
@@ -82,6 +83,17 @@ public class SQLDriver {
 				String description = rs.getString("description");
 				double starting = rs.getDouble("startingPrice");
 				int tier = rs.getInt("tierLevel");
+				int delta;
+				
+				if (companyName.equals("Critter")) {
+					// Critter is an Easter egg company
+					starting = 0.01;
+					delta = 500;
+				} else {
+					starting = generateStartingPrice(tier);
+					delta = generateDelta(tier);
+				}
+				
 				Company tempComp = new Company(imagePath, companyName, description, starting, tier);
 				companies.add(tempComp);
 			}
@@ -89,6 +101,51 @@ public class SQLDriver {
 			sqle.printStackTrace();
 		}		
 		return companies;
+	}
+	
+	private int generateDelta(int tierLevel) { 
+		Random rand = new Random();
+		int value;
+		switch (tierLevel) { 
+		case 1:
+			value = rand.nextInt(40) + 10;
+			break;
+		case 2:
+			value = rand.nextInt(45) + 25;
+			break;
+		case 3:
+			value = rand.nextInt(50) + 35;
+			break;
+		default:
+			value = 10000;
+			break;
+		}
+		return value;
+	}
+	
+	
+	private double generateStartingPrice(int tierLevel) {
+		Random rand = new Random();
+		Double value;
+		switch (tierLevel) {
+			case 1:
+				// 0 - 3 mil
+				value = rand.nextInt(300) / 100.00;
+				break;
+			case 2:
+				// 3 - 6 mil
+				value = rand.nextInt(300) / 100.00 + 3.00;
+				break;
+			case 3:
+				// 6 - 9 mil
+				value = rand.nextInt(300) / 100.00 + 6.00;
+				break;
+			default: 
+				// Easter egg
+				value = (double) 100;
+				break;
+		}
+		return value;
 	}
 	
 	// Returns boolean of whether or not username already exists

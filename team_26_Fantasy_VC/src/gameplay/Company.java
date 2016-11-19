@@ -124,7 +124,7 @@ public class Company {
 			if (specialEvent) { 
 				// We will either boost or decrease this turn's delta by
 				// a factor of between 3 and 6.
-				int modifier = Math.abs(rand.nextInt(3)) + 3;
+				int modifier = Math.abs(rand.nextInt(3)) + (4 - tierLevel);
 				int index;
 				if (positive) { 
 					change *= modifier;  // Boost the change by the modifier.
@@ -132,6 +132,7 @@ public class Company {
 					text = Constants.positiveEvents[index];  // Grab the event text.
 				} else {
 					change *= -modifier;
+					if (rand.nextBoolean()) change /= 2;
 					index = rand.nextInt(Constants.negativeEvents.length - 1);
 					text = Constants.negativeEvents[index];
 				}
