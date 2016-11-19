@@ -126,7 +126,7 @@ public class QuarterlyGUI extends JPanel{
 
 
 		// Create freeAgents 
-		String[] columnNames = {"Name", "Tier Level", "Price", "Trend"};
+		String[] columnNames = {"Name", "Tier Level", "Price (Millions)", "Trend"};
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		Vector<Company> companies = gameFrame.game.getFreeAgents();
@@ -137,7 +137,7 @@ public class QuarterlyGUI extends JPanel{
 			DecimalFormat df = new DecimalFormat ("#.##");
 
 			dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-					Double.toString(companies.get(i).getCurrentWorth()), 
+					String.format("%.2f", companies.get(i).getCurrentWorth()), 
 					df.format(percentChange) + "%"});
 		}
 

@@ -95,7 +95,7 @@ public class AuctionTeamList extends JPanel {
 		companyVect = gameFrame.getGame().getCompanies();
 		for(int i = 0; i < companyVect.size(); i++){
 			dtm.addRow(new Object[]{companyVect.get(i).getName(), Integer.toString(companyVect.get(i).getTierLevel()),
-					Double.toString(companyVect.get(i).getStartingPrice())});
+					String.format("%.2f", companyVect.get(i).getStartingPrice())});
 		}
 		firmData = new JTable(dtm);
 		firmData.setBackground(AppearanceConstants.darkBlue);

@@ -86,7 +86,7 @@ public class PlayerTab extends JPanel {
 		JScrollPane updatesScrollPane = new JScrollPane(portfolio, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		String[] columnNames = {"Name", "Tier Level", "Price", "Trend"};
+		String[] columnNames = {"Name", "Tier Level", "Price (Millions)", "Trend"};
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		Vector<Company> companies = user.getCompanies();
@@ -99,7 +99,7 @@ public class PlayerTab extends JPanel {
 			System.out.println(df.format(percentChange) + "%");
 
 			dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-					Double.toString(companies.get(i).getCurrentWorth()), 
+					String.format("%.2f", companies.get(i).getCurrentWorth()), 
 					df.format(percentChange) + "%"});
 		}
 		
