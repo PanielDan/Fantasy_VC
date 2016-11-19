@@ -1,5 +1,7 @@
 package server;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -30,8 +32,9 @@ public class ServerClientCommunicator extends Thread {
 	public ServerClientCommunicator(Socket socket, Server server) throws IOException {
 		this.socket = socket;
 		this.server = server;
-		this.oos = new ObjectOutputStream(socket.getOutputStream());
-		this.ois = new ObjectInputStream(socket.getInputStream());
+		socket.setTcpNoDelay(true);
+		this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+		this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 		this.lock = new ReentrantLock();
 		condition = lock.newCondition();
 	}
@@ -63,7 +66,7 @@ public class ServerClientCommunicator extends Thread {
 
 					if (msg instanceof CreateGameMessage) {
 						CreateGameMessage cgm = (CreateGameMessage)msg;
-						server.createLobby(this, cgm.gamename, cgm.hostUser, cgm.numUsers, cgm.game);
+						server.createLobby(this, cgm.gamename, cgm.hostUser, cgm.numUsers);
 					}
 					else if (msg instanceof JoinGameMessage) {
 						JoinGameMessage jgm = (JoinGameMessage)msg;

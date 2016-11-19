@@ -57,7 +57,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -122,7 +122,6 @@ public class Client extends Thread {
 					if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
 				}
 				else if (m instanceof Game) {
-					System.out.println("Game : " + System.currentTimeMillis());
 					gameFrame.setGame((Game)m);
 				}
 				else if (m instanceof ClientExitMessage) {
@@ -153,6 +152,8 @@ public class Client extends Thread {
 				}
 				else if (m instanceof TimerTickMessage) { 
 					TimerTickMessage ttm = (TimerTickMessage) m;
+					if(gameFrame.getCurrentPanel() instanceof LobbyPanel) {
+					}
 					if (gameFrame.getCurrentPanel() instanceof AuctionBidScreen) {
 						AuctionBidScreen auctionBidScreen = (AuctionBidScreen) gameFrame.getCurrentPanel();
 						auctionBidScreen.updateTimer(ttm.getDisplay());

@@ -1,5 +1,6 @@
 package main;
 
+import gameplay.Game;
 import guis.LoginGUI;
 
 /**

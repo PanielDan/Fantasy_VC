@@ -23,7 +23,7 @@ public class ServerLobby extends Thread{
 	private Timer timer;
 	private Game seedGame;
 	
-	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers, Game game) {
+	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
 		this.sccVector = sccVector;
 		this.server = server;
 		this.lobbyName = lobbyName;
@@ -31,7 +31,6 @@ public class ServerLobby extends Thread{
 		this.numPlayers = numPlayers;
 		this.lock = new ReentrantLock();
 		this.condition = lock.newCondition();
-		this.seedGame = game;
 		timer = null;
 		users = new Vector<User>();
 		users.add(host);
@@ -39,7 +38,7 @@ public class ServerLobby extends Thread{
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 	}
 	
-	public synchronized void removeServerClientCommunicator(ServerClientCommunicator scc) {
+	public void removeServerClientCommunicator(ServerClientCommunicator scc) {
 		sccVector.remove(scc);
 		System.out.println("remove " + users.size());
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
@@ -49,14 +48,12 @@ public class ServerLobby extends Thread{
 		}
 	}
 	
-	public synchronized void removeUser(String username) {
-		lock.lock();
+	public void removeUser(String username) {
 		for(User u : users) {
 			if(u.getUsername().equals(username)) {
 				users.remove(u);
 			}
 		}
-		lock.unlock();
 	}
 	
 	public String getLobbyName() {
@@ -75,8 +72,7 @@ public class ServerLobby extends Thread{
 		return users;
 	}
 	
-	public synchronized void setUserCompanies(User user) {
-		lock.lock();
+	public void setUserCompanies(User user) {
 		seedGame.updateUser(user);
 		for(User u : users) {
 			if(u.getUsername().equals(user.getUsername())) {
@@ -84,11 +80,13 @@ public class ServerLobby extends Thread{
 				System.out.println("Unready " + u.getUsername());
 			}
 		}
+		System.out.println("set user lock");
+		lock.lock();
 		condition.signal();
 		lock.unlock();
 	}
 	
-	public void sendToAll(Object msg) {
+	public synchronized void sendToAll(Object msg) {
 		System.out.println("This is SL, sending to all!");
 		for (ServerClientCommunicator scc : sccVector) {
 			scc.sendMessage(msg);
@@ -107,6 +105,7 @@ public class ServerLobby extends Thread{
 	
 	public boolean checkReady(boolean cond) throws InterruptedException {
 		if (cond) {
+			System.out.println("Locked: " + System.currentTimeMillis());
 			lock.lock();
 			condition.await();
 			lock.unlock();
@@ -120,21 +119,20 @@ public class ServerLobby extends Thread{
 	}
 	
 	public void resetReady() {
-		lock.lock();
 		for(User user : users) {
 			user.unReady();
 		}
-		lock.unlock();
 	}
 	
 	public void setReady(String username, String teamname) {
-		lock.lock();
 		for (User user : users) {
 			if(user.getUsername().equals(username)) {
 				user.setReady();
 				user.setCompanyName(teamname);
 			}
 		}
+		System.out.println("set ready lock");
+		lock.lock();
 		condition.signalAll();
 		lock.unlock();
 	}
@@ -142,7 +140,8 @@ public class ServerLobby extends Thread{
 	private synchronized void initializeGame() { 
 		// TODO arschroc and alancoon implement logic from Company class
 		// to disseminate uniform data about Companies
-		seedGame.seed(users, this);
+//		seedGame.seed(users, this);
+		seedGame = new Game(users, this);
 	}
 	
 	public void run() {
@@ -158,21 +157,15 @@ public class ServerLobby extends Thread{
 			e.printStackTrace();
 		}
 		
-		
-		
-		System.out.println("stuck 1");
-		
+				
 		initializeGame();
-		System.out.println("stuck 2");
 		this.sendToAll(seedGame);
-		System.out.println("stuck 3");
-		resetReady();
 		this.sendToAll(new ReadyGameMessage());
-		System.out.println("stuck 4");
 		
 //		while(true) {
+		resetReady();
 		try {
-			while(!checkReady(false));
+			while(!checkReady(true));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -143,7 +143,7 @@ public class CreateGameGUI extends JFrame{
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(!lobbyName.getText().equals("")) {
-						CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user, new Game());
+						CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user);
 						ip.gameFrame.getClient().sendMessage(cgm);
 						dispose();
 					}
@@ -156,7 +156,7 @@ public class CreateGameGUI extends JFrame{
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				if(!lobbyName.getText().equals("")) {
-					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user, new Game());
+					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user);
 					ip.gameFrame.getClient().sendMessage(cgm);
 					dispose();
 				}
