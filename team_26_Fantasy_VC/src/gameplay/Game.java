@@ -3,11 +3,9 @@ package gameplay;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.List;
 import java.util.Vector;
 
 import server.SQLDriver;
-import utility.CompanyPopulator;
 
 /**
  * Maintains all of the current players inside of the instance of the game
@@ -63,7 +61,7 @@ public class Game implements Serializable {
 		SQLDriver driver = new SQLDriver();
 		driver.connect();
 		companies = driver.getCompanies();
-		
+		driver.stop();
 	}
 	
 	public Vector<String> updateNonNetworkedCompanies() {
@@ -222,5 +220,14 @@ public class Game implements Serializable {
 		}
 		
 		return freeAgents;
+	}
+	
+	public void initializeIcons() {
+		for(Company c : companies) {
+			c.createIcon();
+		}
+		for(User u : users) {
+			u.createIcon();
+		}
 	}
 }

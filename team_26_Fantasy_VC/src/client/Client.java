@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.Vector;
 
 import gameplay.Company;
+import gameplay.Game;
 import gameplay.GameFrame;
 import gameplay.User;
 import guis.AuctionBidScreen;
@@ -19,7 +20,6 @@ import messages.ChatMessage;
 import messages.ClientExitMessage;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
-import messages.Message;
 import messages.ReadyGameMessage;
 import messages.StartTimerMessage;
 import messages.TimerTickMessage;
@@ -112,10 +112,12 @@ public class Client extends Thread {
 					}
 				}
 				else if (m instanceof ReadyGameMessage) {
-					gameFrame.setGame(users);
 					atl = new AuctionTeamList(this, gameFrame); 
 					gameFrame.changePanel(atl);
 					if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
+				}
+				else if (m instanceof Game) {
+					gameFrame.setGame((Game)m);
 				}
 				else if (m instanceof ClientExitMessage) {
 					System.out.println("exit");

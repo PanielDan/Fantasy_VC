@@ -20,6 +20,7 @@ public class ServerLobby extends Thread{
 	public Condition condition;
 	private int numPlayers;
 	private Timer timer;
+	private Game seedGame;
 	
 	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
 		this.sccVector = sccVector;
@@ -111,9 +112,7 @@ public class ServerLobby extends Thread{
 	private synchronized void initializeGame() { 
 		// TODO arschroc and alancoon implement logic from Company class
 		// to disseminate uniform data about Companies
-		Game seedGame = new Game(users);
-		seedGame.initializeCompanies();
-		
+		seedGame = new Game(users);
 	}
 	
 	public void run() {
@@ -131,6 +130,8 @@ public class ServerLobby extends Thread{
 			e.printStackTrace();
 		}
 		lock.unlock();
+		initializeGame();
+		this.sendToAll(seedGame);
 		this.sendToAll(new ReadyGameMessage(users));
 	}
 	

@@ -107,9 +107,9 @@ public class GameFrame extends JFrame {
 		chatbox.setVisible(true);
 	}
 	
-	public void setGame(Vector<User> users){
-		System.out.println("game set");
-		game = new Game(users);
+	public void setGame(Game game){
+		this.game = game;
+		this.game.initializeIcons();
 	}
 	
 	

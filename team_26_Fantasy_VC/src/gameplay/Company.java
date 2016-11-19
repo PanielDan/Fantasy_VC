@@ -27,20 +27,6 @@ public class Company implements Serializable {
 	private transient Image companyLogo;
 	private double imageAspectRatio;
 	
-	public Company(String image, String name, String description, double startingPrice, int delta, int tierLevel) {
-		this.image = image;
-		this.name = name;
-		this.description = description;
-		this.startingPrice = startingPrice;
-		askingPrice = startingPrice; //asking price = startingPrice at beginning of auction
-		currentWorth = startingPrice; //the current worth starts at startingPrice
-		this.delta = delta;
-		this.tierLevel = tierLevel;
-		createIcon();
-	}
-	
-
-
 	public Company(String imagePath, String companyName, String description, double startingPrice, int tierLevel) {
 		this.image = imagePath;
 		this.name = companyName;
@@ -51,6 +37,7 @@ public class Company implements Serializable {
 		currentWorth = startingPrice; //the current worth starts at startingPrice
 		createIcon();
 
+		System.out.println(companyName + this.startingPrice);
 		
 		switch (tierLevel) { 
 			case 1:
@@ -179,6 +166,7 @@ public class Company implements Serializable {
 	}
 	
 	public void updateAskingPrice(int askingPrice) {
+		System.out.println("updated");
 		this.askingPrice = askingPrice;
 	}
 	

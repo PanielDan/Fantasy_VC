@@ -135,6 +135,7 @@ public class AuctionTeamList extends JPanel {
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		companyVect = gameFrame.getGame().getCompanies();
+		System.out.println("Abstergo: " + companyVect.get(0).getStartingPrice());
 		for(int i = 0; i < companyVect.size(); i++){
 			dtm.addRow(new Object[]{companyVect.get(i).getName(), Integer.toString(companyVect.get(i).getTierLevel()),
 					df.format(companyVect.get(i).getStartingPrice())});
