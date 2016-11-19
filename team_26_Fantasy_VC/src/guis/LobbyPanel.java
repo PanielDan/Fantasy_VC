@@ -1,5 +1,8 @@
 package guis;
 
+import gameplay.GameFrame;
+import gameplay.User;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -17,9 +20,9 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-import gameplay.GameFrame;
-import gameplay.User;
 import messages.LobbyPlayerReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -68,6 +71,7 @@ public class LobbyPanel extends JPanel{
 		eastPanel.setMaximumSize(new Dimension(400, 500));
 		
 		JPanel buttonPanel = new JPanel();
+		readyButton.setEnabled(false);
 		AppearanceSettings.setCenterAlignment(readyButton,leaveButton);
 		buttonPanel.setOpaque(false);
 		buttonPanel.setBorder(new EmptyBorder(30,60,30,60));
@@ -149,6 +153,28 @@ public class LobbyPanel extends JPanel{
 				//TODO must send this out.
 				gameFrame.changePanel(new IntroPanel(gameFrame));
 			}
+		});
+		
+		// Listen for changes in the text
+		firmField.getDocument().addDocumentListener(new DocumentListener() {
+			  public void changedUpdate(DocumentEvent e) {
+			    updateButton();
+			  }
+			  public void removeUpdate(DocumentEvent e) {
+			    updateButton();
+			  }
+			  public void insertUpdate(DocumentEvent e) {
+			    updateButton();
+			  }
+	
+			  public void updateButton() {
+			     if (firmField.getText().length() > 0) {
+			        readyButton.setEnabled(true);
+			     }
+			     else {
+			        readyButton.setEnabled(false);
+			     }
+			  }
 		});
 				
 	}
