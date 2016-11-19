@@ -9,12 +9,14 @@ import java.util.Vector;
 import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
+import guis.AuctionTeamList;
 import guis.IntroPanel;
 import guis.LobbyPanel;
 import messages.ChatMessage;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.Message;
+import messages.ReadyGameMessage;
 import messages.UserListMessage;
 import utility.LobbyUserPanel;
 
@@ -26,6 +28,7 @@ import utility.LobbyUserPanel;
  */
 public class Client extends Thread {
 	private User user;
+	private Vector<User> users;
 	private String firmName;
 	private String lobbyName;
 	private long bankAccount;
@@ -44,7 +47,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -80,17 +83,24 @@ public class Client extends Thread {
 					ChatMessage cm = (ChatMessage)m;
 					gameFrame.getChatPanel().addChat(cm.getUsername(), cm.getMessage());
 				}
-				if (m instanceof LobbyPlayerReadyMessage) {
-					System.out.println("Ready");
+				else if (m instanceof LobbyPlayerReadyMessage) {
 					LobbyPlayerReadyMessage lprm = (LobbyPlayerReadyMessage)m;
 					Vector<LobbyUserPanel> lup = ((LobbyPanel)gameFrame.getCurrentPanel()).getLobbyPanels();
 					for (LobbyUserPanel user : lup){
-						System.out.println(user.getUsername() + " " + lprm.getUsername());
 						if (user.getUsername().equals(lprm.getUsername())){
 							user.setFirmName(lprm.getTeamName());
 							user.setReady();
 						}
 					}
+					for (User user : users) {
+						if(user.getUsername().equals(lprm.getUsername())) {
+							user.setCompanyName(lprm.getUsername());
+						}
+					}
+				}
+				else if (m instanceof ReadyGameMessage) {
+					ReadyGameMessage rgm = (ReadyGameMessage)m;
+					gameFrame.changePanel(new AuctionTeamList(this, gameFrame));
 				}
 			}
 

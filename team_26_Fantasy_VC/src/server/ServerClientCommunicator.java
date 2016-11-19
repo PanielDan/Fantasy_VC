@@ -29,7 +29,7 @@ public class ServerClientCommunicator extends Thread {
 		this.lock = new ReentrantLock();
 	}
 	
-	public void sendMessage(Message msg) {
+	public void sendMessage(Object msg) {
 		try {
 			oos.writeObject(msg);
 			oos.flush();

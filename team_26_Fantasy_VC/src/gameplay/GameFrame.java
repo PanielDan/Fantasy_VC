@@ -80,8 +80,9 @@ public class GameFrame extends JFrame {
 		this.client = client;
 		user = client.getUser();
 		networked = true;
-		JPanel header = new TopPanel(this, client);
+		header = new TopPanel(this, client);
 		chatbox = new ChatPanel(client);
+		game = new Game();
 
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));

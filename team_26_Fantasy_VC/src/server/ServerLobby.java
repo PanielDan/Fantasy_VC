@@ -3,7 +3,7 @@ package server;
 import java.util.Vector;
 
 import gameplay.User;
-import messages.Message;
+import messages.ReadyGameMessage;
 import messages.UserListMessage;
 
 public class ServerLobby extends Thread{
@@ -41,7 +41,7 @@ public class ServerLobby extends Thread{
 		return users;
 	}
 	
-	public void sendToAll(Message msg) {
+	public void sendToAll(Object msg) {
 		System.out.println("send");
 		for (ServerClientCommunicator scc : sccVector) {
 			scc.sendMessage(msg);
@@ -60,5 +60,6 @@ public class ServerLobby extends Thread{
 		while (sccVector.size() < numPlayers);
 		// TODO: Send signal that the lobby has enough players and start game
 		server.removeServerLobby(this);
+		this.sendToAll(new ReadyGameMessage(users));
 	}
 }
