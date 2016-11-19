@@ -1,6 +1,7 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +23,6 @@ import javax.swing.JTextArea;
 
 import client.Client;
 import gameplay.Company;
-import gameplay.Game;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
@@ -84,6 +84,7 @@ public class QuarterlyGUI extends JPanel{
 		JScrollPane updatesScrollPane = new JScrollPane(updatesTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		updatesTextArea.setEditable(false);
+		updatesTextArea.setForeground(Color.WHITE);
 
 		//TODO temporary icon
 		ImageIcon icon = new ImageIcon("src/14705784_10210522380393027_557234648620204411_n.jpg");
@@ -125,7 +126,7 @@ public class QuarterlyGUI extends JPanel{
 
 
 		// Create freeAgents 
-		String[] columnNames = {"Name", "Tier Level", "Price", "Trend"};
+		String[] columnNames = {"Name", "Tier Level", "Price (Millions)", "Trend"};
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		Vector<Company> companies = gameFrame.game.getFreeAgents();
@@ -136,7 +137,7 @@ public class QuarterlyGUI extends JPanel{
 			DecimalFormat df = new DecimalFormat ("#.##");
 
 			dtm.addRow(new Object[]{companies.get(i).getName(), Integer.toString(companies.get(i).getTierLevel()),
-					Double.toString(companies.get(i).getCurrentWorth()), 
+					String.format("%.2f", companies.get(i).getCurrentWorth()), 
 					df.format(percentChange) + "%"});
 		}
 
@@ -158,11 +159,13 @@ public class QuarterlyGUI extends JPanel{
 		notificationsAndReadyPanel.setLayout(new BorderLayout());
 		notificationsAndReadyPanel.add(timer, BorderLayout.NORTH);
 		notificationsAndReadyPanel.add(ready, BorderLayout.CENTER);
-		notificationsAndReadyPanel.add(updatesTextArea, BorderLayout.SOUTH);
-		sendUpdate("Notifications Tray");
+		notificationsAndReadyPanel.add(updatesScrollPane, BorderLayout.SOUTH);
+		updatesTextArea.setFont(AppearanceConstants.fontSmallest);
+		updatesTextArea.setLineWrap(true);
+		sendUpdate("Notifications:");
 
 		notificationsAndReadyPanel.setPreferredSize(new Dimension(300, 1));
-		updatesTextArea.setPreferredSize(new Dimension(1, 400));
+		updatesScrollPane.setPreferredSize(new Dimension(1, 400));
 
 		add(tabbedPane, BorderLayout.CENTER);
 		add(notificationsAndReadyPanel, BorderLayout.EAST);

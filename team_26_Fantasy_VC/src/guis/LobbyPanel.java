@@ -71,7 +71,6 @@ public class LobbyPanel extends JPanel{
 		eastPanel.setMaximumSize(new Dimension(400, 500));
 		
 		JPanel buttonPanel = new JPanel();
-		readyButton.setEnabled(false);
 		AppearanceSettings.setCenterAlignment(readyButton,leaveButton);
 		buttonPanel.setOpaque(false);
 		buttonPanel.setBorder(new EmptyBorder(30,60,30,60));
@@ -137,6 +136,7 @@ public class LobbyPanel extends JPanel{
 		add(eastPanel);
 		add(Box.createGlue());
 		
+		readyButton.setEnabled(false);
 	}
 	private void addEvents() {
 		readyButton.addActionListener(new ActionListener() {
