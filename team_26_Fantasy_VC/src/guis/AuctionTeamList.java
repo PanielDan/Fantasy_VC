@@ -78,21 +78,25 @@ public class AuctionTeamList extends JPanel {
 	
 	public void nextPlayer() {
 		order.remove(0);
-		updateMiddleFirmName(order.get(0).getUsername());
+		if(!order.isEmpty()) updateMiddleFirmName(order.get(0).getUsername());
 	}
 	
 	public String getCurrent() {
+		if(order.isEmpty()) {
+			return null;
+		}
 		return order.get(0).getUsername();
 	}
 	
 	public void updateCapital() {
-		for (User user : client.getUsers()) {
-			if(user.getUsername().equals(order.get(0).getUsername())) {
-				firmCurrentMoney.setText(Constants.currentCapital + String.format("%.2f", user.getCurrentCapital()) +
-						 Constants.million);
+		if(!order.isEmpty()){
+			for (User user : client.getUsers()) {
+				if(user.getUsername().equals(order.get(0).getUsername())) {
+					firmCurrentMoney.setText(Constants.currentCapital + String.format("%.2f", user.getCurrentCapital()) +
+							 Constants.million);
+				}
 			}
 		}
-
 		this.revalidate();
 		this.repaint();
 	}
@@ -110,7 +114,7 @@ public class AuctionTeamList extends JPanel {
 		}
 		if(gameFrame.networked){
 			order = new Vector<User>();
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 1; i++) {
 				for(User user : client.getUsers()) {
 					order.add(user);
 				}

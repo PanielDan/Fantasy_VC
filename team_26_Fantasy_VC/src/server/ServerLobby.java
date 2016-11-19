@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import gameplay.Game;
 import gameplay.User;
 import messages.ReadyGameMessage;
+import messages.SwitchToTimelapseMessage;
 import messages.UserListMessage;
 import threads.Timer;
 
@@ -73,6 +74,18 @@ public class ServerLobby extends Thread{
 		return users;
 	}
 	
+	public synchronized void setUserCompanies(User user) {
+		lock.lock();
+		seedGame.updateUser(user);
+		for(User u : users) {
+			if(u.getUsername().equals(user.getUsername())) {
+				u.setReady();
+				System.out.println("Unready " + u.getUsername());
+			}
+		}
+		lock.unlock();
+	}
+	
 	public void sendToAll(Object msg) {
 		System.out.println("This is SL, sending to all!");
 		for (ServerClientCommunicator scc : sccVector) {
@@ -99,6 +112,14 @@ public class ServerLobby extends Thread{
 		return true;
 	}
 	
+	public synchronized void resetReady() {
+		lock.lock();
+		for(User user : users) {
+			user.unReady();
+		}
+		lock.unlock();
+	}
+	
 	public synchronized void setReady(String username, String teamname) {
 		for (User user : users) {
 			if(user.getUsername().equals(username)) {
@@ -112,7 +133,7 @@ public class ServerLobby extends Thread{
 	private synchronized void initializeGame() { 
 		// TODO arschroc and alancoon implement logic from Company class
 		// to disseminate uniform data about Companies
-		seedGame = new Game(users);
+		seedGame = new Game(users, this);
 	}
 	
 	public void run() {
@@ -122,6 +143,7 @@ public class ServerLobby extends Thread{
 		System.out.println("full");
 		
 		while(!checkReady());
+		
 		lock.lock();
 		try {
 			condition.await();
@@ -133,6 +155,16 @@ public class ServerLobby extends Thread{
 		initializeGame();
 		this.sendToAll(seedGame);
 		this.sendToAll(new ReadyGameMessage(users));
+		
+//		while(true) {
+		resetReady();
+		while(!checkReady());
+		System.out.println("Send timelapse");
+		sendToAll(new SwitchToTimelapseMessage());
+			
+		seedGame.updateCompanies();
+			// TODO:Send message to move to the timelapse GUI
+//		}
 	}
 	
 	public void startTimer(int time) {

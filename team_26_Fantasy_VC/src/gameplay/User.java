@@ -57,6 +57,10 @@ public class User implements Serializable {
 		ready = true;
 	}
 	
+	public void unReady() {
+		ready = false;
+	}
+	
 	public boolean getReady() {
 		return ready;
 	}
@@ -156,6 +160,7 @@ public class User implements Serializable {
 	}
 	
 	public synchronized void setCompanies(Vector<Company> companies) {
+		System.out.println(companies);
 		this.companies = companies;
 	}
 	

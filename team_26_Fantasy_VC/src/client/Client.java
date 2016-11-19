@@ -14,16 +14,20 @@ import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
 import guis.IntroPanel;
 import guis.LobbyPanel;
+import guis.TimelapsePanel;
 import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
 import messages.ChatMessage;
 import messages.ClientExitMessage;
+import messages.CompanyUpdateMessage;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.ReadyGameMessage;
 import messages.StartTimerMessage;
+import messages.SwitchToTimelapseMessage;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
+import messages.UserUpdate;
 import utility.LobbyUserPanel;
 
 /**
@@ -164,8 +168,16 @@ public class Client extends Thread {
 							atl.nextPlayer();
 							atl.setDraftOrder();
 							atl.updateCapital();
-							gameFrame.changePanel(atl);
-							if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
+							if(atl.getCurrent() == null) {
+								// TODO: send message to the server lobby that everybody is done
+								System.out.println(user.getCompanies());
+								System.out.println(user.getCurrentCapital());
+								sendMessage(new UserUpdate(user));
+							}
+							else{
+								gameFrame.changePanel(atl);
+								if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
+							}
 						}
 					}
 					else if (gameFrame.getCurrentPanel() instanceof AuctionTeamList) {
@@ -176,6 +188,13 @@ public class Client extends Thread {
 							}
 						}
 					}
+				}
+				else if (m instanceof SwitchToTimelapseMessage) {
+					gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
+				}
+				else if (m instanceof CompanyUpdateMessage) {
+					CompanyUpdateMessage cum = (CompanyUpdateMessage)m; // hehe, cum...
+					((TimelapsePanel)gameFrame.getCurrentPanel()).appendNotification(cum.getMessage());
 				}
 			}
 
@@ -211,7 +230,7 @@ public class Client extends Thread {
 			System.out.println("flushing");
 			oos.flush();
 //			System.out.println("reset");
-//			oos.reset();
+			oos.reset();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}

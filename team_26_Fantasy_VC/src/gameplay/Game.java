@@ -3,9 +3,12 @@ package gameplay;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Vector;
 
+import messages.CompanyUpdateMessage;
 import server.SQLDriver;
+import server.ServerLobby;
 
 /**
  * Maintains all of the current players inside of the instance of the game
@@ -21,7 +24,7 @@ import server.SQLDriver;
  * @author arschroc
  * @author alancoon
  */
-public class Game implements Serializable {
+public class Game extends Thread implements Serializable {
 	
 	/**
 	 * 
@@ -31,6 +34,7 @@ public class Game implements Serializable {
 
 	private Vector<User> users;
 	private Vector<Company> companies;
+	private transient ServerLobby sl;
 	public int currentQuarter;
 	
 	//Constructor for not networked game
@@ -42,9 +46,10 @@ public class Game implements Serializable {
 	}
 	
 	//constructor for networked game
-	public Game(Vector<User> users) {
+	public Game(Vector<User> users, ServerLobby sl) {
 		currentQuarter = -1;
 		this.users = users;
+		this.sl = sl;
 		companies = new Vector<Company>();
 		initializeCompanies();
 	}
@@ -66,7 +71,7 @@ public class Game implements Serializable {
 	
 	public Vector<String> updateNonNetworkedCompanies() {
 		Vector<String> output = new Vector<String>();
-		
+		Random rand = new Random();
 		for(Company company : companies) {
 			//update every company
 			String updateText = company.updateCurrentWorth();
@@ -83,11 +88,17 @@ public class Game implements Serializable {
 			
 			if(!updateText.equals("")) {
 				output.add(company.getName() + updateText);
+				try {
+					Thread.sleep(rand.nextInt(1000));
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
 		return output;
 	}
+	
 	
 	/**
 	 * To be done ONLY IN SERVER
@@ -109,9 +120,10 @@ public class Game implements Serializable {
 				}
 			}
 			
-			if(updateText != null) {
+			if(!updateText.isEmpty()) {
 				//TODO create and send a message to all clients 
 				//telling them to display the updateText on the TimeLapseGUI
+				sl.sendToAll(new CompanyUpdateMessage(company.getName() + updateText));
 			}
 		}
 		
@@ -135,6 +147,15 @@ public class Game implements Serializable {
 	
 	public void addUser(User user) {
 		users.add(user);
+	}
+	
+	public void updateUser(User user) {
+		for(User u : users) {
+			if(u.getUsername().equals(user.getUsername())) {
+				u.setCompanies(user.getCompanies());
+				u.setCurrentCapital(user.getCurrentCapital());
+			}
+		}
 	}
 	
 	//returns a list of winning teams

@@ -15,6 +15,7 @@ import messages.JoinGameMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.Message;
 import messages.StartTimerMessage;
+import messages.UserUpdate;
 
 public class ServerClientCommunicator extends Thread {
 	private Socket socket;
@@ -113,6 +114,10 @@ public class ServerClientCommunicator extends Thread {
 					}
 					else if (obj instanceof StartTimerMessage) {
 						serverLobby.startTimer(45);
+					}
+					else if (obj instanceof UserUpdate) {
+						UserUpdate ucl = (UserUpdate)obj;
+						serverLobby.setUserCompanies(ucl.getUser());
 					}
 					else {
 						System.out.println("command this is scc");

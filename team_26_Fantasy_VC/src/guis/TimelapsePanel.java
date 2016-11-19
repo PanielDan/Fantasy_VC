@@ -142,7 +142,7 @@ public class TimelapsePanel extends JPanel {
 	}
 	
 	public void appendNotification(String message) {
-		
+		model.addElement(message);
 	}
 	
 	public class TimelapseHelper extends Thread {
