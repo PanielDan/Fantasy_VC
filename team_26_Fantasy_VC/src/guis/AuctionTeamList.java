@@ -74,8 +74,16 @@ public class AuctionTeamList extends JPanel {
 		//Variables for left panel
 		timer = new JLabel("GUEST", SwingConstants.CENTER);
 		firms = new Vector<String>();
+		middleFirmName = new JLabel("JMoney Capital");
+		if (gameFrame.user.getID() == -1) {
+			bidButton = new JButton("BUY"); 
+		} else {
+			bidButton = new JButton("BID");
+		}
 		if(gameFrame.networked){
 			setDraftOrder();
+			middleFirmName = new JLabel(client.getUsers().get(0).getUsername());
+			updateMiddleFirmName(client.getUsers().get(0).getUsername());
 			timer.setText("0:45");
 		}
 		firmList = new JList<String>(firms);
@@ -86,7 +94,6 @@ public class AuctionTeamList extends JPanel {
 		middleFirmPicture.setPreferredSize(new Dimension(100,100));
 		firmCurrentMoney = new JLabel(Constants.currentCapital + df.format(gameFrame.user.getCurrentCapital()) +
 				 Constants.million);
-		middleFirmName = new JLabel("JMoney Capital");
 		purchasedFirmsLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		purchasedFirms = new Vector<String>();
 		
@@ -124,17 +131,23 @@ public class AuctionTeamList extends JPanel {
 		detailsCompanyInfo.setForeground(AppearanceConstants.darkBlue);
 		detailsCompanyInfo.setFont(AppearanceConstants.fontSmallest);
 		
-		if (gameFrame.user.getID() == -1) {
-			bidButton = new JButton("BUY"); 
-		} else {
-			bidButton = new JButton("BID");
-		}
+
 		
 		//Initialized here to purchased firms for testing purposes.
 		detailsFirmPurchasedList = new JList<String>(purchasedFirms);
 		
 		intializePictures();
 
+	}
+	
+	public void updateMiddleFirmName(String username) {
+		middleFirmName.setText(username);
+		if (gameFrame.user.getUsername().equals(username)) {
+			bidButton.setEnabled(true);
+		}
+		else {
+			bidButton.setEnabled(false);
+		}
 	}
 	
 	//All of this just has to be updated with user images from company and user objects.

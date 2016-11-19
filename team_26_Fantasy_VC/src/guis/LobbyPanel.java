@@ -143,6 +143,7 @@ public class LobbyPanel extends JPanel{
 				System.out.println("username: " + gameFrame.user.getUsername());
 				LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage(gameFrame.user.getUsername(),firmField.getText().trim());
 				gameFrame.getClient().sendMessage(lprm);
+				gameFrame.getClient().getUser().setCompanyName(firmField.getText().trim());
 				((JButton)ae.getSource()).setEnabled(false);
 			}
 		});

@@ -29,7 +29,6 @@ import utility.LobbyUserPanel;
 public class Client extends Thread {
 	private User user;
 	private Vector<User> users;
-	private String firmName;
 	private String lobbyName;
 	private long bankAccount;
 	private Vector<Company> portfolio;
@@ -130,11 +129,7 @@ public class Client extends Thread {
 			}
 		}
 	}
-	
-	public String getFirmName() { 
-		return firmName;
-	}
-	
+		
 	public User getUser() {
 		return user;
 	}
