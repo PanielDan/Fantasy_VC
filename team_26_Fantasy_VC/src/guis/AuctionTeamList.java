@@ -515,7 +515,7 @@ public class AuctionTeamList extends JPanel {
 					purchasedCompanysList.setListData(purchasedFirms);
 					gameFrame.user.addCompany(selectedCompany);
 					
-					firmCurrentMoney.setText(Constants.currentCapital + gameFrame.user.getCurrentCapital() + Constants.million);
+					firmCurrentMoney.setText(Constants.currentCapital + String.format("%.2f", gameFrame.user.getCurrentCapital()) + Constants.million);
 					gameFrame.header.updateCurrentCapital();
 					dtm.removeRow(selectedRow);
 					firmData.revalidate();
