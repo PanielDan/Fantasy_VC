@@ -58,6 +58,10 @@ public class Client extends Thread {
 		System.out.println(gameFrame.getCurrentPanel().getClass());
 	}
 	
+	public Vector<User> getUsers() {
+		return users;
+	}
+	
 	public void run() {
 		Object m = null;
 		try{
@@ -95,12 +99,13 @@ public class Client extends Thread {
 					}
 					for (User user : users) {
 						if(user.getUsername().equals(lprm.getUsername())) {
-							user.setCompanyName(lprm.getUsername());
+							user.setCompanyName(lprm.getTeamName());
 						}
+						user.createIcon();
 					}
 				}
 				else if (m instanceof ReadyGameMessage) {
-					ReadyGameMessage rgm = (ReadyGameMessage)m;
+					gameFrame.setGame(users);
 					gameFrame.changePanel(new AuctionTeamList(this, gameFrame));
 				}
 			}

@@ -65,11 +65,12 @@ public class ServerLobby extends Thread{
 		return true;
 	}
 	
-	public synchronized void setReady(String username) {
+	public synchronized void setReady(String username, String teamname) {
 		for (User user : users) {
 			if(user.getUsername().equals(username)) {
 				System.out.println(user.getUsername() + " ready");
 				user.setReady();
+				user.setCompanyName(teamname);
 			}
 		}
 	}

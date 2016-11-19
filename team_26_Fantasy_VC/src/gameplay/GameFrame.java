@@ -3,6 +3,7 @@ package gameplay;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -82,7 +83,6 @@ public class GameFrame extends JFrame {
 		networked = true;
 		header = new TopPanel(this, client);
 		chatbox = new ChatPanel(client);
-		game = new Game();
 
 		header.setPreferredSize(new Dimension(1280,72));
 		chatbox.setPreferredSize(new Dimension(1280,144));
@@ -103,6 +103,11 @@ public class GameFrame extends JFrame {
 	
 	public void chatVisible() {
 		chatbox.setVisible(true);
+	}
+	
+	public void setGame(Vector<User> users){
+		System.out.println("game set");
+		game = new Game(users);
 	}
 	
 	
