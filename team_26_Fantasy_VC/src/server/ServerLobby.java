@@ -107,6 +107,8 @@ public class ServerLobby extends Thread{
 	}
 	
 	private synchronized void initializeGame() { 
+		// TODO arschroc and alancoon implement logic from Company class
+		// to disseminate uniform data about Companies
 		Game seedGame = new Game(users);
 		seedGame.initializeCompanies();
 		
