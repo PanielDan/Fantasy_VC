@@ -54,20 +54,14 @@ public class Company {
 
 		
 		switch (tierLevel) { 
-			case 0:
-				this.delta = 100;
-				break;
 			case 1:
-				this.delta = 200;
+				this.delta = 25;
 				break;
 			case 2:
-				this.delta = 350;
+				this.delta = 50;
 				break;
 			case 3:
-				this.delta = 500;
-				break;
-			case 4:
-				this.delta = 750;
+				this.delta = 100;
 				break;
 		}
 	}
@@ -119,7 +113,8 @@ public class Company {
 	 */
 	public synchronized String updateCurrentWorth() {
 		Random rand = new Random();
-		int change = Math.abs(rand.nextInt(delta));
+		int intChange = Math.abs(rand.nextInt(delta));
+		double change = intChange/100.0;
 		boolean positive = rand.nextBoolean();
 		boolean specialEvent = rand.nextBoolean();
 		String text = "";
