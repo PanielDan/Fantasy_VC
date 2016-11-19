@@ -74,7 +74,7 @@ public class AuctionTeamList extends JPanel {
 		//Variables for left panel
 		timer = new JLabel("GUEST", SwingConstants.CENTER);
 		firms = new Vector<String>();
-		middleFirmName = new JLabel("JMoney Capital");
+		middleFirmName = new JLabel("Guestbros");
 		if (gameFrame.user.getID() == -1) {
 			bidButton = new JButton("BUY"); 
 		} else {
@@ -117,8 +117,8 @@ public class AuctionTeamList extends JPanel {
 		//Variables for firm details
 		detailsFirmPicture = new JLabel();
 		detailsFirmPicture.setPreferredSize(new Dimension(100,100));
-		detailsFirmCurrentMoney = new JLabel("Current Capital: $50,000,000", SwingConstants.CENTER);
-		detailsFirmName = new JLabel("JMoney Capital", SwingConstants.CENTER);
+		detailsFirmCurrentMoney = new JLabel("Current Capital: ", SwingConstants.CENTER);
+		detailsFirmName = new JLabel("Guestbros", SwingConstants.CENTER);
 		detailsPurchasedLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		detailsCompanyPicture = new JLabel();
 		detailsCompanyPicture.setPreferredSize(new Dimension(100,100));
@@ -416,9 +416,9 @@ public class AuctionTeamList extends JPanel {
 				
 				detailsFirmPicture.setIcon(new ImageIcon(selectedUser.getUserIcon().getScaledInstance(100, 100,Image.SCALE_SMOOTH)));
 				detailsFirmName.setText(selectedUser.getCompanyName());
-				detailsFirmCurrentMoney.setText(Double.toString(selectedUser.getCurrentCapital()) + Constants.million);
+				detailsFirmCurrentMoney.setText("" + new DecimalFormat("#.##").format(selectedUser.getCurrentCapital()) + Constants.million);
 				
-				//Populate temporary string vector to insert into the list
+				// Populate temporary string vector to insert into the list
 				Vector<String> companyNames = new Vector<String>();
 				for(Company company: selectedUser.getCompanies()){
 					companyNames.add(company.getName());

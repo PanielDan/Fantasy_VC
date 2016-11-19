@@ -223,7 +223,7 @@ public class Game implements Serializable {
 	}
 
 	public int getYear() { 
-		return((currentQuarter - 1) / 4) + 2016;
+		return (currentQuarter / 4) + 2016;
 	}
 	
 	public Vector<Company> getFreeAgents() {
