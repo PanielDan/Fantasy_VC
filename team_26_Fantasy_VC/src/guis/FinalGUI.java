@@ -81,7 +81,7 @@ public class FinalGUI extends JPanel {
 
 			winner = new JLabel("Winner: Guest");
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());
-			totalEquity = new JLabel("Total value: " + df.format(gameFrame.user.getCurrentCapital()) + " Million");
+			totalEquity = new JLabel("Total value: " + String.format("%.2f", gameFrame.user.getCurrentCapital()) + " Million");
 			numCompanies = new JLabel("Numbers of companies: " + gameFrame.user.getCompanies().size());
 			double percent = (gameFrame.user.getCurrentCapital() - 100.0); //(final - 100)/100*100
 
@@ -119,7 +119,7 @@ public class FinalGUI extends JPanel {
 		DecimalFormat df = new DecimalFormat("#.##");
 		for(int i = 0; i < usercompanies.size(); i++){
 			dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
-					df.format(usercompanies.get(i).getCurrentWorth())});
+					String.format("%.2f", usercompanies.get(i).getCurrentWorth())});
 		}
 		portfolio = new JTable(dtm);
 		portfolio.setForeground(AppearanceConstants.darkBlue);
@@ -230,7 +230,7 @@ public class FinalGUI extends JPanel {
 					userIcon.setIcon(new ImageIcon(selectedUser.getUserIcon().getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH)));
 					userFirmName.setText(selectedUser.getCompanyName());
 					//TODO Needs to replaced with total equity or value number
-					totalEquity.setText("Total value: " + Double.toString(selectedUser.getCurrentCapital()) + Constants.million);
+					totalEquity.setText("Total value: " + String.format("%.2f", selectedUser.getCurrentCapital()) + Constants.million);
 					percentGain.setText("Percent Gain: ");
 					numCompanies.setText("Number of companies:");
 					bestInvestment.setText("Best investment: ");
