@@ -79,7 +79,7 @@ public class TimelapsePanel extends JPanel {
 		notificationLabel = new JLabel("Notifications");
 //		Image i = ImageLibrary.getImage(Constants.images + "graph" + Constants.gif);
 //	    animation = new ImageIcon(i.getScaledInstance(400, 300, Image.SCALE_SMOOTH));
-		animation = new ImageIcon(Constants.images + "animation" + Constants.gif);
+		animation = new ImageIcon(Constants.images + "graph2" + Constants.gif);
 	    animationLabel = new JLabel(animation);
 	}
 	
