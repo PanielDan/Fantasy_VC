@@ -76,7 +76,11 @@ public class TimelapsePanel extends JPanel {
 		//notifications = new JList<String>(notificationList);
 		model = new DefaultListModel<>();
 		notifications = new JList<>( model );
-		notificationLabel = new JLabel("Notifications");
+		
+		int quarter = gameFrame.game.getQuarter();
+		int year = gameFrame.game.getYear();
+		
+		notificationLabel = new JLabel("Notifications for Q" + quarter + ", " + year);
 //		Image i = ImageLibrary.getImage(Constants.images + "graph" + Constants.gif);
 //	    animation = new ImageIcon(i.getScaledInstance(400, 300, Image.SCALE_SMOOTH));
 		animation = new ImageIcon(Constants.images + "graph2" + Constants.gif);

@@ -37,7 +37,7 @@ public class Game implements Serializable {
 	
 	//Constructor for not networked game
 	public Game() {
-		currentQuarter = 0;
+		currentQuarter = -1;
 		users = new Vector<User>();
 		companies = new Vector<Company>();
 		initializeCompanies();
@@ -45,7 +45,7 @@ public class Game implements Serializable {
 	
 	//constructor for networked game
 	public Game(Vector<User> users) {
-		currentQuarter = 0;
+		currentQuarter = -1;
 		this.users = users;
 		companies = new Vector<Company>();
 		initializeCompanies();
@@ -212,6 +212,18 @@ public class Game implements Serializable {
 	
 	public void incrementQuarter() {
 		currentQuarter++;
+	}
+	
+	public int getCurrentQuarter() { 
+		return currentQuarter;
+	}
+	
+	public int getQuarter() {
+		return (currentQuarter % 4) + 1;
+	}
+
+	public int getYear() { 
+		return((currentQuarter - 1) / 4) + 2016;
 	}
 	
 	public Vector<Company> getFreeAgents() {

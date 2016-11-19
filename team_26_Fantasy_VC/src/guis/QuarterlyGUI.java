@@ -3,6 +3,7 @@ package guis;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -74,8 +75,8 @@ public class QuarterlyGUI extends JPanel{
 		updatesTextArea = new JTextArea();
 		updatesTextArea.setWrapStyleWord(true);
 		notificationsAndReadyPanel = new JPanel();
-		ready = new JButton("Ready");
-		timer = new JLabel("Timer");
+		ready = new JButton("Ready for Next Quarter");
+		timer = new JLabel("01:00");
 
 		users = gameFrame.game.getUsers();
 		tabs = new Vector<PlayerTab>();
@@ -113,7 +114,7 @@ public class QuarterlyGUI extends JPanel{
 		tabbedPane.add("Free Agents", freeAgents);
 
 		// Create freeAgents 
-		String[] columnNames = {"Name", "Tier Level", "Price (Millions)", "Trend"};
+		String[] columnNames = {"Name", "Tier Level", "Price (Millions)", "Net Growth"};
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		Vector<Company> companies = gameFrame.game.getFreeAgents();
@@ -147,30 +148,51 @@ public class QuarterlyGUI extends JPanel{
 		AppearanceSettings.setBackground(AppearanceConstants.offWhite, freeAgentTable);
 
 		// Create notificationsAndReadyPanel
+		
+		JPanel timerReadyPanel = new JPanel(new GridLayout(2, 1));
+		timerReadyPanel.add(timer);
+		timerReadyPanel.add(ready);
+		
+		updatesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		
 		notificationsAndReadyPanel.setLayout(new BorderLayout());
-		notificationsAndReadyPanel.add(timer, BorderLayout.NORTH);
-		notificationsAndReadyPanel.add(ready, BorderLayout.CENTER);
-		notificationsAndReadyPanel.add(updatesScrollPane, BorderLayout.SOUTH);
+		notificationsAndReadyPanel.add(timerReadyPanel, BorderLayout.NORTH);
+		notificationsAndReadyPanel.add(updatesScrollPane, BorderLayout.CENTER);
+		
+//		notificationsAndReadyPanel.add(updatesPanel, BorderLayout.SOUTH);
+		
+//		notificationsAndReadyPanel.setLayout(new GridLayout(3, 1));
+//		notificationsAndReadyPanel.add(timer);
+//		notificationsAndReadyPanel.add(ready);
+//		notificationsAndReadyPanel.add(updatesPanel);
+
+		
 		updatesTextArea.setFont(AppearanceConstants.fontSmallest);
 		updatesTextArea.setLineWrap(true);
 		scrollBar = updatesScrollPane.getVerticalScrollBar();
-		sendUpdate("Notifications:");
+
+		int quarter = gameFrame.game.getQuarter();
+		int year = gameFrame.game.getYear();
+		
+		sendUpdate("End of Q" + quarter + ", " + year + ".");
+		sendUpdate("Here is your quarterly report!");
 
 		notificationsAndReadyPanel.setPreferredSize(new Dimension(300, 1));
-		updatesScrollPane.setPreferredSize(new Dimension(1, 400));
-
+		updatesScrollPane.setPreferredSize(new Dimension(210, 400));
+		updatesScrollPane.setBorder(null);
+		
 		add(tabbedPane, BorderLayout.CENTER);
 		add(notificationsAndReadyPanel, BorderLayout.EAST);
 
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, timer);
-		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, updatesTextArea, notificationsAndReadyPanel);
+		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, timerReadyPanel, updatesTextArea, notificationsAndReadyPanel);
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, freeAgentScrollPane);
 
 		AppearanceSettings.setBackground(AppearanceConstants.green, ready);
-		AppearanceSettings.setForeground(AppearanceConstants.offWhite, ready, buy);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, timer, ready, buy);
 		AppearanceSettings.setOpaque(ready, buy);
 		AppearanceSettings.unSetBorderOnButtons(ready, buy);
-		AppearanceSettings.setFont(AppearanceConstants.fontLargeBidButton, ready);
+		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, ready);
 		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, buy);
 		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, buy);
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, freeAgents, buyPanel, this);
@@ -216,7 +238,7 @@ public class QuarterlyGUI extends JPanel{
 								df.format(percentChange) + "%" });
 						
 						//update the notifications
-						String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName();
+						String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
 						sendUpdate(update);
 					}
 				}
