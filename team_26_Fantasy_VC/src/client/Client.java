@@ -130,6 +130,7 @@ public class Client extends Thread {
 					Company company = babm.getCompany();
 					company.createIcon();
 					AuctionBidScreen abs = new AuctionBidScreen(gameFrame, company);
+					abs.updateBet(babm.getCompanyName(), company.getStartingPrice());
 					gameFrame.changePanel(abs);
 				}
 				else if (m instanceof AuctionBidUpdateMessage) {
