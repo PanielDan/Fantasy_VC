@@ -1,9 +1,8 @@
 package messages;
 
 import java.io.Serializable;
-import java.util.Vector;
 
-import gameplay.User;
+import gameplay.Game;
 
 public class FinalMessage implements Serializable{
 
@@ -11,14 +10,14 @@ public class FinalMessage implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Vector<User> winners;
+	private Game game;
 	
-	public FinalMessage(Vector<User> winners) {
-		this.winners = winners;
+	public FinalMessage(Game game) {
+		this.game = game;
 	}
 	
-	public Vector<User> getWinners() {
-		return winners;
+	public Game getGame() {
+		return game;
 	}
 
 }

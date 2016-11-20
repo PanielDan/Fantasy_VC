@@ -17,6 +17,7 @@ import gameplay.GameFrame;
 import gameplay.User;
 import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
+import guis.FinalGUI;
 import guis.IntroPanel;
 import guis.LobbyPanel;
 import guis.LobbyUserPanel;
@@ -30,6 +31,7 @@ import messages.BuyMessage;
 import messages.ChatMessage;
 import messages.ClientExitMessage;
 import messages.CompanyUpdateMessage;
+import messages.FinalMessage;
 import messages.FinalRequestMessage;
 import messages.InitiateTradeMessage;
 import messages.LobbyListMessage;
@@ -70,7 +72,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -236,6 +238,7 @@ public class Client extends Thread {
 					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
 						System.out.println("increment" + gameFrame.game.getCurrentQuarter());
 						qgui = new QuarterlyGUI(gameFrame, this);
+						gameFrame.changePanel(qgui);
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
 						gameFrame.game.incrementQuarter();
@@ -288,6 +291,13 @@ public class Client extends Thread {
 				}
 				else if(m instanceof FinalRequestMessage) {
 					sendMessage(new UserUpdate(user));
+				}
+				else if(m instanceof FinalMessage) {
+					System.out.println("final message");
+					gameFrame.setGame(((FinalMessage) m).getGame());
+					for(User user : gameFrame.game.getUsers())
+					System.out.println(user.getUsername() + " " + user.getTotalProfit());
+//					gameFrame.changePanel(new FinalGUI(gameFrame, this));
 				}
 			}
 

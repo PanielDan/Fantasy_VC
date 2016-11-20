@@ -168,7 +168,7 @@ public class ServerLobby extends Thread{
 		this.sendToAll(seedGame);
 		this.sendToAll(new ReadyGameMessage());
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 8; i++) {
 			resetReady();
 			try {
 				semaphore.acquire(this.numPlayers);
@@ -195,7 +195,7 @@ public class ServerLobby extends Thread{
 			ie.printStackTrace();
 		}
 		
-		sendToAll(new FinalMessage(seedGame.getWinners()));
+		sendToAll(new FinalMessage(seedGame));
 		// TODO: Send signal to switch to final game
 		
 	}
