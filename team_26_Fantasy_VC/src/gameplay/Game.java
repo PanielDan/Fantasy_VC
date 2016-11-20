@@ -48,7 +48,7 @@ public class Game extends Thread implements Serializable {
 	
 	//constructor for networked game
 	public Game(Vector<User> users, ServerLobby sl) {
-		currentQuarter = -1;
+		currentQuarter = 0;
 		this.users = users;
 		this.sl = sl;
 		companies = new Vector<Company>();
@@ -136,7 +136,7 @@ public class Game extends Thread implements Serializable {
 			}
 		}
 
-		System.out.println(this.getUsers().get(0).getCompanies().get(0).getName() + this.getUsers().get(0).getCompanies().get(0).getCurrentWorth());
+//		System.out.println(this.getUsers().get(0).getCompanies().get(0).getName() + this.getUsers().get(0).getCompanies().get(0).getCurrentWorth());
 		sl.sendToAll(this);
 		sl.sendToAll(new SwitchPanelMessage());
 		

@@ -171,6 +171,14 @@ public class PlayerTab extends JPanel {
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, trade, sell);
 		AppearanceSettings.unSetBorderOnButtons(trade, sell);
 		AppearanceSettings.setOpaque(trade, sell);
+		
+		if(user.getUsername().equals(gameFrame.user.getUsername())) {
+			trade.setEnabled(false);
+			sell.setEnabled(true);
+		} else {
+			trade.setEnabled(true);
+			sell.setEnabled(false);
+		}
 	}
 	
 	private void addActionListeners() {

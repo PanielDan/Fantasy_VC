@@ -117,7 +117,7 @@ public class ServerClientCommunicator extends Thread {
 						serverLobby.startTimer(45);
 					}
 					else if (obj instanceof AuctionBidUpdateMessage) { 
-						serverLobby.increaseTime(2);
+//						serverLobby.increaseTime(2);
 						serverLobby.sendToAll(obj);
 					}
 					else if (obj instanceof UserUpdate) {
