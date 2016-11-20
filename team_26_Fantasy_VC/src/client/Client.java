@@ -251,9 +251,13 @@ public class Client extends Thread {
 					InitiateTradeMessage itm = (InitiateTradeMessage) m;
 					User initiator = itm.getInitiator();
 					User target = itm.getTarget();
-					if (user.equals(initiator) && gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+					System.out.println("user " + user.getUsername() + user.hashCode());
+					System.out.println("initiator " + initiator.getUsername() + initiator.hashCode());
+					System.out.println("target " + target.getUsername() + target.hashCode());
+				
+					if (user.getID() == initiator.getID()) {
 						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
-					} else if (user.equals(target) && gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+					} else if (user.getID() == target.getID()) {
 						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
 					} else {
 						if (gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
