@@ -1,6 +1,7 @@
 package server;
 
 import java.util.Vector;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -19,6 +20,7 @@ public class ServerLobby extends Thread{
 	private String lobbyName, hostName;
 	public Lock lock;
 	public Condition condition;
+	public Semaphore semaphore;
 	private int numPlayers;
 	private Timer timer;
 	private Game seedGame;
@@ -31,6 +33,7 @@ public class ServerLobby extends Thread{
 		this.numPlayers = numPlayers;
 		this.lock = new ReentrantLock();
 		this.condition = lock.newCondition();
+		this.semaphore = new Semaphore(this.numPlayers);
 		timer = null;
 		users = new Vector<User>();
 		users.add(host);
@@ -81,9 +84,10 @@ public class ServerLobby extends Thread{
 			}
 		}
 		System.out.println("set user lock");
-		lock.lock();
-		condition.signal();
-		lock.unlock();
+//		lock.lock();
+//		condition.signal();
+//		lock.unlock();
+		semaphore.release();
 	}
 	
 	public synchronized void sendToAll(Object msg) {
@@ -103,13 +107,13 @@ public class ServerLobby extends Thread{
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 	}
 	
-	public boolean checkReady(boolean cond) throws InterruptedException {
-		if (cond) {
-			System.out.println("Locked: " + System.currentTimeMillis());
-			lock.lock();
-			condition.await();
-			lock.unlock();
-		}
+	public boolean checkReady(){
+//		if (cond) {
+//			System.out.println("Locked: " + System.currentTimeMillis());
+//			lock.lock();
+//			condition.await();
+//			lock.unlock();
+//		}
 		for (User user : users) {
 			if (!user.getReady()) {
 				return false;
@@ -132,9 +136,10 @@ public class ServerLobby extends Thread{
 			}
 		}
 		System.out.println("set ready lock");
-		lock.lock();
-		condition.signalAll();
-		lock.unlock();
+//		lock.lock();
+//		condition.signalAll();
+//		lock.unlock();
+		semaphore.release();
 	}
 	
 	private synchronized void initializeGame() { 
@@ -151,13 +156,14 @@ public class ServerLobby extends Thread{
 		System.out.println("full");
 		
 		try {
-			while(!checkReady(true));
+			semaphore.acquire(this.numPlayers);
+			while(!checkReady());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-				
+		System.out.println("semaphore passed");
 		initializeGame();
 		this.sendToAll(seedGame);
 		this.sendToAll(new ReadyGameMessage());
@@ -165,7 +171,8 @@ public class ServerLobby extends Thread{
 //		while(true) {
 		resetReady();
 		try {
-			while(!checkReady(true));
+			semaphore.acquire(this.numPlayers);
+			while(!checkReady());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
