@@ -170,6 +170,7 @@ public class Client extends Thread {
 					abs.updateBet(babm.getCompanyName(), company.getStartingPrice());
 					gameFrame.changePanel(abs);
 					atl.removeRow(babm.getSelected());
+					atl.nextPlayer();
 				}
 				else if (m instanceof AuctionBidUpdateMessage) {
 					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage) m;
@@ -191,7 +192,6 @@ public class Client extends Thread {
 									}
 								}
 							}
-							atl.nextPlayer();
 							atl.setDraftOrder();
 							atl.updateCapital();
 							if(atl.getCurrent() == null) {
@@ -224,10 +224,10 @@ public class Client extends Thread {
 				else if (m instanceof SwitchPanelMessage) {
 					if(gameFrame.getCurrentPanel() instanceof AuctionBidScreen){
 						gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
+//						gameFrame
 					}
 					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
 						System.out.println("increment" + gameFrame.game.getCurrentQuarter());
-						
 						gameFrame.changePanel(new QuarterlyGUI(gameFrame, this));
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
@@ -240,6 +240,7 @@ public class Client extends Thread {
 					((TimelapsePanel)gameFrame.getCurrentPanel()).appendNotification(cum.getMessage());
 				}
 				else if (m instanceof BuyMessage) {
+					System.out.println("buy message");
 					BuyMessage bm = (BuyMessage)m;
 					((QuarterlyGUI)gameFrame.getCurrentPanel()).userBuy(bm.getUsername(), bm.getCompany(), bm.getRowSelected());
 				}
