@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -60,11 +61,18 @@ public class AuctionTeamList extends JPanel {
 	private GameFrame gameFrame;
 	private Vector<Company> companyVect;
 	private Vector<User> order;
+	private HashMap<String, Vector<String>> companyLists;
 	
 	
 	public AuctionTeamList(Client client, GameFrame gameFrame) {
 		this.gameFrame = gameFrame;
 		this.client = client;
+		//initialize companyLists
+		companyLists = new HashMap<String, Vector<String>>();
+		for(User user : gameFrame.game.getUsers()) {
+			companyLists.put(user.getUsername(), new Vector<String>());
+		}
+		
 		intializeVariables();
 		createGUI();
 		addActionListeners();
@@ -498,6 +506,10 @@ public class AuctionTeamList extends JPanel {
 				
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Firm");
+				
+				if(gameFrame.networked) {
+					updateDisplayedFirmAssets();
+				}
 			}
 			
 		});
@@ -626,6 +638,9 @@ public class AuctionTeamList extends JPanel {
 		firmData.repaint();
 	}
 	
+	public void updateFirmAssets(String username, String companyName) {
+		companyLists.get(username).add(companyName);
+	}
 	
 	public void updateDisplayedFirmAssets() {
 		//remove the current companies
@@ -634,9 +649,10 @@ public class AuctionTeamList extends JPanel {
 		//fill the new companies
 		for(User user : gameFrame.game.getUsers()) {
 			if(user.getUsername().equals(getCurrent())) {
-				for(Company company : user.getCompanies()) {
-					purchasedFirms.add(company.getName());
+				for(String name : companyLists.get(user.getUsername())) {
+					System.out.println(name);
 				}
+				detailsFirmPurchasedList.setListData(companyLists.get(user.getUsername()));
 			}
 		}
 	}
