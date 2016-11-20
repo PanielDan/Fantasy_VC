@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -85,8 +86,8 @@ public class TradeGUI extends JPanel {
 		ready.setBorderPainted(false);
 		
 		//TODO replace the team name labels with the names of the team names
-		team1 = new JLabel("Team 1");
-		team2 = new JLabel("Team 2");
+		team1 = new JLabel(user1.getCompanyName());
+		team2 = new JLabel(user2.getCompanyName());
 		teamOffers = new JLabel("Offers");
 		timer = new JLabel("00:10", SwingConstants.CENTER);
 		notifications = new JList();
@@ -144,16 +145,16 @@ public class TradeGUI extends JPanel {
 		JScrollPane notificationsPane = new JScrollPane(notifications);
 		
 		//setBorders
-		team1CompaniesPane.setFocusable(false);
-		team1CompaniesPane.setBorder(null);
-		team2CompaniesPane.setFocusable(false);
-		team2CompaniesPane.setBorder(null);
-		team1OffersPane.setFocusable(false);
-		team1OffersPane.setBorder(null);
-		team2OffersPane.setFocusable(false);
-		team2OffersPane.setBorder(null);
-		notificationsPane.setFocusable(false);
-		notificationsPane.setBorder(null);
+//		team1CompaniesPane.setFocusable(false);
+//		team1CompaniesPane.setBorder(null);
+//		team2CompaniesPane.setFocusable(false);
+//		team2CompaniesPane.setBorder(null);
+//		team1OffersPane.setFocusable(false);
+//		team1OffersPane.setBorder(null);
+//		team2OffersPane.setFocusable(false);
+//		team2OffersPane.setBorder(null);
+//		notificationsPane.setFocusable(false);
+//		notificationsPane.setBorder(null);
 		
 		//Set Layouts
 		AppearanceSettings.setBoxLayout(BoxLayout.PAGE_AXIS, timerAndNotificationsPanel, offersPanel,
@@ -239,14 +240,22 @@ public class TradeGUI extends JPanel {
 	}
 	
 	private void populate() {
+		System.out.println("POPULATING");
+				
+		Vector<TradeItem> vec1 = new Vector<TradeItem>();
+		Vector<TradeItem> vec2 = new Vector<TradeItem>();
+		
 		for (Company company : user1.getCompanies()) {
-			team1Companies.add(new CompanyTradeItem(company));
+			vec1.add(new CompanyTradeItem(company));
+			System.out.println(company.getName() + " is being populated");
+		} for (Company company : user2.getCompanies()) {
+			vec2.add(new CompanyTradeItem(company));
 			System.out.println(company.getName() + " is being populated");
 		}
-		for (Company company : user2.getCompanies()) {
-			team2Companies.add(new CompanyTradeItem(company));
-			System.out.println(company.getName() + " is being populated");
-		}
+		
+		
+		team1Companies = new JList<TradeItem>(vec1);
+		team2Companies = new JList<TradeItem>(vec2);
 		
 		revalidate();
 		repaint();
