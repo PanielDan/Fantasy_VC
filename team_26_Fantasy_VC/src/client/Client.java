@@ -17,6 +17,7 @@ import gameplay.GameFrame;
 import gameplay.User;
 import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
+import guis.FinalGUI;
 import guis.IntroPanel;
 import guis.LobbyPanel;
 import guis.LobbyUserPanel;
@@ -30,6 +31,8 @@ import messages.BuyMessage;
 import messages.ChatMessage;
 import messages.ClientExitMessage;
 import messages.CompanyUpdateMessage;
+import messages.FinalMessage;
+import messages.FinalRequestMessage;
 import messages.InitiateTradeMessage;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
@@ -62,13 +65,14 @@ public class Client extends Thread {
 	//Running boolean used to determine when to break the run while loop.
 	private boolean running;
 	private AuctionTeamList atl;
+	private QuarterlyGUI qgui;
 	
 	public Client(User user) { 
 		running = true;
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -206,7 +210,6 @@ public class Client extends Thread {
 								sendMessage(new UserUpdate(user));
 							}
 							else{
-								atl.updateDisplayedFirmAssets();
 								gameFrame.changePanel(atl);
 								if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
 							}
@@ -221,9 +224,9 @@ public class Client extends Thread {
 						}
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
-						((QuarterlyGUI)gameFrame.getCurrentPanel()).updateTimer(ttm.getDisplay());
+						qgui.updateTimer(ttm.getDisplay());
 						if(ttm.getDisplay().equals("00:00")) {
-							((QuarterlyGUI)gameFrame.getCurrentPanel()).networkReadyFunctionality();
+							qgui.networkReadyFunctionality();
 						}
 					}
 				}
@@ -234,7 +237,8 @@ public class Client extends Thread {
 					}
 					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
 						System.out.println("increment" + gameFrame.game.getCurrentQuarter());
-						gameFrame.changePanel(new QuarterlyGUI(gameFrame, this));
+						qgui = new QuarterlyGUI(gameFrame, this);
+						gameFrame.changePanel(qgui);
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
 						gameFrame.game.incrementQuarter();
@@ -248,15 +252,14 @@ public class Client extends Thread {
 				else if (m instanceof BuyMessage) {
 					System.out.println("buy message");
 					BuyMessage bm = (BuyMessage)m;
-					((QuarterlyGUI)gameFrame.getCurrentPanel()).userBuy(bm.getUsername(), bm.getCompany(), bm.getRowSelected());
+					qgui.userBuy(bm.getUsername(), bm.getCompany(), bm.getRowSelected());
 				}				
 				else if (m instanceof SellMessage) {
 					System.out.println("sell message");
 					SellMessage sm = (SellMessage)m;
-					QuarterlyGUI qGUI = ((QuarterlyGUI)gameFrame.getCurrentPanel());
-					for(User user : qGUI.getUsers()) {
+					for(User user : qgui.getUsers()) {
 						if(user.getUsername().equals(sm.getUsername())) {
-							PlayerTab pt = qGUI.getUserToTab().get(user);
+							PlayerTab pt = qgui.getUserToTab().get(user);
 							pt.userSell(sm.getUsername(), sm.getCompany(), sm.getRowSelected());
 						}
 					}
@@ -271,11 +274,9 @@ public class Client extends Thread {
 					System.out.println("target " + target.getUsername() + target.hashCode());
 				
 					if (user.getID() == initiator.getID()) {
-						TradeGUI tGUI = new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target);
-						gameFrame.changePanel(tGUI);
+						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
 					} else if (user.getID() == target.getID()) {
-						TradeGUI tGUI = new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target);
-						gameFrame.changePanel(tGUI);
+						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
 					} else {
 						if (gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
 							String text = initiator.getCompanyName() + " and " + target.getCompanyName() + " are considering a trade deal.";
@@ -287,6 +288,16 @@ public class Client extends Thread {
 							System.out.println("Warning in Client.java under InitiateTradeMessage");
 						}
 					}
+				}
+				else if(m instanceof FinalRequestMessage) {
+					sendMessage(new UserUpdate(user));
+				}
+				else if(m instanceof FinalMessage) {
+					System.out.println("final message");
+					gameFrame.setGame(((FinalMessage) m).getGame());
+					for(User user : gameFrame.game.getUsers())
+					System.out.println(user.getUsername() + " " + user.getTotalProfit());
+//					gameFrame.changePanel(new FinalGUI(gameFrame, this));
 				}
 			}
 

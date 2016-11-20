@@ -176,6 +176,14 @@ public class Game extends Thread implements Serializable {
 	//returns a list of winning teams
 	public Vector<User> getWinners() {
 		Vector<User> finalists = users;
+		for(User user : finalists) {
+			double value = user.getCurrentCapital();
+			for(Company company : user.getCompanies()) {
+				value += company.getCurrentWorth();
+			}
+			user.setCurrentCapital(value);
+		}
+		
 		Vector<User> winners = new Vector<User>();
 		
 		//sorts the finalists in order of their total profit
