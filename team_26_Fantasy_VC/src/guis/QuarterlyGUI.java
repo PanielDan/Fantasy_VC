@@ -292,29 +292,6 @@ public class QuarterlyGUI extends JPanel{
 							//create a message that contains: User, selectedCompany, and selectedRow
 							//call moveToFreeAgents(User user, Company selectedCompany, int selectedRow)
 							
-							/*
-							// Remove from table
-							dtm.removeRow(selectedRow);
-
-							// Make the stuff needed to insert
-							double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
-							DecimalFormat df = new DecimalFormat("#.##");
-
-							// Get the PlayerTab of the user
-							PlayerTab pt = userToTab.get(gameFrame.user);
-							JTable userTable = pt.getTable();
-							TableModel userDtm = (TableModel) userTable.getModel();
-							
-							
-							userDtm.addRow(new Object[]{selectedCompany.getName(), 
-									Integer.toString(selectedCompany.getTierLevel()),
-									df.format(selectedCompany.getCurrentWorth()),
-									df.format(percentChange) + "%" });
-							
-							//update the notifications
-							String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
-							sendUpdate(update);
-							*/
 						}
 					}
 				}
@@ -400,5 +377,29 @@ public class QuarterlyGUI extends JPanel{
 		//update the notifications
 		String update = user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
 		sendUpdate(update);
+		
+		/*
+		// Remove from table
+		dtm.removeRow(selectedRow);
+
+		// Make the stuff needed to insert
+		double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+		DecimalFormat df = new DecimalFormat("#.##");
+
+		// Get the PlayerTab of the user
+		PlayerTab pt = userToTab.get(gameFrame.user);
+		JTable userTable = pt.getTable();
+		TableModel userDtm = (TableModel) userTable.getModel();
+		
+		
+		userDtm.addRow(new Object[]{selectedCompany.getName(), 
+				Integer.toString(selectedCompany.getTierLevel()),
+				df.format(selectedCompany.getCurrentWorth()),
+				df.format(percentChange) + "%" });
+		
+		//update the notifications
+		String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
+		sendUpdate(update);
+		*/
 	}
 }
