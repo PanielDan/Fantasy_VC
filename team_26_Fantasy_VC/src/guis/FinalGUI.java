@@ -110,14 +110,6 @@ public class FinalGUI extends JPanel {
 			portfolioLabel = new JLabel("Portfolio");
 		}
 		else {
-			
-			//update the users total value
-			double value = gameFrame.user.getCurrentCapital();
-			for(Company company : gameFrame.user.getCompanies()) {
-				value += company.getCurrentWorth();
-			}
-			gameFrame.user.setCurrentCapital(value);
-			gameFrame.header.updateCurrentCapital();
 
 			DecimalFormat df = new DecimalFormat("#.##");
 			String winners = "";
@@ -134,6 +126,8 @@ public class FinalGUI extends JPanel {
 			}
 			
 			winner = new JLabel("Winner: " + winners);
+			//update the users total value
+			gameFrame.header.updateCurrentCapital();
 			
 			
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());

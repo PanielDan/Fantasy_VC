@@ -236,7 +236,7 @@ public class User implements Serializable {
 
 		@Override
 		public int compare(User teamOne, User teamTwo) {
-			return Double.compare(teamOne.getTotalProfit(), teamTwo.getTotalProfit());
+			return Double.compare(teamOne.getCurrentCapital(), teamTwo.getCurrentCapital());
 		}
 		
 	}
