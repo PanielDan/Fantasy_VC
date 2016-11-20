@@ -278,7 +278,7 @@ public class PlayerTab extends JPanel {
 		user.deleteCompany(company);
 		if(username.equals(gameFrame.user.getUsername())) {
 			gameFrame.user = user;
-//			gameFrame.header.updateCurrentCapital();
+			gameFrame.header.updateCurrentCapital();
 		}
 	}
 	
