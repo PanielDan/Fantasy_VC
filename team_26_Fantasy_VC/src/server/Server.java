@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
-import gameplay.Game;
 import gameplay.Lobby;
 import gameplay.User;
 import messages.LobbyListMessage;
@@ -26,7 +25,7 @@ public class Server extends Thread{
 			ioe.printStackTrace();
 		}
 		sccVector = new Vector<ServerClientCommunicator>();
-		lobbies = new HashMap<String, ServerLobby>();
+		lobbies = new TreeMap<String, ServerLobby>();
 		this.start();
 	}
 	

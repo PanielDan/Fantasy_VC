@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -60,11 +61,18 @@ public class AuctionTeamList extends JPanel {
 	private GameFrame gameFrame;
 	private Vector<Company> companyVect;
 	private Vector<User> order;
+	private HashMap<String, Vector<String>> companyLists;
 	
 	
 	public AuctionTeamList(Client client, GameFrame gameFrame) {
 		this.gameFrame = gameFrame;
 		this.client = client;
+		//initialize companyLists
+		companyLists = new HashMap<String, Vector<String>>();
+		for(User user : gameFrame.game.getUsers()) {
+			companyLists.put(user.getUsername(), new Vector<String>());
+		}
+		
 		intializeVariables();
 		createGUI();
 		addActionListeners();
@@ -124,7 +132,8 @@ public class AuctionTeamList extends JPanel {
 		} else {
 			bidButton = new JButton("BID");
 			order = new Vector<User>();
-			for (int i = 0; i < 1; i++) {
+			//TODO changed form 1 to 5
+			for (int i = 0; i < 5; i++) {
 				for(User user : client.getUsers()) {
 					order.add(user);
 				}
@@ -497,6 +506,10 @@ public class AuctionTeamList extends JPanel {
 				
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Firm");
+				
+				if(gameFrame.networked) {
+					updateDisplayedFirmAssets();
+				}
 			}
 			
 		});
@@ -623,5 +636,24 @@ public class AuctionTeamList extends JPanel {
 		dtm.removeRow(selectedRow);
 		firmData.revalidate();
 		firmData.repaint();
+	}
+	
+	public void updateFirmAssets(String username, String companyName) {
+		companyLists.get(username).add(companyName);
+	}
+	
+	public void updateDisplayedFirmAssets() {
+		//remove the current companies
+		purchasedFirms.removeAllElements();
+		
+		//fill the new companies
+		for(User user : gameFrame.game.getUsers()) {
+			if(user.getUsername().equals(getCurrent())) {
+				for(String name : companyLists.get(user.getUsername())) {
+					System.out.println(name);
+				}
+				detailsFirmPurchasedList.setListData(companyLists.get(user.getUsername()));
+			}
+		}
 	}
 }
