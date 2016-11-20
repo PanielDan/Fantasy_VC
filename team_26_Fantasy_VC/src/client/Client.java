@@ -29,7 +29,7 @@ import messages.SwitchPanelMessage;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
 import messages.UserUpdate;
-import utility.LobbyUserPanel;
+import guis.LobbyUserPanel;
 
 /**
  * The {@code Client} class is a {@code Thread} that represents a 
@@ -58,7 +58,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("localhost", 8008);
+			s = new Socket("jeffreychen.space", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
