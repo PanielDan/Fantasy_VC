@@ -1,15 +1,17 @@
 package client;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.URL;
 import java.util.Vector;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -27,6 +29,7 @@ import guis.PlayerTab;
 import guis.QuarterlyGUI;
 import guis.TimelapsePanel;
 import guis.TradeGUI;
+import main.Main;
 import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
 import messages.BuyMessage;
@@ -72,6 +75,7 @@ public class Client extends Thread {
 	private boolean running;
 	private AuctionTeamList atl;
 	private QuarterlyGUI qgui;
+	private Clip clip;
 	
 	public Client(User user) { 
 		running = true;
@@ -86,12 +90,44 @@ public class Client extends Thread {
 		}
 		gameFrame = new GameFrame(this, user);
 		gameFrame.setVisible(true);
-		System.out.println(gameFrame.getCurrentPanel().getClass());
+		System.out.println(gameFrame.getCurrentPanel().getClass());		
+//		AudioInputStream is;
+//		try { 
+//			is = AudioSystem.getAudioInputStream(new URL("http://jeffreychen.space/fantasyvc/resources/chatSound.wav"));
+////			clip = AudioSystem.getClip();
+//		    clip.open(is);
+//		    clip.start();
+//		} catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(is);
+//	    Clip clip = AudioSystem.getClip();
+//	    clip.open(audioInputStream);
+//	    clip.start();
+		clip = getClip();
 	}
 	
 	public Vector<User> getUsers() {
 		return users;
 	}
+	
+	public Clip getClip() {
+		Clip clip = null;
+	      try {
+	        clip = AudioSystem.getClip();
+	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(new URL("http://jeffreychen.space/fantasyvc/resources/chatSound.wav"));
+	        clip.open(inputStream);
+	      } catch (Exception e) {
+	        System.err.println(e.getMessage());
+	      }
+	      return clip;
+	    }
+	
+	public void playSound() {
+		clip.start();
+	}
+		
 	
 	public void returnToIntro() {
 		running = false;
@@ -139,11 +175,12 @@ public class Client extends Thread {
 						try{
 							if(!cm.getUsername().equals(gameFrame.user.getUsername())){
 								//System.out.println(cm.getUsername() + gameFrame.user.getUsername());
-								File f = new File("resources/chatSound.wav");
-								AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(f);
-								    Clip clip = AudioSystem.getClip();
-								    clip.open(audioInputStream);
-								    clip.start();
+//								File f = new File("resources/chatSound.wav");
+//								AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(f);
+//								    Clip clip = AudioSystem.getClip();
+//								    clip.open(audioInputStream);
+//								    clip.start();
+								playSound();
 							}
 						} catch(Exception e) {
 							e.printStackTrace();
