@@ -168,21 +168,22 @@ public class ServerLobby extends Thread{
 		this.sendToAll(seedGame);
 		this.sendToAll(new ReadyGameMessage());
 		
-//		while(true) {
-		resetReady();
-		try {
-			semaphore.acquire(this.numPlayers);
-			while(!checkReady());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (int i = 0; i < 2; i++) {
+			resetReady();
+			try {
+				semaphore.acquire(this.numPlayers);
+				while(!checkReady());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Send timelapse");
+			sendToAll(new SwitchPanelMessage());
+				
+			seedGame.updateCompanies(1);
 		}
-		System.out.println("Send timelapse");
-		sendToAll(new SwitchPanelMessage());
-			
-		seedGame.updateCompanies(1);
-			// TODO:Send message to move to the timelapse GUI
-//		}
+		
+		// TODO: Send signal to switch to final game
 	}
 	
 	public void startTimer(int time) {
