@@ -48,7 +48,7 @@ public class Game extends Thread implements Serializable {
 	
 	//constructor for networked game
 	public Game(Vector<User> users, ServerLobby sl) {
-		currentQuarter = 0;
+		currentQuarter = -1;
 		this.users = users;
 		this.sl = sl;
 		companies = new Vector<Company>();
@@ -220,6 +220,10 @@ public class Game extends Thread implements Serializable {
 	
 	public void incrementQuarter() {
 		currentQuarter++;
+	}
+	
+	public void decrementQuarter() {
+		currentQuarter--;
 	}
 	
 	public int getCurrentQuarter() { 

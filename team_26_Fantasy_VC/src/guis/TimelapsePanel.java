@@ -7,20 +7,18 @@ import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultCaret;
 
 import client.Client;
 import gameplay.GameFrame;
-import listeners.DisabledItemSelectionModel;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
@@ -33,12 +31,11 @@ public class TimelapsePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Client client;
-	private JList<String> notifications;
+	private JTextArea notifications;
 	private Vector<String> notificationList;
 	private ImageIcon animation;
 	private JLabel animationLabel, notificationLabel;
 	public GameFrame gameFrame;
-	private DefaultListModel<String> model;
 	private JScrollBar scrollBar;
 	
 	/**
@@ -49,9 +46,7 @@ public class TimelapsePanel extends JPanel {
 		this.gameFrame = gameFrame;
 		initializeComponents();
 		createGUI();
-		addActionListeners();
-		
-		
+		addActionListeners();	
 	}
 	
 
@@ -86,8 +81,8 @@ public class TimelapsePanel extends JPanel {
 		*/
 		
 		//notifications = new JList<String>(notificationList);
-		model = new DefaultListModel<>();
-		notifications = new JList<>( model );
+		notifications = new JTextArea();
+		notifications.setEditable(false);
 		
 		int quarter = gameFrame.game.getQuarter();
 		int year = gameFrame.game.getYear();
@@ -104,6 +99,9 @@ public class TimelapsePanel extends JPanel {
 		setSize(1280, 504);
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		setBackground(AppearanceConstants.lightBlue);
+		
+		DefaultCaret caret = (DefaultCaret)notifications.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 				
 		JScrollPane listPane = new JScrollPane(notifications);
 		listPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -157,12 +155,10 @@ public class TimelapsePanel extends JPanel {
 	}
 	
 	public void addActionListeners(){
-		notifications.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-		notifications.setSelectionModel(new DisabledItemSelectionModel());
 	}
 	
 	public void appendNotification(String message) {
-		model.addElement(message);
+		notifications.append(message+"\n");
 		scrollBar.setValue(scrollBar.getMaximum());
 	}
 	
@@ -174,7 +170,7 @@ public class TimelapsePanel extends JPanel {
 			for(int i = 0; i < notificationList.size(); i++) {
 				
 				if(!gameFrame.networked) {
-					model.addElement(notificationList.get(i));
+					notifications.append(notificationList.get(i)+"\n");
 
 					scrollBar.setValue(scrollBar.getMaximum());
 					try {

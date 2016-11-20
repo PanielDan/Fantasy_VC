@@ -3,16 +3,15 @@ package gameplay;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client.Client;
-import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
 import guis.ChatPanel;
 import guis.IntroPanel;
+import guis.LobbyPanel;
 import guis.TopPanel;
 import listeners.ExitWindowListener;
 
@@ -120,6 +119,9 @@ public class GameFrame extends JFrame {
 	
 	
 	public void changePanel(JPanel panel) {
+		if(panel instanceof LobbyPanel) {
+			header.activeIcon = false;
+		}
 		remove(currentPanel);
 		currentPanel = panel;
 		add(currentPanel, BorderLayout.CENTER);

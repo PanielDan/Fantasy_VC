@@ -1,10 +1,15 @@
 package client;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Vector;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import gameplay.Company;
 import gameplay.Game;
@@ -14,10 +19,12 @@ import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
 import guis.IntroPanel;
 import guis.LobbyPanel;
+import guis.LobbyUserPanel;
 import guis.QuarterlyGUI;
 import guis.TimelapsePanel;
 import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
+import messages.BuyMessage;
 import messages.ChatMessage;
 import messages.ClientExitMessage;
 import messages.CompanyUpdateMessage;
@@ -29,7 +36,6 @@ import messages.SwitchPanelMessage;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
 import messages.UserUpdate;
-import guis.LobbyUserPanel;
 
 /**
  * The {@code Client} class is a {@code Thread} that represents a 
@@ -58,7 +64,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -96,7 +102,20 @@ public class Client extends Thread {
 				}
 				else if(m instanceof ChatMessage) {
 					ChatMessage cm = (ChatMessage)m;
-					gameFrame.getChatPanel().addChat(cm.getUsername(), cm.getMessage());
+					try{
+						if(!cm.getUsername().equals(gameFrame.user.getUsername())){
+							//System.out.println(cm.getUsername() + gameFrame.user.getUsername());
+							File f = new File("resources/chatSound.wav");
+							AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(f);
+							    Clip clip = AudioSystem.getClip();
+							    clip.open(audioInputStream);
+							    clip.start();
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+					} finally {
+						gameFrame.getChatPanel().addChat(cm.getUsername(), cm.getMessage());
+					}
 				}
 				else if (m instanceof LobbyPlayerReadyMessage) {
 					System.out.println("lprm");
@@ -151,6 +170,7 @@ public class Client extends Thread {
 					abs.updateBet(babm.getCompanyName(), company.getStartingPrice());
 					gameFrame.changePanel(abs);
 					atl.removeRow(babm.getSelected());
+					atl.nextPlayer();
 				}
 				else if (m instanceof AuctionBidUpdateMessage) {
 					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage) m;
@@ -172,7 +192,6 @@ public class Client extends Thread {
 									}
 								}
 							}
-							atl.nextPlayer();
 							atl.setDraftOrder();
 							atl.updateCapital();
 							if(atl.getCurrent() == null) {
@@ -204,11 +223,11 @@ public class Client extends Thread {
 				}
 				else if (m instanceof SwitchPanelMessage) {
 					if(gameFrame.getCurrentPanel() instanceof AuctionBidScreen){
+						gameFrame.game.incrementQuarter();
 						gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
 					}
 					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
 						System.out.println("increment" + gameFrame.game.getCurrentQuarter());
-						
 						gameFrame.changePanel(new QuarterlyGUI(gameFrame, this));
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
@@ -219,6 +238,11 @@ public class Client extends Thread {
 				else if (m instanceof CompanyUpdateMessage) {
 					CompanyUpdateMessage cum = (CompanyUpdateMessage)m; // hehe, cum...
 					((TimelapsePanel)gameFrame.getCurrentPanel()).appendNotification(cum.getMessage());
+				}
+				else if (m instanceof BuyMessage) {
+					System.out.println("buy message");
+					BuyMessage bm = (BuyMessage)m;
+					((QuarterlyGUI)gameFrame.getCurrentPanel()).userBuy(bm.getUsername(), bm.getCompany(), bm.getRowSelected());
 				}
 			}
 
