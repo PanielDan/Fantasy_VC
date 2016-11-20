@@ -65,7 +65,7 @@ public class LobbyUserPanel extends JPanel {
 	
 	public void setReady(){
 		ready.setText("Ready");
-		ready.setForeground(AppearanceConstants.green);
+		ready.setForeground(AppearanceConstants.lightGreen);
 	}
 	
 	public void unReady(){

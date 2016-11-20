@@ -106,6 +106,7 @@ public class TimelapsePanel extends JPanel {
 		setBackground(AppearanceConstants.lightBlue);
 				
 		JScrollPane listPane = new JScrollPane(notifications);
+		listPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		listPane.getViewport().setBackground(AppearanceConstants.darkBlue);
 		JPanel leftPanel = new JPanel();
 		JPanel notificationPanel = new JPanel();
