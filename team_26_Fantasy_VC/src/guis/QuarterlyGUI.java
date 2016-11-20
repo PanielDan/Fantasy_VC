@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -30,6 +29,7 @@ import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
+import messages.UserUpdate;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -330,6 +330,8 @@ public class QuarterlyGUI extends JPanel{
 					}
 				}
 				else {
+					networkReadyFunctionality();
+					ready.setEnabled(false);
 					//TODO networked game
 					//QuarterlyReadyMessage qrm = new QuarterlyReadyMessage(); //maybe this message?
 					/**
@@ -349,6 +351,10 @@ public class QuarterlyGUI extends JPanel{
 				
 			}
 		});
+	}
+	
+	public void networkReadyFunctionality() {
+		client.sendMessage(new UserUpdate(gameFrame.user));
 	}
 
 	public void sendUpdate(String message) {

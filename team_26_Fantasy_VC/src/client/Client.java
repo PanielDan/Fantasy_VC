@@ -39,7 +39,7 @@ import utility.LobbyUserPanel;
  */
 public class Client extends Thread {
 	private User user;
-	private Vector<User> users;
+	public Vector<User> users;
 	private String lobbyName;
 	private long bankAccount;
 	private Vector<Company> portfolio;
@@ -58,7 +58,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -199,6 +199,9 @@ public class Client extends Thread {
 					}
 					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
 						gameFrame.changePanel(new QuarterlyGUI(gameFrame, this));
+					}
+					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+						gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
 					}
 				}
 				else if (m instanceof CompanyUpdateMessage) {

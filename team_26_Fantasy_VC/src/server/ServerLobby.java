@@ -168,7 +168,7 @@ public class ServerLobby extends Thread{
 		this.sendToAll(seedGame);
 		this.sendToAll(new ReadyGameMessage());
 		
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 5; i++) {
 			resetReady();
 			try {
 				semaphore.acquire(this.numPlayers);
@@ -177,12 +177,13 @@ public class ServerLobby extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			timer.kill();
 			System.out.println("Send timelapse");
 			sendToAll(new SwitchPanelMessage());
 				
 			seedGame.updateCompanies(1);
 		}
-		
+		System.out.println("done");
 		// TODO: Send signal to switch to final game
 	}
 	
