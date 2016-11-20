@@ -30,6 +30,7 @@ public class TradeGUI extends JPanel {
 	private JList team1Companies, team2Companies, notifications, team1OfferList, 
 	team2OfferList;
 	public QuarterlyGUI qg;
+	private Client client;
 	
 	/**
 	 * 
@@ -37,6 +38,7 @@ public class TradeGUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public TradeGUI(Client client, QuarterlyGUI qg) {
+		this.client = client;
 		this.qg = qg;
 		initializeComponents();
 		createGUI();

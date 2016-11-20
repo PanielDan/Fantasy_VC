@@ -248,37 +248,10 @@ public class PlayerTab extends JPanel {
 						 * Base these changes in every client off the commented code below:
 						 */
 						
-						/*
-						// Remove from table
-						PlayerTab pt = qg.getUserToTab().get(gameFrame.user);
-						JTable userTable = pt.getTable();
-						TableModel userDtm = (TableModel) userTable.getModel();
-						userDtm.removeRow(selectedRow);
+						//create message with User, selectedCompany, and selectedRow
+						//call removeFromPlayerTab(User user, Company selectedCompany, int selectedRow)
 						
-						// Make the stuff needed to insert
-						double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
-						DecimalFormat df = new DecimalFormat("#.##");
 						
-						// Get the free agents table
-						JTable freeAgentTable = qg.getFreeAgentTable();
-			        	TableModel freeAgentDtm = (TableModel) freeAgentTable.getModel();
-			        	
-						if(selectedCompany.getCurrentWorth() != 0) {
-				        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
-									Integer.toString(selectedCompany.getTierLevel()),
-									Double.toString(selectedCompany.getCurrentWorth()),
-									df.format(percentChange) + "%" });
-						}
-			        	
-						//update the notifications
-						String update;
-						if (selectedCompany.getCurrentWorth() == 0) {
-							update = gameFrame.user.getCompanyName() + " liquidated " + selectedCompany.getName() + ".";
-						} else {
-							update = gameFrame.user.getCompanyName() + " sold " + selectedCompany.getName() + ".";
-						}
-						qg.sendUpdate(update);
-						*/
 					}
 				}
 				
@@ -302,5 +275,39 @@ public class PlayerTab extends JPanel {
 
 	public JTable getTable() {
 		return portfolio;
+	}
+	
+	public void removeFromPlayerTab(User user, Company selectedCompany, int selectedRow) {
+		
+		// Remove from table
+		PlayerTab pt = qg.getUserToTab().get(user);
+		JTable userTable = pt.getTable();
+		TableModel userDtm = (TableModel) userTable.getModel();
+		userDtm.removeRow(selectedRow);
+		
+		// Make the stuff needed to insert
+		double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+		DecimalFormat df = new DecimalFormat("#.##");
+		
+		// Get the free agents table
+		JTable freeAgentTable = qg.getFreeAgentTable();
+    	TableModel freeAgentDtm = (TableModel) freeAgentTable.getModel();
+    	
+		if(selectedCompany.getCurrentWorth() != 0) {
+        	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
+					Integer.toString(selectedCompany.getTierLevel()),
+					Double.toString(selectedCompany.getCurrentWorth()),
+					df.format(percentChange) + "%" });
+		}
+    	
+		//update the notifications
+		String update;
+		if (selectedCompany.getCurrentWorth() == 0) {
+			update = user.getCompanyName() + " liquidated " + selectedCompany.getName() + ".";
+		} else {
+			update = user.getCompanyName() + " sold " + selectedCompany.getName() + ".";
+		}
+		qg.sendUpdate(update);
+		
 	}
 } 
