@@ -111,6 +111,7 @@ public class PlayerTab extends JPanel {
 		
 		
 		portfolio = new JTable(dtm);
+		portfolio.getTableHeader().setReorderingAllowed(false);
 		portfolio.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		
 		JScrollPane portfolioScrollPane = new JScrollPane(portfolio);
