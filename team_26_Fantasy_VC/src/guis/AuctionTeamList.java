@@ -111,12 +111,17 @@ public class AuctionTeamList extends JPanel {
 		timer = new JLabel("GUEST", SwingConstants.CENTER);
 		firms = new Vector<String>();
 		middleFirmName = new JLabel("Guestbros");
-		if (gameFrame.user.getID() == -1) {
+		
+		if (!gameFrame.networked) {
 			bidButton = new JButton("BUY"); 
+			firms.add("Buy 8 companies");
+			firms.add("to start the game!");
+			firms.add("You will be able");
+			firms.add("to buy more companies");
+			firms.add("or sell your companies");
+			firms.add("later.");
 		} else {
 			bidButton = new JButton("BID");
-		}
-		if(gameFrame.networked){
 			order = new Vector<User>();
 			for (int i = 0; i < 1; i++) {
 				for(User user : client.getUsers()) {
@@ -128,8 +133,23 @@ public class AuctionTeamList extends JPanel {
 			updateMiddleFirmName(order.get(0).getUsername());
 			timer.setText("0:45");
 		}
+		
+		
 		firmList = new JList<String>(firms);
 		
+		if (!gameFrame.networked) { 
+			DefaultListCellRenderer renderer = (DefaultListCellRenderer)firmList.getCellRenderer();  
+			renderer.setHorizontalAlignment(JLabel.LEFT);
+			firmList.setFocusable(false);
+			AppearanceSettings.setFont(AppearanceConstants.fontSmall, firmList);
+
+		} else {
+			//Set List to center text alignment
+			DefaultListCellRenderer renderer = (DefaultListCellRenderer)firmList.getCellRenderer();  
+			renderer.setHorizontalAlignment(JLabel.CENTER);
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, firmList);
+
+		}
 		//Variables for middle panel
 		DecimalFormat df = new DecimalFormat("#.##");
 		middleFirmPicture = new JLabel();
@@ -162,6 +182,7 @@ public class AuctionTeamList extends JPanel {
 		detailsFirmPicture.setPreferredSize(new Dimension(100,100));
 		detailsFirmCurrentMoney = new JLabel("Current Capital: ", SwingConstants.CENTER);
 		detailsFirmName = new JLabel("Guestbros", SwingConstants.CENTER);
+		detailsFirmName.setFont(AppearanceConstants.fontFirmName);
 		detailsPurchasedLabel = new JLabel("Purchased Firms", SwingConstants.CENTER);
 		detailsCompanyPicture = new JLabel();
 		detailsCompanyPicture.setPreferredSize(new Dimension(100,100));
@@ -199,13 +220,13 @@ public class AuctionTeamList extends JPanel {
 	}
 	
 	//All of this just has to be updated with user images from company and user objects.
-	private void intializePictures(){
+	private void intializePictures() {
 		if (!gameFrame.networked) middleFirmPicture.setIcon(new ImageIcon(gameFrame.user.getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));	
 		else middleFirmPicture.setIcon(new ImageIcon(order.get(0).getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
 	}
 	
 	//Function that fills in the random test team names
-	private void testDraftOrder(){
+	private void testDraftOrder() {
 		for (int i = 0; i < 20; i++){
 			firms.add("Team " + Integer.toString((i%4) + 1));
 		}
@@ -220,7 +241,7 @@ public class AuctionTeamList extends JPanel {
 		this.repaint();
 	}
 	
-	private void createGUI(){
+	private void createGUI() {
 		//Size accounts of chatbox and header
 		setPreferredSize(new Dimension(1280,504));
 		setBackground(AppearanceConstants.lightBlue);
@@ -248,6 +269,8 @@ public class AuctionTeamList extends JPanel {
 		JPanel timePanel = new JPanel();
 		JScrollPane listPanel = new JScrollPane(firmList);
 		
+		listPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		
 		//Appearance Adjustments
 		timePanel.setLayout(new BorderLayout());
 		draftOrderPanel.setLayout(new BorderLayout());
@@ -256,12 +279,9 @@ public class AuctionTeamList extends JPanel {
 		draftOrderPanel.setMaximumSize(new Dimension(250,450));
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, draftOrderPanel, listPanel, timePanel, firmList);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, timer, firmList);
-		AppearanceSettings.setFont(AppearanceConstants.fontMedium, firmList);
 		timer.setFont(AppearanceConstants.fontTimerLarge);
 		
-		//Set List to center text alignment
-		DefaultListCellRenderer renderer = (DefaultListCellRenderer)firmList.getCellRenderer();  
-		renderer.setHorizontalAlignment(JLabel.CENTER);  
+  
 		listPanel.setFocusable(false);
 		listPanel.setBorder(null);
 		
@@ -454,7 +474,7 @@ public class AuctionTeamList extends JPanel {
 	
 	private void addActionListeners(){
 		//List selection listener for draft order list
-		firmList.addListSelectionListener(new ListSelectionListener(){
+		firmList.addListSelectionListener(new ListSelectionListener() {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
