@@ -54,9 +54,14 @@ public class FinalUserPanel extends JPanel {
 		
 		northPanel.add(avatarLabel, BorderLayout.WEST);
 		northPanel.add(usernameLabel, BorderLayout.EAST);
+		JPanel centerEastPanel = new JPanel();
+		
+		centerEastPanel.add(profitLabel);
+		centerEastPanel.add(deltaLabel);
+		
 		centerPanel.add(firmnameLabel, BorderLayout.WEST);
-		centerPanel.add(profitLabel, BorderLayout.CENTER);
-		centerPanel.add(deltaLabel, BorderLayout.EAST);
+		centerPanel.add(centerEastPanel, BorderLayout.EAST);
+		
 		southPanel.add(bioLabel, BorderLayout.WEST);
 		
 		add(northPanel, BorderLayout.NORTH);
@@ -80,7 +85,7 @@ public class FinalUserPanel extends JPanel {
 
 	private void initializeComponents() {
 		Image image = ImageLibrary.getImage(user.getUserIconString());
-		avatarLabel = new JLabel(new ImageIcon(image.getScaledInstance(250, 250, Image.SCALE_SMOOTH)));
+		avatarLabel = new JLabel(new ImageIcon(image.getScaledInstance(125, 125, Image.SCALE_SMOOTH)));
 		usernameLabel = new JLabel(user.getUsername());
 		firmnameLabel = new JLabel(user.getCompanyName());
 		

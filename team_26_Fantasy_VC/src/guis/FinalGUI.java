@@ -65,8 +65,13 @@ public class FinalGUI extends JPanel {
 		setSize(1280, 504);
 		setBackground(AppearanceConstants.lightBlue);
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		JScrollPane scrollPane = new JScrollPane(this);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		
 		for (FinalUserPanel fup : listings) {
 			add(fup);
+			add(Box.createVerticalStrut(5));
 		}
 	}
 
@@ -113,9 +118,9 @@ public class FinalGUI extends JPanel {
 
 			winner = new JLabel("Winner: Guest");
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());
-			totalEquity = new JLabel("Total value: " + String.format("%.2f", gameFrame.user.getCurrentCapital()) + " Million");
+			totalEquity = new JLabel("Total value: " + df.format(gameFrame.user.getCurrentCapital()) + " Million");
 			numCompanies = new JLabel("Numbers of companies: " + gameFrame.user.getCompanies().size());
-			double percent = (gameFrame.user.getCurrentCapital() - 100.0); //(final - 100)/100*100
+			double percent = (gameFrame.user.getCurrentCapital() - gameFrame.user.getStartingCapital()); //(final - 100)/100*100
 
 			percentGain = new JLabel("Percentage gain: " + df.format(percent) + "%");
 			
