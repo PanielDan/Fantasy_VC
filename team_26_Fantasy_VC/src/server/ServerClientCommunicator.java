@@ -35,8 +35,8 @@ public class ServerClientCommunicator extends Thread {
 		this.socket = socket;
 		this.server = server;
 		socket.setTcpNoDelay(true);
-		this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-		this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+		this.oos = new ObjectOutputStream(new BufferedOutputStream(this.socket.getOutputStream()));
+		this.ois = new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
 		this.lock = new ReentrantLock();
 		condition = lock.newCondition();
 	}
@@ -136,6 +136,20 @@ public class ServerClientCommunicator extends Thread {
 			System.out.println("disconnect");
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
-		} 
+		} finally {
+			try {
+				if (oos != null){
+					oos.close();
+				}
+				if (ois != null){
+					ois.close();
+				}
+				if (socket != null){
+					socket.close();
+				}
+			} catch(IOException ioe) {
+				ioe.printStackTrace();
+			}
+		}
 	}
 }
