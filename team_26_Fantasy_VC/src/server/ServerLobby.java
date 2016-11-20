@@ -177,7 +177,7 @@ public class ServerLobby extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			timer.kill();
+			if (timer != null) timer.kill();
 			System.out.println("Send timelapse");
 			
 			sendToAll(new SwitchPanelMessage());

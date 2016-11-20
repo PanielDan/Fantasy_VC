@@ -17,7 +17,6 @@ import gameplay.GameFrame;
 import gameplay.User;
 import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
-import guis.FinalGUI;
 import guis.IntroPanel;
 import guis.LobbyPanel;
 import guis.LobbyUserPanel;
@@ -40,6 +39,7 @@ import messages.ReadyGameMessage;
 import messages.SellMessage;
 import messages.StartTimerMessage;
 import messages.SwitchPanelMessage;
+import messages.TimerDone;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
 import messages.UserUpdate;
@@ -184,49 +184,61 @@ public class Client extends Thread {
 					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage) m;
 					((AuctionBidScreen)gameFrame.getCurrentPanel()).updateBet(abum.getCompanyName(), abum.getBidAmount());
 				}
+				else if (m instanceof TimerDone) {
+					if (gameFrame.getCurrentPanel() instanceof AuctionBidScreen) {
+						AuctionBidScreen auctionBidScreen = (AuctionBidScreen) gameFrame.getCurrentPanel();
+						auctionBidScreen.company.setCurrentWorth(auctionBidScreen.bidMin);
+						for(User u : users) {
+							if(u.getCompanyName().equals(auctionBidScreen.currentBidder)) {
+								u.addCompany(auctionBidScreen.company);
+								if (u.getCompanyName().equals(user.getCompanyName())) {
+									user = u;
+									gameFrame.user = u;
+									gameFrame.header.updateCurrentCapital();
+								}
+							}
+						}
+						atl.setDraftOrder();
+						atl.updateCapital();
+						if(atl.getCurrent() == null) {
+							// TODO: send message to the server lobby that everybody is done
+							System.out.println(user.getCompanies());
+							System.out.println(user.getCurrentCapital());
+							sendMessage(new UserUpdate(user));
+						}
+						else{
+							gameFrame.changePanel(atl);
+							if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
+						}
+					}
+					else if (gameFrame.getCurrentPanel() instanceof AuctionTeamList){
+						if (user.getUsername().equals(atl.getCurrent())) {
+							atl.networkBidButtonAction();
+						}
+					}
+					else if (gameFrame.getCurrentPanel() instanceof QuarterlyGUI){
+						qgui.networkReadyFunctionality();
+					}
+				}
 				else if (m instanceof TimerTickMessage) { 
 					TimerTickMessage ttm = (TimerTickMessage) m;
 					if (gameFrame.getCurrentPanel() instanceof AuctionBidScreen) {
 						AuctionBidScreen auctionBidScreen = (AuctionBidScreen) gameFrame.getCurrentPanel();
 						auctionBidScreen.updateTimer(ttm.getDisplay());
 						if(ttm.getDisplay().equals("00:00")) {
-							auctionBidScreen.company.setCurrentWorth(auctionBidScreen.bidMin);
-							for(User u : users) {
-								if(u.getCompanyName().equals(auctionBidScreen.currentBidder)) {
-									u.addCompany(auctionBidScreen.company);
-									if (u.getCompanyName().equals(user.getCompanyName())) {
-										user = u;
-										gameFrame.user = u;
-										gameFrame.header.updateCurrentCapital();
-									}
-								}
-							}
-							atl.setDraftOrder();
-							atl.updateCapital();
-							if(atl.getCurrent() == null) {
-								// TODO: send message to the server lobby that everybody is done
-								System.out.println(user.getCompanies());
-								System.out.println(user.getCurrentCapital());
-								sendMessage(new UserUpdate(user));
-							}
-							else{
-								gameFrame.changePanel(atl);
-								if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
-							}
+							sendMessage(new TimerDone());
 						}
 					}
 					else if (gameFrame.getCurrentPanel() instanceof AuctionTeamList) {
 						atl.updateTimer(ttm.getDisplay());
 						if(ttm.getDisplay().equals("00:00")){
-							if (user.getUsername().equals(atl.getCurrent())) {
-								atl.networkBidButtonAction();
-							}
+							sendMessage(new TimerDone());
 						}
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
 						qgui.updateTimer(ttm.getDisplay());
 						if(ttm.getDisplay().equals("00:00")) {
-							qgui.networkReadyFunctionality();
+							sendMessage(new TimerDone());
 						}
 					}
 				}
