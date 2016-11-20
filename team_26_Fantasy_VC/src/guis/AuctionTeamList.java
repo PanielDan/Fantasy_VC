@@ -490,13 +490,20 @@ public class AuctionTeamList extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 	            //TODO Add some sort of function to update detail panel
 				User selectedUser = gameFrame.game.returnUser(firmList.getSelectedValue());
+				if(gameFrame.networked) {
+					for(User user : client.users) {
+						if(user.getUsername().equals(selectedUser.getUsername())) {
+							selectedUser = user;
+						}
+					}
+				}
 				
 				System.out.println(selectedUser.getUsername());
 				
 				detailsFirmPicture.setIcon(new ImageIcon(selectedUser.getUserIcon().getScaledInstance(100, 100,Image.SCALE_SMOOTH)));
 				detailsFirmName.setText(selectedUser.getCompanyName());
 				detailsFirmCurrentMoney.setText("" + new DecimalFormat("#.##").format(selectedUser.getCurrentCapital()) + Constants.million);
-				
+				//TODO
 				// Populate temporary string vector to insert into the list
 				Vector<String> companyNames = new Vector<String>();
 				for(Company company: selectedUser.getCompanies()){
@@ -507,9 +514,7 @@ public class AuctionTeamList extends JPanel {
 				CardLayout cardLayout = (CardLayout) companyDetailsPanel.getLayout();
 				cardLayout.show(companyDetailsPanel, "Firm");
 				
-				if(gameFrame.networked) {
-					updateDisplayedFirmAssets();
-				}
+
 			}
 			
 		});
@@ -643,16 +648,15 @@ public class AuctionTeamList extends JPanel {
 	}
 	
 	public void updateDisplayedFirmAssets() {
-		//remove the current companies
-		purchasedFirms.removeAllElements();
 		
 		//fill the new companies
-		for(User user : gameFrame.game.getUsers()) {
+		for(User user : client.users) {
 			if(user.getUsername().equals(getCurrent())) {
-				for(String name : companyLists.get(user.getUsername())) {
-					System.out.println(name);
-				}
-				detailsFirmPurchasedList.setListData(companyLists.get(user.getUsername()));
+				Vector<String> companyNames = new Vector<String>();
+				for(Company company: user.getCompanies()){
+					companyNames.add(company.getName());
+				}	
+				purchasedCompanysList.setListData(companyNames);
 			}
 		}
 	}
