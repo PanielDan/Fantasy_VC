@@ -22,6 +22,7 @@ import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
+import messages.InitiateTradeMessage;
 import messages.SellMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;

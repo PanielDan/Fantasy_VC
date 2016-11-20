@@ -191,7 +191,8 @@ public class Client extends Thread {
 								if(u.getCompanyName().equals(auctionBidScreen.currentBidder)) {
 									u.addCompany(auctionBidScreen.company);
 									if (u.getCompanyName().equals(user.getCompanyName())) {
-										user.addCompany(auctionBidScreen.company);
+										user = u;
+										gameFrame.user = u;
 										gameFrame.header.updateCurrentCapital();
 									}
 								}
