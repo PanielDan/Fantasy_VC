@@ -18,7 +18,7 @@ public class AppearanceConstants {
 	public static final Color darkGray = new Color(31,31,31);
 	public static final Color green = new Color(51, 102, 0);
 	public static final Color red = new Color(178, 34, 34);
-	
+	public static final Color lightGreen = new Color(115, 220, 105);
 	
 	public static final Font fontSmall = new Font("Century Gothic", Font.PLAIN,18);
 	public static final Font fontHeaderName = new Font("Century Gothic", Font.ITALIC,20);
