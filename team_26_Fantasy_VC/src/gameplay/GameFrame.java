@@ -110,6 +110,7 @@ public class GameFrame extends JFrame {
 	public void setGame(Game game){
 		this.game = game;
 		this.game.initializeIcons();
+		client.users = game.getUsers();
 	}
 	
 	
