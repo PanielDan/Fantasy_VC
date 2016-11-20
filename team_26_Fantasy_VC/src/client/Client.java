@@ -10,6 +10,8 @@ import java.util.Vector;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import gameplay.Company;
 import gameplay.Game;
@@ -37,6 +39,7 @@ import messages.InitiateTradeMessage;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.ReadyGameMessage;
+import messages.ReturnToIntro;
 import messages.SellMessage;
 import messages.StartTimerMessage;
 import messages.SwitchPanelMessage;
@@ -44,6 +47,7 @@ import messages.TimerDone;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
 import messages.UserUpdate;
+import server.SQLDriver;
 
 /**
  * The {@code Client} class is a {@code Thread} that represents a 
@@ -73,7 +77,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -88,10 +92,23 @@ public class Client extends Thread {
 		return users;
 	}
 	
+	public void returnToIntro() {
+		running = false;
+		SQLDriver driver = new SQLDriver();
+		JOptionPane.showMessageDialog(new JFrame(), "Somebody disconnected from the lobby! Returning you to the home screen...", "Disconnect", JOptionPane.WARNING_MESSAGE);
+		driver.connect();
+		new Client(driver.getUser(user.getUsername())).start();
+		driver.stop();
+	}
+	
 	public void run() {
 		try{
-			while(true) {
+			while(running) {
 				Object m = ois.readObject();
+				if (m instanceof ReturnToIntro) {
+					System.out.println("return to intro");
+					returnToIntro();
+				}
 				if (m instanceof LobbyListMessage) {
 					if(gameFrame.getCurrentPanel() instanceof IntroPanel) {
 						LobbyListMessage llm = (LobbyListMessage)m;
@@ -348,6 +365,8 @@ public class Client extends Thread {
 				ioe.printStackTrace();
 			}
 		}
+		System.out.println("closed");
+		gameFrame.dispose();
 	}
 		
 	public User getUser() {

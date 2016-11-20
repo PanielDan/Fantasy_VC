@@ -43,20 +43,26 @@ public class ServerLobby extends Thread{
 		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void removeServerClientCommunicator(ServerClientCommunicator scc) {
 		sccVector.remove(scc);
-		System.out.println("remove " + users.size());
-		sendToAll(new UserListMessage(users, numPlayers - users.size()));
 		if (sccVector.isEmpty()) {
-			System.out.println("remvove");
 			server.removeServerLobby(this);
+			this.stop();
+			if(timer != null) {
+				timer.kill();
+			}
 		}
 	}
 	
-	public void removeUser(String username) {
-		for(User u : users) {
-			if(u.getUsername().equals(username)) {
-				users.remove(u);
+	@SuppressWarnings("deprecation")
+	public void removeAll() {
+		if(!sccVector.isEmpty()){
+			sccVector.clear();
+			server.removeServerLobby(this);
+			this.stop();
+			if(timer != null) {
+				timer.kill();
 			}
 		}
 	}
@@ -86,9 +92,6 @@ public class ServerLobby extends Thread{
 			}
 		}
 		System.out.println("set user lock");
-//		lock.lock();
-//		condition.signal();
-//		lock.unlock();
 		semaphore.release();
 	}
 	
@@ -108,12 +111,6 @@ public class ServerLobby extends Thread{
 	}
 	
 	public boolean checkReady(){
-//		if (cond) {
-//			System.out.println("Locked: " + System.currentTimeMillis());
-//			lock.lock();
-//			condition.await();
-//			lock.unlock();
-//		}
 		for (User user : users) {
 			if (!user.getReady()) {
 				return false;
@@ -136,68 +133,49 @@ public class ServerLobby extends Thread{
 			}
 		}
 		System.out.println("set ready lock");
-//		lock.lock();
-//		condition.signalAll();
-//		lock.unlock();
 		semaphore.release();
 	}
 	
 	private synchronized void initializeGame() { 
-		// TODO arschroc and alancoon implement logic from Company class
-		// to disseminate uniform data about Companies
-//		seedGame.seed(users, this);
 		seedGame = new Game(users, this);
 	}
 	
 	public void run() {
-		while (sccVector.size() < numPlayers);
-		// TODO: Send signal that the lobby has enough players and start game
-		server.removeServerLobby(this);
-		System.out.println("full");
-		
-		try {
+		try{
+			while (sccVector.size() < numPlayers);
+			server.removeServerLobby(this);
+			System.out.println("full");
+			
 			semaphore.acquire(this.numPlayers);
 			while(!checkReady());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		System.out.println("semaphore passed");
-		initializeGame();		
-		this.sendToAll(seedGame);
-		this.sendToAll(new ReadyGameMessage());
-		
-		for (int i = 0; i < 8; i++) {
-			resetReady();
-			try {
+			
+			System.out.println("semaphore passed");
+			initializeGame();		
+			this.sendToAll(seedGame);
+			this.sendToAll(new ReadyGameMessage());
+			
+			for (int i = 0; i < 8; i++) {
+				resetReady();
+					semaphore.acquire(this.numPlayers);
+					while(!checkReady());
+				if (timer != null) timer.kill();
+				System.out.println("Send timelapse");
+				
+				sendToAll(new SwitchPanelMessage());
+					
+				seedGame.updateCompanies(1);
+			}
+			System.out.println("done");
+			
+			sendToAll(new FinalRequestMessage());
+			
 				semaphore.acquire(this.numPlayers);
 				while(!checkReady());
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (timer != null) timer.kill();
-			System.out.println("Send timelapse");
 			
-			sendToAll(new SwitchPanelMessage());
-				
-			seedGame.updateCompanies(1);
-		}
-		System.out.println("done");
-		
-		sendToAll(new FinalRequestMessage());
-		
-		try {
-			semaphore.acquire(this.numPlayers);
-			while(!checkReady());
+			sendToAll(new FinalMessage(seedGame));
 		} catch (InterruptedException ie) {
 			ie.printStackTrace();
 		}
-		
-		sendToAll(new FinalMessage(seedGame));
-		// TODO: Send signal to switch to final game
-		
 	}
 	
 	public void startTimer(int time) {

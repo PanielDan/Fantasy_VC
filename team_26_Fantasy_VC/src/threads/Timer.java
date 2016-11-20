@@ -35,6 +35,7 @@ public class Timer extends Thread {
 				String minDisplay = (minutes >= 10) ? minutes.toString() : "0" + minutes;
 				String secDisplay = (seconds >= 10) ? seconds.toString() : "0" + seconds;
 				String display = minDisplay + ":" + secDisplay;
+				System.out.println("display");
 				serverLobby.sendToAll(new TimerTickMessage(display));
 				Thread.sleep(1000);
 				current++;

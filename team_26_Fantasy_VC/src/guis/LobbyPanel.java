@@ -1,7 +1,6 @@
 package guis;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
@@ -27,6 +25,7 @@ import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TextFieldFocusListener;
 import messages.LobbyPlayerReadyMessage;
+import messages.ReturnToIntro;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -40,7 +39,7 @@ public class LobbyPanel extends JPanel{
 	private Vector<User> players;
 	private JLabel statusLabel, firmLabel;
 	private JTextField firmField;
-	private JButton readyButton, leaveButton;
+	private JButton readyButton;
 	private Vector<LobbyUserPanel> lobbyUserLabels;
 	public GameFrame gameFrame;
 	private JPanel memberPanel;
@@ -57,7 +56,6 @@ public class LobbyPanel extends JPanel{
 		firmLabel = new JLabel("Firm Name");
 		firmField = new JTextField();
 		readyButton = new JButton("Ready");
-		leaveButton = new JButton("Leave");
 		lobbyUserLabels = new Vector<LobbyUserPanel>();
 		
 	}
@@ -73,13 +71,12 @@ public class LobbyPanel extends JPanel{
 		eastPanel.setMaximumSize(new Dimension(400, 500));
 		
 		JPanel buttonPanel = new JPanel();
-		AppearanceSettings.setCenterAlignment(readyButton,leaveButton);
+		AppearanceSettings.setCenterAlignment(readyButton);
 		buttonPanel.setOpaque(false);
 		buttonPanel.setBorder(new EmptyBorder(30,60,30,60));
 		buttonPanel.setLayout(new GridLayout(3, 1, 30, 30));
-		makeButton(readyButton, leaveButton);
+		makeButton(readyButton);
 		buttonPanel.add(readyButton);
-//		buttonPanel.add(leaveButton);
 		buttonPanel.setBackground(AppearanceConstants.offWhite);
 		
 		eastPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -197,13 +194,7 @@ public class LobbyPanel extends JPanel{
 				firmField.setEnabled(false);
 			}
 		});
-				
-//		leaveButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent ae) {
-//				gameFrame.changePanel(new IntroPanel(gameFrame));
-//			}
-//		});
-		
+					
 		// Listen for changes in the text
 		firmField.getDocument().addDocumentListener(new DocumentListener() {
 			  public void changedUpdate(DocumentEvent e) {

@@ -17,6 +17,7 @@ import messages.CreateGameMessage;
 import messages.JoinGameMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.Message;
+import messages.ReturnToIntro;
 import messages.StartTimerMessage;
 import messages.UserUpdate;
 
@@ -86,7 +87,6 @@ public class ServerClientCommunicator extends Thread {
 					}
 				}
 			}
-			System.out.println("Beginning main game" );
 			while (true) {
 				Object obj = ois.readObject();
 				System.out.println("SCC read a message");
@@ -100,13 +100,14 @@ public class ServerClientCommunicator extends Thread {
 					}
 					else if (obj instanceof ClientExitMessage) {
 						serverLobby.sendToAll(obj);
-						ClientExitMessage cle = (ClientExitMessage)obj;
 						if (serverLobby.sccVector.size() == 1) {
 							serverLobby.removeServerClientCommunicator(this);
 						}
 						else {
-							serverLobby.removeUser(cle.getUsername());
 							serverLobby.removeServerClientCommunicator(this);
+							serverLobby.sendToAll(new ReturnToIntro());
+							serverLobby.removeAll();
+							break;
 						}
 					} 
 					else if (obj instanceof BeginAuctionBidMessage) {
