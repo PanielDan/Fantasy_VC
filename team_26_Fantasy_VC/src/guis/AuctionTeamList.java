@@ -124,7 +124,8 @@ public class AuctionTeamList extends JPanel {
 		} else {
 			bidButton = new JButton("BID");
 			order = new Vector<User>();
-			for (int i = 0; i < 1; i++) {
+			//TODO changed form 1 to 5
+			for (int i = 0; i < 5; i++) {
 				for(User user : client.getUsers()) {
 					order.add(user);
 				}
@@ -623,5 +624,20 @@ public class AuctionTeamList extends JPanel {
 		dtm.removeRow(selectedRow);
 		firmData.revalidate();
 		firmData.repaint();
+	}
+	
+	
+	public void updateDisplayedFirmAssets() {
+		//remove the current companies
+		purchasedFirms.removeAllElements();
+		
+		//fill the new companies
+		for(User user : gameFrame.game.getUsers()) {
+			if(user.getUsername().equals(getCurrent())) {
+				for(Company company : user.getCompanies()) {
+					purchasedFirms.add(company.getName());
+				}
+			}
+		}
 	}
 }
