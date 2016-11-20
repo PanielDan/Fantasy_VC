@@ -50,7 +50,7 @@ public class FinalGUI extends JPanel {
 	
 	private void initializeVariables(){
 		userButtons = new Vector<FinalUserButton>();
-		for (User user : gameFrame.game.getWinners()){
+		for (User user : gameFrame.game.getUsers()){
 			userButtons.add(new FinalUserButton(user));
 		}
 		
@@ -80,6 +80,62 @@ public class FinalGUI extends JPanel {
 			DecimalFormat df = new DecimalFormat("#.##");
 
 			winner = new JLabel("Winner: Guest");
+			userFirmName = new JLabel(gameFrame.user.getCompanyName());
+			totalEquity = new JLabel("Total value: " + String.format("%.2f", gameFrame.user.getCurrentCapital()) + " Million");
+			numCompanies = new JLabel("Numbers of companies: " + gameFrame.user.getCompanies().size());
+			double percent = (gameFrame.user.getCurrentCapital() - 100.0); //(final - 100)/100*100
+
+			percentGain = new JLabel("Percentage gain: " + df.format(percent) + "%");
+			
+			//calculate user's best company(s)
+			Vector<Company> bestCompanies = gameFrame.user.getBestTeams();
+			String bestCompaniesString = "Best current investment(s): ";
+			boolean multipleCompanies = false;
+			for(Company company : bestCompanies) {
+				if (multipleCompanies) {
+					String temp = " and " + company.getName();
+					bestCompaniesString += temp;
+				}
+				else {
+					bestCompaniesString += company.getName();
+					multipleCompanies = true;
+				} 
+			}
+			
+			if (bestCompaniesString.equals("Best current investment(s): ")) {
+				bestCompaniesString += "None!";
+			}
+			
+			bestInvestment = new JLabel(bestCompaniesString);
+			portfolioLabel = new JLabel("Portfolio");
+		}
+		else {
+			
+			//update the users total value
+			double value = gameFrame.user.getCurrentCapital();
+			for(Company company : gameFrame.user.getCompanies()) {
+				value += company.getCurrentWorth();
+			}
+			gameFrame.user.setCurrentCapital(value);
+			gameFrame.header.updateCurrentCapital();
+
+			DecimalFormat df = new DecimalFormat("#.##");
+			String winners = "";
+			boolean multiple = false;
+			for(User user : gameFrame.game.getWinners()) {
+				if(!multiple) {
+					winners += user.getCompanyName();
+					multiple = true;
+				}
+				else {
+					winners += " and ";
+					winners += user.getCompanyName();
+				}
+			}
+			
+			winner = new JLabel("Winner: " + winners);
+			
+			
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());
 			totalEquity = new JLabel("Total value: " + String.format("%.2f", gameFrame.user.getCurrentCapital()) + " Million");
 			numCompanies = new JLabel("Numbers of companies: " + gameFrame.user.getCompanies().size());
