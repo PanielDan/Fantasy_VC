@@ -320,6 +320,10 @@ public class QuarterlyGUI extends JPanel{
 				else {
 					networkReadyFunctionality();
 					ready.setEnabled(false);
+					buy.setEnabled(false);
+					for (PlayerTab pt : tabs) {
+						pt.getSellButton().setEnabled(false);
+					}
 					//TODO networked game
 					//QuarterlyReadyMessage qrm = new QuarterlyReadyMessage(); //maybe this message?
 				}

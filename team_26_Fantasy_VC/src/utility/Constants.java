@@ -53,8 +53,7 @@ public class Constants {
 		  "'s C.E.O. took candy from a baby!",
 		  "'s custodial staff betrayed the company's secrets!",
 		  "'s C.E.O. was caught D.U.I.! Uh-oh...",
-		  "'s accountant falsified his resume!  He's actually a communications major with no"
-		  + " accounting experience!  Uh-oh...",
-		  "'s lead software"
+		  "'s accountant falsified his resume!  He's actually a philosophy major!",
+		  "'s lead software engineer fled the country!"
 		  };
 }

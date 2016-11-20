@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -314,5 +315,10 @@ public class PlayerTab extends JPanel {
 		}
 		qg.sendUpdate(update);
 		
+	}
+
+
+	public JButton getSellButton() {
+		return sell;
 	}
 } 

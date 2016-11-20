@@ -42,7 +42,10 @@ public class FinalGUI extends JPanel {
 	
 	private Vector<FinalUserPanel> listings;
 	
-	public FinalGUI(GameFrame gameFrame, Client client){
+	public FinalGUI(GameFrame gameFrame, Client client) {
+		this.gameFrame = gameFrame;
+		this.client = client;
+		
 		if (!gameFrame.networked) { 
 			initializeVariables();
 			createGUI();
@@ -68,7 +71,7 @@ public class FinalGUI extends JPanel {
 	}
 
 	private void multiplayerInitializeVariables() {
-		int numberOfPlayers = gameFrame.game.getUsers().size();
+		int numberOfPlayers = gameFrame.getClient().getUsers().size();
 		listings = new Vector<FinalUserPanel>();
 		for (int p = 0; p < numberOfPlayers; p++) {
 			listings.add(new FinalUserPanel(gameFrame.game.getUsers().get(p)));
