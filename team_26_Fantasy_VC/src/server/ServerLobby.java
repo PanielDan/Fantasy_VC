@@ -10,6 +10,7 @@ import gameplay.Game;
 import gameplay.User;
 import messages.FinalMessage;
 import messages.FinalRequestMessage;
+import messages.LoadingGame;
 import messages.ReadyGameMessage;
 import messages.SwitchPanelMessage;
 import messages.UserListMessage;
@@ -97,6 +98,7 @@ public class ServerLobby extends Thread{
 	
 	public synchronized void sendToAll(Object msg) {
 		for (ServerClientCommunicator scc : sccVector) {
+			System.out.println(msg.getClass() + " " + System.currentTimeMillis());
 			scc.sendMessage(msg);
 		}
 	}
@@ -150,6 +152,7 @@ public class ServerLobby extends Thread{
 			while(!checkReady());
 			
 			System.out.println("semaphore passed");
+			this.sendToAll(new LoadingGame());
 			initializeGame();		
 			this.sendToAll(seedGame);
 			this.sendToAll(new ReadyGameMessage());

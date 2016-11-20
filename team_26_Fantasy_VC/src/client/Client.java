@@ -36,6 +36,7 @@ import messages.CompanyUpdateMessage;
 import messages.FinalMessage;
 import messages.FinalRequestMessage;
 import messages.InitiateTradeMessage;
+import messages.LoadingGame;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.ReadyGameMessage;
@@ -178,11 +179,11 @@ public class Client extends Thread {
 					}
 				}
 				else if (m instanceof Game) {
-					if(gameFrame.getCurrentPanel() instanceof LobbyPanel) {
-						((LobbyPanel) gameFrame.getCurrentPanel()).setWaitingText(-1);
-					}
 					System.out.println("new game " + ((Game)m).getCurrentQuarter());
 					gameFrame.setGame((Game)m);
+				}
+				else if (m instanceof LoadingGame) {
+					((LobbyPanel) gameFrame.getCurrentPanel()).setWaitingText(-1);
 				}
 				else if (m instanceof ClientExitMessage) {
 					System.out.println("exit");
@@ -350,21 +351,7 @@ public class Client extends Thread {
 			ioe.printStackTrace();
 		} catch (ClassNotFoundException cnfe){
 			cnfe.printStackTrace();
-		} finally{
-			try {
-				if (oos != null){
-					oos.close();
-				}
-				if (ois != null){
-					ois.close();
-				}
-				if (s != null){
-					s.close();
-				}
-			} catch(IOException ioe) {
-				ioe.printStackTrace();
-			}
-		}
+		} 
 		System.out.println("closed");
 		gameFrame.dispose();
 	}
