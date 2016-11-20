@@ -24,6 +24,7 @@ import guis.QuarterlyGUI;
 import guis.TimelapsePanel;
 import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
+import messages.BuyMessage;
 import messages.ChatMessage;
 import messages.ClientExitMessage;
 import messages.CompanyUpdateMessage;
@@ -63,7 +64,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -237,6 +238,10 @@ public class Client extends Thread {
 				else if (m instanceof CompanyUpdateMessage) {
 					CompanyUpdateMessage cum = (CompanyUpdateMessage)m; // hehe, cum...
 					((TimelapsePanel)gameFrame.getCurrentPanel()).appendNotification(cum.getMessage());
+				}
+				else if (m instanceof BuyMessage) {
+					BuyMessage bm = (BuyMessage)m;
+					((QuarterlyGUI)gameFrame.getCurrentPanel()).userBuy(bm.getUsername(), bm.getCompany(), bm.getRowSelected());
 				}
 			}
 

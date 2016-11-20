@@ -29,6 +29,7 @@ import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
+import messages.BuyMessage;
 import messages.UserUpdate;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -279,10 +280,11 @@ public class QuarterlyGUI extends JPanel{
 						if (price > currentCapital) {
 							JOptionPane.showConfirmDialog(null, "You can't afford that!", "Venture Capital", JOptionPane.WARNING_MESSAGE);
 						} else {
+							client.sendMessage(new BuyMessage(gameFrame.user.getUsername(), selectedCompany, selectedRow));
 							// Buy the company
-							gameFrame.user.addCompany(selectedCompany);
+//							gameFrame.user.addCompany(selectedCompany);
 							// Update our GUI to reflect current capital
-							gameFrame.header.updateCurrentCapital();
+//							gameFrame.header.updateCurrentCapital();
 							
 							//TODO
 							/**
@@ -294,7 +296,6 @@ public class QuarterlyGUI extends JPanel{
 							
 							//create a message that contains: User, selectedCompany, and selectedRow
 							//call moveToFreeAgents(User user, Company selectedCompany, int selectedRow)
-							
 						}
 					}
 				}
@@ -357,7 +358,21 @@ public class QuarterlyGUI extends JPanel{
 		return tabToUser;
 	}
 	
-	public void moveToFreeAgents(User user, Company selectedCompany, int selectedRow) {
+	public void userBuy(String username, Company company, int selectedRow) {
+		for(User user : users) {
+			if(user.getUsername().equals(username)) {
+				removeFromFreeAgents(user, company, selectedRow);
+				user.addCompany(company);
+				if(user.getUsername().equals(gameFrame.user.getUsername())) {
+					gameFrame.user = user;
+					gameFrame.header.updateCurrentCapital();
+				}
+				
+			}
+		}
+	}
+	
+	public void removeFromFreeAgents(User user, Company selectedCompany, int selectedRow) {
 		TableModel dtm = (TableModel) freeAgentTable.getModel();
 		// Remove from table
 		dtm.removeRow(selectedRow);
