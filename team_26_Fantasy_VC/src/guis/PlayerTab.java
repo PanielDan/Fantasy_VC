@@ -263,11 +263,12 @@ public class PlayerTab extends JPanel {
 			public void actionPerformed(ActionEvent ae) {
 				//TODO handle the trade in networked game
 				//send every user to the tradeGUI
-				if(gameFrame.networked) {
+				if (gameFrame.networked) {
 					// Determine the initiator and target of the trade (both Users)
-					//User initiator = gameFrame.user;
-					//User target = qg.getTabToUser().get(currentTab);
-					//InitiateTradeMessage itm = new InitiateTradeMessage(initiator, target);
+					User initiator = gameFrame.user;
+					User target = qg.getTabToUser().get(currentTab);
+					InitiateTradeMessage itm = new InitiateTradeMessage(initiator, target);
+					gameFrame.getClient().sendMessage(itm);
 				}
 			}
 		});

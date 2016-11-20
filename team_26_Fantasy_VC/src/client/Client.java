@@ -22,12 +22,14 @@ import guis.LobbyPanel;
 import guis.LobbyUserPanel;
 import guis.QuarterlyGUI;
 import guis.TimelapsePanel;
+import guis.TradeGUI;
 import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
 import messages.BuyMessage;
 import messages.ChatMessage;
 import messages.ClientExitMessage;
 import messages.CompanyUpdateMessage;
+import messages.InitiateTradeMessage;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.ReadyGameMessage;
@@ -64,7 +66,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("localhost", 8008);
+			s = new Socket("jeffreychen.space", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -243,6 +245,27 @@ public class Client extends Thread {
 					System.out.println("buy message");
 					BuyMessage bm = (BuyMessage)m;
 					((QuarterlyGUI)gameFrame.getCurrentPanel()).userBuy(bm.getUsername(), bm.getCompany(), bm.getRowSelected());
+				}
+				else if (m instanceof InitiateTradeMessage) {
+					System.out.println("Initiating trade");
+					InitiateTradeMessage itm = (InitiateTradeMessage) m;
+					User initiator = itm.getInitiator();
+					User target = itm.getTarget();
+					if (user.equals(initiator) && gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
+					} else if (user.equals(target) && gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
+					} else {
+						if (gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+							String text = initiator.getCompanyName() + " and " + target.getCompanyName() + " are considering a trade deal.";
+							((QuarterlyGUI) gameFrame.getCurrentPanel()).sendUpdate(text);
+						} else {
+							/* This really shouldn't be happening.  Let's print something so we know this 
+							 * occurs, if it does.
+							 */
+							System.out.println("Warning in Client.java under InitiateTradeMessage");
+						}
+					}
 				}
 			}
 
