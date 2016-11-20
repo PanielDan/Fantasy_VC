@@ -185,6 +185,10 @@ public class ServerLobby extends Thread{
 		timer = new Timer(this, time);
 	}
 	
+	public void increaseTime(int seconds) { 
+		timer.increaseTime(seconds);
+	}
+	
 	public void nullifyTimer() {
 		timer = null;
 	}

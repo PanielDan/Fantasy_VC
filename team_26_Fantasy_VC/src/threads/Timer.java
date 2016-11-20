@@ -45,6 +45,10 @@ public class Timer extends Thread {
 		serverLobby.nullifyTimer();
 	}
 	
+	public void increaseTime(int seconds) { 
+		current += seconds;
+	}
+	
 	@SuppressWarnings("deprecation")
 	public void kill() {
 		this.stop();

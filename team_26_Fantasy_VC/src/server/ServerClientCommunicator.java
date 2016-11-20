@@ -10,6 +10,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
 import messages.ClientExitMessage;
 import messages.CreateGameMessage;
@@ -114,6 +115,10 @@ public class ServerClientCommunicator extends Thread {
 					}
 					else if (obj instanceof StartTimerMessage) {
 						serverLobby.startTimer(45);
+					}
+					else if (obj instanceof AuctionBidUpdateMessage) { 
+						serverLobby.increaseTime(2);
+						serverLobby.sendToAll(obj);
 					}
 					else if (obj instanceof UserUpdate) {
 						System.out.println("update user");
