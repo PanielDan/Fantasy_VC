@@ -93,9 +93,8 @@ public class FinalGUI extends JPanel {
 		//TODO All these labels need logic
 		//userIcon = new JLabel(new ImageIcon(gameFrame.getIconImage().getScaledInstance(200, 200,java.awt.Image.SCALE_SMOOTH)));
 		userIcon = new JLabel();
-		ImageIcon profile = new ImageIcon("resources/img/profile.png");
-		Image profileImage = profile.getImage();
-		userIcon.setIcon(new ImageIcon(profileImage.getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH)));
+		Image image = gameFrame.user.getUserIcon();
+		userIcon.setIcon(new ImageIcon(image.getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH)));
 		userIcon.setAlignmentY(Component.CENTER_ALIGNMENT);
 		
 		DecimalFormat df = new DecimalFormat("#.##");

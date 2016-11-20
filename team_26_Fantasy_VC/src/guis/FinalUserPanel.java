@@ -1,6 +1,7 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
@@ -11,6 +12,7 @@ import gameplay.Company;
 import gameplay.User;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
+import utility.ImageLibrary;
 
 /**
  * A listing for each {@code User} to be shown on the
@@ -66,6 +68,8 @@ public class FinalUserPanel extends JPanel {
 		AppearanceSettings.setFont(AppearanceConstants.fontSmallest, bioLabel);
 		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, northPanel, centerPanel, southPanel);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, usernameLabel, firmnameLabel, bioLabel);
+		
+		/* If the person ends up with a positive profit, make the numbers green, else make it red. */
 		if (delta >= 0.00) {
 			AppearanceSettings.setForeground(AppearanceConstants.lightGreen, profitLabel, deltaLabel);
 		} else {
@@ -75,7 +79,8 @@ public class FinalUserPanel extends JPanel {
 
 
 	private void initializeComponents() {
-		avatarLabel = new JLabel(new ImageIcon(user.getUserIcon()));
+		Image image = ImageLibrary.getImage(user.getUserIconString());
+		avatarLabel = new JLabel(new ImageIcon(image.getScaledInstance(250, 250, Image.SCALE_SMOOTH)));
 		usernameLabel = new JLabel(user.getUsername());
 		firmnameLabel = new JLabel(user.getCompanyName());
 		
