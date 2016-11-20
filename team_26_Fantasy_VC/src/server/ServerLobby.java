@@ -162,7 +162,7 @@ public class ServerLobby extends Thread{
 			semaphore.acquire(this.numPlayers);
 			this.sendToAll(new ReadyGameMessage());
 			
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < 2; i++) {
 				resetReady();
 				semaphore.acquire(this.numPlayers);
 				while(!checkReady());
