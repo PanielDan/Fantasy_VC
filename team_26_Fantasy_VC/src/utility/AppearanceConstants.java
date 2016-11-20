@@ -37,8 +37,9 @@ public class AppearanceConstants {
 	public static final Font fontFirmName = new Font("Century Gothic", Font.PLAIN, 20);
 	public static final Font fontTimerMedium = new Font("Century Gothic", Font.PLAIN, 48);
 	public static final Font fontTimerLarge = new Font("Century Gothic", Font.PLAIN, 60);
-	public static final Font fontLobby = new Font("Century Gothic", Font.PLAIN, 20);
-
+	public static final Font fontLobby = new Font("Century Gothic", Font.ITALIC | Font.BOLD, 24);
+	public static final Font fontLobby2 = new Font("Century Gothic", Font.BOLD, 24);
+	
 	
 	//added a blue border variable used in StartWindowGUI
 	public static final Border blueLineBorder = BorderFactory.createLineBorder(darkBlue);

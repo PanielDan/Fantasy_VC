@@ -41,8 +41,8 @@ public class LobbyUserPanel extends JPanel {
 		JPanel line = new JPanel();
 		line.setBackground(AppearanceConstants.mediumGray);
 		line.setLayout(new BorderLayout());
-		AppearanceSettings.setFont(AppearanceConstants.fontLobby, usernameLabel, firmNameLabel,
-				ready);
+		AppearanceSettings.setFont(AppearanceConstants.fontLobby, usernameLabel, firmNameLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontLobby2, ready);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, usernameLabel, firmNameLabel);
 		ready.setForeground(Color.red);
 		setBorder(new LineBorder(AppearanceConstants.mediumGray, 15));

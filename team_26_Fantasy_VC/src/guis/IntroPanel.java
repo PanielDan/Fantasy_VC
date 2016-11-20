@@ -145,7 +145,7 @@ public class IntroPanel extends JPanel {
 	
 	public void addToInfo(JComponent jc) {
 		//jc.setFont(new Font("Arial", Font.BOLD, 32));
-		jc.setFont(AppearanceConstants.fontMedium);
+		jc.setFont(AppearanceConstants.fontLobby);
 		jc.setForeground(AppearanceConstants.offWhite);
 		jc.setBorder(new EmptyBorder(10, 0, 10, 0));
 		eastPanel.add(jc);
@@ -167,7 +167,7 @@ public class IntroPanel extends JPanel {
 		
 		JLabel lobbyName = new JLabel(lobby.getLobbyName());
 		//lobbyName.setFont(new Font("Arial", Font.BOLD, 32));
-		lobbyName.setFont(AppearanceConstants.fontMedium);
+		lobbyName.setFont(AppearanceConstants.fontLobby);
 		lobbyName.setForeground(AppearanceConstants.offWhite);
 		
 		lobbyPanel.add(lobbyName);

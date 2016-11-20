@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import gameplay.Game;
 import messages.CreateGameMessage;
@@ -130,7 +132,26 @@ public class CreateGameGUI extends JFrame{
 	}
 	
 	private void addEvents() {
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		
+		/*
+		lobbyName.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				changed();
+			}
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				changed();
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				changed();
+			}
+			private void changed() {
+				
+			}
+ 		}); */
 		lobbyName.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) { }
