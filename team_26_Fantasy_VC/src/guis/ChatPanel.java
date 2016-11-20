@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.DefaultCaret;
 
 import client.Client;
 import gameplay.User;
@@ -98,6 +99,8 @@ public class ChatPanel extends JPanel {
 		chat.setLineWrap(true);
 		chat.setEditable(false);
 		chat.setFont(AppearanceConstants.fontSmallest);
+		DefaultCaret caret = ((DefaultCaret)chat.getCaret());
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		//Testing purposes
 
 	}
