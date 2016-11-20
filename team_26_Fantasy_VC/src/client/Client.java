@@ -270,9 +270,11 @@ public class Client extends Thread {
 					System.out.println("target " + target.getUsername() + target.hashCode());
 				
 					if (user.getID() == initiator.getID()) {
-						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
+						TradeGUI tGUI = new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target);
+						gameFrame.changePanel(tGUI);
 					} else if (user.getID() == target.getID()) {
-						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
+						TradeGUI tGUI = new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target);
+						gameFrame.changePanel(tGUI);
 					} else {
 						if (gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
 							String text = initiator.getCompanyName() + " and " + target.getCompanyName() + " are considering a trade deal.";
