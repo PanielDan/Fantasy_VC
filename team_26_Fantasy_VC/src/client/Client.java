@@ -154,6 +154,9 @@ public class Client extends Thread {
 					}
 				}
 				else if (m instanceof Game) {
+					if(gameFrame.getCurrentPanel() instanceof LobbyPanel) {
+						
+					}
 					System.out.println("new game " + ((Game)m).getCurrentQuarter());
 					gameFrame.setGame((Game)m);
 				}
@@ -181,8 +184,10 @@ public class Client extends Thread {
 					atl.nextPlayer();
 				}
 				else if (m instanceof AuctionBidUpdateMessage) {
-					AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage) m;
-					((AuctionBidScreen)gameFrame.getCurrentPanel()).updateBet(abum.getCompanyName(), abum.getBidAmount());
+					if (gameFrame.getCurrentPanel() instanceof AuctionBidScreen){
+						AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage) m;
+						((AuctionBidScreen)gameFrame.getCurrentPanel()).updateBet(abum.getCompanyName(), abum.getBidAmount());
+					}
 				}
 				else if (m instanceof TimerDone) {
 					if (gameFrame.getCurrentPanel() instanceof AuctionBidScreen) {

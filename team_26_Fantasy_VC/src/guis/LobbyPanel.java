@@ -284,6 +284,7 @@ public class LobbyPanel extends JPanel{
 	public void setWaitingText(int waiting) {
 		if (waiting > 1) statusLabel.setText("Waiting for " + waiting + " more players to join...");
 		else if (waiting == 1) statusLabel.setText("Waiting for " + waiting + " more player to join...");
+		else if (waiting == -1) statusLabel.setText("Game loading, please wait...");
 		else statusLabel.setText("All players here");
 	}
 
