@@ -105,7 +105,9 @@ public class QuarterlyGUI extends JPanel{
 		
 		//String companyName1 = gameFrame.user.getCompanyName();
 		//Image image = gameFrame.user.getUserIcon();
-		PlayerTab pt1 = new PlayerTab(client.getUser(), this);
+		PlayerTab pt1;
+		if(gameFrame.networked) pt1 = new PlayerTab(client.getUser(), this);
+		else pt1 = new PlayerTab(gameFrame.user, this);
 		userToTab.put(gameFrame.user, pt1);
 		tabToUser.put(pt1, gameFrame.user);
 		tabs.add(pt1);
@@ -218,6 +220,7 @@ public class QuarterlyGUI extends JPanel{
 		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, buy);
 		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, buy);
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, freeAgents, buyPanel, this);
+		if(!gameFrame.networked) timer.setVisible(false);
 	}
 
 	private void addActionListeners() {
