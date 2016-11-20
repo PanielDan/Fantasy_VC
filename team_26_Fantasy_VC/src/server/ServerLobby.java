@@ -8,6 +8,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import gameplay.Game;
 import gameplay.User;
+import messages.FinalMessage;
+import messages.FinalRequestMessage;
 import messages.ReadyGameMessage;
 import messages.SwitchPanelMessage;
 import messages.UserListMessage;
@@ -166,7 +168,7 @@ public class ServerLobby extends Thread{
 		this.sendToAll(seedGame);
 		this.sendToAll(new ReadyGameMessage());
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 8; i++) {
 			resetReady();
 			try {
 				semaphore.acquire(this.numPlayers);
@@ -183,7 +185,19 @@ public class ServerLobby extends Thread{
 			seedGame.updateCompanies(1);
 		}
 		System.out.println("done");
+		
+		sendToAll(new FinalRequestMessage());
+		
+		try {
+			semaphore.acquire(this.numPlayers);
+			while(!checkReady());
+		} catch (InterruptedException ie) {
+			ie.printStackTrace();
+		}
+		
+		sendToAll(new FinalMessage(seedGame));
 		// TODO: Send signal to switch to final game
+		
 	}
 	
 	public void startTimer(int time) {
