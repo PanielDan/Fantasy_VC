@@ -37,6 +37,7 @@ public class User implements Serializable {
 	private String userBio;
 	private String companyName;
 	private boolean ready;
+	private double startingCapital;
 	
 	public User(int id, String username, String password, String userBio, int gamesPlayed, int gamesWon, double totalProfit) {
 		this.id = id;
@@ -49,6 +50,7 @@ public class User implements Serializable {
 		this.ready = false;
 		companies = new Vector<Company>();
 		currentCapital = 100.0;
+		startingCapital = 100.0;
 		userIconString = "http://jeffreychen.space/fantasyvc/users/guestuser.png";
 		createIcon();
 	}
@@ -64,6 +66,7 @@ public class User implements Serializable {
 		this.ready = false;
 		companies = new Vector<Company>();
 		currentCapital = 100.0;
+		startingCapital = 100.0;
 		this.userIconString = userIconString;
 		createIcon();
 	}
@@ -135,6 +138,10 @@ public class User implements Serializable {
 		return currentCapital;
 	}
 	
+	public double getStartingCapital() {
+		return startingCapital;
+	}
+	
 	public Image getUserIcon(){
 		 return userIcon;
 	}
@@ -151,6 +158,7 @@ public class User implements Serializable {
 		currentCapital = amount;
 	}
 	
+
 	public String getUserBio() {
 		return userBio;
 	}

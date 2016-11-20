@@ -40,14 +40,43 @@ public class FinalGUI extends JPanel {
 	private JTable portfolio;
 	private Client client;
 	
+	private Vector<FinalUserPanel> listings;
+	
 	public FinalGUI(GameFrame gameFrame, Client client){
-		this.client = client;
-		this.gameFrame = gameFrame;
-		initializeVariables();
-		CreateGUI();
-		addActionListeners();
+		if (!gameFrame.networked) { 
+			initializeVariables();
+			createGUI();
+			addActionListeners();
+		} else {
+			multiplayerInitializeVariables();
+			multiplayerCreateGUI();
+			multiplayerAddEvents();
+		}
 	}
 	
+	private void multiplayerAddEvents() {
+		
+	}
+
+	private void multiplayerCreateGUI() {
+		setSize(1280, 504);
+		setBackground(AppearanceConstants.lightBlue);
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		for (FinalUserPanel fup : listings) {
+			add(fup);
+		}
+	}
+
+	private void multiplayerInitializeVariables() {
+		int numberOfPlayers = gameFrame.game.getUsers().size();
+		listings = new Vector<FinalUserPanel>();
+		for (int p = 0; p < numberOfPlayers; p++) {
+			listings.add(new FinalUserPanel(gameFrame.game.getUsers().get(p)));
+		}
+//		listings.sort(c);
+		
+	}
+
 	private void initializeVariables(){
 		userButtons = new Vector<FinalUserButton>();
 		for (User user : gameFrame.game.getUsers()){
@@ -66,8 +95,10 @@ public class FinalGUI extends JPanel {
 		userIcon.setIcon(new ImageIcon(profileImage.getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH)));
 		userIcon.setAlignmentY(Component.CENTER_ALIGNMENT);
 		
+		DecimalFormat df = new DecimalFormat("#.##");
+
 		//if NOT NETWORKED game
-		if(!gameFrame.networked) {
+		if (!gameFrame.networked) {
 			
 			//update the users total value
 			double value = gameFrame.user.getCurrentCapital();
@@ -77,7 +108,6 @@ public class FinalGUI extends JPanel {
 			gameFrame.user.setCurrentCapital(value);
 			gameFrame.header.updateCurrentCapital();
 
-			DecimalFormat df = new DecimalFormat("#.##");
 
 			winner = new JLabel("Winner: Guest");
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());
@@ -111,7 +141,6 @@ public class FinalGUI extends JPanel {
 		}
 		else {
 
-			DecimalFormat df = new DecimalFormat("#.##");
 			String winners = "";
 			boolean multiple = false;
 			for(User user : gameFrame.game.getWinners()) {
@@ -131,7 +160,7 @@ public class FinalGUI extends JPanel {
 			
 			
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());
-			totalEquity = new JLabel("Total value: " + String.format("%.2f", gameFrame.user.getCurrentCapital()) + " Million");
+			totalEquity = new JLabel("Total value: " + df.format(gameFrame.user.getCurrentCapital()) + " Million");
 			numCompanies = new JLabel("Numbers of companies: " + gameFrame.user.getCompanies().size());
 			double percent = (gameFrame.user.getCurrentCapital() - 100.0); //(final - 100)/100*100
 
@@ -166,7 +195,6 @@ public class FinalGUI extends JPanel {
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		Vector<Company> usercompanies = gameFrame.user.getCompanies();
-		DecimalFormat df = new DecimalFormat("#.##");
 		for(int i = 0; i < usercompanies.size(); i++){
 			if(usercompanies.get(i).getCurrentWorth() == 0) {
 				dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
@@ -198,7 +226,7 @@ public class FinalGUI extends JPanel {
 		
 	}
 	
-	private void CreateGUI(){
+	private void createGUI(){
 		setSize(1280, 504);
 		setBackground(AppearanceConstants.lightBlue);
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -214,7 +242,7 @@ public class FinalGUI extends JPanel {
 		//Remove borders on table pane;
 		tablePane.setFocusable(false);
 		tablePane.setBorder(BorderFactory.createEmptyBorder());
-		tablePane.getViewport().setBackground(AppearanceConstants.darkBlue);
+		tablePane.getViewport().setBackground(AppearanceConstants.darkBlue);	
 		
 		//Set Sizes
 		AppearanceSettings.setSize((int) winner.getPreferredSize().getWidth(), 60, winnerPanel);
