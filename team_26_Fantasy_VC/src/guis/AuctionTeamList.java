@@ -582,6 +582,9 @@ public class AuctionTeamList extends JPanel {
 	
 	public void networkBidButtonAction() {
 		int selectedRow = firmData.getSelectedRow();
+		if(selectedRow == -1) {
+			selectedRow = 0;
+		}
 		firmData.getSelectionModel().addSelectionInterval((selectedRow+1)%firmData.getRowCount(),
 				(selectedRow+1)%firmData.getRowCount());
 		TableModel dtm = (TableModel) firmData.getModel();
