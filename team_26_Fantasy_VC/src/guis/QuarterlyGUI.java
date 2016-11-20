@@ -289,29 +289,9 @@ public class QuarterlyGUI extends JPanel{
 							 * Base these changes in every client off the commented code below:
 							 */
 							
-							/*
-							// Remove from table
-							dtm.removeRow(selectedRow);
-
-							// Make the stuff needed to insert
-							double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
-							DecimalFormat df = new DecimalFormat("#.##");
-
-							// Get the PlayerTab of the user
-							PlayerTab pt = userToTab.get(gameFrame.user);
-							JTable userTable = pt.getTable();
-							TableModel userDtm = (TableModel) userTable.getModel();
+							//create a message that contains: User, selectedCompany, and selectedRow
+							//call moveToFreeAgents(User user, Company selectedCompany, int selectedRow)
 							
-							
-							userDtm.addRow(new Object[]{selectedCompany.getName(), 
-									Integer.toString(selectedCompany.getTierLevel()),
-									df.format(selectedCompany.getCurrentWorth()),
-									df.format(percentChange) + "%" });
-							
-							//update the notifications
-							String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
-							sendUpdate(update);
-							*/
 						}
 					}
 				}
@@ -372,5 +352,54 @@ public class QuarterlyGUI extends JPanel{
 	
 	public HashMap<PlayerTab, User> getTabToUser() { 
 		return tabToUser;
+	}
+	
+	public void moveToFreeAgents(User user, Company selectedCompany, int selectedRow) {
+		TableModel dtm = (TableModel) freeAgentTable.getModel();
+		// Remove from table
+		dtm.removeRow(selectedRow);
+
+		// Make the stuff needed to insert
+		double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+		DecimalFormat df = new DecimalFormat("#.##");
+
+		// Get the PlayerTab of the user
+		PlayerTab pt = userToTab.get(user);
+		JTable userTable = pt.getTable();
+		TableModel userDtm = (TableModel) userTable.getModel();
+		
+		
+		userDtm.addRow(new Object[]{selectedCompany.getName(), 
+				Integer.toString(selectedCompany.getTierLevel()),
+				df.format(selectedCompany.getCurrentWorth()),
+				df.format(percentChange) + "%" });
+		
+		//update the notifications
+		String update = user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
+		sendUpdate(update);
+		
+		/*
+		// Remove from table
+		dtm.removeRow(selectedRow);
+
+		// Make the stuff needed to insert
+		double percentChange = (selectedCompany.getCurrentWorth() - selectedCompany.getStartingPrice())/selectedCompany.getStartingPrice() * 100;
+		DecimalFormat df = new DecimalFormat("#.##");
+
+		// Get the PlayerTab of the user
+		PlayerTab pt = userToTab.get(gameFrame.user);
+		JTable userTable = pt.getTable();
+		TableModel userDtm = (TableModel) userTable.getModel();
+		
+		
+		userDtm.addRow(new Object[]{selectedCompany.getName(), 
+				Integer.toString(selectedCompany.getTierLevel()),
+				df.format(selectedCompany.getCurrentWorth()),
+				df.format(percentChange) + "%" });
+		
+		//update the notifications
+		String update = gameFrame.user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
+		sendUpdate(update);
+		*/
 	}
 }
