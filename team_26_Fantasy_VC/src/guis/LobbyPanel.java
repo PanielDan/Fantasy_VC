@@ -29,7 +29,6 @@ import listeners.TextFieldFocusListener;
 import messages.LobbyPlayerReadyMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
-import utility.LobbyUserPanel;
 
 public class LobbyPanel extends JPanel{
 	
@@ -68,7 +67,7 @@ public class LobbyPanel extends JPanel{
 		this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		
 		JPanel eastPanel = new JPanel();
-		eastPanel.setBackground(AppearanceConstants.darkBlue);
+		eastPanel.setBackground(AppearanceConstants.lightBlue);
 		eastPanel.setLayout(new BorderLayout());
 		eastPanel.setPreferredSize(new Dimension(400, 500));
 		eastPanel.setMaximumSize(new Dimension(400, 500));
@@ -107,7 +106,7 @@ public class LobbyPanel extends JPanel{
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.setPreferredSize(new Dimension(700, 500));
 		centerPanel.setMaximumSize(new Dimension(700, 500));
-		centerPanel.setBackground(AppearanceConstants.darkBlue);
+		centerPanel.setBackground(AppearanceConstants.lightBlue);
 		
 		memberPanel = new JPanel();
 		memberPanel.setLayout(new BoxLayout(memberPanel, BoxLayout.Y_AXIS));

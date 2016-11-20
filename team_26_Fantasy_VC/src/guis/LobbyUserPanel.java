@@ -1,13 +1,17 @@
-package utility;
+package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import utility.AppearanceConstants;
+import utility.AppearanceSettings;
 
 public class LobbyUserPanel extends JPanel {
 	private String username;
@@ -34,16 +38,20 @@ public class LobbyUserPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.setBackground(AppearanceConstants.darkBlue);
 		
+		JPanel line = new JPanel();
+		line.setBackground(AppearanceConstants.mediumGray);
+		line.setLayout(new BorderLayout());
 		AppearanceSettings.setFont(AppearanceConstants.fontLobby, usernameLabel, firmNameLabel,
 				ready);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, usernameLabel, firmNameLabel);
 		ready.setForeground(Color.red);
-		setBorder(new EmptyBorder(15,20,15,20));
+		setBorder(new LineBorder(AppearanceConstants.mediumGray, 15));
 		
-		add(usernameLabel, BorderLayout.WEST);
-		add(firmNameLabel, BorderLayout.CENTER);
-		add(ready, BorderLayout.EAST);
-
+		add(Box.createVerticalStrut(5));
+		line.add(usernameLabel, BorderLayout.WEST);
+		line.add(firmNameLabel, BorderLayout.CENTER);
+		line.add(ready, BorderLayout.EAST);
+		add(line);
 	}
 
 	public String getFirmName() {
@@ -57,12 +65,12 @@ public class LobbyUserPanel extends JPanel {
 	
 	public void setReady(){
 		ready.setText("Ready");
-		ready.setForeground(Color.GREEN);
+		ready.setForeground(AppearanceConstants.green);
 	}
 	
 	public void unReady(){
 		ready.setText("Not Ready");
-		ready.setForeground(Color.red);
+		ready.setForeground(AppearanceConstants.red);
 	}
 	
 	public String getUsername() {

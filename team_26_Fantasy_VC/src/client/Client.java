@@ -29,7 +29,7 @@ import messages.SwitchPanelMessage;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
 import messages.UserUpdate;
-import utility.LobbyUserPanel;
+import guis.LobbyUserPanel;
 
 /**
  * The {@code Client} class is a {@code Thread} that represents a 
