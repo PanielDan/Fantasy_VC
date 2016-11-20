@@ -145,6 +145,8 @@ public class SQLDriver {
 				value = (double) 100;
 				break;
 		}
+		
+		if (value < 0.01) { value = 20.1; }
 		return value;
 	}
 	
