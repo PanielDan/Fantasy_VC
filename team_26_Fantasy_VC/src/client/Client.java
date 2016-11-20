@@ -246,6 +246,7 @@ public class Client extends Thread {
 							sendMessage(new UserUpdate(user));
 						}
 						else{
+							atl.updateDisplayedFirmAssets();
 							gameFrame.changePanel(atl);
 							if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
 						}
