@@ -77,6 +77,8 @@ public class AuctionTeamList extends JPanel {
 		createGUI();
 		addActionListeners();
 		gameFrame.header.updateCurrentCapital();
+		firmData.getTableHeader().setReorderingAllowed(false);
+		detailsCompanyInfo.getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public void updateTimer(String display) {

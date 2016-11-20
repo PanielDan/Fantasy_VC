@@ -105,14 +105,13 @@ public class Client extends Thread {
 //	    Clip clip = AudioSystem.getClip();
 //	    clip.open(audioInputStream);
 //	    clip.start();
-		clip = getClip();
 	}
 	
 	public Vector<User> getUsers() {
 		return users;
 	}
 	
-	public Clip getClip() {
+	public void playSound() {
 		Clip clip = null;
 	      try {
 	        clip = AudioSystem.getClip();
@@ -121,12 +120,9 @@ public class Client extends Thread {
 	      } catch (Exception e) {
 	        System.err.println(e.getMessage());
 	      }
-	      return clip;
+	      clip.start();
 	    }
-	
-	public void playSound() {
-		clip.start();
-	}
+
 		
 	
 	public void returnToIntro() {
