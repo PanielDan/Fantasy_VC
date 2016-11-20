@@ -17,6 +17,7 @@ import gameplay.GameFrame;
 import gameplay.User;
 import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
+import guis.FinalGUI;
 import guis.IntroPanel;
 import guis.LobbyPanel;
 import guis.LobbyUserPanel;
@@ -324,7 +325,7 @@ public class Client extends Thread {
 					gameFrame.setGame(((FinalMessage) m).getGame());
 					for(User user : gameFrame.game.getUsers())
 					System.out.println(user.getUsername() + " " + user.getTotalProfit());
-//					gameFrame.changePanel(new FinalGUI(gameFrame, this));
+					gameFrame.changePanel(new FinalGUI(gameFrame, this));
 				}
 			}
 
