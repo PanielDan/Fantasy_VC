@@ -62,6 +62,7 @@ public class AuctionTeamList extends JPanel {
 	private Vector<Company> companyVect;
 	private Vector<User> order;
 	private HashMap<String, Vector<String>> companyLists;
+	private int turnsPerPerson = 1;
 	
 	
 	public AuctionTeamList(Client client, GameFrame gameFrame) {
@@ -135,7 +136,7 @@ public class AuctionTeamList extends JPanel {
 			bidButton = new JButton("BID");
 			order = new Vector<User>();
 			//TODO changed form 1 to 5
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < turnsPerPerson; i++) {
 				for(User user : client.getUsers()) {
 					order.add(user);
 				}

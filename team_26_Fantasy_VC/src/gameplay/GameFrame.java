@@ -37,7 +37,7 @@ public class GameFrame extends JFrame {
 	 */
 	public GameFrame(User guest) {
 		super("Venture Capital Guest Mode");
-		
+		this.setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new ExitWindowListener(this));
 		setSize(1280, 720);
