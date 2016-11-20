@@ -3,6 +3,7 @@ package guis;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -12,7 +13,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,10 +23,10 @@ import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
-import messages.InitiateTradeMessage;
 import messages.SellMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
+import utility.ImageLibrary;
 
 public class PlayerTab extends JPanel {
 
@@ -120,8 +120,10 @@ public class PlayerTab extends JPanel {
 		westPanel.setLayout(new GridLayout(2, 1));
 		
 		JLabel playerPicture = new JLabel();
-		ImageIcon ii = new ImageIcon(user.getUserIcon());
-		playerPicture.setIcon(ii);
+		Image image = ImageLibrary.getImage(user.getUserIconString());
+		playerPicture.setIcon(new ImageIcon(image.getScaledInstance(250, 250, Image.SCALE_SMOOTH)));
+//		ImageIcon ii = new ImageIcon(user.getUserIcon());
+//		playerPicture.setIcon(ii);
 		JLabel playerName = new JLabel(user.getUsername());
 		JLabel companyName = new JLabel(user.getCompanyName());
 		//user.setUserBio("This is the User's bio. It's less than 144 characters.");
