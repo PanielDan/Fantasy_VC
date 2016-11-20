@@ -38,7 +38,7 @@ import guis.LobbyUserPanel;
  *
  */
 public class Client extends Thread {
-	private User user;
+	public User user;
 	public Vector<User> users;
 	private String lobbyName;
 	private long bankAccount;
@@ -58,7 +58,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("localhost", 8008);
+			s = new Socket("jeffreychen.space", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -117,11 +117,17 @@ public class Client extends Thread {
 					}
 				}
 				else if (m instanceof ReadyGameMessage) {
+					System.out.println("ready game");
 					atl = new AuctionTeamList(this, gameFrame); 
 					gameFrame.changePanel(atl);
-					if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
+					System.out.println(user.getUsername() + " " + users.get(0).getUsername());
+					if(user.getUsername().equals(users.get(0).getUsername())) {
+						System.out.println("sending message");
+						sendMessage(new StartTimerMessage());
+					}
 				}
 				else if (m instanceof Game) {
+					System.out.println("game");
 					gameFrame.setGame((Game)m);
 				}
 				else if (m instanceof ClientExitMessage) {
@@ -198,6 +204,8 @@ public class Client extends Thread {
 						gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
 					}
 					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
+						System.out.println("increment");
+						gameFrame.game.incrementQuarter();
 						gameFrame.changePanel(new QuarterlyGUI(gameFrame, this));
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {

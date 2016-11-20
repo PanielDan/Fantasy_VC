@@ -105,7 +105,7 @@ public class QuarterlyGUI extends JPanel{
 		
 		//String companyName1 = gameFrame.user.getCompanyName();
 		//Image image = gameFrame.user.getUserIcon();
-		PlayerTab pt1 = new PlayerTab(gameFrame.user, this);
+		PlayerTab pt1 = new PlayerTab(client.getUser(), this);
 		userToTab.put(gameFrame.user, pt1);
 		tabToUser.put(pt1, gameFrame.user);
 		tabs.add(pt1);
