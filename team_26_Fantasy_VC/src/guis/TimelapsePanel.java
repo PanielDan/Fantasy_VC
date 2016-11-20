@@ -2,11 +2,14 @@ package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
 import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,7 +24,6 @@ import client.Client;
 import gameplay.GameFrame;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
-import utility.Constants;
 
 public class TimelapsePanel extends JPanel {
 
@@ -33,7 +35,7 @@ public class TimelapsePanel extends JPanel {
 	private Client client;
 	private JTextArea notifications;
 	private Vector<String> notificationList;
-	private ImageIcon animation;
+	private Icon animation;
 	private JLabel animationLabel, notificationLabel;
 	public GameFrame gameFrame;
 	private JScrollBar scrollBar;
@@ -90,7 +92,14 @@ public class TimelapsePanel extends JPanel {
 		notificationLabel = new JLabel("Notifications for Q" + quarter + ", " + year);
 //		Image i = ImageLibrary.getImage(Constants.images + "graph" + Constants.gif);
 //	    animation = new ImageIcon(i.getScaledInstance(400, 300, Image.SCALE_SMOOTH));
-		animation = new ImageIcon(Constants.images + "graph2" + Constants.gif);
+		URL img = null;
+		try {
+			img = new URL("http://jeffreychen.space/fantasyvc/resources/img/graph2.gif");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		animation = new ImageIcon(img);
 	    animationLabel = new JLabel(animation);
 	}
 	
