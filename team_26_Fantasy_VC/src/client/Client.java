@@ -152,8 +152,6 @@ public class Client extends Thread {
 				}
 				else if (m instanceof TimerTickMessage) { 
 					TimerTickMessage ttm = (TimerTickMessage) m;
-					if(gameFrame.getCurrentPanel() instanceof LobbyPanel) {
-					}
 					if (gameFrame.getCurrentPanel() instanceof AuctionBidScreen) {
 						AuctionBidScreen auctionBidScreen = (AuctionBidScreen) gameFrame.getCurrentPanel();
 						auctionBidScreen.updateTimer(ttm.getDisplay());
@@ -190,6 +188,9 @@ public class Client extends Thread {
 								atl.networkBidButtonAction();
 							}
 						}
+					}
+					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+						((QuarterlyGUI)gameFrame.getCurrentPanel()).updateTimer(ttm.getDisplay());
 					}
 				}
 				else if (m instanceof SwitchPanelMessage) {

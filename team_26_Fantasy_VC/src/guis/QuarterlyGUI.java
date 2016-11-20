@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -67,6 +68,12 @@ public class QuarterlyGUI extends JPanel{
 		createGUI();
 		addActionListeners();
 	}
+	
+	public void updateTimer(String time) {
+		timer.setText(time);
+		revalidate();
+		repaint();
+	}
 
 	private void initializeComponents() {
 		setSize(1280, 504);
@@ -95,19 +102,31 @@ public class QuarterlyGUI extends JPanel{
 		ImageIcon icon = new ImageIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
 		Vector<String> assets = new Vector();
 		assets.addElement("Portfolio Contents:");
+		
+		//String companyName1 = gameFrame.user.getCompanyName();
+		//Image image = gameFrame.user.getUserIcon();
+		PlayerTab pt1 = new PlayerTab(gameFrame.user, this);
+		userToTab.put(gameFrame.user, pt1);
+		tabToUser.put(pt1, gameFrame.user);
+		tabs.add(pt1);
+		tabbedPane.add(gameFrame.user.getCompanyName(), pt1);
+		
+		
 
 		for (User user : users) {
-			String companyName = user.getCompanyName();
-			//			ImageIcon imageIcon = new ImageIcon(user.getUserIcon());
-			ImageIcon imageIcon = new ImageIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
-			user.setUserIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
-			Vector<Company> companies = user.getCompanies();
-
-			PlayerTab pt = new PlayerTab(user, this);
-			userToTab.put(user, pt);
-			tabToUser.put(pt, user);
-			tabs.add(pt);
-			tabbedPane.add(user.getCompanyName(), pt);
+			if(!user.getUsername().equals(gameFrame.user.getUsername())) {
+				//String companyName = user.getCompanyName();
+				//			ImageIcon imageIcon = new ImageIcon(user.getUserIcon());
+				//ImageIcon imageIcon = new ImageIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
+				//user.setUserIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
+				Vector<Company> companies = user.getCompanies();
+	
+				PlayerTab pt = new PlayerTab(user, this);
+				userToTab.put(user, pt);
+				tabToUser.put(pt, user);
+				tabs.add(pt);
+				tabbedPane.add(user.getCompanyName(), pt);
+			}
 		}
 
 		freeAgents = new JPanel();
