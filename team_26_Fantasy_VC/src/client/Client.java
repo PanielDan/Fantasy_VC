@@ -29,7 +29,7 @@ import messages.SwitchPanelMessage;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
 import messages.UserUpdate;
-import guis.LobbyUserPanel;
+import utility.LobbyUserPanel;
 
 /**
  * The {@code Client} class is a {@code Thread} that represents a 
@@ -38,7 +38,7 @@ import guis.LobbyUserPanel;
  *
  */
 public class Client extends Thread {
-	private User user;
+	public User user;
 	public Vector<User> users;
 	private String lobbyName;
 	private long bankAccount;
@@ -117,11 +117,17 @@ public class Client extends Thread {
 					}
 				}
 				else if (m instanceof ReadyGameMessage) {
+					System.out.println("ready game");
 					atl = new AuctionTeamList(this, gameFrame); 
 					gameFrame.changePanel(atl);
-					if(user.getUsername().equals(users.get(0).getUsername())) sendMessage(new StartTimerMessage());
+					System.out.println(user.getUsername() + " " + users.get(0).getUsername());
+					if(user.getUsername().equals(users.get(0).getUsername())) {
+						System.out.println("sending message");
+						sendMessage(new StartTimerMessage());
+					}
 				}
 				else if (m instanceof Game) {
+					System.out.println("game");
 					gameFrame.setGame((Game)m);
 				}
 				else if (m instanceof ClientExitMessage) {
@@ -198,6 +204,8 @@ public class Client extends Thread {
 						gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
 					}
 					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
+						System.out.println("increment");
+						gameFrame.game.incrementQuarter();
 						gameFrame.changePanel(new QuarterlyGUI(gameFrame, this));
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {

@@ -110,7 +110,12 @@ public class GameFrame extends JFrame {
 	public void setGame(Game game){
 		this.game = game;
 		this.game.initializeIcons();
-		client.users = game.getUsers();
+		for(User user : game.getUsers()) {
+			if(this.user.getUsername().equals(user.getUsername())){
+				this.user = user;
+				client.user = user;				
+			}
+		}
 	}
 	
 	
