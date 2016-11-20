@@ -68,7 +68,7 @@ public class LobbyPanel extends JPanel{
 		this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		
 		JPanel eastPanel = new JPanel();
-		eastPanel.setBackground(AppearanceConstants.offWhite);
+		eastPanel.setBackground(AppearanceConstants.darkBlue);
 		eastPanel.setLayout(new BorderLayout());
 		eastPanel.setPreferredSize(new Dimension(400, 500));
 		eastPanel.setMaximumSize(new Dimension(400, 500));
@@ -80,7 +80,7 @@ public class LobbyPanel extends JPanel{
 		buttonPanel.setLayout(new GridLayout(3, 1, 30, 30));
 		makeButton(readyButton, leaveButton);
 		buttonPanel.add(readyButton);
-		buttonPanel.add(leaveButton);
+//		buttonPanel.add(leaveButton);
 		buttonPanel.setBackground(AppearanceConstants.offWhite);
 		
 		eastPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -92,7 +92,7 @@ public class LobbyPanel extends JPanel{
 		
 		firmLabel.setHorizontalAlignment(JLabel.CENTER);
 		firmLabel.setFont(AppearanceConstants.fontLarge);
-		firmLabel.setForeground(AppearanceConstants.darkGray);
+		firmLabel.setForeground(AppearanceConstants.offWhite);
 		firmPanel.add(firmLabel);
 		
 		firmField.setFont(AppearanceConstants.fontLarge);
@@ -139,10 +139,34 @@ public class LobbyPanel extends JPanel{
 		add(eastPanel);
 		add(Box.createGlue());
 		
+		
+		AppearanceSettings.setBackground(AppearanceConstants.green, readyButton);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, readyButton);
 		readyButton.setEnabled(false);
 	}
 	private void addEvents() {
 		firmField.addFocusListener(new TextFieldFocusListener("Enter a name...", firmField));
+		firmField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				changed();
+			}
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				changed();
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				changed();
+			}
+			private void changed() {
+				if (firmField.getText().trim().equals("Enter a name...") || firmField.getText().trim().isEmpty()) {
+					readyButton.setEnabled(false);
+				} else {
+					readyButton.setEnabled(true);
+				}
+			}
+		});
 		firmField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) { }
@@ -175,13 +199,11 @@ public class LobbyPanel extends JPanel{
 			}
 		});
 				
-		leaveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-//				LeaveLobbyMessage llm = new LeaveLobbyMessage();
-				//TODO must send this out.
-				gameFrame.changePanel(new IntroPanel(gameFrame));
-			}
-		});
+//		leaveButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent ae) {
+//				gameFrame.changePanel(new IntroPanel(gameFrame));
+//			}
+//		});
 		
 		// Listen for changes in the text
 		firmField.getDocument().addDocumentListener(new DocumentListener() {
@@ -196,7 +218,7 @@ public class LobbyPanel extends JPanel{
 			  }
 	
 			  public void updateButton() {
-				  firmField.setForeground(Color.BLACK);
+//				  firmField.setForeground(Color.BLACK); // TODO
 			     if (firmField.getText().length() > 0) {
 			        readyButton.setEnabled(true);
 			     }
