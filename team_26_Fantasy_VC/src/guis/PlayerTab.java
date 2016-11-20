@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 import gameplay.Company;
 import gameplay.GameFrame;
@@ -122,6 +123,7 @@ public class PlayerTab extends JPanel {
 		JLabel playerPicture = new JLabel();
 		Image image = ImageLibrary.getImage(user.getUserIconString());
 		playerPicture.setIcon(new ImageIcon(image.getScaledInstance(250, 250, Image.SCALE_SMOOTH)));
+		playerPicture.setBorder(new EmptyBorder(10, 10, 10, 10));
 //		ImageIcon ii = new ImageIcon(user.getUserIcon());
 //		playerPicture.setIcon(ii);
 		JLabel playerName = new JLabel(user.getUsername());
