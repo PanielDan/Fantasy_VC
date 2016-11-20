@@ -103,8 +103,8 @@ public class QuarterlyGUI extends JPanel{
 		Vector<String> assets = new Vector();
 		assets.addElement("Portfolio Contents:");
 		
-		String companyName1 = gameFrame.user.getCompanyName();
-		Image image = gameFrame.user.getUserIcon();
+		//String companyName1 = gameFrame.user.getCompanyName();
+		//Image image = gameFrame.user.getUserIcon();
 		PlayerTab pt1 = new PlayerTab(gameFrame.user, this);
 		userToTab.put(gameFrame.user, pt1);
 		tabToUser.put(pt1, gameFrame.user);
@@ -115,10 +115,10 @@ public class QuarterlyGUI extends JPanel{
 
 		for (User user : users) {
 			if(!user.getUsername().equals(gameFrame.user.getUsername())) {
-				String companyName = user.getCompanyName();
+				//String companyName = user.getCompanyName();
 				//			ImageIcon imageIcon = new ImageIcon(user.getUserIcon());
-				ImageIcon imageIcon = new ImageIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
-				user.setUserIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
+				//ImageIcon imageIcon = new ImageIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
+				//user.setUserIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
 				Vector<Company> companies = user.getCompanies();
 	
 				PlayerTab pt = new PlayerTab(user, this);
