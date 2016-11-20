@@ -122,8 +122,8 @@ public class LoginGUI extends JFrame{
 		
 		// Set mass component appearances
 		// TODO replace with generalized variables from AppearanceConstants
-		Color buttonForeground = Color.lightGray;
-		Color buttonBackground = Color.darkGray; 
+		Color buttonForeground = AppearanceConstants.offWhite;
+		Color buttonBackground = AppearanceConstants.mediumGray; 
 		Color primaryBackground = AppearanceConstants.lightBlue;
 
 		AppearanceSettings.setForeground(buttonForeground, createAccount, loginButton, guestButton, password, username);
@@ -147,8 +147,6 @@ public class LoginGUI extends JFrame{
 		ventureLabel.setFont(AppearanceConstants.fontHeader);
 
 		loginButton.setEnabled(false);
-		loginButton.setBackground(AppearanceConstants.mediumGray);
-		createAccount.setBackground(AppearanceConstants.mediumGray);
 		createAccount.setEnabled(false);
 
 		// Add components to containers
