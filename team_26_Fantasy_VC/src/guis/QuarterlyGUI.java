@@ -160,6 +160,7 @@ public class QuarterlyGUI extends JPanel{
 		}
 
 		freeAgentTable = new JTable(dtm);
+		freeAgentTable.getTableHeader().setReorderingAllowed(false);
 		freeAgentTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 
 		JScrollPane freeAgentScrollPane = new JScrollPane(freeAgentTable);
@@ -260,6 +261,7 @@ public class QuarterlyGUI extends JPanel{
 							// Get the PlayerTab of the user
 							PlayerTab pt = userToTab.get(gameFrame.user);
 							JTable userTable = pt.getTable();
+							userTable.getTableHeader().setReorderingAllowed(false);
 							TableModel userDtm = (TableModel) userTable.getModel();
 							
 							

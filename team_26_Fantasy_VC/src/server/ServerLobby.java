@@ -27,6 +27,7 @@ public class ServerLobby extends Thread{
 	private int numPlayers;
 	private Timer timer;
 	private Game seedGame;
+	private int quarters = 2;
 	
 	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
 		this.sccVector = sccVector;
@@ -162,7 +163,7 @@ public class ServerLobby extends Thread{
 			semaphore.acquire(this.numPlayers);
 			this.sendToAll(new ReadyGameMessage());
 			
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < quarters; i++) {
 				resetReady();
 				semaphore.acquire(this.numPlayers);
 				while(!checkReady());
