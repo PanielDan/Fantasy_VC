@@ -127,7 +127,7 @@ public class Client extends Thread {
 					}
 				}
 				else if (m instanceof Game) {
-					System.out.println("game");
+					System.out.println("new game " + ((Game)m).getCurrentQuarter());
 					gameFrame.setGame((Game)m);
 				}
 				else if (m instanceof ClientExitMessage) {
@@ -209,10 +209,10 @@ public class Client extends Thread {
 					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
 						System.out.println("increment" + gameFrame.game.getCurrentQuarter());
 						
-						gameFrame.game.incrementQuarter();
 						gameFrame.changePanel(new QuarterlyGUI(gameFrame, this));
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+						gameFrame.game.incrementQuarter();
 						gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
 					}
 				}

@@ -78,6 +78,7 @@ public class AuctionTeamList extends JPanel {
 	}
 	
 	public void nextPlayer() {
+		System.out.println(order + " " + order.size());
 		order.remove(0);
 		if(!order.isEmpty()) {
 			updateMiddleFirmName(order.get(0).getUsername());

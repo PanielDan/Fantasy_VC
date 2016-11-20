@@ -91,10 +91,8 @@ public class ServerLobby extends Thread{
 	}
 	
 	public synchronized void sendToAll(Object msg) {
-		System.out.println("This is SL, sending to all!");
 		for (ServerClientCommunicator scc : sccVector) {
 			scc.sendMessage(msg);
-			System.out.println(msg.getClass() + " " +  System.currentTimeMillis());
 		}
 	}
 	
@@ -164,7 +162,7 @@ public class ServerLobby extends Thread{
 		}
 		
 		System.out.println("semaphore passed");
-		initializeGame();
+		initializeGame();		
 		this.sendToAll(seedGame);
 		this.sendToAll(new ReadyGameMessage());
 		
@@ -179,6 +177,7 @@ public class ServerLobby extends Thread{
 			}
 			timer.kill();
 			System.out.println("Send timelapse");
+			
 			sendToAll(new SwitchPanelMessage());
 				
 			seedGame.updateCompanies(1);

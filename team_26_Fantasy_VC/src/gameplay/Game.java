@@ -137,6 +137,7 @@ public class Game extends Thread implements Serializable {
 		}
 
 //		System.out.println(this.getUsers().get(0).getCompanies().get(0).getName() + this.getUsers().get(0).getCompanies().get(0).getCurrentWorth());
+		this.incrementQuarter();
 		sl.sendToAll(this);
 		sl.sendToAll(new SwitchPanelMessage());
 		sl.startTimer(60);
