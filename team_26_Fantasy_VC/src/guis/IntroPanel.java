@@ -222,8 +222,9 @@ public class IntroPanel extends JPanel {
 	
 	public void setLobbies(Vector<Lobby> lobbies) {
 		lobbyButton.clear();
+		joinButton.setEnabled(false);
 		clearCenterPanel();
-		
+		eastPanel.removeAll();
 		for(Lobby lobby : lobbies) {
 			System.out.println("Lobby");
 			

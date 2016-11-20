@@ -121,6 +121,10 @@ public class ServerLobby extends Thread{
 		return true;
 	}
 	
+	public void gameReceived() {
+		semaphore.release();
+	}
+	
 	public void resetReady() {
 		for(User user : users) {
 			user.unReady();
@@ -155,18 +159,23 @@ public class ServerLobby extends Thread{
 			this.sendToAll(new LoadingGame());
 			initializeGame();		
 			this.sendToAll(seedGame);
+			semaphore.acquire(this.numPlayers);
 			this.sendToAll(new ReadyGameMessage());
 			
 			for (int i = 0; i < 8; i++) {
 				resetReady();
-					semaphore.acquire(this.numPlayers);
-					while(!checkReady());
+				semaphore.acquire(this.numPlayers);
+				while(!checkReady());
 				if (timer != null) timer.kill();
 				System.out.println("Send timelapse");
 				
 				sendToAll(new SwitchPanelMessage());
 					
 				seedGame.updateCompanies(1);
+				sendToAll(seedGame);
+				semaphore.acquire(this.numPlayers);
+				sendToAll(new SwitchPanelMessage());
+				startTimer(60);
 			}
 			System.out.println("done");
 			

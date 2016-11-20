@@ -14,6 +14,7 @@ import guis.IntroPanel;
 import guis.LobbyPanel;
 import guis.TopPanel;
 import listeners.ExitWindowListener;
+import messages.GameSet;
 
 public class GameFrame extends JFrame {
 	/**
@@ -115,6 +116,7 @@ public class GameFrame extends JFrame {
 				client.user = user;				
 			}
 		}
+		client.sendMessage(new GameSet());
 	}
 	
 	

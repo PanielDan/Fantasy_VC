@@ -110,7 +110,13 @@ public class Client extends Thread {
 					System.out.println("return to intro");
 					returnToIntro();
 				}
-				if (m instanceof LobbyListMessage) {
+				else if (m instanceof UserUpdate) {
+					if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+						UserUpdate uu = (UserUpdate)m;
+						qgui.sendUpdate(uu.getUser().getCompanyName() + " is ready for the next quarter.");
+					}
+				}
+				else if (m instanceof LobbyListMessage) {
 					if(gameFrame.getCurrentPanel() instanceof IntroPanel) {
 						LobbyListMessage llm = (LobbyListMessage)m;
 						((IntroPanel)gameFrame.getCurrentPanel()).setLobbies(llm.lobbies);
@@ -351,7 +357,21 @@ public class Client extends Thread {
 			ioe.printStackTrace();
 		} catch (ClassNotFoundException cnfe){
 			cnfe.printStackTrace();
-		} 
+		} finally {
+			try {
+				if (oos != null){
+					oos.close();
+				}
+				if (ois != null){
+					ois.close();
+				}
+				if (s != null){
+					s.close();
+				}
+			} catch(IOException ioe) {
+				System.out.println("Connection already closed");
+			}
+		}
 		System.out.println("closed");
 		gameFrame.dispose();
 	}

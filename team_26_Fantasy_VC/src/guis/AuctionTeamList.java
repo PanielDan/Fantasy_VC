@@ -133,7 +133,7 @@ public class AuctionTeamList extends JPanel {
 			bidButton = new JButton("BID");
 			order = new Vector<User>();
 			//TODO changed form 1 to 5
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 1; i++) {
 				for(User user : client.getUsers()) {
 					order.add(user);
 				}
@@ -624,8 +624,6 @@ public class AuctionTeamList extends JPanel {
 		if(selectedRow == -1) {
 			selectedRow = 0;
 		}
-		firmData.getSelectionModel().addSelectionInterval((selectedRow+1)%firmData.getRowCount(),
-				(selectedRow+1)%firmData.getRowCount());
 		TableModel dtm = (TableModel) firmData.getModel();
 		Company selectedCompany = gameFrame.game.returnCompany((String)dtm.getValueAt(selectedRow, 0));
 		System.out.println(selectedCompany.getName());

@@ -14,6 +14,7 @@ import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
 import messages.ClientExitMessage;
 import messages.CreateGameMessage;
+import messages.GameSet;
 import messages.JoinGameMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.Message;
@@ -125,6 +126,10 @@ public class ServerClientCommunicator extends Thread {
 						System.out.println("update user");
 						UserUpdate ucl = (UserUpdate)obj;
 						serverLobby.setUserCompanies(ucl.getUser());
+						serverLobby.sendToAll(obj);
+					}
+					else if(obj instanceof GameSet) {
+						serverLobby.gameReceived();
 					}
 					else {
 						System.out.println("command this is scc");
@@ -136,20 +141,6 @@ public class ServerClientCommunicator extends Thread {
 			System.out.println("disconnect");
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
-		} finally {
-			try {
-				if (oos != null){
-					oos.close();
-				}
-				if (ois != null){
-					ois.close();
-				}
-				if (socket != null){
-					socket.close();
-				}
-			} catch(IOException ioe) {
-				ioe.printStackTrace();
-			}
-		}
+		} 
 	}
 }
