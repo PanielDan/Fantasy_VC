@@ -124,8 +124,7 @@ public class PlayerTab extends JPanel {
 		westPanel.setLayout(new GridLayout(2, 1));
 		
 		JLabel playerPicture = new JLabel();
-		Image i = ImageLibrary.getImage("resources/img/profile.png");
-		ImageIcon ii = new ImageIcon(i.getScaledInstance(300, 300, Image.SCALE_SMOOTH));
+		ImageIcon ii = new ImageIcon(gameFrame.user.getUserIcon());
 		playerPicture.setIcon(ii);
 		JLabel playerName = new JLabel(user.getUsername());
 		JLabel companyName = new JLabel(user.getCompanyName());
