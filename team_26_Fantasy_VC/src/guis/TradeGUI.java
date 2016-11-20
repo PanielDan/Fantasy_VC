@@ -241,10 +241,15 @@ public class TradeGUI extends JPanel {
 	private void populate() {
 		for (Company company : user1.getCompanies()) {
 			team1Companies.add(new CompanyTradeItem(company));
+			System.out.println(company.getName() + " is being populated");
 		}
 		for (Company company : user2.getCompanies()) {
 			team2Companies.add(new CompanyTradeItem(company));
+			System.out.println(company.getName() + " is being populated");
 		}
+		
+		revalidate();
+		repaint();
 	}
 	
 	private void populate(Trade tradeState) {
@@ -272,6 +277,9 @@ public class TradeGUI extends JPanel {
 				team2OfferList.add(new CompanyTradeItem((Company) obj));
 			}
 		}
+		
+		revalidate();
+		repaint();
 		
 	}
 

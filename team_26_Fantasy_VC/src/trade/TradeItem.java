@@ -25,7 +25,10 @@ public abstract class TradeItem extends JPanel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private JLabel label;
 
+	
 	protected void createGUI() {
+		label = new JLabel();
+		
 		setBackground(AppearanceConstants.mediumGray);
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(75, 25));
