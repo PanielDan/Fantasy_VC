@@ -22,11 +22,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
+import listeners.TextFieldFocusListener;
 import messages.AuctionBidUpdateMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -343,24 +346,57 @@ public class AuctionBidScreen extends JPanel {
 	
 	private void addActionListeners(){
 		bidButton.addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				double amount = Double.parseDouble(bidAmount.getText().trim());
 				if (amount > bidMin) {
 					gameFrame.getClient().sendMessage(new AuctionBidUpdateMessage(gameFrame.user.getCompanyName(), amount));
 				}
+				bidAmount.setText("");
 			}
+		});
+		
+		bidAmount.addFocusListener(new TextFieldFocusListener("Enter Bid", bidAmount));
+		
+		
+		
+		bidAmount.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				changed();
+			}
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				changed();
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				changed();
+			} 
 			
+			private void changed() {
+				try {
+					if (bidAmount.getText().equals("Enter Bid") || bidAmount.getText().trim().isEmpty()) {
+						bidButton.setEnabled(false);
+					} else {
+						boolean greaterThanCurrent = Double.parseDouble(bidAmount.getText().trim()) > bidMin;
+						boolean lessThanBank = gameFrame.user.getCurrentCapital() >= Double.parseDouble(bidAmount.getText().trim());
+						bidButton.setEnabled(greaterThanCurrent && lessThanBank);
+					}
+				} catch (NumberFormatException nfe) { 
+					bidButton.setEnabled(false);
+				}
+			}
 		});
 	}
 	
 
 	
-	public void setCompany(Company company){
+	public void setCompany(Company company) {
 		this.company = company;
 	}
-	public void refresh(){
+
+	public void refresh() {
 		companyName.setText(company.getName());
 		minimumBid.setText("Minimum Bid: " + company.getAskingPrice() + "Million");
 		companyBio.setText(company.getDescription());
@@ -372,6 +408,7 @@ public class AuctionBidScreen extends JPanel {
     			{"Asking Price", company.getAskingPrice()},
     			{"Current Worth", company.getCurrentWorth()},
     	};
+    	
     	String[] columnNames = {"",""};
     	TableModel dtm = new TableModel();
     	dtm.setDataVector(companyData, columnNames);
@@ -384,6 +421,7 @@ public class AuctionBidScreen extends JPanel {
     		firmBid[i].setText("");
     	}
 	}
+	
 	public void updateBet(String companyName, double amount){
 		int index = 0;
 		for(int i = 0; i < 4; i++){
