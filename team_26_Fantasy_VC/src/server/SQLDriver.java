@@ -23,7 +23,7 @@ public class SQLDriver {
 	private static final String selectUser2 = "SELECT * FROM Users where userID=?";
 	private static final String addUser = "INSERT INTO Users(username, passcode, biography) values(?,?,?)";
 	private static final String updateRecords = "UPDATE Users SET gamesPlayed=?, gamesWon=?, totalProfit=? WHERE username=?";
-	private static final String updateInfo = "UPDATE Users Set username=?, biography=? WHERE userID=?";
+	private static final String updateInfo = "UPDATE Users Set imagePath=?, biography=? WHERE username=?";
 	
 	public SQLDriver() {
 		try {
@@ -221,12 +221,12 @@ public class SQLDriver {
 	}
 	
 	// Used to update the user's username or biography
-	public void updateUserInfo(int userID, String username, String biography) {
+	public void updateUserInfo(String imagePath, String username, String biography) {
 		try {
 			PreparedStatement ps = con.prepareStatement(updateInfo);
-			ps.setString(1, username);
+			ps.setString(3, username);
 			ps.setString(2, biography);
-			ps.setInt(3, userID);
+			ps.setString(1, imagePath);
 			
 			ps.executeUpdate();
 		} catch (SQLException sqle) {

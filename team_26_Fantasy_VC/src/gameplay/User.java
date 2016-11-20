@@ -68,6 +68,10 @@ public class User implements Serializable {
 		createIcon();
 	}
 	
+	public String getUserIconString() {
+		return this.userIconString;
+	}
+	
 	public void setReady() {
 		ready = true;
 	}

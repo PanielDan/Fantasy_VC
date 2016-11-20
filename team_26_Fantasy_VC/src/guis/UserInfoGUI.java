@@ -1,29 +1,31 @@
 package guis;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import gameplay.GameFrame;
 import server.SQLDriver;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
+import utility.ImageLibrary;
 
 public class UserInfoGUI extends JFrame {
 	private JButton userIcon, cancel, save;
@@ -31,11 +33,14 @@ public class UserInfoGUI extends JFrame {
 	private JTextArea userBio;
 	private String imageLocation;
 	private GameFrame gameFrame;
-	
+	private String imagePath;
+	private Image image;
 	
 	public UserInfoGUI(GameFrame gameFrame){
 		super("User Information");
 		this.gameFrame = gameFrame;
+		imagePath = gameFrame.user.getUserIconString();
+		image = ImageLibrary.getImage(imagePath);
 		intializeVariables();
 		createGUI();
 		addActionListeners();
@@ -124,14 +129,30 @@ public class UserInfoGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				JFileChooser fileChoose = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Images Files", 
-						"png","jpg","gif","bmp");
-				fileChoose.setFileFilter(filter);
-				int check = fileChoose.showOpenDialog(getParent());
-				if (check == JFileChooser.APPROVE_OPTION){
-					imageLocation = fileChoose.getSelectedFile().getAbsolutePath();
-					updateIcon(imageLocation);
+//				JFileChooser fileChoose = new JFileChooser();
+//				FileNameExtensionFilter filter = new FileNameExtensionFilter("Images Files", 
+//						"png","jpg","gif","bmp");
+//				fileChoose.setFileFilter(filter);
+//				int check = fileChoose.showOpenDialog(getParent());
+//				if (check == JFileChooser.APPROVE_OPTION){
+//					imageLocation = fileChoose.getSelectedFile().getAbsolutePath();
+//					updateIcon(imageLocation);
+//				}
+				
+				String input = JOptionPane.showInputDialog("Please enter the URL of your new profile picture.");
+				if(input != null) {
+					if(!input.isEmpty()) {
+						Image testImage = ImageLibrary.getImage(input);
+						if (testImage != null) {
+							image = testImage;
+							imagePath = input;
+							updateIcon(image);
+						}
+						else {
+							JOptionPane.showMessageDialog(new JFrame(), "Invalid image URL!", "Image Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					
 				}
 			}
 			
@@ -142,14 +163,14 @@ public class UserInfoGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				gameFrame.user.setUserBio(userBio.getText());
-				if (imageLocation != null){
-					gameFrame.user.setUserIcon(imageLocation);
+				if (imagePath != null){
+					gameFrame.user.setUserIcon(imagePath);
 					gameFrame.header.updateIcon();
 				}
 				//Need to write function that updates SQL server and and the panels
 				SQLDriver sqlDriver = new SQLDriver();
 				sqlDriver.connect();
-				sqlDriver.updateUserInfo(gameFrame.user.getID(), username.getText(), userBio.getText());
+				sqlDriver.updateUserInfo(gameFrame.user.getUserIconString(), username.getText(), userBio.getText());
 				dispose();
 			}
 			
@@ -163,9 +184,8 @@ public class UserInfoGUI extends JFrame {
 		});
 	}
 	
-	private void updateIcon(String input){
-		ImageIcon profile = new ImageIcon(input);
-		Image profileImage = profile.getImage();
-		userIcon.setIcon(new ImageIcon(profileImage.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
+	private void updateIcon(Image img){
+		userIcon.setIcon(new ImageIcon(img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
+		
 	}
 }

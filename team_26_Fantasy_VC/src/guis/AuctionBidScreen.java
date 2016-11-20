@@ -65,6 +65,7 @@ public class AuctionBidScreen extends JPanel {
 		createGUI();
 		addActionListeners();
 		this.bidMin = company.getAskingPrice();
+		bidButton.setEnabled(false);
 		System.out.println(bidMin);
 	}
 	

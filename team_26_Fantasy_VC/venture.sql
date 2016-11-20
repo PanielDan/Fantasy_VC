@@ -13,14 +13,14 @@ create table Users (
     gamesPlayed int(11) 	not null default 0,
     gamesWon 	int(11) 	not null default 0,
     totalProfit double	 	not null default 0,
-    imagePath	varchar(100)	default 'http://jeffreychen.space/fantasyvc/users/guestuser.png'
+    imagePath	varchar(500)	default 'http://jeffreychen.space/fantasyvc/users/guestuser.png'
 );
 
 create table Companies (
 	-- 	Companies are uniquely identified by an ID. --
     companyID		int(11)		primary key not null auto_increment,
     --  Each company has a filepath/URL to their logo. --
-    imagePath		varchar(100) not null,
+    imagePath		varchar(300) not null,
 	--  Each company has a name. --
     companyName		varchar(45) not null,
     --  Each company has a text description. --

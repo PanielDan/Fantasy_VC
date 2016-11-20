@@ -29,7 +29,7 @@ import utility.AppearanceSettings;
 
 public class PlayerTab extends JPanel {
 
-	public JButton trade;
+//	public JButton trade;
 	public JButton sell;
 	public String playerName;
 	public ImageIcon playerIcon;
@@ -69,12 +69,12 @@ public class PlayerTab extends JPanel {
 	
 
 	private void initializeComponents(){
-		trade = new JButton("Trade with this player.");
-		if (user.getID() == -1) {
-			trade.setEnabled(false);
-		} else if (!gameFrame.user.equals(user)) {
-			trade.setEnabled(false);
-		}
+//		trade = new JButton("Trade with this player.");
+//		if (user.getID() == -1) {
+//			trade.setEnabled(false);
+//		} else if (!gameFrame.user.equals(user)) {
+//			trade.setEnabled(false);
+//		}
 		sell = new JButton("Sell selected company.");
 		playerInfo = new JPanel();
 	}
@@ -148,7 +148,7 @@ public class PlayerTab extends JPanel {
 		JPanel buttonPanel = new JPanel();
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
 		centerPanel.add(portfolioScrollPane);
-		buttonPanel.add(trade);
+//		buttonPanel.add(trade);
 		buttonPanel.add(sell);
 		centerPanel.add(buttonPanel);
 		
@@ -160,17 +160,17 @@ public class PlayerTab extends JPanel {
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, wordsPanel, westPanel, playerInfo, playerBio, buttonPanel, this);
 		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, centerPanel, portfolioScrollPane);
 		AppearanceSettings.setBackground(AppearanceConstants.offWhite, portfolio);
-		AppearanceSettings.setForeground(AppearanceConstants.offWhite, playerName, companyName, playerBio, trade, sell);
-		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, trade, sell);
-		AppearanceSettings.setFont(AppearanceConstants.fontMedium, trade, sell);
-		AppearanceSettings.unSetBorderOnButtons(trade, sell);
-		AppearanceSettings.setOpaque(trade, sell);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, playerName, companyName, playerBio, sell);
+		AppearanceSettings.setBackground(AppearanceConstants.mediumGray,  sell);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, sell);
+		AppearanceSettings.unSetBorderOnButtons( sell);
+		AppearanceSettings.setOpaque( sell);
 		
 		if(user.getUsername().equals(gameFrame.user.getUsername())) {
-			trade.setEnabled(false);
+//			trade.setEnabled(false);
 			sell.setEnabled(true);
 		} else {
-			trade.setEnabled(true);
+//			trade.setEnabled(true);
 			sell.setEnabled(false);
 		}
 	}
@@ -253,20 +253,20 @@ public class PlayerTab extends JPanel {
 			}
 		});
 		
-		trade.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				//TODO handle the trade in networked game
-				//send every user to the tradeGUI
-				if (gameFrame.networked) {
-					// Determine the initiator and target of the trade (both Users)
-					User initiator = gameFrame.user;
-					User target = qg.getTabToUser().get(currentTab);
-					InitiateTradeMessage itm = new InitiateTradeMessage(initiator, target);
-					gameFrame.getClient().sendMessage(itm);
-				}
-			}
-		});
+//		trade.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent ae) {
+//				//TODO handle the trade in networked game
+//				//send every user to the tradeGUI
+//				if (gameFrame.networked) {
+//					// Determine the initiator and target of the trade (both Users)
+//					User initiator = gameFrame.user;
+//					User target = qg.getTabToUser().get(currentTab);
+//					InitiateTradeMessage itm = new InitiateTradeMessage(initiator, target);
+//					gameFrame.getClient().sendMessage(itm);
+//				}
+//			}
+//		});
 	}
 
 	public JTable getTable() {
