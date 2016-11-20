@@ -58,7 +58,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -197,6 +197,9 @@ public class Client extends Thread {
 					}
 					else if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
 						((QuarterlyGUI)gameFrame.getCurrentPanel()).updateTimer(ttm.getDisplay());
+						if(ttm.getDisplay().equals("00:00")) {
+							((QuarterlyGUI)gameFrame.getCurrentPanel()).networkReadyFunctionality();
+						}
 					}
 				}
 				else if (m instanceof SwitchPanelMessage) {
@@ -204,7 +207,8 @@ public class Client extends Thread {
 						gameFrame.changePanel(new TimelapsePanel(this, gameFrame));
 					}
 					else if(gameFrame.getCurrentPanel() instanceof TimelapsePanel) {
-						System.out.println("increment");
+						System.out.println("increment" + gameFrame.game.getCurrentQuarter());
+						
 						gameFrame.game.incrementQuarter();
 						gameFrame.changePanel(new QuarterlyGUI(gameFrame, this));
 					}
