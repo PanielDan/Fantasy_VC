@@ -22,6 +22,7 @@ import messages.UserInfoPopupMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
+import utility.ImageLibrary;
 
 /**
  * The {@code TopPanel} is a {@code JPanel} that borders the top of the screen 
@@ -104,8 +105,7 @@ public class TopPanel extends JPanel {
 		
 		fantasyVCLogo = new JLabel();
 		fantasyVCLogo.setBorder(new EmptyBorder(0,5,0,0));
-		ImageIcon logo = new ImageIcon("src/resources/FantasyVC.png");
-		Image logoIcon = logo.getImage();
+		Image logoIcon = ImageLibrary.getImage("http://jeffreychen.space/fantasyvc/FantasyVC.png");
 		fantasyVCLogo.setIcon(new ImageIcon(logoIcon.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
 
 		//userIcon here

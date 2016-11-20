@@ -297,7 +297,7 @@ public class TradeGUI extends JPanel {
 		accept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				// Swap players: NEED TO PASS IN BOTH TEAM NAMES and BOTH TEAM COMPANY VECTORS
-				AcceptTradeMessage atm = new AcceptTradeMessage();
+//				AcceptTradeMessage atm = new AcceptTradeMessage();
 				//Switch players here
 			}
 		});

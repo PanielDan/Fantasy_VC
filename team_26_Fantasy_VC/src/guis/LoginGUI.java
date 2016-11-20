@@ -116,7 +116,7 @@ public class LoginGUI extends JFrame{
 		welcomePanel.setLayout(new BoxLayout(welcomePanel, BoxLayout.PAGE_AXIS));
 
 		//add Logo image
-		Image logoIcon = ImageLibrary.getImage("src/resources/FantasyVC.png");
+		Image logoIcon = ImageLibrary.getImage("http://jeffreychen.space/fantasyvc/FantasyVC.png");
 		fantasyVCLogo.setIcon(new ImageIcon(logoIcon.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH)));
 
 		
