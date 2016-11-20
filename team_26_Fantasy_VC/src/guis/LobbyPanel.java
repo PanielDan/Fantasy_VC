@@ -241,10 +241,10 @@ public class LobbyPanel extends JPanel{
 	
 	public void refreshMemberPanel() {
 		memberPanel.removeAll();
-		for (int i = 0; i < lobbyUserLabels.size(); i++){
+		for (int i = 0; i < lobbyUserLabels.size(); i++) {
 			memberPanel.add(lobbyUserLabels.get(i));
-			if (i != (lobbyUserLabels.size()-1) )
-					memberPanel.add(new JSeparator(JSeparator.HORIZONTAL));
+			if (i != (lobbyUserLabels.size()-1) ) 
+				memberPanel.add(Box.createVerticalStrut(5));
 		}
 	}
 	

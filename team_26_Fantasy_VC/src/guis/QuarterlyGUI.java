@@ -75,6 +75,10 @@ public class QuarterlyGUI extends JPanel{
 		revalidate();
 		repaint();
 	}
+	
+	public Vector<User> getUsers() {
+		return users;
+	}
 
 	private void initializeComponents() {
 		setSize(1280, 504);

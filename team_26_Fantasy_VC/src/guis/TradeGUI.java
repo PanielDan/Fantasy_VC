@@ -17,9 +17,14 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import client.Client;
+import gameplay.Company;
+import gameplay.User;
 import messages.AcceptTradeMessage;
 import messages.DeclineTradeMessage;
 import messages.QuarterlyReadyMessage;
+import trade.CompanyTradeItem;
+import trade.Trade;
+import trade.TradeItem;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -27,24 +32,47 @@ public class TradeGUI extends JPanel {
 	private JButton accept, decline, ready;
 	private JLabel timer;
 	private JLabel team1, team2, teamOffers;
-	private JList team1Companies, team2Companies, notifications, team1OfferList, 
+	private JList<TradeItem> team1Companies, team2Companies, notifications, team1OfferList, 
 	team2OfferList;
 	public QuarterlyGUI qg;
 	private Client client;
+	
+	private Trade trade;
+	private boolean received;
+	private User user1;
+	private User user2;
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TradeGUI(Client client, QuarterlyGUI qg) {
+	public TradeGUI(Client client, QuarterlyGUI qg, User user1, User user2) {
 		this.client = client;
 		this.qg = qg;
+		this.received = false;
+		this.user1 = user1;
+		this.user2 = user2;
 		initializeComponents();
 		createGUI();
 		addActionListeners();
+		populate();
 	}
 	
+	public TradeGUI(Client client, QuarterlyGUI qg, Trade tradeState, User user1, User user2) { 
+		this.trade = tradeState;
+		this.client = client;
+		this.qg = qg;
+		this.received = true;
+		this.user1 = user1;
+		this.user2 = user2;
+		initializeComponents();
+		createGUI();
+		addActionListeners();
+		populate(tradeState);
+	}
+	
+
 	private void initializeComponents() {
 		accept = new JButton("Accept");
 		accept.setOpaque(true);
@@ -62,12 +90,12 @@ public class TradeGUI extends JPanel {
 		teamOffers = new JLabel("Offers");
 		timer = new JLabel("00:10", SwingConstants.CENTER);
 		notifications = new JList();
-		team1Companies = new JList();
-		team2Companies = new JList();
-		team1OfferList = new JList();
-		team2OfferList = new JList();
+		team1Companies = new JList<TradeItem>();
+		team2Companies = new JList<TradeItem>();
+		team1OfferList = new JList<TradeItem>();
+		team2OfferList = new JList<TradeItem>();
 		
-		//Set appearance Constnats
+		//Set appearance Constants
 		AppearanceSettings.setFont(AppearanceConstants.fontTimerMedium,timer);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, team1, team2, teamOffers,
 				team1Companies, team2Companies, team1OfferList, team2OfferList);
@@ -209,6 +237,44 @@ public class TradeGUI extends JPanel {
 
 		
 	}
+	
+	private void populate() {
+		for (Company company : user1.getCompanies()) {
+			team1Companies.add(new CompanyTradeItem(company));
+		}
+		for (Company company : user2.getCompanies()) {
+			team2Companies.add(new CompanyTradeItem(company));
+		}
+	}
+	
+	private void populate(Trade tradeState) {
+		
+		for (Object obj : tradeState.getPlayerOneInventory()) {
+			if (obj instanceof Company) { 
+				team1Companies.add(new CompanyTradeItem((Company) obj));
+			}
+		}
+		
+		for (Object obj : tradeState.getPlayerOneTrade()) { 
+			if (obj instanceof Company) { 
+				team1OfferList.add(new CompanyTradeItem((Company) obj));
+			}
+		}
+		
+		for (Object obj : tradeState.getPlayerTwoInventory()) {
+			if (obj instanceof Company) {
+				team2Companies.add(new CompanyTradeItem((Company) obj));
+			}
+		}
+		
+		for (Object obj : tradeState.getPlayerTwoTrade()) {
+			if (obj instanceof Company) { 
+				team2OfferList.add(new CompanyTradeItem((Company) obj));
+			}
+		}
+		
+	}
+
 	
 	private void addActionListeners() {
 		accept.addActionListener(new ActionListener() {

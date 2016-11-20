@@ -20,17 +20,21 @@ import guis.AuctionTeamList;
 import guis.IntroPanel;
 import guis.LobbyPanel;
 import guis.LobbyUserPanel;
+import guis.PlayerTab;
 import guis.QuarterlyGUI;
 import guis.TimelapsePanel;
+import guis.TradeGUI;
 import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
 import messages.BuyMessage;
 import messages.ChatMessage;
 import messages.ClientExitMessage;
 import messages.CompanyUpdateMessage;
+import messages.InitiateTradeMessage;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
 import messages.ReadyGameMessage;
+import messages.SellMessage;
 import messages.StartTimerMessage;
 import messages.SwitchPanelMessage;
 import messages.TimerTickMessage;
@@ -64,7 +68,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("localhost", 8008);
+			s = new Socket("jeffreychen.space", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -187,7 +191,8 @@ public class Client extends Thread {
 								if(u.getCompanyName().equals(auctionBidScreen.currentBidder)) {
 									u.addCompany(auctionBidScreen.company);
 									if (u.getCompanyName().equals(user.getCompanyName())) {
-										user.addCompany(auctionBidScreen.company);
+										user = u;
+										gameFrame.user = u;
 										gameFrame.header.updateCurrentCapital();
 									}
 								}
@@ -243,6 +248,38 @@ public class Client extends Thread {
 					System.out.println("buy message");
 					BuyMessage bm = (BuyMessage)m;
 					((QuarterlyGUI)gameFrame.getCurrentPanel()).userBuy(bm.getUsername(), bm.getCompany(), bm.getRowSelected());
+				}				
+				else if (m instanceof SellMessage) {
+					System.out.println("sell message");
+					SellMessage sm = (SellMessage)m;
+					QuarterlyGUI qGUI = ((QuarterlyGUI)gameFrame.getCurrentPanel());
+					for(User user : qGUI.getUsers()) {
+						if(user.getUsername().equals(sm.getUsername())) {
+							PlayerTab pt = qGUI.getUserToTab().get(user);
+							pt.userSell(sm.getUsername(), sm.getCompany(), sm.getRowSelected());
+						}
+					}
+				}
+				else if (m instanceof InitiateTradeMessage) {
+					System.out.println("Initiating trade");
+					InitiateTradeMessage itm = (InitiateTradeMessage) m;
+					User initiator = itm.getInitiator();
+					User target = itm.getTarget();
+					if (user.equals(initiator) && gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
+					} else if (user.equals(target) && gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
+					} else {
+						if (gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+							String text = initiator.getCompanyName() + " and " + target.getCompanyName() + " are considering a trade deal.";
+							((QuarterlyGUI) gameFrame.getCurrentPanel()).sendUpdate(text);
+						} else {
+							/* This really shouldn't be happening.  Let's print something so we know this 
+							 * occurs, if it does.
+							 */
+							System.out.println("Warning in Client.java under InitiateTradeMessage");
+						}
+					}
 				}
 			}
 

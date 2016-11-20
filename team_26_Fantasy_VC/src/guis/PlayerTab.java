@@ -3,7 +3,6 @@ package guis;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -14,23 +13,19 @@ import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
 import messages.InitiateTradeMessage;
+import messages.SellMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
-import utility.ImageLibrary;
 
 public class PlayerTab extends JPanel {
 
@@ -233,12 +228,12 @@ public class PlayerTab extends JPanel {
 					if (selectedRow != -1 && gameFrame.user.equals(user)) {
 			        	TableModel dtm = (TableModel) portfolio.getModel();
 						Company selectedCompany = gameFrame.game.returnCompany((String) dtm.getValueAt(selectedRow, 0));
-						
+						gameFrame.getClient().sendMessage(new SellMessage(gameFrame.user.getUsername(), selectedCompany, selectedRow));
 						// Sell the company
-						gameFrame.user.deleteCompany(selectedCompany);
+//						gameFrame.user.deleteCompany(selectedCompany);
 						
 						// Update our GUI to reflect current capital
-						gameFrame.header.updateCurrentCapital();
+//						gameFrame.header.updateCurrentCapital();
 						
 						//TODO
 						/**
@@ -263,11 +258,12 @@ public class PlayerTab extends JPanel {
 			public void actionPerformed(ActionEvent ae) {
 				//TODO handle the trade in networked game
 				//send every user to the tradeGUI
-				if(gameFrame.networked) {
+				if (gameFrame.networked) {
 					// Determine the initiator and target of the trade (both Users)
-					//User initiator = gameFrame.user;
-					//User target = qg.getTabToUser().get(currentTab);
-					//InitiateTradeMessage itm = new InitiateTradeMessage(initiator, target);
+					User initiator = gameFrame.user;
+					User target = qg.getTabToUser().get(currentTab);
+					InitiateTradeMessage itm = new InitiateTradeMessage(initiator, target);
+					gameFrame.getClient().sendMessage(itm);
 				}
 			}
 		});
@@ -275,6 +271,15 @@ public class PlayerTab extends JPanel {
 
 	public JTable getTable() {
 		return portfolio;
+	}
+	
+	public void userSell(String username, Company company, int selectedRow) {
+		removeFromPlayerTab(user, company, selectedRow);
+		user.deleteCompany(company);
+		if(username.equals(gameFrame.user.getUsername())) {
+			gameFrame.user = user;
+//			gameFrame.header.updateCurrentCapital();
+		}
 	}
 	
 	public void removeFromPlayerTab(User user, Company selectedCompany, int selectedRow) {
@@ -296,7 +301,7 @@ public class PlayerTab extends JPanel {
 		if(selectedCompany.getCurrentWorth() != 0) {
         	freeAgentDtm.addRow(new Object[]{selectedCompany.getName(), 
 					Integer.toString(selectedCompany.getTierLevel()),
-					Double.toString(selectedCompany.getCurrentWorth()),
+					df.format(selectedCompany.getCurrentWorth()),
 					df.format(percentChange) + "%" });
 		}
     	
