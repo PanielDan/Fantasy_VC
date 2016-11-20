@@ -1,10 +1,15 @@
 package client;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Vector;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import gameplay.Company;
 import gameplay.Game;
@@ -14,6 +19,7 @@ import guis.AuctionBidScreen;
 import guis.AuctionTeamList;
 import guis.IntroPanel;
 import guis.LobbyPanel;
+import guis.LobbyUserPanel;
 import guis.QuarterlyGUI;
 import guis.TimelapsePanel;
 import messages.AuctionBidUpdateMessage;
@@ -29,7 +35,6 @@ import messages.SwitchPanelMessage;
 import messages.TimerTickMessage;
 import messages.UserListMessage;
 import messages.UserUpdate;
-import guis.LobbyUserPanel;
 
 /**
  * The {@code Client} class is a {@code Thread} that represents a 
@@ -96,7 +101,20 @@ public class Client extends Thread {
 				}
 				else if(m instanceof ChatMessage) {
 					ChatMessage cm = (ChatMessage)m;
-					gameFrame.getChatPanel().addChat(cm.getUsername(), cm.getMessage());
+					try{
+						if(!cm.getUsername().equals(gameFrame.user.getUsername())){
+							//System.out.println(cm.getUsername() + gameFrame.user.getUsername());
+							File f = new File("resources/chatSound.wav");
+							AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(f);
+							    Clip clip = AudioSystem.getClip();
+							    clip.open(audioInputStream);
+							    clip.start();
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+					} finally {
+						gameFrame.getChatPanel().addChat(cm.getUsername(), cm.getMessage());
+					}
 				}
 				else if (m instanceof LobbyPlayerReadyMessage) {
 					System.out.println("lprm");
