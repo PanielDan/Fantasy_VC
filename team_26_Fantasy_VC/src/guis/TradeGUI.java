@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import client.Client;
 import messages.AcceptTradeMessage;
 import messages.DeclineTradeMessage;
 import messages.QuarterlyReadyMessage;
@@ -35,7 +36,7 @@ public class TradeGUI extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TradeGUI(QuarterlyGUI qg) {
+	public TradeGUI(Client client, QuarterlyGUI qg) {
 		this.qg = qg;
 		initializeComponents();
 		createGUI();
