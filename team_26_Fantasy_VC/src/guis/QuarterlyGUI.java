@@ -68,6 +68,12 @@ public class QuarterlyGUI extends JPanel{
 		createGUI();
 		addActionListeners();
 	}
+	
+	public void updateTimer(String time) {
+		timer.setText(time);
+		revalidate();
+		repaint();
+	}
 
 	private void initializeComponents() {
 		setSize(1280, 504);
