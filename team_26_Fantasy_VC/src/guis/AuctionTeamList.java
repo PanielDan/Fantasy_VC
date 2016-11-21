@@ -143,7 +143,7 @@ public class AuctionTeamList extends JPanel {
 			}
 			setDraftOrder();
 			middleFirmName = new JLabel(client.getUsers().get(0).getUsername());
-			updateMiddleFirmName(order.get(0).getUsername());
+			updateMiddleFirmName(order.get(0).getCompanyName());
 			timer.setText("0:45");
 		}
 		
@@ -223,8 +223,9 @@ public class AuctionTeamList extends JPanel {
 	}
 	
 	public void updateMiddleFirmName(String username) {
+		System.out.println(username);
 		middleFirmName.setText(username);
-		if (gameFrame.user.getUsername().equals(username)) {
+		if (gameFrame.user.getCompanyName().equalsIgnoreCase(username)) {
 			bidButton.setEnabled(true);
 		}
 		else {
