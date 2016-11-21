@@ -58,6 +58,8 @@ public class UserInfoGUI extends JFrame {
 		//testCode
 		username = new JLabel(gameFrame.user.getUsername());
 		userBio = new JTextArea(gameFrame.user.getUserBio());
+		userBio.setWrapStyleWord(true);
+		userBio.setLineWrap(true);
 		
 		cancel = new JButton("Cancel");
 		cancel.setOpaque(true);
