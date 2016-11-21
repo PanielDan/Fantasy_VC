@@ -354,7 +354,9 @@ public class AuctionBidScreen extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				double amount = Double.parseDouble(bidAmount.getText().trim());
-				if (amount > bidMin) {
+				int intAmount = (int)(amount*100);
+				int intBidMin = (int)(bidMin*100);
+				if (intAmount > intBidMin) {
 					gameFrame.getClient().sendMessage(new AuctionBidUpdateMessage(gameFrame.user.getCompanyName(), amount));
 				}
 				bidAmount.setText("");
@@ -449,7 +451,7 @@ public class AuctionBidScreen extends JPanel {
 //				maxBetIndex = i;
 //			}
 //		}
-		maximumBidAmount.setText(String.format("%.2f %s", bidMin, Constants.million));
+		maximumBidAmount.setText(String.format("%.2f", bidMin) + Constants.million);
 //		for(int i = 0; i < userVect.size(); i++){
 //			if(userVect.get(i).getCompanyName().equals(firmName[maxBetIndex].getText())){
 //				maximumBidIcon.setIcon(new ImageIcon(userVect.get(i).getUserIcon().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
