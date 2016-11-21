@@ -84,7 +84,7 @@ public class AuctionBidScreen extends JPanel {
 		companyPicture.setIcon(new ImageIcon(company.getCompanyLogo().getScaledInstance((int)(150*company.getAspectRatio()), 150, Image.SCALE_SMOOTH)));
 
 		companyName = new JLabel(company.getName());
-		minimumBid = new JLabel("Minimum Bid: " + company.getAskingPrice() + "Million");
+		minimumBid = new JLabel("Minimum Bid: " + String.format("%.2f", company.getAskingPrice()) + Constants.million);
 		companyBio = new JTextArea(company.getDescription());
 		companyBio.setLineWrap(true);
 		companyBio.setWrapStyleWord(true);
@@ -403,7 +403,7 @@ public class AuctionBidScreen extends JPanel {
 
 	public void refresh() {
 		companyName.setText(company.getName());
-		minimumBid.setText("Minimum Bid: " + company.getAskingPrice() + "Million");
+		minimumBid.setText("Minimum Bid: " + String.format("%.2f", company.getAskingPrice()) + Constants.million);
 		companyBio.setText(company.getDescription());
 		companyPicture.setIcon(new ImageIcon(company.getCompanyLogo().getScaledInstance((int)(150*company.getAspectRatio()), 150, Image.SCALE_SMOOTH)));
 
