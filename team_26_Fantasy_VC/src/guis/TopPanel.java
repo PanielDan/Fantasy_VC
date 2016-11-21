@@ -46,6 +46,7 @@ public class TopPanel extends JPanel {
 	private User user;
 	private GameFrame gameFrame;
 	public boolean activeIcon;
+	private UserInfoGUI ugui;
 		
 	/**
 	 * Multiplayer.
@@ -58,6 +59,8 @@ public class TopPanel extends JPanel {
 		initializeComponents(client.getUser());
 		createGUI();
 		addActionListeners();
+
+		ugui = new UserInfoGUI(gameFrame);
 	}
 	
 	/**
@@ -70,6 +73,8 @@ public class TopPanel extends JPanel {
 		createGUI();
 		addActionListeners();
 		user = guest;
+
+		ugui = new UserInfoGUI(gameFrame);
 	}
 	
 	public JButton getIconButton() {
@@ -167,8 +172,9 @@ public class TopPanel extends JPanel {
 		userIcon.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!gameFrame.gameInProgress && activeIcon)
-					new UserInfoGUI(gameFrame);
+				if(!gameFrame.gameInProgress && activeIcon) {
+					ugui.setVisible(true);
+				}
 			}
 		});
 	}

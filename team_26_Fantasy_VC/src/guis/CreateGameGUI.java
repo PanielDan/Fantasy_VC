@@ -59,6 +59,7 @@ public class CreateGameGUI extends JFrame{
 		Integer [] ints = {2, 3, 4};
 		size = new JComboBox<Integer>(ints);
 		slider = new JSlider(2, 4, 2);
+		slider.setOpaque(false);
 	}
 	
 	private void createGUI() {

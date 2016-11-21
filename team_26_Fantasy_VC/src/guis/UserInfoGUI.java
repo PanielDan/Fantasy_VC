@@ -43,7 +43,6 @@ public class UserInfoGUI extends JFrame {
 		intializeVariables();
 		createGUI();
 		addActionListeners();
-		setVisible(true);
 		toFront();
 		this.setResizable(false);
 	}
@@ -173,7 +172,7 @@ public class UserInfoGUI extends JFrame {
 				SQLDriver sqlDriver = new SQLDriver();
 				sqlDriver.connect();
 				sqlDriver.updateUserInfo(gameFrame.user.getUserIconString(), username.getText(), userBio.getText());
-				dispose();
+				setVisible(false);
 			}
 			
 		});
@@ -181,7 +180,7 @@ public class UserInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				setVisible(false);
 			}
 		});
 	}
