@@ -130,19 +130,19 @@ public class SQLDriver {
 		switch (tierLevel) {
 			case 1:
 				// 0.5 - 3 mil
-				value = rand.nextInt(250) / 100.00 + 0.5;
+				value = ((double) rand.nextInt(250) / 100.00) + 0.5;
 				break;
 			case 2:
 				// 3 - 6 mil
-				value = rand.nextInt(300) / 100.00 + 3.00;
+				value = ((double) rand.nextInt(300) / 100.00) + 3.00;
 				break;
 			case 3:
 				// 6 - 9 mil
-				value = rand.nextInt(300) / 100.00 + 6.00;
+				value = ((double) rand.nextInt(300) / 100.00) + 6.00;
 				break;
 			default: 
 				// Easter egg
-				value = (double) 100;
+				value = (double) 25;
 				break;
 		}
 		
