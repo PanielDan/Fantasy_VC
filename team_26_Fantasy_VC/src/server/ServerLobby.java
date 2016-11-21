@@ -180,6 +180,9 @@ public class ServerLobby extends Thread{
 			}
 			System.out.println("done");
 			
+			semaphore.acquire(this.numPlayers);
+			while(!checkReady());
+			
 			sendToAll(new FinalRequestMessage());
 			
 			semaphore.acquire(this.numPlayers);
