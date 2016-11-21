@@ -28,6 +28,7 @@ public class LobbyUserPanel extends JPanel {
 	public LobbyUserPanel(String username){
 		super();
 		this.username = username;
+		this.firmName = "";
 		initializeVariables();
 		createGUI();
 	}
