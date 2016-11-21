@@ -87,13 +87,13 @@ public class GameFrame extends JFrame {
 		chatbox = new ChatPanel(client);
 
 		header.setPreferredSize(new Dimension(1280,72));
-		chatbox.setPreferredSize(new Dimension(1280,144));
+		chatbox.setPreferredSize(new Dimension(0,144));
 		
 		IntroPanel main = new IntroPanel(this);
 
 		currentPanel = main;
 		
-		chatbox.setBackground(Color.GRAY);
+//		chatbox.setBackground(Color.GRAY);
 		
 		add(header, BorderLayout.NORTH);
 		add(chatbox, BorderLayout.SOUTH);
