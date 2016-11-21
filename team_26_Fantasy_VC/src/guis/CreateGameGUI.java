@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -31,6 +32,7 @@ public class CreateGameGUI extends JFrame{
 	JButton cancelButton, createButton;
 	JTextField lobbyName;
 	JComboBox<Integer> size;
+	JSlider slider;
 	public IntroPanel ip;
 	
 	public CreateGameGUI(IntroPanel ip) {
@@ -54,6 +56,7 @@ public class CreateGameGUI extends JFrame{
 		
 		Integer [] ints = {2, 3, 4};
 		size = new JComboBox<Integer>(ints);
+		slider = new JSlider(2, 4, 2);
 	}
 	
 	private void createGUI() {
@@ -111,7 +114,16 @@ public class CreateGameGUI extends JFrame{
 		((JLabel) size.getRenderer()).setBorder(new EmptyBorder(0, 120, 0, 0));
 		size.setFocusable(false);
 		size.setPreferredSize(new Dimension(0, 20));
-		southPanel.add(new JPanel().add(size));
+//		southPanel.add(new JPanel().add(size));
+		
+		slider.setPaintTicks(true);
+		slider.setMajorTickSpacing(1);
+		slider.setSnapToTicks(true);
+		slider.setPaintLabels(true);
+		slider.setPaintTrack(true);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, slider);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, slider);
+		southPanel.add(new JPanel().add(slider));
 		
 		centerPanel.add(southPanel, BorderLayout.SOUTH);
 		
@@ -160,7 +172,8 @@ public class CreateGameGUI extends JFrame{
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(!lobbyName.getText().equals("")) {
-						CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user);
+						CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), slider.getValue(), ip.gameFrame.user);
+//						CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user);
 						ip.gameFrame.getClient().sendMessage(cgm);
 						dispose();
 					}
@@ -173,7 +186,8 @@ public class CreateGameGUI extends JFrame{
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				if(!lobbyName.getText().equals("")) {
-					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user);
+					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), slider.getValue(), ip.gameFrame.user);
+//					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user);
 					ip.gameFrame.getClient().sendMessage(cgm);
 					dispose();
 				}
