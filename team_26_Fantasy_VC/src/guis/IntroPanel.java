@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -33,6 +34,7 @@ public class IntroPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	JLabel lobbyLabel, hostLabel, sizeLabel, playerLabel;
 	JLabel playerList;
+	JLabel lobbyDetails;
 	JButton hostButton, joinButton;
 	JPanel eastPanel, centerPanel, playerPanel;
 	public GameFrame gameFrame;
@@ -61,11 +63,20 @@ public class IntroPanel extends JPanel {
 		playerList = new JLabel("test");
 		hostButton = new JButton("Host");
 		joinButton = new JButton("Join");
+		lobbyDetails = new JLabel("Lobby Details", SwingConstants.CENTER);
+		AppearanceSettings.setCenterAlignment(lobbyDetails);
+		lobbyDetails.setFont(AppearanceConstants.fontLobby);
+		lobbyDetails.setBorder(new EmptyBorder(10,10,30,10));
+		lobbyDetails.setForeground(AppearanceConstants.offWhite);
 	}
 	
 	private void createGUI() {
 		this.setBackground(AppearanceConstants.lightBlue);
 		this.setLayout(new BorderLayout());
+		
+		JPanel lobbyDetailsPanel = new JPanel();
+		lobbyDetailsPanel.setBackground(AppearanceConstants.mediumGray);
+		lobbyDetailsPanel.setLayout(new BorderLayout());
 		
 		eastPanel = new JPanel();
 		eastPanel.setBackground(AppearanceConstants.mediumGray);
@@ -83,7 +94,10 @@ public class IntroPanel extends JPanel {
 		infoPane.setBorder(null);
 		infoPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
-		this.add(infoPane, BorderLayout.EAST);
+		lobbyDetailsPanel.add(lobbyDetails, BorderLayout.NORTH);
+		lobbyDetailsPanel.add(infoPane, BorderLayout.CENTER);
+		
+		this.add(lobbyDetailsPanel, BorderLayout.EAST);
 		
 		JPanel southPanel = new JPanel();
 		southPanel.setBackground(AppearanceConstants.darkBlue);
