@@ -129,8 +129,8 @@ public class SQLDriver {
 		Double value;
 		switch (tierLevel) {
 			case 1:
-				// 0 - 3 mil
-				value = rand.nextInt(300) / 100.00;
+				// 0.5 - 3 mil
+				value = rand.nextInt(250) / 100.00 + 0.5;
 				break;
 			case 2:
 				// 3 - 6 mil

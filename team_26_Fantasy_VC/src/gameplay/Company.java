@@ -114,10 +114,10 @@ public class Company implements Serializable {
 			if(random <= 5) positive = true;
 			break;
 		case 2:
-			if(random <=6) positive = true;
+			if(random <=75) positive = true;
 			break;
 		case 3:
-			if(random<=7) positive = true;
+			if(random <= 90) positive = true;
 			break;
 		}
 		
