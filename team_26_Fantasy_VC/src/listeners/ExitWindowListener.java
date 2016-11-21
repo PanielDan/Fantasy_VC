@@ -55,17 +55,20 @@ public class ExitWindowListener extends WindowAdapter{
 	 public void windowClosing(WindowEvent e) {
 		 int answer = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
 		 if (answer == JOptionPane.YES_OPTION) {
-			 if (isMultiplayer) {
-				 if(frame.getCurrentPanel() instanceof FinalGUI) {
-					 client.sendMessage(new LeaveFinal());
+			 try {
+				 if (isMultiplayer) {
+					 if(frame.getCurrentPanel() instanceof FinalGUI) {
+						 client.sendMessage(new LeaveFinal());
+					 }
+					 String name = client.getUser().getUsername();
+					 ClientExitMessage message = new ClientExitMessage(name);
+					 System.out.println("sent");
+					 client.sendMessage(message);
 				 }
-				 String name = client.getUser().getUsername();
-				 ClientExitMessage message = new ClientExitMessage(name);
-				 System.out.println("sent");
-				 client.sendMessage(message);
-			 }
-			 else{
-				 System.exit(0);
+			 } catch(Exception exp) {
+				 exp.printStackTrace();
+			 } finally {
+				 System.exit(0);				 
 			 }
 		 }
 	 }
