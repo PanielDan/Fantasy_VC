@@ -134,7 +134,7 @@ public class QuarterlyGUI extends JPanel{
 		}
 
 		freeAgents = new JPanel();
-		tabbedPane.add("Free Agents", freeAgents);
+		tabbedPane.add("Available Companies", freeAgents);
 
 		// Create freeAgents 
 		String[] columnNames = {"Name", "Tier Level", "Price (Millions)", "Net Growth"};

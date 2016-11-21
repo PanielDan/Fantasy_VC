@@ -28,6 +28,7 @@ import listeners.TableModel;
 import messages.SellMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
+import utility.Constants;
 import utility.ImageLibrary;
 
 public class PlayerTab extends JPanel {
@@ -133,8 +134,12 @@ public class PlayerTab extends JPanel {
 		playerPicture.setHorizontalAlignment(SwingConstants.CENTER);
 //		ImageIcon ii = new ImageIcon(user.getUserIcon());
 //		playerPicture.setIcon(ii);
-		JLabel playerName = new JLabel(user.getUsername(), SwingConstants.CENTER);
 		JLabel companyName = new JLabel(user.getCompanyName(), SwingConstants.CENTER);
+		double userValue = user.getCurrentCapital();
+		for (int i = 0; i < user.getCompanies().size(); i++){
+			userValue += user.getCompanies().get(i).getCurrentWorth();
+		}
+		JLabel userValueLabel = new JLabel("Quarterly Value: " + String.format("%.2f", userValue) + Constants.million, SwingConstants.CENTER);
 		//user.setUserBio("This is the User's bio. It's less than 144 characters.");
 		user.setUserBio(user.getUserBio());
 		JTextArea playerBio = new JTextArea(user.getUserBio());
@@ -143,15 +148,16 @@ public class PlayerTab extends JPanel {
 		playerBio.setWrapStyleWord(true);
 		playerBio.setBorder(new EmptyBorder(5,5,5,5));
 		
-		AppearanceSettings.setFont(AppearanceConstants.fontHeaderUser, playerName);
-		AppearanceSettings.setFont(AppearanceConstants.fontFirmName, companyName);
+		AppearanceSettings.setFont(AppearanceConstants.fontHeaderUser, companyName);
+		AppearanceSettings.setFont(AppearanceConstants.fontFirmName, userValueLabel);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, playerBio);
-		AppearanceSettings.setCenterAlignment(playerPicture, playerName, companyName, playerBio);
+		AppearanceSettings.setCenterAlignment(playerPicture, companyName, playerBio,
+				userValueLabel);
 		
 		JPanel wordsPanel = new JPanel();
 		wordsPanel.setLayout(new BoxLayout(wordsPanel, BoxLayout.PAGE_AXIS));
-		wordsPanel.add(playerName);
 		wordsPanel.add(companyName);
+		wordsPanel.add(userValueLabel);
 		wordsPanel.add(playerBio);
 		
 		westPanel.add(playerPicture);
@@ -173,7 +179,7 @@ public class PlayerTab extends JPanel {
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, wordsPanel, westPanel, playerInfo, playerBio, buttonPanel, this);
 		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, centerPanel, portfolioScrollPane);
 		AppearanceSettings.setBackground(AppearanceConstants.offWhite, portfolio);
-		AppearanceSettings.setForeground(AppearanceConstants.offWhite, playerName, companyName, playerBio, sell);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, companyName, playerBio, sell, userValueLabel);
 		AppearanceSettings.setBackground(AppearanceConstants.mediumGray,  sell);
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, sell);
 		AppearanceSettings.unSetBorderOnButtons(sell);
