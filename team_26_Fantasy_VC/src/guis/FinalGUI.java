@@ -387,11 +387,12 @@ public class FinalGUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//If not networked go back to login gui
-				//if(!gameFrame.networked) {
+				if(!gameFrame.networked) {
 					gameFrame.dispose();
 					new LoginGUI().setVisible(true);
-				//
-				//	}
+				} else {
+					client.sendMessage(new ReturnToIntro(false));
+				}
 				
 			}
 			
