@@ -50,7 +50,11 @@ public class FinalGUI extends JPanel {
 	public FinalGUI(GameFrame gameFrame, Client client) {
 		this.gameFrame = gameFrame;
 		this.client = client;
+		initializeVariables();
+		createGUI();
+		addActionListeners();
 		
+		/*
 		if (!gameFrame.networked) { 
 			initializeVariables();
 			createGUI();
@@ -59,7 +63,7 @@ public class FinalGUI extends JPanel {
 			multiplayerInitializeVariables();
 			multiplayerCreateGUI();
 			multiplayerAddEvents();
-		}
+		*/
 	}
 	
 	private void multiplayerAddEvents() {
@@ -222,18 +226,17 @@ public class FinalGUI extends JPanel {
 		}
 		
 		//TODO Needs to update Table stats
-		String[] columnNames = {"Name", "Tier Level", "Worth"};
+		String[] columnNames = {"Name", "Worth"};
 		
 		TableModel dtm = new TableModel();
 		dtm.setColumnIdentifiers(columnNames);
 		Vector<Company> usercompanies = gameFrame.user.getCompanies();
 		for(int i = 0; i < usercompanies.size(); i++){
 			if(usercompanies.get(i).getCurrentWorth() == 0) {
-				dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
-						"Bankrupt"});
+				dtm.addRow(new Object[]{usercompanies.get(i).getName(), "Bankrupt"});
 			}
 			else {
-				dtm.addRow(new Object[]{usercompanies.get(i).getName(), Integer.toString(usercompanies.get(i).getTierLevel()),
+				dtm.addRow(new Object[]{usercompanies.get(i).getName(),
 						df.format(usercompanies.get(i).getCurrentWorth())});
 			}
 		}
@@ -348,11 +351,32 @@ public class FinalGUI extends JPanel {
 					userFirmName.setText(selectedUser.getCompanyName());
 					//TODO Needs to replaced with total equity or value number
 					totalEquity.setText("Total value: " + String.format("%.2f", selectedUser.getCurrentCapital()) + Constants.million);
-					percentGain.setText("Percent Gain: ");
-					numCompanies.setText("Number of companies:");
-					bestInvestment.setText("Best investment: ");
+					double percent = ((selectedUser.getCurrentCapital() - selectedUser.getStartingCapital()) / selectedUser.getStartingCapital())*100;
+					percentGain.setText("Percent Gain: %" + String.format("%.2f", percent));
+					numCompanies.setText("Number of companies: " + Integer.toString(selectedUser.getCompanies().size()));
+					Vector<Company> bestCompanies = gameFrame.user.getBestTeams();
+					if (bestCompanies.size() > 0){
+						bestInvestment.setText("Best investment: " + bestCompanies.get(0).getName());
+					} else {
+						bestInvestment.setText("No current investments ");
+					}
 					
 					//TODO needs logic to set the table.
+					String[] columnNames = {"Name", "Worth"};
+					
+					TableModel dtm = new TableModel();
+					dtm.setColumnIdentifiers(columnNames);
+					Vector<Company> usercompanies = selectedUser.getCompanies();
+					for(int i = 0; i < usercompanies.size(); i++){
+						if(usercompanies.get(i).getCurrentWorth() == 0) {
+							dtm.addRow(new Object[]{usercompanies.get(i).getName(), "Bankrupt"});
+						}
+						else {
+							dtm.addRow(new Object[]{usercompanies.get(i).getName(),
+									String.format("%.2f", usercompanies.get(i).getCurrentWorth()) + Constants.million});
+						}
+					}
+					portfolio.setModel(dtm);
 				}	
 			});
 		}
