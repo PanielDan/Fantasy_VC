@@ -27,6 +27,7 @@ The following functionality is completed and working:
 The following bugs were discovered at the time of this document's creation:
 
 * [x] Occasional exceptions thrown on the AWS server when a user disconnects from it.
+* [x] Occasional minor rounding issues and image formatting issues.
 
 ## License
 
