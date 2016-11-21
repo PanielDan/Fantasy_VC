@@ -94,7 +94,10 @@ public class TimelapsePanel extends JPanel {
 //	    animation = new ImageIcon(i.getScaledInstance(400, 300, Image.SCALE_SMOOTH));
 		URL img = null;
 		try {
-			img = new URL("http://jeffreychen.space/fantasyvc/resources/img/graph2.gif");
+			if(gameFrame.user.getUsername().toLowerCase().equals("jeffreymiller")) {
+				img = new URL("http://jeffreychen.space/fantasyvc/resources/img/graph2.gif");
+			}
+			else img = new URL("http://jeffreychen.space/fantasyvc/resources/img/animation.gif");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
