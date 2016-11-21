@@ -47,8 +47,8 @@ public class User implements Serializable {
 		this.totalProfit = totalProfit;
 		this.ready = false;
 		companies = new Vector<Company>();
-		currentCapital = 100.0;
-		startingCapital = 100.0;
+		currentCapital = 30.0;
+		startingCapital = 30.0;
 		userIconString = "http://jeffreychen.space/fantasyvc/users/guestuser.png";
 		createIcon();
 	}
@@ -62,8 +62,8 @@ public class User implements Serializable {
 		this.totalProfit = totalProfit;
 		this.ready = false;
 		companies = new Vector<Company>();
-		currentCapital = 100.0;
-		startingCapital = 100.0;
+		currentCapital = 30.0;
+		startingCapital = 30.0;
 		this.userIconString = userIconString;
 		createIcon();
 	}
