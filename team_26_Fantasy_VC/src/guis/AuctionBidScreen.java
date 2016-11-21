@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -14,7 +16,9 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -27,10 +31,12 @@ import javax.swing.event.DocumentListener;
 
 import gameplay.Company;
 import gameplay.GameFrame;
+import gameplay.Lobby;
 import gameplay.User;
 import listeners.TableModel;
 import listeners.TextFieldFocusListener;
 import messages.AuctionBidUpdateMessage;
+import messages.CreateGameMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
@@ -353,19 +359,43 @@ public class AuctionBidScreen extends JPanel {
 		bidButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double amount = Double.parseDouble(bidAmount.getText().trim());
-				int intAmount = (int)(amount*100);
-				int intBidMin = (int)(bidMin*100);
-				if (intAmount > intBidMin) {
-					gameFrame.getClient().sendMessage(new AuctionBidUpdateMessage(gameFrame.user.getCompanyName(), amount));
-				}
+				int amount = (int) (Double.parseDouble(bidAmount.getText().trim()) * 100);
+				double amount2 = ((double) amount) / 100;
+				gameFrame.getClient().sendMessage(new AuctionBidUpdateMessage(gameFrame.user.getCompanyName(), amount2));
 				bidAmount.setText("");
 			}
 		});
 		
 		bidAmount.addFocusListener(new TextFieldFocusListener("Enter Bid", bidAmount));
 		
-		
+		bidAmount.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) { }
+
+			@Override
+			public void keyPressed(KeyEvent e) { }
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					int intBidAmount = (int) (Double.parseDouble(bidAmount.getText().trim()) * 100);
+					int intBidMin = (int) (bidMin * 100);
+					int intCurrentCapital = (int) (gameFrame.user.getCurrentCapital() * 100);
+					boolean greaterThanCurrent = intBidAmount > intBidMin;
+					boolean lessThanBank = intCurrentCapital >= intBidAmount;
+					
+					
+					if (greaterThanCurrent && lessThanBank) { 
+						int amount = (int) (Double.parseDouble(bidAmount.getText().trim()) * 100);
+						double amount2 = ((double) amount) / 100;
+						gameFrame.getClient().sendMessage(new AuctionBidUpdateMessage(gameFrame.user.getCompanyName(), amount2));
+					}
+					bidAmount.setText("");
+				}				
+			}
+			
+		});
 		
 		bidAmount.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
@@ -386,8 +416,11 @@ public class AuctionBidScreen extends JPanel {
 					if (bidAmount.getText().equals("Enter Bid") || bidAmount.getText().trim().isEmpty()) {
 						bidButton.setEnabled(false);
 					} else {
-						boolean greaterThanCurrent = Double.parseDouble(bidAmount.getText().trim()) > bidMin;
-						boolean lessThanBank = gameFrame.user.getCurrentCapital() >= Double.parseDouble(bidAmount.getText().trim());
+						int intBidAmount = (int) (Double.parseDouble(bidAmount.getText().trim()) * 100);
+						int intBidMin = (int) (bidMin * 100);
+						int intCurrentCapital = (int) (gameFrame.user.getCurrentCapital() * 100);
+						boolean greaterThanCurrent = intBidAmount > intBidMin;
+						boolean lessThanBank = intCurrentCapital >= intBidAmount;
 						bidButton.setEnabled(greaterThanCurrent && lessThanBank);
 					}
 				} catch (NumberFormatException nfe) { 
