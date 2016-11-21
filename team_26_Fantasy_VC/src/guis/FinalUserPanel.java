@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EmptyBorder;
 
 import gameplay.Company;
 import gameplay.User;
@@ -93,7 +93,7 @@ public class FinalUserPanel extends JPanel {
 	private void initializeComponents() {
 		Image image = ImageLibrary.getImage(user.getUserIconString());
 		avatarLabel = new JLabel(new ImageIcon(image.getScaledInstance(125, 125, Image.SCALE_SMOOTH)));
-		avatarLabel.setBorder(new LineBorder(AppearanceConstants.lightBlue, 10));
+		avatarLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		usernameLabel = new JLabel(user.getUsername());
 		firmnameLabel = new JLabel(user.getCompanyName());
 		
