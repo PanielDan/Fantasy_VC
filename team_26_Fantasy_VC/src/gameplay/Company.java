@@ -144,9 +144,25 @@ public class Company implements Serializable {
 					text = Constants.negativeEvents[index];
 				}
 			} else {
-				// If no special event has occurred, we just modify the 
-				// change based on whether positive came out true or not.
-				change = positive ? change : -change;
+				//if tier 3 roll for another special event
+				if(tierLevel == 3 && positive == false) {
+					specialEvent = rand.nextBoolean();
+					if(specialEvent) {
+						int modifier = Math.abs(rand.nextInt(3)) + (4 - tierLevel);
+						int index;
+						change *= -modifier;
+						if (rand.nextBoolean()) change /= 2;
+						index = rand.nextInt(Constants.negativeEvents.length - 1);
+						text = Constants.negativeEvents[index];	
+					}
+				}
+				
+				if(!specialEvent) {
+					// If no special event has occurred, we just modify the 
+					// change based on whether positive came out true or not.
+					change = positive ? change : -change;
+				}
+
 			}
 			
 			// At the end we just add the change to the currentWorth,
