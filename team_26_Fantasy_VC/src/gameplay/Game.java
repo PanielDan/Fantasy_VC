@@ -194,7 +194,7 @@ public class Game extends Thread implements Serializable {
 			
 			for(int i = finalists.size() - 2; i > -1; i--) {
 				//if this team has the same score as the definite winner then their is a tie
-				if(finalists.get(i).getTotalProfit() == max) {
+				if(finalists.get(i).getCurrentCapital() == max) {
 					winners.add(finalists.get(i));
 				}
 			}
