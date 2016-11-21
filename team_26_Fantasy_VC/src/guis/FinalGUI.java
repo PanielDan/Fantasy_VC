@@ -326,7 +326,8 @@ public class FinalGUI extends JPanel {
 		
 		mainPanel.add(userIcon);
 		mainPanel.add(Box.createHorizontalStrut(20));
-		AppearanceSettings.addGlue(mainPanel, BoxLayout.LINE_AXIS, false, userDetailsPanel);
+		mainPanel.add(userDetailsPanel);
+		mainPanel.add(Box.createGlue());
 		mainPanel.add(portfolioPanel);
 		mainPanel.add(Box.createHorizontalStrut(20));
 		
