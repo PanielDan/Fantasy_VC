@@ -356,7 +356,9 @@ public class QuarterlyGUI extends JPanel{
 	public void userBuy(String username, Company company, int selectedRow) {
 		for(User user : users) {
 			if(user.getUsername().equals(username)) {
-				removeFromFreeAgents(user, company, selectedRow);
+				if(!removeFromFreeAgents(user, company, selectedRow)) {
+					return;
+				}
 				user.addCompany(company);
 				if(user.getUsername().equals(gameFrame.user.getUsername())) {
 					gameFrame.user = user;
@@ -367,9 +369,12 @@ public class QuarterlyGUI extends JPanel{
 		}
 	}
 	
-	public void removeFromFreeAgents(User user, Company selectedCompany, int selectedRow) {
+	public boolean removeFromFreeAgents(User user, Company selectedCompany, int selectedRow) {
 		TableModel dtm = (TableModel) freeAgentTable.getModel();
 		// Remove from table
+		if(!dtm.getValueAt(selectedRow, 0).equals(selectedCompany.getName())) {
+			return false;
+		}
 		dtm.removeRow(selectedRow);
 
 		// Make the stuff needed to insert
@@ -391,6 +396,7 @@ public class QuarterlyGUI extends JPanel{
 		String update = user.getCompanyName() + " bought " + selectedCompany.getName() + ".";
 		sendUpdate(update);
 		
+		return true;
 		/*
 		// Remove from table
 		dtm.removeRow(selectedRow);

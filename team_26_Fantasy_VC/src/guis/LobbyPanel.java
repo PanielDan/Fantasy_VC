@@ -12,7 +12,9 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -173,6 +175,16 @@ public class LobbyPanel extends JPanel{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(readyButton.isEnabled()) {
 						System.out.println("username: " + gameFrame.user.getUsername());
+						for(LobbyUserPanel lup : lobbyUserLabels) {
+							System.out.println(firmField.getText().trim() + " " + lup.getFirmName());
+							if(firmField.getText().trim().equals(lup.getFirmName())) {
+								JOptionPane.showMessageDialog(new JFrame(),
+									    "Sorry, that firm name is already taken.",
+									    "Name already taken",
+									    JOptionPane.WARNING_MESSAGE);
+								return;
+							}
+						}
 						LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage(gameFrame.user.getUsername(),firmField.getText().trim());
 						gameFrame.getClient().sendMessage(lprm);
 						gameFrame.getClient().getUser().setCompanyName(firmField.getText().trim());
@@ -184,6 +196,17 @@ public class LobbyPanel extends JPanel{
 		});
 		readyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				System.out.println(lobbyUserLabels.size());
+				for(LobbyUserPanel lup : lobbyUserLabels) {
+					System.out.println(firmField.getText().trim() + " " + lup.getFirmName());
+					if(firmField.getText().trim().equals(lup.getFirmName())) {
+						JOptionPane.showMessageDialog(new JFrame(),
+							    "Sorry, that firm name is already taken.",
+							    "Name already taken",
+							    JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+				}
 				System.out.println("username: " + gameFrame.user.getUsername());
 				LobbyPlayerReadyMessage lprm = new LobbyPlayerReadyMessage(gameFrame.user.getUsername(),firmField.getText().trim());
 				gameFrame.getClient().sendMessage(lprm);
