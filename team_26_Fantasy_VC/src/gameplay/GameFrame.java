@@ -74,7 +74,7 @@ public class GameFrame extends JFrame {
 	
 	public GameFrame(Client client, User user) {
 		super("Venture Capital Online");
-		
+		this.setResizable(false);
 		gameInProgress = false;
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new ExitWindowListener(this, client));
