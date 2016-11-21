@@ -140,6 +140,7 @@ public class IntroPanel extends JPanel {
 	
 	public void makeButton(JButton... button) {
 		for (JButton b : button) {
+			b.setOpaque(true);
 			b.setBackground(AppearanceConstants.green);
 			b.setForeground(AppearanceConstants.offWhite);
 			AppearanceSettings.unSetBorderOnButtons(b);
