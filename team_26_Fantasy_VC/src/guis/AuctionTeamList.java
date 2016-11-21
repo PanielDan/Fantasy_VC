@@ -29,7 +29,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.DefaultCaret;
 
 import client.Client;
 import gameplay.Company;
@@ -46,6 +45,10 @@ import utility.Constants;
  * @author dannypan
  */
 public class AuctionTeamList extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//variables used here
 	private JLabel timer, middleFirmPicture, firmCurrentMoney, middleFirmName,
 	purchasedFirmsLabel, detailsFirmPicture, detailsFirmCurrentMoney, detailsFirmName,
@@ -236,11 +239,11 @@ public class AuctionTeamList extends JPanel {
 	}
 	
 	//Function that fills in the random test team names
-	private void testDraftOrder() {
-		for (int i = 0; i < 20; i++){
-			firms.add("Team " + Integer.toString((i%4) + 1));
-		}
-	}
+//	private void testDraftOrder() {
+//		for (int i = 0; i < 20; i++){
+//			firms.add("Team " + Integer.toString((i%4) + 1));
+//		}
+//	}
 	
 	public void setDraftOrder() {
 		firms.removeAllElements();

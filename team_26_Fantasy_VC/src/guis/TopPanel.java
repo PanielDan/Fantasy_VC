@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -43,12 +42,9 @@ public class TopPanel extends JPanel {
 	
 	private JLabel title, fantasyVCLogo;
 	private JLabel username, currentCapital;
-	private BufferedImage avatar;
 	private JButton userIcon;
-	private Client client;
 	private User user;
 	private GameFrame gameFrame;
-	private UserInfoGUI uig;
 	public boolean activeIcon;
 		
 	/**
@@ -56,7 +52,6 @@ public class TopPanel extends JPanel {
 	 * @param client
 	 */
 	public TopPanel(GameFrame gameFrame, Client client) {
-		this.client = client;
 		this.user = client.getUser();
 		this.gameFrame = gameFrame;
 		activeIcon = true;

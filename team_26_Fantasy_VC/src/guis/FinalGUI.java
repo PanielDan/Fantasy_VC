@@ -33,6 +33,10 @@ import utility.FinalUserButton;
 
 public class FinalGUI extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GameFrame gameFrame;
 	private Vector<FinalUserButton> userButtons;
 	private JLabel winner, userIcon, userFirmName, totalEquity,

@@ -12,7 +12,6 @@ import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -104,8 +103,7 @@ public class QuarterlyGUI extends JPanel{
 		updatesTextArea.setForeground(Color.WHITE);
 
 		//TODO temporary icon
-		ImageIcon icon = new ImageIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
-		Vector<String> assets = new Vector();
+		Vector<String> assets = new Vector<String>();
 		assets.addElement("Portfolio Contents:");
 		
 		//String companyName1 = gameFrame.user.getCompanyName();
@@ -126,7 +124,6 @@ public class QuarterlyGUI extends JPanel{
 				//			ImageIcon imageIcon = new ImageIcon(user.getUserIcon());
 				//ImageIcon imageIcon = new ImageIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
 				//user.setUserIcon("http://jeffreychen.space/fantasyvc/users/guestuser.png");
-				Vector<Company> companies = user.getCompanies();
 	
 				PlayerTab pt = new PlayerTab(user, this);
 				userToTab.put(user, pt);

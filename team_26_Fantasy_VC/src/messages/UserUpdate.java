@@ -1,9 +1,7 @@
 package messages;
 
 import java.io.Serializable;
-import java.util.Vector;
 
-import gameplay.Company;
 import gameplay.User;
 
 public class UserUpdate  implements Serializable {

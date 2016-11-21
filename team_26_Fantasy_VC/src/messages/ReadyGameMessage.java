@@ -1,9 +1,6 @@
 package messages;
 
 import java.io.Serializable;
-import java.util.Vector;
-
-import gameplay.User;
 
 public class ReadyGameMessage implements Serializable{
 

@@ -42,6 +42,10 @@ import utility.Constants;
 
 
 public class AuctionBidScreen extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel timer, companyPicture, companyName, minimumBid, maximumBidLabel,
 	maximumBidIcon, maximumBidAmount;
 	private JTable companyStatistics;

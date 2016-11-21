@@ -25,7 +25,6 @@ import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TextFieldFocusListener;
 import messages.LobbyPlayerReadyMessage;
-import messages.ReturnToIntro;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
@@ -36,7 +35,6 @@ public class LobbyPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Vector<User> players;
 	private JLabel statusLabel, firmLabel;
 	private JTextField firmField;
 	private JButton readyButton;

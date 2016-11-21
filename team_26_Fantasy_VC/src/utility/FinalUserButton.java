@@ -5,6 +5,10 @@ import javax.swing.JButton;
 import gameplay.User;
 
 public class FinalUserButton extends JButton {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private User user;
 	
 	public FinalUserButton(User user){

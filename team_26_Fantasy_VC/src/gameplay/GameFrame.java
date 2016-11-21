@@ -22,13 +22,13 @@ public class GameFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1;
 	private Client client;
-	public static Boolean networked;
+	public Boolean networked;
 	public Game game;
 	public JPanel currentPanel;
 	public TopPanel header;
 	public User user;
 	public ChatPanel chatbox;
-	public static Boolean gameInProgress;
+	public Boolean gameInProgress;
 
 	
 	/**

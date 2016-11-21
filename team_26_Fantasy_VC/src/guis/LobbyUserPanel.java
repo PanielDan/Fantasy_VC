@@ -14,6 +14,11 @@ import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 
 public class LobbyUserPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String username;
 
 	private String firmName;

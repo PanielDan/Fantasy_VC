@@ -16,10 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
-import gameplay.Game;
 import messages.CreateGameMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;

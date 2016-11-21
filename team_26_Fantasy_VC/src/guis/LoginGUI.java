@@ -8,10 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -28,7 +24,6 @@ import client.Client;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TextFieldFocusListener;
-import messages.ChatMessage;
 import server.SQLDriver;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -59,11 +54,6 @@ public class LoginGUI extends JFrame{
 	private JLabel alertLabel;
 	private SQLDriver driver;
 
-	private final static String queryStatement = "SELECT * FROM Venture.Users WHERE username = ?";
-	private final static String insertStatement = "INSERT INTO Venture.Users (username, passcode) VALUES (?, ?);";
-
-	private Connection conn = null;
-	private ResultSet rs = null;
 
 	public LoginGUI() {
 		super("Fantasy Venture Capital");
@@ -73,21 +63,6 @@ public class LoginGUI extends JFrame{
 		addListeners();
 		driver = new SQLDriver();
 		driver.connect();
-	}
-	
-	public static void main(String[] args) {
-		new LoginGUI().setVisible(true);
-	}
-
-	private void initializeConnection() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/Venture?user=root&password=Fuck you MySQL.&useSSL=false");
-		} catch (SQLException sqle) {
-			System.out.println("SQLException in initializeConnection(): " + sqle.getMessage());
-		} catch (ClassNotFoundException cnfe) {
-			System.out.println("ClassNotFoundException: " + cnfe.getMessage());
-		}
 	}
 	
 	private void initializeComponents() {

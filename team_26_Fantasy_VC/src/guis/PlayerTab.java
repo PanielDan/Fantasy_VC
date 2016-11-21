@@ -31,7 +31,11 @@ import utility.ImageLibrary;
 
 public class PlayerTab extends JPanel {
 
-//	public JButton trade;
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//	public JButton trade;
 	public JButton sell;
 	public String playerName;
 	public ImageIcon playerIcon;
@@ -44,7 +48,7 @@ public class PlayerTab extends JPanel {
 	private JTable portfolio;
 	private User user;
 	
-	private PlayerTab currentTab = this;
+//	private PlayerTab currentTab = this;
 	
 //	public PlayerTab(String playerName, ImageIcon playerIcon, Vector<Company> assets, QuarterlyGUI qg) {
 //		this.playerName = playerName;
@@ -82,8 +86,8 @@ public class PlayerTab extends JPanel {
 	}
 	
 	private void createGUI(){
-		JScrollPane updatesScrollPane = new JScrollPane(portfolio, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+//		JScrollPane updatesScrollPane = new JScrollPane(portfolio, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+//				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		String[] columnNames = {"Name", "Tier Level", "Price (Millions)", "Net Growth"};
 		TableModel dtm = new TableModel();

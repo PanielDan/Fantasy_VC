@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
 import gameplay.Company;
-import gameplay.User;
 
 public class CompanyFiller {
 	
@@ -67,7 +66,7 @@ public class CompanyFiller {
 		System.out.println(driver.checkPassword("Timmy Lewd", "passcode"));
 		
 		
-		User user = driver.getUser("Timmy Lewd");
+//		User user = driver.getUser("Timmy Lewd");
 		
 //		
 //		user = driver.getUser("New Name");
