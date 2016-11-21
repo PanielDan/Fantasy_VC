@@ -44,9 +44,7 @@ public class FinalGUI extends JPanel {
 	private JButton done;
 	private JTable portfolio;
 	private Client client;
-	
-	private Vector<FinalUserPanel> listings;
-	
+		
 	public FinalGUI(GameFrame gameFrame, Client client) {
 		this.gameFrame = gameFrame;
 		this.client = client;
@@ -66,53 +64,53 @@ public class FinalGUI extends JPanel {
 		*/
 	}
 	
-	private void multiplayerAddEvents() {
-		// TODO @jcchen305
-		done.addActionListener(new ActionListener(){
+//	private void multiplayerAddEvents() {
+//		// TODO @jcchen305
+//		done.addActionListener(new ActionListener(){
+//
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				client.sendMessage(new ReturnToIntro(false));
+//			}
+//						
+//		});
+//		/* JButton done should take you back to a start window that you want and 
+//		 * probably restart the client.
+//		 * The exit window listener should change a little bit if you're on this window as well.
+//		 */
+//	}
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				client.sendMessage(new ReturnToIntro(false));
-			}
-						
-		});
-		/* JButton done should take you back to a start window that you want and 
-		 * probably restart the client.
-		 * The exit window listener should change a little bit if you're on this window as well.
-		 */
-	}
+//	private void multiplayerCreateGUI() {
+//		setSize(1280, 504);
+//		setBackground(AppearanceConstants.darkBlue);
+//		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+//		JScrollPane scrollPane = new JScrollPane(this);
+//		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+//		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+//		
+//		for (FinalUserPanel fup : listings) {
+//			add(fup);
+//			add(Box.createVerticalStrut(10));
+//		}
+//		
+//		add(done);
+//	}
 
-	private void multiplayerCreateGUI() {
-		setSize(1280, 504);
-		setBackground(AppearanceConstants.darkBlue);
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		JScrollPane scrollPane = new JScrollPane(this);
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		
-		for (FinalUserPanel fup : listings) {
-			add(fup);
-			add(Box.createVerticalStrut(10));
-		}
-		
-		add(done);
-	}
-
-	private void multiplayerInitializeVariables() {
-		int numberOfPlayers = gameFrame.getClient().getUsers().size();
-		listings = new Vector<FinalUserPanel>();
-		done = new JButton("Done");
-		done.setOpaque(true);
-		AppearanceSettings.unSetBorderOnButtons(done);
-		AppearanceSettings.setForeground(AppearanceConstants.offWhite, done);
-		AppearanceSettings.setBackground(AppearanceConstants.green, done);
-		
-		for (int p = 0; p < numberOfPlayers; p++) {
-			listings.add(new FinalUserPanel(gameFrame.game.getUsers().get(p)));
-		}
-//		listings.sort(c);
-		
-	}
+//	private void multiplayerInitializeVariables() {
+//		int numberOfPlayers = gameFrame.getClient().getUsers().size();
+//		listings = new Vector<FinalUserPanel>();
+//		done = new JButton("Done");
+//		done.setOpaque(true);
+//		AppearanceSettings.unSetBorderOnButtons(done);
+//		AppearanceSettings.setForeground(AppearanceConstants.offWhite, done);
+//		AppearanceSettings.setBackground(AppearanceConstants.green, done);
+//		
+//		for (int p = 0; p < numberOfPlayers; p++) {
+//			listings.add(new FinalUserPanel(gameFrame.game.getUsers().get(p)));
+//		}
+////		listings.sort(c);
+//		
+//	}
 
 	private void initializeVariables(){
 		userButtons = new Vector<FinalUserButton>();
