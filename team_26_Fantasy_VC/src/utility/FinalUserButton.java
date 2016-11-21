@@ -13,7 +13,7 @@ public class FinalUserButton extends JButton {
 	
 	public FinalUserButton(User user){
 		//Has to be replaced with firm name;
-		super(user.getUsername());
+		super(user.getCompanyName());
 		this.user = user;
 		setOpaque(true);
 		setBorderPainted(false);
