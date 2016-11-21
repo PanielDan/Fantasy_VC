@@ -351,7 +351,7 @@ public class FinalGUI extends JPanel {
 					//TODO Needs to replaced with total equity or value number
 					totalEquity.setText("Total value: " + String.format("%.2f", selectedUser.getCurrentCapital()) + Constants.million);
 					double percent = ((selectedUser.getCurrentCapital() - selectedUser.getStartingCapital()) / selectedUser.getStartingCapital())*100;
-					percentGain.setText("Percent Gain: " + String.format("%.2f", percent + "%"));
+					percentGain.setText("Percent Gain: " + String.format("%.2f", percent) + "%");
 					numCompanies.setText("Number of companies: " + Integer.toString(selectedUser.getCompanies().size()));
 					Vector<Company> bestCompanies = selectedUser.getBestTeams();
 					if (bestCompanies.size() > 0){
