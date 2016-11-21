@@ -13,11 +13,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import gameplay.Lobby;
 import messages.CreateGameMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
@@ -123,11 +125,7 @@ public class CreateGameGUI extends JFrame{
 		slider.setPaintTrack(true);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, slider);
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, slider);
-		
-		JPanel sliderPanel = new JPanel();
-		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, sliderPanel);
-		sliderPanel.add(slider);
-		southPanel.add(sliderPanel);
+		southPanel.add(new JPanel().add(slider));
 		
 		centerPanel.add(southPanel, BorderLayout.SOUTH);
 		
@@ -176,6 +174,13 @@ public class CreateGameGUI extends JFrame{
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(!lobbyName.getText().equals("")) {
+						for(Lobby lobbies : ip.getLobbies()) {
+							if (lobbyName.getText().trim().equals(lobbies.getLobbyName())){
+								JOptionPane.showMessageDialog(new JFrame(), "Lobby name already taken.", "Lobby name taken", JOptionPane.WARNING_MESSAGE);
+								return;
+							}
+						}
+						
 						CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), slider.getValue(), ip.gameFrame.user);
 //						CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user);
 						ip.gameFrame.getClient().sendMessage(cgm);
@@ -190,6 +195,12 @@ public class CreateGameGUI extends JFrame{
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				if(!lobbyName.getText().equals("")) {
+					for(Lobby lobbies : ip.getLobbies()) {
+						if (lobbyName.getText().trim().equals(lobbies.getLobbyName())){
+							JOptionPane.showMessageDialog(new JFrame(), "Lobby name already taken.", "Lobby name taken", JOptionPane.WARNING_MESSAGE);
+							return;
+						}
+					}
 					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), slider.getValue(), ip.gameFrame.user);
 //					CreateGameMessage cgm = new CreateGameMessage(lobbyName.getText(), size.getItemAt(size.getSelectedIndex()), ip.gameFrame.user);
 					ip.gameFrame.getClient().sendMessage(cgm);
