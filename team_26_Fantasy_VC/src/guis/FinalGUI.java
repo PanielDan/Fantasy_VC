@@ -58,12 +58,16 @@ public class FinalGUI extends JPanel {
 	}
 	
 	private void multiplayerAddEvents() {
-		
+		// TODO @jcchen305
+		/* JButton done should take you back to a start window that you want and 
+		 * probably restart the client.
+		 * The exit window listener should change a little bit if you're on this window as well.
+		 */
 	}
 
 	private void multiplayerCreateGUI() {
 		setSize(1280, 504);
-		setBackground(AppearanceConstants.lightBlue);
+		setBackground(AppearanceConstants.darkBlue);
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		JScrollPane scrollPane = new JScrollPane(this);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -71,13 +75,21 @@ public class FinalGUI extends JPanel {
 		
 		for (FinalUserPanel fup : listings) {
 			add(fup);
-			add(Box.createVerticalStrut(5));
+			add(Box.createVerticalStrut(10));
 		}
+		
+		add(done);
 	}
 
 	private void multiplayerInitializeVariables() {
 		int numberOfPlayers = gameFrame.getClient().getUsers().size();
 		listings = new Vector<FinalUserPanel>();
+		done = new JButton("Done");
+		done.setOpaque(true);
+		AppearanceSettings.unSetBorderOnButtons(done);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, done);
+		AppearanceSettings.setBackground(AppearanceConstants.green, done);
+		
 		for (int p = 0; p < numberOfPlayers; p++) {
 			listings.add(new FinalUserPanel(gameFrame.game.getUsers().get(p)));
 		}
@@ -215,7 +227,8 @@ public class FinalGUI extends JPanel {
 		portfolio = new JTable(dtm);
 		portfolio.setForeground(AppearanceConstants.darkBlue);
 		portfolio.setFont(AppearanceConstants.fontSmallest);
-				
+		portfolio.getTableHeader().setReorderingAllowed(false);
+		
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, winner, done);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, done, winner, userFirmName,
 				totalEquity, percentGain, bestInvestment, portfolioLabel, numCompanies);

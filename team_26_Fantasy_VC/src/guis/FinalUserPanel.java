@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import gameplay.Company;
 import gameplay.User;
@@ -45,7 +46,7 @@ public class FinalUserPanel extends JPanel {
 
 
 	private void createGUI() {
-		setSize(400, 100);
+		setSize(600, 200);
 		setBackground(AppearanceConstants.mediumGray);
 		setLayout(new BorderLayout());
 		JPanel northPanel = new JPanel(new BorderLayout());
@@ -54,27 +55,33 @@ public class FinalUserPanel extends JPanel {
 		
 		northPanel.add(avatarLabel, BorderLayout.WEST);
 		northPanel.add(usernameLabel, BorderLayout.EAST);
-		JPanel centerEastPanel = new JPanel();
-		
-		centerEastPanel.add(profitLabel);
-		centerEastPanel.add(deltaLabel);
+		JPanel centerEastPanel = new JPanel(new BorderLayout());
+		JLabel endingCapital = new JLabel("Ending Capital: ");
+		centerEastPanel.add(endingCapital, BorderLayout.WEST);
+		centerEastPanel.add(profitLabel, BorderLayout.CENTER);
+		centerEastPanel.add(deltaLabel, BorderLayout.EAST);
 		
 		centerPanel.add(firmnameLabel, BorderLayout.WEST);
 		centerPanel.add(centerEastPanel, BorderLayout.EAST);
 		
-		southPanel.add(bioLabel, BorderLayout.WEST);
+		JLabel bio = new JLabel("User Bio");
+		southPanel.add(bio, BorderLayout.NORTH);
+		southPanel.add(bioLabel, BorderLayout.CENTER);
 		
 		add(northPanel, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 		
-		AppearanceSettings.setFont(AppearanceConstants.fontMedium, usernameLabel);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, firmnameLabel, profitLabel, deltaLabel);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmallest, bioLabel);
-		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, northPanel, centerPanel, southPanel);
-		AppearanceSettings.setForeground(AppearanceConstants.offWhite, usernameLabel, firmnameLabel, bioLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontHeaderUser, usernameLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontFirmName, firmnameLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, endingCapital, profitLabel, deltaLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, bio, bioLabel);
+		AppearanceSettings.setBackground(AppearanceConstants.mediumGray, northPanel, centerEastPanel, centerPanel, southPanel);
+		AppearanceSettings.setForeground(AppearanceConstants.offWhite, endingCapital, bio, usernameLabel, firmnameLabel, bioLabel);
 		
 		/* If the person ends up with a positive profit, make the numbers green, else make it red. */
+		DecimalFormat df = new DecimalFormat("#.##");
+		System.out.println("final game delta " + df.format(delta) +  "     "  + delta);
 		if (delta >= 0.00) {
 			AppearanceSettings.setForeground(AppearanceConstants.lightGreen, profitLabel, deltaLabel);
 		} else {
@@ -86,6 +93,7 @@ public class FinalUserPanel extends JPanel {
 	private void initializeComponents() {
 		Image image = ImageLibrary.getImage(user.getUserIconString());
 		avatarLabel = new JLabel(new ImageIcon(image.getScaledInstance(125, 125, Image.SCALE_SMOOTH)));
+		avatarLabel.setBorder(new LineBorder(AppearanceConstants.lightBlue, 10));
 		usernameLabel = new JLabel(user.getUsername());
 		firmnameLabel = new JLabel(user.getCompanyName());
 		
@@ -95,9 +103,9 @@ public class FinalUserPanel extends JPanel {
 			currentCapital += c.getCurrentWorth();
 		}
 		
-		delta = 100 * ((user.getTotalProfit() - user.getStartingCapital()) / user.getStartingCapital());
+		delta = 100 * (user.getCurrentCapital() - user.getStartingCapital()) / user.getStartingCapital();
 		profitLabel = new JLabel("$" + df.format(currentCapital) + "M");
-		deltaLabel = new JLabel(df.format(delta) + "%");
+		deltaLabel = new JLabel("(" + df.format(delta) + "% from start.)");
 		bioLabel = new JLabel(user.getUserBio());
 	}
 }
