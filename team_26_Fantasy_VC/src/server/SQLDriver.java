@@ -83,15 +83,15 @@ public class SQLDriver {
 				String description = rs.getString("description");
 				double starting = rs.getDouble("startingPrice");
 				int tier = rs.getInt("tierLevel");
-				int delta;
+//				int delta = 0;
 				
 				if (companyName.equals("Critter")) {
 					// Critter is an Easter egg company
 					starting = 0.01;
-					delta = 500;
+//					delta = 500;
 				} else {
 					starting = generateStartingPrice(tier);
-					delta = generateDelta(tier);
+//					delta = generateDelta(tier);
 				}
 								
 				Company tempComp = new Company(imagePath, companyName, description, starting, tier);
@@ -103,25 +103,25 @@ public class SQLDriver {
 		return companies;
 	}
 	
-	private int generateDelta(int tierLevel) { 
-		Random rand = new Random();
-		int value;
-		switch (tierLevel) { 
-		case 1:
-			value = rand.nextInt(40) + 10;
-			break;
-		case 2:
-			value = rand.nextInt(45) + 25;
-			break;
-		case 3:
-			value = rand.nextInt(50) + 35;
-			break;
-		default:
-			value = 10000;
-			break;
-		}
-		return value;
-	}
+//	private int generateDelta(int tierLevel) { 
+//		Random rand = new Random();
+//		int value;
+//		switch (tierLevel) { 
+//		case 1:
+//			value = rand.nextInt(40) + 10;
+//			break;
+//		case 2:
+//			value = rand.nextInt(45) + 25;
+//			break;
+//		case 3:
+//			value = rand.nextInt(50) + 35;
+//			break;
+//		default:
+//			value = 10000;
+//			break;
+//		}
+//		return value;
+//	}
 	
 	
 	private double generateStartingPrice(int tierLevel) {

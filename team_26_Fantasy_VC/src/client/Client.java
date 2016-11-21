@@ -60,20 +60,15 @@ import server.SQLDriver;
 public class Client extends Thread {
 	public User user;
 	public Vector<User> users;
-	private String lobbyName;
-	private long bankAccount;
-	private Vector<Company> portfolio;
 	
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private Socket s;
 	private GameFrame gameFrame;
-	private boolean host;
 	//Running boolean used to determine when to break the run while loop.
 	private boolean running;
 	private AuctionTeamList atl;
 	private QuarterlyGUI qgui;
-	private Clip clip;
 	
 	public Client(User user) { 
 		running = true;

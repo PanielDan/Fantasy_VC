@@ -5,11 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.InputStream;
-import java.net.URL;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -28,10 +24,13 @@ import utility.AppearanceSettings;
 import utility.ImageLibrary;
 
 public class UserInfoGUI extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton userIcon, cancel, save;
 	private JLabel username;
 	private JTextArea userBio;
-	private String imageLocation;
 	private GameFrame gameFrame;
 	private String imagePath;
 	private Image image;

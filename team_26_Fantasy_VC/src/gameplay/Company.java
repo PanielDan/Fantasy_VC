@@ -21,6 +21,10 @@ import utility.ImageLibrary;
 
 public class Company implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String image, name, description;
 	private double startingPrice, askingPrice, currentWorth;
 	private int delta, tierLevel;

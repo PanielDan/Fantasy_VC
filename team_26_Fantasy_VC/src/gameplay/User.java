@@ -23,7 +23,6 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private transient String password;
 	//User icon saved as an image, all we need to to pass in the string
 	private transient Image userIcon;
 	private String userIconString;
@@ -42,7 +41,6 @@ public class User implements Serializable {
 	public User(int id, String username, String password, String userBio, int gamesPlayed, int gamesWon, double totalProfit) {
 		this.id = id;
 		this.username = username;
-		this.password = password;
 		this.gamesPlayed = gamesPlayed;
 		this.userBio = userBio;
 		this.gamesWon = gamesWon;
@@ -58,7 +56,6 @@ public class User implements Serializable {
 	public User(int id, String username, String password, String userBio, int gamesPlayed, int gamesWon, double totalProfit, String userIconString) {
 		this.id = id;
 		this.username = username;
-		this.password = password;
 		this.gamesPlayed = gamesPlayed;
 		this.userBio = userBio;
 		this.gamesWon = gamesWon;
@@ -92,15 +89,6 @@ public class User implements Serializable {
 	 */
 	public synchronized int getID() {
 		return id;
-	}
-
-	/**
-	 * Well that's dangerous! Let's make that private.
-	 * Or better yet let's delete it entirely.
-	 * @return The user's unhashed password.
-	 */
-	private synchronized String getPassword() {
-		return password;
 	}
 
 	/**

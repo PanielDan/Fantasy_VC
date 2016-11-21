@@ -32,6 +32,7 @@ public class CompanyFiller {
 				String imagePath = st.nextToken();
 				try {
 					InputStream is = new URL(imagePath).openStream();
+					@SuppressWarnings("unused")
 					ImageInputStream iis = ImageIO.createImageInputStream(is);
 				} catch (Exception e) {
 					System.out.println(companyName);

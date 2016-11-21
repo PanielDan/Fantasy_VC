@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.Vector;
 
 import messages.CompanyUpdateMessage;
-import messages.SwitchPanelMessage;
 import server.SQLDriver;
 import server.ServerLobby;
 
