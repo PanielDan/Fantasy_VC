@@ -27,7 +27,7 @@ public class ServerLobby extends Thread{
 	private int numPlayers;
 	private Timer timer;
 	private Game seedGame;
-	private int quarters = 5;
+	private int quarters = 2;
 	
 	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
 		this.sccVector = sccVector;
@@ -181,7 +181,15 @@ public class ServerLobby extends Thread{
 			System.out.println("done");
 			
 			semaphore.acquire(this.numPlayers);
-			while(!checkReady());
+			
+
+			semaphore.acquire(this.numPlayers);
+			System.out.println("requesting final stuff");
+			while(!checkReady());			
+			sendToAll(new SwitchPanelMessage());
+			
+			seedGame.updateCompanies(1);
+			sendToAll(seedGame);
 			
 			sendToAll(new FinalRequestMessage());
 			
