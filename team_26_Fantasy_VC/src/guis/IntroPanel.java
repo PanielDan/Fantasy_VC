@@ -39,6 +39,7 @@ public class IntroPanel extends JPanel {
 	JPanel eastPanel, centerPanel, playerPanel;
 	public GameFrame gameFrame;
 	Vector<JButton> lobbyButton;
+	Vector<Lobby> lobbies;
 	IntroPanel ip;
 	Lobby activeLobby;
 	CreateGameGUI cgui;
@@ -241,6 +242,7 @@ public class IntroPanel extends JPanel {
 	}
 	
 	public void setLobbies(Vector<Lobby> lobbies) {
+		this.lobbies = lobbies;
 		lobbyButton.clear();
 		joinButton.setEnabled(false);
 		clearCenterPanel();
@@ -259,5 +261,9 @@ public class IntroPanel extends JPanel {
 		for(Component c : centerPanel.getComponents()) {
 			centerPanel.remove(c);
 		}
+	}
+	
+	public Vector<Lobby> getLobbies() {
+		return lobbies;
 	}
 }
