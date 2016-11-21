@@ -65,7 +65,7 @@ public class AuctionTeamList extends JPanel {
 	private Vector<Company> companyVect;
 	private Vector<User> order;
 	private HashMap<String, Vector<String>> companyLists;
-	private int turnsPerPerson = 1;
+	private int turnsPerPerson = 5;
 	
 	
 	public AuctionTeamList(Client client, GameFrame gameFrame) {
