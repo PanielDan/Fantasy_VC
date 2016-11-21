@@ -123,7 +123,11 @@ public class CreateGameGUI extends JFrame{
 		slider.setPaintTrack(true);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, slider);
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, slider);
-		southPanel.add(new JPanel().add(slider));
+		
+		JPanel sliderPanel = new JPanel();
+		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, sliderPanel);
+		sliderPanel.add(slider);
+		southPanel.add(sliderPanel);
 		
 		centerPanel.add(southPanel, BorderLayout.SOUTH);
 		

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import gameplay.Company;
@@ -129,16 +130,18 @@ public class PlayerTab extends JPanel {
 		Image image = ImageLibrary.getImage(user.getUserIconString());
 		playerPicture.setIcon(new ImageIcon(image.getScaledInstance(250, 250, Image.SCALE_SMOOTH)));
 		playerPicture.setBorder(new EmptyBorder(10, 10, 10, 10));
+		playerPicture.setHorizontalAlignment(SwingConstants.CENTER);
 //		ImageIcon ii = new ImageIcon(user.getUserIcon());
 //		playerPicture.setIcon(ii);
-		JLabel playerName = new JLabel(user.getUsername());
-		JLabel companyName = new JLabel(user.getCompanyName());
+		JLabel playerName = new JLabel(user.getUsername(), SwingConstants.CENTER);
+		JLabel companyName = new JLabel(user.getCompanyName(), SwingConstants.CENTER);
 		//user.setUserBio("This is the User's bio. It's less than 144 characters.");
 		user.setUserBio(user.getUserBio());
 		JTextArea playerBio = new JTextArea(user.getUserBio());
 		playerBio.setEditable(false);
 		playerBio.setLineWrap(true);
 		playerBio.setWrapStyleWord(true);
+		playerBio.setBorder(new EmptyBorder(5,5,5,5));
 		
 		AppearanceSettings.setFont(AppearanceConstants.fontHeaderUser, playerName);
 		AppearanceSettings.setFont(AppearanceConstants.fontFirmName, companyName);
