@@ -125,7 +125,7 @@ public class AuctionBidScreen extends JPanel {
 		for(int i = 0; i < 4; i++){
 			firmPicture[i] = new JLabel();
 			firmName[i] = new JLabel("");
-			firmBid[i] = new JLabel("$");
+			firmBid[i] = new JLabel("");
 			
 			AppearanceSettings.setBackground(AppearanceConstants.darkBlue, firmPicture[i],firmName[i],firmBid[i]);
 			AppearanceSettings.setForeground(AppearanceConstants.offWhite,firmName[i],firmBid[i]);
@@ -436,10 +436,8 @@ public class AuctionBidScreen extends JPanel {
 			}
 		}
 		bidAmountNumber[index] = amount;
-		System.out.println(Double.toString(amount) + Constants.million);
-		firmBid[index].setText(Double.toString(amount) + Constants.million);
+		firmBid[index].setText(String.format("%.2f", amount) + Constants.million);
 		bidMin = amount;
-		System.out.println("bidMin: " + bidMin);
 		findMaxBet(companyName);
 		currentBidder = companyName;
 	}

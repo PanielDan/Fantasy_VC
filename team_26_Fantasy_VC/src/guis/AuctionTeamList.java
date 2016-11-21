@@ -423,7 +423,7 @@ public class AuctionTeamList extends JPanel {
 		cardSwapPanel.setMaximumSize(new Dimension(250,450));
 		firmDetailsPanel.setMaximumSize(new Dimension(250,450));
 		companyDetailsPanel.setMaximumSize(new Dimension(250,450));
-		AppearanceSettings.setSize(250,100, companyBioPane);
+		AppearanceSettings.setSize(250,150, companyBioPane);
 		AppearanceSettings.setSize(100,40, bidButton);
 		AppearanceSettings.setBackground(AppearanceConstants.darkBlue, cardSwapPanel, firmDetailsPanel,
 				companyDetailsPanel,companyInfoPanel,firmInfoPanel,detailsFirmCurrentMoney, detailsFirmName,

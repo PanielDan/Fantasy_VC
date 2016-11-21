@@ -143,7 +143,7 @@ public class PlayerTab extends JPanel {
 		AppearanceSettings.setFont(AppearanceConstants.fontHeaderUser, playerName);
 		AppearanceSettings.setFont(AppearanceConstants.fontFirmName, companyName);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, playerBio);
-		
+		AppearanceSettings.setCenterAlignment(playerPicture, playerName, companyName, playerBio);
 		
 		JPanel wordsPanel = new JPanel();
 		wordsPanel.setLayout(new BoxLayout(wordsPanel, BoxLayout.PAGE_AXIS));
@@ -173,8 +173,8 @@ public class PlayerTab extends JPanel {
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, playerName, companyName, playerBio, sell);
 		AppearanceSettings.setBackground(AppearanceConstants.mediumGray,  sell);
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, sell);
-		AppearanceSettings.unSetBorderOnButtons( sell);
-		AppearanceSettings.setOpaque( sell);
+		AppearanceSettings.unSetBorderOnButtons(sell);
+		AppearanceSettings.setOpaque(sell);
 		
 		if(user.getUsername().equals(gameFrame.user.getUsername())) {
 //			trade.setEnabled(false);
