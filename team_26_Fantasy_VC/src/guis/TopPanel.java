@@ -18,7 +18,6 @@ import javax.swing.border.EmptyBorder;
 import client.Client;
 import gameplay.GameFrame;
 import gameplay.User;
-import messages.UserInfoPopupMessage;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;

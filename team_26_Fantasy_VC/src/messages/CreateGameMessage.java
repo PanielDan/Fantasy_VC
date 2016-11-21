@@ -1,9 +1,12 @@
 package messages;
 
-import gameplay.Game;
 import gameplay.User;
 
 public class CreateGameMessage extends Message{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public String gamename;
 	public User hostUser;
 	public int numUsers;

@@ -26,7 +26,6 @@ import guis.LobbyUserPanel;
 import guis.PlayerTab;
 import guis.QuarterlyGUI;
 import guis.TimelapsePanel;
-import guis.TradeGUI;
 import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
 import messages.BuyMessage;
@@ -35,7 +34,6 @@ import messages.ClientExitMessage;
 import messages.CompanyUpdateMessage;
 import messages.FinalMessage;
 import messages.FinalRequestMessage;
-import messages.InitiateTradeMessage;
 import messages.LeaveFinal;
 import messages.LoadingGame;
 import messages.LobbyListMessage;
@@ -348,31 +346,31 @@ public class Client extends Thread {
 						}
 					}
 				}
-				else if (m instanceof InitiateTradeMessage) {
-					System.out.println("Initiating trade");
-					InitiateTradeMessage itm = (InitiateTradeMessage) m;
-					User initiator = itm.getInitiator();
-					User target = itm.getTarget();
-					System.out.println("user " + user.getUsername() + user.hashCode());
-					System.out.println("initiator " + initiator.getUsername() + initiator.hashCode());
-					System.out.println("target " + target.getUsername() + target.hashCode());
-				
-					if (user.getID() == initiator.getID()) {
-						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
-					} else if (user.getID() == target.getID()) {
-						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
-					} else {
-						if (gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
-							String text = initiator.getCompanyName() + " and " + target.getCompanyName() + " are considering a trade deal.";
-							((QuarterlyGUI) gameFrame.getCurrentPanel()).sendUpdate(text);
-						} else {
-							/* This really shouldn't be happening.  Let's print something so we know this 
-							 * occurs, if it does.
-							 */
-							System.out.println("Warning in Client.java under InitiateTradeMessage");
-						}
-					}
-				}
+//				else if (m instanceof InitiateTradeMessage) {
+//					System.out.println("Initiating trade");
+//					InitiateTradeMessage itm = (InitiateTradeMessage) m;
+//					User initiator = itm.getInitiator();
+//					User target = itm.getTarget();
+//					System.out.println("user " + user.getUsername() + user.hashCode());
+//					System.out.println("initiator " + initiator.getUsername() + initiator.hashCode());
+//					System.out.println("target " + target.getUsername() + target.hashCode());
+//				
+//					if (user.getID() == initiator.getID()) {
+//						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
+//					} else if (user.getID() == target.getID()) {
+//						gameFrame.changePanel(new TradeGUI(this, (QuarterlyGUI) gameFrame.getCurrentPanel(), initiator, target));
+//					} else {
+//						if (gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {
+//							String text = initiator.getCompanyName() + " and " + target.getCompanyName() + " are considering a trade deal.";
+//							((QuarterlyGUI) gameFrame.getCurrentPanel()).sendUpdate(text);
+//						} else {
+//							/* This really shouldn't be happening.  Let's print something so we know this 
+//							 * occurs, if it does.
+//							 */
+//							System.out.println("Warning in Client.java under InitiateTradeMessage");
+//						}
+//					}
+//				}
 				else if(m instanceof FinalRequestMessage) {
 					sendMessage(new UserUpdate(user));
 				}
