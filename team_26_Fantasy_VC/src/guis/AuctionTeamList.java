@@ -95,7 +95,7 @@ public class AuctionTeamList extends JPanel {
 		System.out.println(order + " " + order.size());
 		order.remove(0);
 		if(!order.isEmpty()) {
-			updateMiddleFirmName(order.get(0).getUsername());
+			updateMiddleFirmName(order.get(0).getCompanyName());
 			middleFirmPicture.setIcon(new ImageIcon(order.get(0).getUserIcon().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
 		}
 	}
