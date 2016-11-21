@@ -126,12 +126,9 @@ public class AuctionTeamList extends JPanel {
 		
 		if (!gameFrame.networked) {
 			bidButton = new JButton("BUY"); 
-			firms.add("Buy 8 companies");
-			firms.add("to start the game!");
-			firms.add("You will be able");
-			firms.add("to buy more companies");
-			firms.add("or sell your companies");
-			firms.add("later.");
+			firms.add(" ");
+			firms.add("Buy 8 companies to start playing!");
+			
 		} else {
 			bidButton = new JButton("BID");
 			order = new Vector<User>();
@@ -154,7 +151,7 @@ public class AuctionTeamList extends JPanel {
 			DefaultListCellRenderer renderer = (DefaultListCellRenderer)firmList.getCellRenderer();  
 			renderer.setHorizontalAlignment(JLabel.LEFT);
 			firmList.setFocusable(false);
-			AppearanceSettings.setFont(AppearanceConstants.fontSmall, firmList);
+			AppearanceSettings.setFont(AppearanceConstants.fontSmallest, firmList);
 
 		} else {
 			//Set List to center text alignment
