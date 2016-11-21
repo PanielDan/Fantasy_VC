@@ -46,6 +46,7 @@ public class UserInfoGUI extends JFrame {
 		addActionListeners();
 		setVisible(true);
 		toFront();
+		this.setResizable(false);
 	}
 	
 	private void intializeVariables(){		

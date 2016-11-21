@@ -182,8 +182,10 @@ public class ServerLobby extends Thread{
 			
 			sendToAll(new FinalRequestMessage());
 			
-				semaphore.acquire(this.numPlayers);
-				while(!checkReady());
+			semaphore.acquire(this.numPlayers);
+			while(!checkReady());
+			
+			if(timer != null) timer.kill();
 			
 			sendToAll(new FinalMessage(seedGame));
 		} catch (InterruptedException ie) {

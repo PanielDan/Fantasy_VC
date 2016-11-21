@@ -3,12 +3,13 @@ package listeners;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import client.Client;
+import gameplay.GameFrame;
+import guis.FinalGUI;
 import messages.ClientExitMessage;
-import utility.AppearanceConstants;
+import messages.LeaveFinal;
 
 
 /**
@@ -24,7 +25,7 @@ import utility.AppearanceConstants;
 //pop-up for when user clicks the red X on a frame
 public class ExitWindowListener extends WindowAdapter{
 
-	private JFrame frame;
+	private GameFrame frame;
 	private Client client;
 	private final boolean isMultiplayer;
 	
@@ -36,7 +37,7 @@ public class ExitWindowListener extends WindowAdapter{
 	 * {@code ExitWindowListener} to.
 	 * @param client The {@code Client} that the {@code JFrame} belongs to.
 	 */
-	public ExitWindowListener(JFrame frame, Client client) {
+	public ExitWindowListener(GameFrame frame, Client client) {
 		this.frame = frame;
 		this.client = client;
 		this.isMultiplayer = true;
@@ -46,7 +47,7 @@ public class ExitWindowListener extends WindowAdapter{
 	 * Single player guest mode.
 	 * @param frame The frame that you want to add the {@code ExitWindowListener} to.
 	 */
-	public ExitWindowListener(JFrame frame) {
+	public ExitWindowListener(GameFrame frame) {
 		this.frame = frame;
 		this.isMultiplayer = false;
 	}
@@ -55,6 +56,9 @@ public class ExitWindowListener extends WindowAdapter{
 		 int answer = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
 		 if (answer == JOptionPane.YES_OPTION) {
 			 if (isMultiplayer) {
+				 if(frame.getCurrentPanel() instanceof FinalGUI) {
+					 client.sendMessage(new LeaveFinal());
+				 }
 				 String name = client.getUser().getUsername();
 				 ClientExitMessage message = new ClientExitMessage(name);
 				 System.out.println("sent");

@@ -10,8 +10,6 @@ import java.util.Vector;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -29,7 +27,6 @@ import guis.PlayerTab;
 import guis.QuarterlyGUI;
 import guis.TimelapsePanel;
 import guis.TradeGUI;
-import main.Main;
 import messages.AuctionBidUpdateMessage;
 import messages.BeginAuctionBidMessage;
 import messages.BuyMessage;
@@ -39,6 +36,7 @@ import messages.CompanyUpdateMessage;
 import messages.FinalMessage;
 import messages.FinalRequestMessage;
 import messages.InitiateTradeMessage;
+import messages.LeaveFinal;
 import messages.LoadingGame;
 import messages.LobbyListMessage;
 import messages.LobbyPlayerReadyMessage;
@@ -82,7 +80,7 @@ public class Client extends Thread {
 		this.s = null;
 		this.user = user;
 		try {
-			s = new Socket("jeffreychen.space", 8008);
+			s = new Socket("localhost", 8008);
 			oos = new ObjectOutputStream(s.getOutputStream());
 			ois = new ObjectInputStream(s.getInputStream());
 		} catch (IOException ioe) { 
@@ -125,10 +123,10 @@ public class Client extends Thread {
 
 		
 	
-	public void returnToIntro() {
+	public void returnToIntro(boolean showPane) {
 		running = false;
 		SQLDriver driver = new SQLDriver();
-		JOptionPane.showMessageDialog(new JFrame(), "Somebody disconnected from the lobby! Returning you to the home screen...", "Disconnect", JOptionPane.WARNING_MESSAGE);
+		if(showPane) JOptionPane.showMessageDialog(new JFrame(), "Somebody disconnected from the lobby! Returning you to the home screen...", "Disconnect", JOptionPane.WARNING_MESSAGE);
 		driver.connect();
 		new Client(driver.getUser(user.getUsername())).start();
 		driver.stop();
@@ -139,8 +137,13 @@ public class Client extends Thread {
 			while(running) {
 				Object m = ois.readObject();
 				if (m instanceof ReturnToIntro) {
+					ReturnToIntro rti = (ReturnToIntro)m;
 					System.out.println("return to intro");
-					returnToIntro();
+					returnToIntro(rti.getShowPane());
+				}
+				else if (m instanceof LeaveFinal) {
+					System.out.println("leave final");
+					System.exit(0);
 				}
 				else if (m instanceof UserUpdate) {
 					if(gameFrame.getCurrentPanel() instanceof QuarterlyGUI) {

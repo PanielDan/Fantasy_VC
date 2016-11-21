@@ -41,7 +41,7 @@ public class CreateGameGUI extends JFrame{
 		initializeComponents();
 		createGUI();
 		addEvents();
-		this.setVisible(true);
+		this.setResizable(false);
 	}
 	
 	private void initializeComponents() {

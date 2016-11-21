@@ -38,6 +38,7 @@ public class IntroPanel extends JPanel {
 	Vector<JButton> lobbyButton;
 	IntroPanel ip;
 	Lobby activeLobby;
+	CreateGameGUI cgui;
 	
 	public IntroPanel(GameFrame gameFrame) {
 		this.ip = this;
@@ -48,6 +49,7 @@ public class IntroPanel extends JPanel {
 		centerPanel.removeAll();
 		lobbyButton = new Vector<JButton>();
 		joinButton.setEnabled(false);
+		cgui = new CreateGameGUI(this);
 	}
 	
 	private void initializeComponents() {
@@ -117,12 +119,14 @@ public class IntroPanel extends JPanel {
 		lp.setWaitingText(numWaiting);
 		gameFrame.chatVisible();
 		gameFrame.changePanel(lp);
+		cgui.setVisible(false);
+		cgui.dispose();
 	}
 	
 	private void addEvents() {
 		hostButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				new CreateGameGUI(ip).setVisible(true);
+				cgui.setVisible(true);
 			}
 		});
 		joinButton.addActionListener(new ActionListener() {

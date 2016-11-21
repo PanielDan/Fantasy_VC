@@ -25,6 +25,7 @@ import gameplay.Company;
 import gameplay.GameFrame;
 import gameplay.User;
 import listeners.TableModel;
+import messages.ReturnToIntro;
 import utility.AppearanceConstants;
 import utility.AppearanceSettings;
 import utility.Constants;
@@ -59,6 +60,14 @@ public class FinalGUI extends JPanel {
 	
 	private void multiplayerAddEvents() {
 		// TODO @jcchen305
+		done.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				client.sendMessage(new ReturnToIntro(false));
+			}
+						
+		});
 		/* JButton done should take you back to a start window that you want and 
 		 * probably restart the client.
 		 * The exit window listener should change a little bit if you're on this window as well.

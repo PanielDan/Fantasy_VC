@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,6 +15,7 @@ import messages.ClientExitMessage;
 import messages.CreateGameMessage;
 import messages.GameSet;
 import messages.JoinGameMessage;
+import messages.LeaveFinal;
 import messages.LobbyPlayerReadyMessage;
 import messages.Message;
 import messages.ReturnToIntro;
@@ -27,7 +27,6 @@ public class ServerClientCommunicator extends Thread {
 	private Server server;
 	private ServerLobby serverLobby;
 	private Lock lock;
-	private Condition condition;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	
@@ -39,7 +38,6 @@ public class ServerClientCommunicator extends Thread {
 		this.oos = new ObjectOutputStream(new BufferedOutputStream(this.socket.getOutputStream()));
 		this.ois = new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
 		this.lock = new ReentrantLock();
-		condition = lock.newCondition();
 	}
 	
 	public synchronized void sendMessage(Object msg) {
@@ -106,7 +104,7 @@ public class ServerClientCommunicator extends Thread {
 						}
 						else {
 							serverLobby.removeServerClientCommunicator(this);
-							serverLobby.sendToAll(new ReturnToIntro());
+							serverLobby.sendToAll(new ReturnToIntro(true));
 							serverLobby.removeAll();
 							break;
 						}
@@ -130,6 +128,14 @@ public class ServerClientCommunicator extends Thread {
 					}
 					else if(obj instanceof GameSet) {
 						serverLobby.gameReceived();
+					}
+					else if(obj instanceof ReturnToIntro) {
+						serverLobby.removeServerClientCommunicator(this);
+						sendMessage(obj);
+					}
+					else if(obj instanceof LeaveFinal) {
+						serverLobby.removeServerClientCommunicator(this);
+						sendMessage(obj);
 					}
 					else {
 						System.out.println("command this is scc");
