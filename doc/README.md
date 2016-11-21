@@ -19,12 +19,14 @@ The following functionality is completed and working:
 * [x] Winners are appropriately calculated at the end of the game and all players' information are displayed.
 * [x] Chat panel allows players to chat with one another.
 * [x] .wav file played to signal chat notifications.
+* [x] Players are allowed to select and save their own firm name, bio, and player icon.
+* [x] Panel at the top of the game screens contains a player's current captial and updates in real time.
 
 ## Bugs
 
 The following bugs were discovered at the time of this document's creation:
 
-* [x] User can login or play as a guest.
+* [x] Occasional exceptions thrown on the AWS server when a user disconnects from it.
 
 ## License
 
