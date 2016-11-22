@@ -96,8 +96,7 @@ public class AuctionBidScreen extends JPanel {
     	Object[][] companyData = {
     			{"Name", company.getName()},
     			{"Tier", company.getTierLevel()},
-    			{"Price (Millions)", company.getAskingPrice()},
-    			{"Current Worth (Millions)", company.getCurrentWorth()},
+    			{"Current Worth", company.getCurrentWorth()},
     	};
     	String[] columnNames = {"",""};
     	TableModel dtm = new TableModel();
@@ -441,7 +440,6 @@ public class AuctionBidScreen extends JPanel {
     	Object[][] companyData = {
     			{"Name", company.getName()},
     			{"Tier", company.getTierLevel()},
-    			{"Asking Price", company.getAskingPrice()},
     			{"Current Worth", company.getCurrentWorth()},
     	};
     	

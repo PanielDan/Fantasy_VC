@@ -129,7 +129,7 @@ public class PlayerTab extends JPanel {
 		
 		JLabel playerPicture = new JLabel();
 		Image image = ImageLibrary.getImage(user.getUserIconString());
-		playerPicture.setIcon(new ImageIcon(image.getScaledInstance(250, 250, Image.SCALE_SMOOTH)));
+		playerPicture.setIcon(new ImageIcon(image.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 		playerPicture.setBorder(new EmptyBorder(10, 10, 10, 10));
 		playerPicture.setHorizontalAlignment(SwingConstants.CENTER);
 //		ImageIcon ii = new ImageIcon(user.getUserIcon());
