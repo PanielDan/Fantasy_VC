@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -147,6 +148,13 @@ public class IntroPanel extends JPanel {
 		});
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				Vector<User> lobbyUsers = activeLobby.getUsers();
+				for (User user : lobbyUsers) {
+					if (user.getUsername().equalsIgnoreCase(gameFrame.user.getUsername())) {
+						JOptionPane.showMessageDialog(null, "Somebody else with the same username is already in that lobby!", "Duplicate Username", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+				}
 				JoinGameMessage jgm = new JoinGameMessage(gameFrame.user, activeLobby.getLobbyName());
 				gameFrame.getClient().sendMessage(jgm);
 			}
