@@ -7,7 +7,7 @@ import guis.LoginGUI;
  * @author alancoon
  *
  */ 
-public class Main {
+public class FantasyVC {
 	
 	public static void main(String[] args) {
 		new LoginGUI().setVisible(true);
