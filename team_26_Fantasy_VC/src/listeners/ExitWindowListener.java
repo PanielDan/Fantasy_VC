@@ -60,10 +60,12 @@ public class ExitWindowListener extends WindowAdapter{
 					 if(frame.getCurrentPanel() instanceof FinalGUI) {
 						 client.sendMessage(new LeaveFinal());
 					 }
-					 String name = client.getUser().getUsername();
-					 ClientExitMessage message = new ClientExitMessage(name);
-					 System.out.println("sent");
-					 client.sendMessage(message);
+					 else{
+						 String name = client.getUser().getUsername();
+						 ClientExitMessage message = new ClientExitMessage(name);
+						 System.out.println("sent");
+						 client.sendMessage(message);
+					 }
 				 }
 			 } catch(Exception exp) {
 				 exp.printStackTrace();
