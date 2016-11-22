@@ -166,7 +166,7 @@ public class FinalGUI extends JPanel {
 				} 
 			}
 			
-			if (bestCompaniesString.equals("Best current investment(s): ")) {
+			if (bestCompaniesString.equals("Best investment: ")) {
 				bestCompaniesString += "None!";
 			}
 			
@@ -198,11 +198,11 @@ public class FinalGUI extends JPanel {
 			numCompanies = new JLabel("Numbers of companies: " + client.user.getCompanies().size());
 			double percent = (client.user.getCurrentCapital() - client.user.getStartingCapital()) / (client.user.getStartingCapital()) * 100; //(final - 100)/100*100
 
-			percentGain = new JLabel("Percentage gain: " + df.format(percent) + "%");
+			percentGain = new JLabel("Percent gain: " + df.format(percent) + "%");
 			
 			//calculate user's best company(s)
 			Vector<Company> bestCompanies = gameFrame.user.getBestTeams();
-			String bestCompaniesString = "Best current investment(s): ";
+			String bestCompaniesString = "Best investment: ";
 			boolean multipleCompanies = false;
 			for(Company company : bestCompanies) {
 				if (multipleCompanies) {
@@ -215,7 +215,7 @@ public class FinalGUI extends JPanel {
 				} 
 			}
 			
-			if (bestCompaniesString.equals("Best current investment(s): ")) {
+			if (bestCompaniesString.equals("Best investment: ")) {
 				bestCompaniesString += "None!";
 			}
 			
