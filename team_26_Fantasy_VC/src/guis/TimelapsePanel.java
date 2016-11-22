@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.Random;
-import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -34,7 +34,7 @@ public class TimelapsePanel extends JPanel {
 
 	private Client client;
 	private JTextArea notifications;
-	private Vector<String> notificationList;
+	private LinkedList<String> nonNetworkedNotificationList;
 	private Icon animation;
 	private JLabel animationLabel, notificationLabel;
 	public GameFrame gameFrame;
@@ -53,11 +53,11 @@ public class TimelapsePanel extends JPanel {
 	
 
 	private void initializeComponents() {
-		notificationList = new Vector<String>();
+		nonNetworkedNotificationList = new LinkedList<String>();
 		
 		//set notificationList in NOT NETWORKED game
 		if(!gameFrame.networked) {
-			notificationList = gameFrame.game.updateCompanies();
+			nonNetworkedNotificationList = gameFrame.game.updateCompanies();
 			//increment quarter every time lapse
 			gameFrame.game.incrementQuarter();
 			System.out.println(gameFrame.game.currentQuarter);
@@ -179,10 +179,10 @@ public class TimelapsePanel extends JPanel {
 		public void run() {
 			Random rand = new Random();
 			
-			for(int i = 0; i < notificationList.size(); i++) {
+			for(int i = 0; i < nonNetworkedNotificationList.size(); i++) {
 				
 				if(!gameFrame.networked) {
-					notifications.append(notificationList.get(i)+"\n");
+					notifications.append(nonNetworkedNotificationList.get(i)+"\n");
 
 					scrollBar.setValue(scrollBar.getMaximum());
 					try {

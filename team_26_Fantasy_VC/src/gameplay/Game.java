@@ -3,6 +3,7 @@ package gameplay;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Vector;
 
@@ -75,8 +76,8 @@ public class Game extends Thread implements Serializable {
 	}
 	
 	//formally updateNonNetworkedCompanies
-	public Vector<String> updateCompanies() {
-		Vector<String> output = new Vector<String>();
+	public LinkedList<String> updateCompanies() {
+		LinkedList<String> output = new LinkedList<String>();
 		for(Company company : companies) {
 			//update every company
 			String updateText = company.updateCurrentWorth();
