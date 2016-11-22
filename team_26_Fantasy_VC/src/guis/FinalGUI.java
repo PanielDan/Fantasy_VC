@@ -146,7 +146,7 @@ public class FinalGUI extends JPanel {
 			winner = new JLabel("Winner: Guest");
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());
 			totalEquity = new JLabel("Total value: " + df.format(gameFrame.user.getCurrentCapital()) + " Million");
-			numCompanies = new JLabel("Numbers of companies: " + gameFrame.user.getCompanies().size());
+			numCompanies = new JLabel("Number of companies: " + gameFrame.user.getCompanies().size());
 			double percent = (gameFrame.user.getCurrentCapital() - gameFrame.user.getStartingCapital()); //(final - 100)/100*100
 
 			percentGain = new JLabel("Percent gain: " + df.format(percent) + "%");
@@ -195,7 +195,7 @@ public class FinalGUI extends JPanel {
 			
 			userFirmName = new JLabel(gameFrame.user.getCompanyName());
 			totalEquity = new JLabel("Total value: " + df.format(client.user.getCurrentCapital()) + " Million");
-			numCompanies = new JLabel("Numbers of companies: " + client.user.getCompanies().size());
+			numCompanies = new JLabel("Number of companies: " + client.user.getCompanies().size());
 			double percent = (client.user.getCurrentCapital() - client.user.getStartingCapital()) / (client.user.getStartingCapital()) * 100; //(final - 100)/100*100
 
 			percentGain = new JLabel("Percent gain: " + df.format(percent) + "%");
