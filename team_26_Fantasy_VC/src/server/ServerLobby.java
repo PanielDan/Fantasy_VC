@@ -28,6 +28,7 @@ public class ServerLobby extends Thread{
 	private Timer timer;
 	private Game seedGame;
 	private int quarters = 4;
+	private double currentMax;
 	
 	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
 		this.sccVector = sccVector;
@@ -145,6 +146,14 @@ public class ServerLobby extends Thread{
 	
 	private synchronized void initializeGame() { 
 		seedGame = new Game(users, this);
+	}
+	
+	public void beginAuction(double newMax) {
+		currentMax = newMax;
+	}
+	
+	public boolean checkBid(double bid) {
+		return bid > currentMax;
 	}
 	
 	public void run() {

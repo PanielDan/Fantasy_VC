@@ -111,14 +111,16 @@ public class ServerClientCommunicator extends Thread {
 					} 
 					else if (obj instanceof BeginAuctionBidMessage) {
 						serverLobby.startTimer(15);
+						BeginAuctionBidMessage babm = (BeginAuctionBidMessage) obj;
+						serverLobby.beginAuction(babm.getCompany().getAskingPrice());
 						serverLobby.sendToAll(obj);
 					}
 					else if (obj instanceof StartTimerMessage) {
 						serverLobby.startTimer(45);
 					}
 					else if (obj instanceof AuctionBidUpdateMessage) { 
-//						serverLobby.increaseTime(2);
-						serverLobby.sendToAll(obj);
+						AuctionBidUpdateMessage abum = (AuctionBidUpdateMessage)obj;
+						if(serverLobby.checkBid(abum.getBidAmount())) serverLobby.sendToAll(obj);
 					}
 					else if (obj instanceof UserUpdate) {
 						System.out.println("update user");
