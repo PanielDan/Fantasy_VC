@@ -52,7 +52,6 @@ public class LoginGUI extends JFrame{
 	private JButton createAccount;
 	private JButton guestButton;
 	private JTextField username;
-	private JTextField password;
 	private JPasswordField passwordField;
 	private JLabel alertLabel;
 	private SQLDriver driver;
@@ -74,7 +73,6 @@ public class LoginGUI extends JFrame{
 		createAccount = new JButton("Create Account");
 		guestButton = new JButton("Continue as Guest");
 		username = new JTextField("Username");
-		password = new JTextField("Password");
 		passwordField = new JPasswordField();
 		alertLabel = new JLabel();
 		alertLabel.setForeground(Color.red);
@@ -105,9 +103,9 @@ public class LoginGUI extends JFrame{
 		Color buttonBackground = AppearanceConstants.mediumGray; 
 		Color primaryBackground = AppearanceConstants.lightBlue;
 
-		AppearanceSettings.setForeground(buttonForeground, createAccount, loginButton, guestButton, password, passwordField, username);
+		AppearanceSettings.setForeground(buttonForeground, createAccount, loginButton, guestButton, passwordField, username);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, alertLabel, welcome, ventureLabel);
-		AppearanceSettings.setSize(300, 60, password, passwordField, username);
+		AppearanceSettings.setSize(300, 60, passwordField, username);
 
 		AppearanceSettings.setSize(200, 80, loginButton, createAccount);
 		AppearanceSettings.setSize(200, 80, guestButton);
@@ -117,7 +115,7 @@ public class LoginGUI extends JFrame{
 		AppearanceSettings.unSetBorderOnButtons(loginButton, createAccount, guestButton);
 
 		AppearanceSettings.setTextAlignment(welcome, alertLabel, ventureLabel);
-		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, password, passwordField, alertLabel, username, loginButton, createAccount, guestButton);
+		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, passwordField, alertLabel, username, loginButton, createAccount, guestButton);
 
 		AppearanceSettings.setBackground(primaryBackground, mainPanel, welcome, alertLabel, ventureLabel, alertPanel, textFieldsPanel, 
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
@@ -185,11 +183,9 @@ public class LoginGUI extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// Focus listeners
 		username.addFocusListener(new TextFieldFocusListener("Username", username));
-		password.addFocusListener(new TextFieldFocusListener("Password", password));
 		passwordField.addFocusListener(new PasswordFocusListener("Password", passwordField));
 		// Document listeners
 		username.getDocument().addDocumentListener(new LoginDocumentListener());
-		password.getDocument().addDocumentListener(new LoginDocumentListener());
 		passwordField.getDocument().addDocumentListener(new LoginDocumentListener());
 		// Action listeners
 		loginButton.addActionListener(new LoginActionListener());

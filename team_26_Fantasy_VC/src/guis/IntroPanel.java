@@ -85,10 +85,6 @@ public class IntroPanel extends JPanel {
 		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
 		eastPanel.setPreferredSize(new Dimension(400,0));
 		eastPanel.setBorder(new EmptyBorder(30, 20, 30, 20));
-//		addToInfo(lobbyLabel);
-//		addToInfo(hostLabel);
-//		addToInfo(sizeLabel);
-//		addToInfo(playerLabel);
 		
 		JScrollPane infoPane = new JScrollPane(eastPanel);
 		infoPane.getViewport().setOpaque(false);

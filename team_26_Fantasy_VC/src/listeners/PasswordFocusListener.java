@@ -5,7 +5,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 public class PasswordFocusListener implements FocusListener {
 
