@@ -35,7 +35,7 @@ public class GameFrame extends JFrame {
 	 * @param guest A guest {@code User} instantiation.
 	 */
 	public GameFrame(User guest) {
-		super("Venture Capital Guest Mode");
+		super("Fantasy VC | Guest Mode");
 		this.setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new ExitWindowListener(this));
@@ -46,7 +46,7 @@ public class GameFrame extends JFrame {
 		
 		game = new Game();
 		user = guest;
-		guest.setCompanyName("Guestbros");
+		guest.setCompanyName("Guest Team");
 		game.addUser(guest);
 		
 		header = new TopPanel(this, guest);
@@ -72,7 +72,7 @@ public class GameFrame extends JFrame {
 	}
 	
 	public GameFrame(Client client, User user) {
-		super("Venture Capital Online | Welcome " + user.getUsername() + "!");
+		super("Fantasy VC Online | Welcome " + user.getUsername() + "!");
 		this.setResizable(false);
 		gameInProgress = false;
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
