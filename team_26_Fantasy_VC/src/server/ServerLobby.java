@@ -9,7 +9,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import gameplay.Game;
 import gameplay.User;
 import messages.FinalMessage;
-import messages.FinalRequestMessage;
 import messages.LoadingGame;
 import messages.ReadyGameMessage;
 import messages.SwitchPanelMessage;
