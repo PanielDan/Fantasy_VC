@@ -152,7 +152,11 @@ public class ServerLobby extends Thread{
 	}
 	
 	public synchronized boolean checkBid(double bid) {
-		return bid > currentMax;
+		if (bid > currentMax) {
+			currentMax = bid;
+			return true;
+		}
+		else return false;
 	}
 	
 	public void run() {
