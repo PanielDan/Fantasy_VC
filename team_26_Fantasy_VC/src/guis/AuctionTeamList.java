@@ -125,7 +125,7 @@ public class AuctionTeamList extends JPanel {
 		//Variables for left panel
 		timer = new JLabel("GUEST", SwingConstants.CENTER);
 		firms = new Vector<String>();
-		middleFirmName = new JLabel("Guestbros");
+		middleFirmName = new JLabel(gameFrame.user.getCompanyName());
 		
 		if (!gameFrame.networked) {
 			bidButton = new JButton("BUY"); 

@@ -46,7 +46,6 @@ public class GameFrame extends JFrame {
 		
 		game = new Game();
 		user = guest;
-		guest.setCompanyName("Guest Team");
 		game.addUser(guest);
 		
 		header = new TopPanel(this, guest);
