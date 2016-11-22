@@ -152,7 +152,7 @@ public class ServerLobby extends Thread{
 		currentMax = newMax;
 	}
 	
-	public boolean checkBid(double bid) {
+	public synchronized boolean checkBid(double bid) {
 		return bid > currentMax;
 	}
 	
@@ -189,23 +189,15 @@ public class ServerLobby extends Thread{
 			}
 			System.out.println("done");
 			
-			semaphore.acquire(this.numPlayers);
-			
-
+			resetReady();
 			semaphore.acquire(this.numPlayers);
 			System.out.println("requesting final stuff");
 			while(!checkReady());			
+			if(timer != null) timer.kill();
 			sendToAll(new SwitchPanelMessage());
 			
 			seedGame.updateCompanies(1);
 			sendToAll(seedGame);
-			
-			sendToAll(new FinalRequestMessage());
-			
-			semaphore.acquire(this.numPlayers);
-			while(!checkReady());
-			
-			if(timer != null) timer.kill();
 			
 			sendToAll(new FinalMessage(seedGame));
 		} catch (InterruptedException ie) {
