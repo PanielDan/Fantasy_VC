@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -23,6 +24,7 @@ import javax.swing.event.DocumentListener;
 import client.Client;
 import gameplay.GameFrame;
 import gameplay.User;
+import listeners.PasswordFocusListener;
 import listeners.TextFieldFocusListener;
 import server.SQLDriver;
 import utility.AppearanceConstants;
@@ -50,7 +52,7 @@ public class LoginGUI extends JFrame{
 	private JButton createAccount;
 	private JButton guestButton;
 	private JTextField username;
-	private JTextField password;
+	private JPasswordField passwordField;
 	private JLabel alertLabel;
 	private SQLDriver driver;
 
@@ -71,7 +73,7 @@ public class LoginGUI extends JFrame{
 		createAccount = new JButton("Create Account");
 		guestButton = new JButton("Continue as Guest");
 		username = new JTextField("Username");
-		password = new JTextField("Password");
+		passwordField = new JPasswordField();
 		alertLabel = new JLabel();
 		alertLabel.setForeground(Color.red);
 	}
@@ -101,9 +103,9 @@ public class LoginGUI extends JFrame{
 		Color buttonBackground = AppearanceConstants.mediumGray; 
 		Color primaryBackground = AppearanceConstants.lightBlue;
 
-		AppearanceSettings.setForeground(buttonForeground, createAccount, loginButton, guestButton, password, username);
+		AppearanceSettings.setForeground(buttonForeground, createAccount, loginButton, guestButton, passwordField, username);
 		AppearanceSettings.setForeground(AppearanceConstants.offWhite, alertLabel, welcome, ventureLabel);
-		AppearanceSettings.setSize(300, 60, password, username);
+		AppearanceSettings.setSize(300, 60, passwordField, username);
 
 		AppearanceSettings.setSize(200, 80, loginButton, createAccount);
 		AppearanceSettings.setSize(200, 80, guestButton);
@@ -113,7 +115,7 @@ public class LoginGUI extends JFrame{
 		AppearanceSettings.unSetBorderOnButtons(loginButton, createAccount, guestButton);
 
 		AppearanceSettings.setTextAlignment(welcome, alertLabel, ventureLabel);
-		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, password, alertLabel, username, loginButton, createAccount, guestButton);
+		AppearanceSettings.setFont(AppearanceConstants.fontButtonMedium, passwordField, alertLabel, username, loginButton, createAccount, guestButton);
 
 		AppearanceSettings.setBackground(primaryBackground, mainPanel, welcome, alertLabel, ventureLabel, alertPanel, textFieldsPanel, 
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
@@ -131,7 +133,8 @@ public class LoginGUI extends JFrame{
 
 		alertPanel.add(alertLabel);
 		textFieldOnePanel.add(username);
-		textFieldTwoPanel.add(password);
+//		textFieldTwoPanel.add(password);
+		textFieldTwoPanel.add(passwordField);
 
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -162,9 +165,15 @@ public class LoginGUI extends JFrame{
 	 * Returns whether the buttons should be enabled.
 	 * @return Whether the buttons should be enabled or not.
 	 */
+	
+//	@SuppressWarnings("deprecation")
 	private boolean canPressButtons() {
-		return (!username.getText().isEmpty() && !username.getText().equalsIgnoreCase("Username") && 
-				!password.getText().equalsIgnoreCase("Password") && !password.getText().isEmpty());
+//		return (!username.getText().isEmpty() && !username.getText().equalsIgnoreCase("Username") && 
+//				!password.getText().equalsIgnoreCase("Password") && !password.getText().isEmpty());
+		return (!username.getText().isEmpty() && !username.getText().equalsIgnoreCase("Username") &&
+				!String.valueOf(passwordField.getPassword()).equalsIgnoreCase("Password") && 
+				!String.valueOf(passwordField.getPassword()).isEmpty());
+		
 	}
 
 	/**
@@ -174,16 +183,16 @@ public class LoginGUI extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// Focus listeners
 		username.addFocusListener(new TextFieldFocusListener("Username", username));
-		password.addFocusListener(new TextFieldFocusListener("Password", password));
+		passwordField.addFocusListener(new PasswordFocusListener("Password", passwordField));
 		// Document listeners
 		username.getDocument().addDocumentListener(new LoginDocumentListener());
-		password.getDocument().addDocumentListener(new LoginDocumentListener());
+		passwordField.getDocument().addDocumentListener(new LoginDocumentListener());
 		// Action listeners
 		loginButton.addActionListener(new LoginActionListener());
 		createAccount.addActionListener(new CreateActionListener());
 		guestButton.addActionListener(new GuestActionListener());
 		
-		password.addKeyListener(new KeyListener() {
+		passwordField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) { }
 
@@ -193,12 +202,12 @@ public class LoginGUI extends JFrame{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if (!password.getText().trim().equals("") && !username.getText().trim().equals("")) {
+					if (!String.valueOf(passwordField.getPassword()).trim().equals("") && !username.getText().trim().equals("")) {
 						if(!driver.userExists(username.getText().trim())) {
 							alertLabel.setText("That username does not exist.");
 						}
 						else {
-							if (driver.checkPassword(username.getText().trim(), password.getText().trim())) {
+							if (driver.checkPassword(username.getText(), String.valueOf(passwordField.getPassword()))) {
 								new Client(driver.getUser(username.getText().trim())).start();
 								dispose();
 							}
@@ -254,7 +263,7 @@ public class LoginGUI extends JFrame{
 				alertLabel.setText("That username does not exist.");
 			}
 			else {
-				if (driver.checkPassword(username.getText().trim(), password.getText().trim())) {
+				if (driver.checkPassword(username.getText().trim(), String.valueOf(passwordField.getPassword()).trim())) {
 					new Client(driver.getUser(username.getText().trim())).start();
 					dispose();
 				}
@@ -262,34 +271,6 @@ public class LoginGUI extends JFrame{
 					alertLabel.setText("Incorrect password.");
 				}
 			}
-//			try {
-//				LoginMessage lm = new LoginMessage(); //TODO
-//				System.out.println("Attempting login.");
-//				
-//				PreparedStatement ps = conn.prepareStatement(queryStatement);
-//				ps.setString(1, username.getText().trim());
-//				rs = ps.executeQuery();
-//				if (rs.next()) {
-//					/* User name exists, now check password. */
-//					if (rs.getString(3).equals(password.getText())) {
-//						/* Valid login! */
-//						User currentUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
-//						new IntroPanel().setVisible(true);
-//						dispose();
-//					} else {
-//						/* Invalid password! */
-//						alertLabel.setText("Incorrect password.");
-//						rs = null;
-//					}
-//				} else {
-//					/* User name does not exist. */
-//					alertLabel.setText("That username does not exist.");
-//					rs = null;
-//				}
-//			} catch (SQLException sqle) {
-//				System.out.println("SQLException in LoginActionListener: " + sqle.getMessage());
-//				sqle.printStackTrace();
-//			} 
 		}
 	}
 	
@@ -307,42 +288,10 @@ public class LoginGUI extends JFrame{
 				alertLabel.setText("Username already exists.");
 			}
 			else {
-				driver.insertUser(username.getText().trim(), password.getText().trim(), "Fill in biography here.");
+				driver.insertUser(username.getText().trim(), String.valueOf(passwordField.getPassword()).trim(), "Fill in biography here.");
 				new Client(driver.getUser(username.getText().trim())).start();
 				dispose();
 			}
-//			CreateAccountMessage cam = new CreateAccountMessage(); //TODO
-			
-//			
-//			try {
-//				PreparedStatement ps = conn.prepareStatement(queryStatement);
-//				ps.setString(1, username.getText().trim());
-//				rs = ps.executeQuery();
-//				if (rs.next()) {
-//					/* User name already in use. */
-//					alertLabel.setText("Username already exists.");
-//					rs = null;
-//				} else {
-//					/* User name does not exist. */
-//					PreparedStatement is = conn.prepareStatement(insertStatement);
-//					is.setString(1, username.getText().trim());
-//					is.setString(2, password.getText());
-//					is.execute();
-//					
-//					/* Now we must fetch the information we just inserted to get the ID. */
-//					PreparedStatement ps2 = conn.prepareStatement(queryStatement);
-//					ps2.setString(1, username.getText().trim());
-//					rs = ps2.executeQuery();
-//					if (rs.next()) { // Prevents SQLException about being before the result set or something like that.
-//						User newUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
-//						new IntroPanel().setVisible(true);
-//						dispose();
-//					}
-//				}
-//			} catch (SQLException sqle) {
-//				System.out.println("SQLException in CreateActionListener: " + sqle.getMessage());
-//				sqle.printStackTrace();
-//			} 
 		}
 	}
 	
