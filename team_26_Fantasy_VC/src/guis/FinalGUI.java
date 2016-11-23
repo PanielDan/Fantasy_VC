@@ -235,7 +235,7 @@ public class FinalGUI extends JPanel {
 			}
 			else {
 				dtm.addRow(new Object[]{usercompanies.get(i).getName(),
-						df.format(usercompanies.get(i).getCurrentWorth())});
+						String.format("%.2f", usercompanies.get(i).getCurrentWorth()) + Constants.million});
 			}
 		}
 		portfolio = new JTable(dtm);

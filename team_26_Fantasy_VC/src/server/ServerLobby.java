@@ -26,7 +26,7 @@ public class ServerLobby extends Thread{
 	private int numPlayers;
 	private Timer timer;
 	private Game seedGame;
-	private int quarters = 4;
+	private int quarters = 8;
 	private double currentMax;
 	
 	public ServerLobby(Vector<ServerClientCommunicator> sccVector, Server server, String lobbyName, User host, int numPlayers) {
